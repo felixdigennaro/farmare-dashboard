@@ -1,236 +1,242 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>FARMARE — live track record</title>
+<title>FARMARE — Track Record</title>
 <style>
 :root{
-  --bg:#f6faf7; --card:#ffffff; --ink:#16211b; --muted:#5f6f66;
-  --line:#e3eae5; --accent:#1e6b45; --accent-soft:#e7f1ea;
-  --band:#dbe7de; --warn:#8a6d1f; --warn-bg:#faf5e4; --bad:#a33b2e;
-  --carry:#2b5d8a; --carry-bg:#e8f0f7; --shadow:0 1px 3px rgba(22,33,27,.06);
+  --bg:#fcfcfa; --ink:#141a16; --muted:#6b7570; --faint:#98a19b;
+  --rule:#dadfda; --rule-strong:#141a16;
+  --green:#1d5c3e; --green-soft:#eaf0eb; --band:#eef1ec;
+  --amber:#8a6d1f; --red:#993326;
 }
 @media (prefers-color-scheme: dark){
-  :root{ --bg:#0f1512; --card:#171f1a; --ink:#e6eee9; --muted:#93a49a;
-    --line:#263029; --accent:#58b98a; --accent-soft:#1c2a22;
-    --band:#22302a; --warn:#d4b45a; --warn-bg:#2a2416; --bad:#e07a6a;
-    --carry:#7fb1dd; --carry-bg:#1a2733; --shadow:none; }
+  :root{ --bg:#12161a; --ink:#e6e9e4; --muted:#8f9a93; --faint:#68716b;
+    --rule:#2b3230; --rule-strong:#e6e9e4;
+    --green:#7cc3a0; --green-soft:#1c2620; --band:#1b211e;
+    --amber:#d0b263; --red:#d97b6c; }
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);
-  font:15px/1.5 -apple-system,"Segoe UI",Roboto,sans-serif}
-main{max-width:960px;margin:0 auto;padding:1.6rem 1rem 3rem}
-header{display:flex;align-items:baseline;gap:.8rem;flex-wrap:wrap;margin:.4rem 0 1.2rem}
-h1{font-size:1.35rem;margin:0;letter-spacing:.01em}
-h1 span{color:var(--accent)}
-.live{display:inline-flex;align-items:center;gap:.4rem;font-size:.8rem;
+  font:14px/1.55 -apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+  -webkit-font-smoothing:antialiased}
+main{max-width:880px;margin:0 auto;padding:2.6rem 1.3rem 3rem}
+.mast{display:flex;justify-content:space-between;align-items:baseline;
+  flex-wrap:wrap;gap:.5rem}
+.wordmark{font-family:Charter,"Iowan Old Style",Georgia,serif;
+  font-size:1.5rem;font-weight:700;letter-spacing:.32em;margin:0}
+.mast-right{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;
   color:var(--muted)}
-.live i{width:8px;height:8px;border-radius:50%;background:var(--accent);
-  display:inline-block;animation:pulse 2.4s infinite}
-@keyframes pulse{50%{opacity:.35}}
-@media (prefers-reduced-motion: reduce){.live i{animation:none}}
-h2{font-size:.98rem;margin:0 0 .8rem}
-.grid{display:grid;gap:.9rem}
-.kpis{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
-.kpi{background:var(--card);border:1px solid var(--line);border-radius:10px;
-  padding:.85rem 1rem;box-shadow:var(--shadow)}
-.kpi b{display:block;font-size:1.45rem;font-variant-numeric:tabular-nums;
-  letter-spacing:-.01em}
-.kpi span{font-size:.78rem;color:var(--muted)}
-.up{color:var(--accent)} .down{color:var(--bad)}
-.card{background:var(--card);border:1px solid var(--line);border-radius:12px;
-  padding:1.1rem 1.2rem;box-shadow:var(--shadow);margin-top:1rem}
-.cols{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem}
-@media(max-width:720px){.cols{grid-template-columns:1fr}}
-.cols .card{margin-top:0}
+.mast-right b{color:var(--green);font-weight:600}
+.tagline{font-size:.82rem;color:var(--muted);margin:.3rem 0 0;
+  font-style:italic;font-family:Charter,Georgia,serif}
+hr{border:0;border-top:1px solid var(--rule);margin:1.4rem 0}
+hr.strong{border-top:2px solid var(--rule-strong);margin:1.1rem 0 0}
+h2{font-size:.72rem;font-weight:600;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--ink);margin:0 0 1rem}
+h2 small{color:var(--faint);letter-spacing:.14em;font-weight:400}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);margin-top:1.4rem}
+.kpi{padding:0 1.2rem;border-left:1px solid var(--rule)}
+.kpi:first-child{padding-left:0;border-left:none}
+.kpi label{display:block;font-size:.68rem;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--muted);margin-bottom:.35rem}
+.kpi b{font-family:"SF Mono",ui-monospace,Menlo,Consolas,monospace;
+  font-variant-numeric:tabular-nums;font-size:1.5rem;font-weight:500;
+  letter-spacing:-.02em}
+.kpi .sub{display:block;font-size:.7rem;color:var(--faint);margin-top:.15rem}
+.up{color:var(--green)} .down{color:var(--red)}
+@media(max-width:640px){.kpis{grid-template-columns:1fr 1fr;row-gap:1.2rem}
+ .kpi:nth-child(3){padding-left:0;border-left:none}}
+.chart-wrap{position:relative;margin-top:.4rem}
 #chart{width:100%;height:auto;display:block}
-.chart-note{font-size:.78rem;color:var(--muted);margin:.5rem 0 0}
-.tip{position:absolute;pointer-events:none;background:var(--card);
-  border:1px solid var(--line);border-radius:8px;padding:.45rem .65rem;
-  font-size:.8rem;box-shadow:var(--shadow);display:none;white-space:nowrap}
-.tip b{font-variant-numeric:tabular-nums}
-.pos{padding:.75rem 0;border-bottom:1px solid var(--line)}
-.pos:last-child{border-bottom:none;padding-bottom:0}
-.pos-head{display:flex;justify-content:space-between;align-items:center;gap:.6rem}
-.pos-head b{font-variant-numeric:tabular-nums}
-.pos-venue{color:var(--muted);font-size:.86rem;margin:.15rem 0 .35rem}
-.chip{display:inline-block;font-size:.74rem;font-weight:600;border-radius:99px;
-  padding:.12rem .6rem;background:var(--bg);border:1px solid var(--line);
-  color:var(--muted)}
-.chip.good{background:var(--accent-soft);color:var(--accent);border-color:transparent}
-.chip.lock{background:var(--accent-soft);color:var(--accent);border-color:transparent}
-.chip.warn{background:var(--warn-bg);color:var(--warn);border-color:transparent}
-.chip.carry{background:var(--carry-bg);color:var(--carry);border-color:transparent}
-.range{margin-top:.5rem}
-.range-bar{position:relative;height:6px;border-radius:3px;background:
-  linear-gradient(90deg,var(--band),var(--accent-soft),var(--band))}
-.range-dot{position:absolute;top:50%;transform:translate(-50%,-50%);
-  width:12px;height:12px;border-radius:50%;background:var(--accent);
-  border:2px solid var(--card)}
-.range-lab{display:flex;justify-content:space-between;font-size:.76rem;
-  color:var(--muted);margin-top:.3rem;font-variant-numeric:tabular-nums}
-.ok{color:var(--accent);font-weight:600} .warn-t{color:var(--warn);font-weight:600}
-.ev{display:flex;gap:.7rem;padding:.55rem 0;border-bottom:1px solid var(--line)}
+.chart-note{font-size:.75rem;color:var(--muted);margin:.7rem 0 0;
+  font-style:italic;font-family:Charter,Georgia,serif}
+.tip{position:absolute;pointer-events:none;background:var(--bg);
+  border:1px solid var(--rule-strong);padding:.4rem .6rem;
+  font-size:.74rem;display:none;white-space:nowrap;line-height:1.5}
+.tip b{font-family:"SF Mono",ui-monospace,Menlo,monospace}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:2.4rem}
+@media(max-width:720px){.cols{grid-template-columns:1fr;gap:1.6rem}}
+.pos{display:flex;justify-content:space-between;gap:1rem;
+  padding:.6rem 0;border-bottom:1px solid var(--rule);align-items:baseline}
+.pos:last-of-type{border-bottom:none}
+.pos-head{display:flex;justify-content:space-between;align-items:baseline;
+  gap:.8rem;width:100%}
+.pos-head b{font-family:"SF Mono",ui-monospace,Menlo,monospace;
+  font-variant-numeric:tabular-nums;font-size:.9rem;white-space:nowrap}
+.pos-venue{color:var(--muted);font-size:.78rem;margin-top:.1rem}
+.term{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);border:1px solid var(--rule);padding:.05rem .45rem}
+.term-lock{color:var(--green);border-color:var(--green)}
+.term-on{color:var(--green);border-color:var(--green)}
+.term-warn{color:var(--amber);border-color:var(--amber)}
+.range{margin:.55rem 0 .2rem}
+.range-bar{position:relative;height:2px;background:var(--rule)}
+.range-bar::before,.range-bar::after{content:"";position:absolute;top:-3px;
+  width:1px;height:8px;background:var(--muted)}
+.range-bar::before{left:0}.range-bar::after{right:0}
+.range-tick{position:absolute;top:-4px;width:2px;height:10px;
+  background:var(--green);transform:translateX(-50%)}
+.range-lab{display:flex;justify-content:space-between;font-size:.72rem;
+  color:var(--muted);margin-top:.35rem;
+  font-family:"SF Mono",ui-monospace,Menlo,monospace}
+.ok{color:var(--green)} .warn-t{color:var(--amber)}
+.sg{padding:.55rem 0;border-bottom:1px solid var(--rule);font-size:.82rem}
+.sg:last-child{border-bottom:none}
+.sg b{display:block;font-weight:600;font-size:.78rem;letter-spacing:.02em}
+.sg span{color:var(--muted)}
+.ev{display:grid;grid-template-columns:9.5rem 1fr;gap:1rem;
+  padding:.55rem 0;border-bottom:1px solid var(--rule)}
 .ev:last-child{border-bottom:none}
-.ev-icon{flex:0 0 1.6rem;text-align:center;font-size:.95rem;padding-top:.1rem}
-.ev-meta{font-size:.74rem;color:var(--muted);font-variant-numeric:tabular-nums}
-.ev-cat{border:1px solid var(--line);border-radius:99px;padding:0 .45rem;
-  margin-left:.3rem;font-size:.68rem;text-transform:uppercase;letter-spacing:.05em}
-.ev-txt{font-size:.86rem;margin-top:.1rem}
-.muted{color:var(--muted);font-size:.82rem}
-table{border-collapse:collapse;width:100%;font-size:.85rem}
-td,th{border-bottom:1px solid var(--line);padding:.4rem .5rem;text-align:right;
+.ev-when{font-family:"SF Mono",ui-monospace,Menlo,monospace;
+  font-size:.72rem;color:var(--muted);padding-top:.15rem;white-space:nowrap}
+.ev-cat{display:inline-block;font-size:.65rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--muted);margin-right:.6rem;
+  padding-left:.85rem;position:relative}
+.ev-cat::before{content:"";position:absolute;left:0;top:50%;
+  transform:translateY(-50%);width:6px;height:6px;background:var(--faint)}
+.sev-e .ev-cat{color:var(--red)} .sev-e .ev-cat::before{background:var(--red)}
+.sev-w .ev-cat{color:var(--amber)} .sev-w .ev-cat::before{background:var(--amber)}
+.ev-txt{font-size:.82rem}
+@media(max-width:560px){.ev{grid-template-columns:1fr;gap:.15rem}}
+.muted{color:var(--muted);font-size:.78rem}
+table{border-collapse:collapse;width:100%;font-size:.78rem;margin-top:.6rem;
+  font-family:"SF Mono",ui-monospace,Menlo,monospace;
   font-variant-numeric:tabular-nums}
+td,th{border-bottom:1px solid var(--rule);padding:.35rem .5rem;text-align:right}
 td:first-child,th:first-child{text-align:left}
-details summary{cursor:pointer;color:var(--muted);font-size:.85rem}
-footer{margin-top:1.6rem;color:var(--muted);font-size:.76rem;line-height:1.5}
-a{color:var(--accent)}
+th{font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);font-weight:600}
+details summary{cursor:pointer;color:var(--muted);font-size:.75rem;
+  letter-spacing:.1em;text-transform:uppercase;margin-top:.8rem}
+footer{margin-top:2.2rem;padding-top:1rem;border-top:1px solid var(--rule);
+  color:var(--faint);font-size:.72rem;line-height:1.6;
+  font-family:Charter,Georgia,serif;font-style:italic}
 </style></head><body>
 <main>
-<header>
-  <h1>FARMARE <span>— live track record</span></h1>
-  <span class="live"><i></i> paper trading · updated <span id="ago">2026-07-13 12:45 UTC</span></span>
-</header>
-
-<div class="grid kpis">
-  <div class="kpi"><b>$100,058.35</b><span>portfolio value (virtual)</span></div>
-  <div class="kpi"><b class="up">+0.06%</b><span>since inception</span></div>
-  <div class="kpi"><b>—</b><span>annualized (needs ≥7d)</span></div>
-  <div class="kpi"><b>5</b><span>days live</span></div>
+<div class="mast">
+  <h1 class="wordmark">FARMARE</h1>
+  <div class="mast-right"><b>live</b> · paper trading · updated <span id="ago">2026-07-13 12:58 UTC</span></div>
 </div>
-
-<div class="card" style="position:relative">
-  <h2>Equity vs backtest expectation band</h2>
-  <svg id="chart" viewBox="0 0 920 300" role="img"
+<p class="tagline">Automated on-chain yield, engineered for the worst regime.
+Every figure below is generated by the system itself and committed to an
+immutable git history.</p>
+<hr class="strong">
+<div class="kpis">
+  <div class="kpi"><label>Portfolio value</label><b>$100,058.35</b>
+    <span class="sub">virtual capital</span></div>
+  <div class="kpi"><label>Since inception</label><b class="up">+0.06%</b>
+    <span class="sub">NAV per share basis</span></div>
+  <div class="kpi"><label>Annualized</label><b>—</b>
+    <span class="sub">annualized (needs ≥7d)</span></div>
+  <div class="kpi"><label>Days live</label><b>5</b>
+    <span class="sub">4 runs / day</span></div>
+</div>
+<hr>
+<h2>Equity <small>— against the backtest expectation band</small></h2>
+<div class="chart-wrap">
+  <svg id="chart" viewBox="0 0 880 300" role="img"
     aria-label="Portfolio equity versus the backtest expectation band"></svg>
   <div class="tip" id="tip"></div>
-  <p class="chart-note">Shaded band: backtest expectation anchored at
-  inception — +7.5%/yr (worst tested regime) to +16.3%/yr (sideways case).
-  Hover for daily values.</p>
-  <details><summary>Data table</summary>
-    <table><tr><th>Date</th><th>Total</th><th>Core</th><th>Engine</th></tr>
-    <tr><td>2026-07-13</td><td>$100,058.35</td><td>$80,052.24</td><td>$20,006.11</td></tr><tr><td>2026-07-12</td><td>$100,044.12</td><td>$80,042.78</td><td>$20,001.34</td></tr><tr><td>2026-07-11</td><td>$100,035.85</td><td>$80,026.98</td><td>$20,008.88</td></tr><tr><td>2026-07-10</td><td>$100,016.49</td><td>$80,010.09</td><td>$20,006.40</td></tr><tr><td>2026-07-09</td><td>$99,995.38</td><td>$79,993.88</td><td>$20,001.50</td></tr><tr><td>2026-07-08</td><td>$99,996.96</td><td>$80,007.30</td><td>$19,989.66</td></tr></table>
-  </details>
 </div>
-
+<p class="chart-note">The shaded band is the backtest expectation anchored at
+inception: +7.5% p.a. in the worst tested regime to +16.3% p.a. sideways.
+Hover for daily values.</p>
+<details><summary>Daily figures</summary>
+  <table><tr><th>Date</th><th>Total</th><th>Core</th><th>Engine</th></tr>
+  <tr><td>2026-07-13</td><td>$100,058.35</td><td>$80,052.24</td><td>$20,006.11</td></tr><tr><td>2026-07-12</td><td>$100,044.12</td><td>$80,042.78</td><td>$20,001.34</td></tr><tr><td>2026-07-11</td><td>$100,035.85</td><td>$80,026.98</td><td>$20,008.88</td></tr><tr><td>2026-07-10</td><td>$100,016.49</td><td>$80,010.09</td><td>$20,006.40</td></tr><tr><td>2026-07-09</td><td>$99,995.38</td><td>$79,993.88</td><td>$20,001.50</td></tr><tr><td>2026-07-08</td><td>$99,996.96</td><td>$80,007.30</td><td>$19,989.66</td></tr></table>
+</details>
+<hr>
 <div class="cols">
-  <div class="card">
-    <h2>Positions</h2>
+  <section>
+    <h2>Holdings</h2>
     <div class="pos">
-  <div class="pos-head"><span>Core · slot 1</span>
-    <b>$40,052</b></div>
-  <div class="pos-venue">pendle:SUSDAI (Arbitrum)</div>
-  <div><span class="chip lock">🔒 fixed 9.95% · until 2026-09-08</span></div>
+  <div><div class="pos-name">Core · slot 1</div>
+    <div class="pos-venue">pendle:SUSDAI (Arbitrum)</div>
+    <div style="margin-top:.3rem"><span class="term term-lock">fixed 9.95% · to 2026-09-08</span></div></div>
+  <div class="pos-val">$40,052</div>
 </div><div class="pos">
-  <div class="pos-head"><span>Core · slot 2</span>
-    <b>$40,000</b></div>
-  <div class="pos-venue">morpho-blue:BBQUSDC (Base)</div>
-  <div><span class="chip">floating</span></div>
+  <div><div class="pos-name">Core · slot 2</div>
+    <div class="pos-venue">morpho-blue:BBQUSDC (Base)</div>
+    <div style="margin-top:.3rem"><span class="term">floating</span></div></div>
+  <div class="pos-val">$40,000</div>
 </div>
-    <div class="pos">
-  <div class="pos-head"><span>Engine <span class="chip good">● LP active</span></span><b>$20,006</b></div>
+    <div class="pos" style="display:block">
+  <div style="display:flex;justify-content:space-between;align-items:baseline">
+    <div class="pos-name">Engine &nbsp;<span class="term term-on">lp · active</span></div>
+    <div class="pos-val">$20,006</div></div>
   <div class="pos-venue">ETH/USDC · Uniswap v3 (Base) ·
     hedge short 4.318 ETH</div>
   <div class="range" title="LP range">
-    <div class="range-bar"><div class="range-dot" style="left:59.3%"></div></div>
+    <div class="range-bar"><div class="range-tick" style="left:59.3%"></div></div>
     <div class="range-lab"><span>$1,439</span>
       <span class="ok">ETH $1,784
       · in range</span>
       <span>$2,021</span></div>
   </div>
 </div>
-    <p class="muted" style="margin:.8rem 0 0">On-chain fee-model check:
-    0.51 measured vs 0.60 assumed.</p>
-  </div>
-  <div class="card">
-    <h2>Automatic safeguards</h2>
-    <div class="ev"><div class="ev-icon">🛡</div><div class="ev-txt">
-      Depeg &amp; TVL guards on every core venue — hourly, auto-exit</div></div>
-    <div class="ev"><div class="ev-icon">⚖️</div><div class="ev-txt">
-      Delta hedge on the LP; margin-stress monitor</div></div>
-    <div class="ev"><div class="ev-icon">🧮</div><div class="ev-txt">
-      Engine viability guard: parks when fees stop covering volatility
-      (decade-tested, incl. 2017/2020/2022)</div></div>
-    <div class="ev"><div class="ev-icon">📜</div><div class="ev-txt">
-      Every decision journaled and git-committed — tamper-evident history</div></div>
-  </div>
+    <p class="muted" style="margin-top:.9rem">Fee-model verification
+    (on-chain, daily): 0.51 measured vs 0.60 assumed.</p>
+  </section>
+  <section>
+    <h2>Safeguards <small>— automatic, hourly</small></h2>
+    <div class="sg"><b>Depeg &amp; TVL guards</b>
+      <span>every core venue screened hourly; automatic emergency exit</span></div>
+    <div class="sg"><b>Delta hedge &amp; margin monitor</b>
+      <span>the LP is hedged; margin stress raises an immediate alert</span></div>
+    <div class="sg"><b>Viability guard</b>
+      <span>the engine parks when fees stop covering volatility —
+      decade-tested through 2017, 2020 and 2022</span></div>
+    <div class="sg"><b>Tamper-evident ledger</b>
+      <span>every decision journaled and git-committed with timestamps</span></div>
+  </section>
 </div>
-
-<div class="card">
-  <h2>Capital movements &amp; events</h2>
-  <div class="ev"><div class="ev-icon">↻</div>
-  <div><div class="ev-meta">2026-07-13 · 04:30 UTC
-   <span class="ev-cat">action</span></div>
-  <div class="ev-txt">Increased the hedge: short from 3.736 to 4.318 ETH — the LP holds more ETH after the price move (2026-07-13). Notional traded: $1,035.16, commission: $0.36.</div></div></div><div class="ev"><div class="ev-icon">↻</div>
-  <div><div class="ev-meta">2026-07-12 · 04:25 UTC
-   <span class="ev-cat">action</span></div>
-  <div class="ev-txt">Reduced the hedge: short from 4.159 to 3.736 ETH — the LP holds less ETH (2026-07-12). Notional traded: $765.00, commission: $0.27.</div></div></div><div class="ev"><div class="ev-icon">↻</div>
-  <div><div class="ev-meta">2026-07-12 · 04:25 UTC
-   <span class="ev-cat">action</span></div>
-  <div class="ev-txt">Increased the hedge: short from 3.509 to 4.159 ETH — the LP holds more ETH after the price move (2026-07-11). Notional traded: $1,161.54, commission: $0.41.</div></div></div><div class="ev"><div class="ev-icon">↻</div>
-  <div><div class="ev-meta">2026-07-11 · 20:06 UTC
-   <span class="ev-cat">action</span></div>
-  <div class="ev-txt">Reduced the hedge: short from 3.946 to 3.509 ETH — the LP holds less ETH (2026-07-11). Notional traded: $795.62, commission: $0.28.</div></div></div><div class="ev"><div class="ev-icon">↻</div>
-  <div><div class="ev-meta">2026-07-10 · 15:32 UTC
-   <span class="ev-cat">action</span></div>
-  <div class="ev-txt">Reduced the hedge: short from 4.363 to 3.946 ETH — the LP holds less ETH (2026-07-10). Notional traded: $750.68, commission: $0.26.</div></div></div><div class="ev"><div class="ev-icon">↻</div>
-  <div><div class="ev-meta">2026-07-10 · 10:24 UTC
-   <span class="ev-cat">action</span></div>
-  <div class="ev-txt">Reduced the hedge: short from 4.851 to 4.363 ETH — the LP holds less ETH (2026-07-10). Notional traded: $867.85, commission: $0.30.</div></div></div><div class="ev"><div class="ev-icon">🔒</div>
-  <div><div class="ev-meta">2026-07-10 · 04:52 UTC
-   <span class="ev-cat">fixed rate</span></div>
-  <div class="ev-txt">PT LOCK (slot 1): fixed 9.95% locked on pendle:SUSDAI (Arbitrum) until 2026-09-08 (best floating 5.71%).</div></div></div><div class="ev"><div class="ev-icon">↻</div>
-  <div><div class="ev-meta">2026-07-09 · 09:29 UTC
-   <span class="ev-cat">action</span></div>
-  <div class="ev-txt">Reduced the hedge: short from 5.355 to 4.851 ETH — the LP holds less ETH (2026-07-09). Notional traded: $882.68, commission: $0.31.</div></div></div><div class="ev"><div class="ev-icon">↻</div>
-  <div><div class="ev-meta">2026-07-09 · 09:29 UTC
-   <span class="ev-cat">action</span></div>
-  <div class="ev-txt">Core diversification: deployed $39,975.91 (slot 2) into morpho-blue:BBQUSDC (Base) (APY 6.15%) — max 50% of the core per protocol. Cost: $32.01.</div></div></div><div class="ev"><div class="ev-icon">↻</div>
-  <div><div class="ev-meta">2026-07-09 · 09:27 UTC
-   <span class="ev-cat">action</span></div>
-  <div class="ev-txt">🚨 EMERGENCY EXIT (core slot 1): withdrew $40,010.45 from pendle:SUSDAI (Arbitrum) and deposited into fluid-lending:USDC (Arbitrum) (APY 5.00%). Reason: TVL collapsing: 7.0M vs 7d high 12.0M. Cost: $32.01.</div></div></div><div class="ev"><div class="ev-icon">🚨</div>
-  <div><div class="ev-meta">2026-07-09 · 09:27 UTC
-   <span class="ev-cat">emergency</span></div>
-  <div class="ev-txt">core_EMERGENCY_exit</div></div></div><div class="ev"><div class="ev-icon">↻</div>
-  <div><div class="ev-meta">2026-07-09 · 09:27 UTC
-   <span class="ev-cat">action</span></div>
-  <div class="ev-txt">🚨 EMERGENCY EXIT (core slot 1): withdrew $40,010.45 from pendle:SUSDAI (Arbitrum) and deposited into fluid-lending:USDC (Arbitrum) (APY 5.00%). Reason: DEPEG: underlying arbitrum:0xaaa at $0.9300. Cost: $92.02.</div></div></div><div class="ev"><div class="ev-icon">🚨</div>
-  <div><div class="ev-meta">2026-07-09 · 09:27 UTC
-   <span class="ev-cat">emergency</span></div>
-  <div class="ev-txt">core_EMERGENCY_exit</div></div></div><div class="ev"><div class="ev-icon">↻</div>
-  <div><div class="ev-meta">2026-07-09 · 09:26 UTC
-   <span class="ev-cat">action</span></div>
-  <div class="ev-txt">🚨 EMERGENCY EXIT (core slot 1): withdrew $40,010.45 from pendle:SUSDAI (Arbitrum) and deposited into fluid-lending:USDC (Arbitrum) (APY 5.00%). Reason: TVL collapsing: 7.0M vs 7d high 12.0M. Cost: $32.01.</div></div></div><div class="ev"><div class="ev-icon">🚨</div>
-  <div><div class="ev-meta">2026-07-09 · 09:26 UTC
-   <span class="ev-cat">emergency</span></div>
-  <div class="ev-txt">core_EMERGENCY_exit</div></div></div><div class="ev"><div class="ev-icon">↻</div>
-  <div><div class="ev-meta">2026-07-09 · 09:26 UTC
-   <span class="ev-cat">action</span></div>
-  <div class="ev-txt">🚨 EMERGENCY EXIT (core slot 1): withdrew $40,010.45 from pendle:SUSDAI (Arbitrum) and deposited into fluid-lending:USDC (Arbitrum) (APY 5.00%). Reason: DEPEG: underlying arbitrum:0xaaa at $0.9300. Cost: $92.02.</div></div></div><div class="ev"><div class="ev-icon">🚨</div>
-  <div><div class="ev-meta">2026-07-09 · 09:26 UTC
-   <span class="ev-cat">emergency</span></div>
-  <div class="ev-txt">core_EMERGENCY_exit</div></div></div><div class="ev"><div class="ev-icon">↻</div>
-  <div><div class="ev-meta">2026-07-08 · 16:56 UTC
-   <span class="ev-cat">action</span></div>
-  <div class="ev-txt">Increased the hedge: short from 0.000 to 5.355 ETH — the LP holds more ETH after the price move (2026-07-08). Notional traded: $9,253.98, commission: $3.24.</div></div></div><div class="ev"><div class="ev-icon">－</div>
-  <div><div class="ev-meta">2026-07-08 · 13:12 UTC
-   <span class="ev-cat">withdrawal</span></div>
-  <div class="ev-txt">Withdrawal: alice redeemed $5,000.00 at NAV $1.0008</div></div></div><div class="ev"><div class="ev-icon">＋</div>
-  <div><div class="ev-meta">2026-07-08 · 13:11 UTC
-   <span class="ev-cat">deposit</span></div>
-  <div class="ev-txt">Deposit: alice invested $25,000.00 at NAV $1.0009</div></div></div>
-</div>
-
-<footer>Virtual portfolio on live market data — no client funds, no
-custody. Simulated results are not investment advice. Auto-updated 4×/day
-by the CI pipeline; backtest methodology, limitations and the full risk
-framework are documented in the project's due-diligence pack.</footer>
+<hr>
+<h2>Ledger <small>— capital movements &amp; events</small></h2>
+<div class="ev sev-n">
+  <div class="ev-when">2026-07-13&nbsp;&nbsp;04:30</div>
+  <div><span class="ev-cat">hedge</span>
+  <span class="ev-txt">Increased the hedge: short from 3.736 to 4.318 ETH — the LP holds more ETH after the price move (2026-07-13). Notional traded: $1,035.16, commission: $0.36.</span></div></div><div class="ev sev-n">
+  <div class="ev-when">2026-07-12&nbsp;&nbsp;04:25</div>
+  <div><span class="ev-cat">hedge</span>
+  <span class="ev-txt">Reduced the hedge: short from 4.159 to 3.736 ETH — the LP holds less ETH (2026-07-12). Notional traded: $765.00, commission: $0.27.</span></div></div><div class="ev sev-n">
+  <div class="ev-when">2026-07-12&nbsp;&nbsp;04:25</div>
+  <div><span class="ev-cat">hedge</span>
+  <span class="ev-txt">Increased the hedge: short from 3.509 to 4.159 ETH — the LP holds more ETH after the price move (2026-07-11). Notional traded: $1,161.54, commission: $0.41.</span></div></div><div class="ev sev-n">
+  <div class="ev-when">2026-07-11&nbsp;&nbsp;20:06</div>
+  <div><span class="ev-cat">hedge</span>
+  <span class="ev-txt">Reduced the hedge: short from 3.946 to 3.509 ETH — the LP holds less ETH (2026-07-11). Notional traded: $795.62, commission: $0.28.</span></div></div><div class="ev sev-n">
+  <div class="ev-when">2026-07-10&nbsp;&nbsp;15:32</div>
+  <div><span class="ev-cat">hedge</span>
+  <span class="ev-txt">Reduced the hedge: short from 4.363 to 3.946 ETH — the LP holds less ETH (2026-07-10). Notional traded: $750.68, commission: $0.26.</span></div></div><div class="ev sev-n">
+  <div class="ev-when">2026-07-10&nbsp;&nbsp;10:24</div>
+  <div><span class="ev-cat">hedge</span>
+  <span class="ev-txt">Reduced the hedge: short from 4.851 to 4.363 ETH — the LP holds less ETH (2026-07-10). Notional traded: $867.85, commission: $0.30.</span></div></div><div class="ev sev-n">
+  <div class="ev-when">2026-07-10&nbsp;&nbsp;04:52</div>
+  <div><span class="ev-cat">fixed rate</span>
+  <span class="ev-txt">PT LOCK (slot 1): fixed 9.95% locked on pendle:SUSDAI (Arbitrum) until 2026-09-08 (best floating 5.71%).</span></div></div><div class="ev sev-n">
+  <div class="ev-when">2026-07-09&nbsp;&nbsp;09:29</div>
+  <div><span class="ev-cat">hedge</span>
+  <span class="ev-txt">Reduced the hedge: short from 5.355 to 4.851 ETH — the LP holds less ETH (2026-07-09). Notional traded: $882.68, commission: $0.31.</span></div></div><div class="ev sev-n">
+  <div class="ev-when">2026-07-09&nbsp;&nbsp;09:29</div>
+  <div><span class="ev-cat">rotation</span>
+  <span class="ev-txt">Core diversification: deployed $39,975.91 (slot 2) into morpho-blue:BBQUSDC (Base) (APY 6.15%) — max 50% of the core per protocol. Cost: $32.01.</span></div></div><div class="ev sev-n">
+  <div class="ev-when">2026-07-08&nbsp;&nbsp;16:56</div>
+  <div><span class="ev-cat">hedge</span>
+  <span class="ev-txt">Increased the hedge: short from 0.000 to 5.355 ETH — the LP holds more ETH after the price move (2026-07-08). Notional traded: $9,253.98, commission: $3.24.</span></div></div><div class="ev sev-n">
+  <div class="ev-when">2026-07-08&nbsp;&nbsp;13:12</div>
+  <div><span class="ev-cat">withdrawal</span>
+  <span class="ev-txt">Withdrawal: alice redeemed $5,000.00 at NAV $1.0008</span></div></div><div class="ev sev-n">
+  <div class="ev-when">2026-07-08&nbsp;&nbsp;13:11</div>
+  <div><span class="ev-cat">deposit</span>
+  <span class="ev-txt">Deposit: alice invested $25,000.00 at NAV $1.0009</span></div></div>
+<footer>Virtual portfolio on live market data — no client funds, no custody.
+Simulated results; not investment advice and not an offer. Updated four
+times daily by the CI pipeline. Methodology, limitations and the full risk
+framework are set out in the due-diligence documents.</footer>
 </main>
-
 <script>
 const DATA = [{"d": "2026-07-08", "v": 99996.96}, {"d": "2026-07-09", "v": 99995.38}, {"d": "2026-07-10", "v": 100016.49}, {"d": "2026-07-11", "v": 100035.85}, {"d": "2026-07-12", "v": 100044.12}, {"d": "2026-07-13", "v": 100058.35}];
 const V0 = 99996.96;
-const GEN = new Date("2026-07-13T12:45:45Z");
-
-// relative "updated ago"
+const GEN = new Date("2026-07-13T12:58:30Z");
 (function(){
   const el = document.getElementById("ago");
   const mins = Math.max(0, Math.round((Date.now() - GEN) / 60000));
@@ -238,15 +244,13 @@ const GEN = new Date("2026-07-13T12:45:45Z");
     : mins < 2880 ? Math.round(mins / 60) + " h ago"
     : Math.round(mins / 1440) + " d ago";
 })();
-
-// chart
 (function(){
   const svg = document.getElementById("chart"), tip = document.getElementById("tip");
   if (DATA.length < 2) {
     svg.outerHTML = '<p class="muted">(the equity curve appears after a few days of history)</p>';
     return;
   }
-  const W=920, H=300, L=26, R=64, T=14, B=30, iw=W-L-R, ih=H-T-B;
+  const W=880, H=300, L=30, R=86, T=16, B=30, iw=W-L-R, ih=H-T-B;
   const n = DATA.length;
   const floor = DATA.map((_,i)=>V0*Math.pow(1.075,i/365));
   const upper = DATA.map((_,i)=>V0*Math.pow(1.163,i/365));
@@ -255,46 +259,46 @@ const GEN = new Date("2026-07-13T12:45:45Z");
   const pad=(hi-lo)*0.15||1; lo-=pad; hi+=pad;
   const X=i=>L+i/(n-1)*iw, Y=v=>T+(1-(v-lo)/(hi-lo))*ih;
   const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+  const MONO='"SF Mono",ui-monospace,Menlo,monospace';
   const fmt=v=>"$"+(Math.abs(v)>=1e6?(v/1e6).toFixed(2)+"M":(v/1e3).toFixed(1)+"k");
   const fmt2=v=>"$"+v.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});
   let g="";
-  // y grid + labels (3 recessive lines)
   for(let k=0;k<=2;k++){
     const v=lo+(hi-lo)*(0.15+k*0.35), y=Y(v);
-    g+=`<line x1="${L}" x2="${L+iw}" y1="${y}" y2="${y}" stroke="${css('--line')}" stroke-width="1"/>`;
-    g+=`<text x="${L+iw+6}" y="${y+4}" font-size="11" fill="${css('--muted')}">${fmt(v)}</text>`;
+    g+=`<line x1="${L}" x2="${L+iw}" y1="${y}" y2="${y}" stroke="${css('--rule')}" stroke-width="1"/>`;
+    g+=`<text x="${L+iw+8}" y="${y+3.5}" font-size="10" font-family='${MONO}' fill="${css('--faint')}">${fmt(v)}</text>`;
   }
-  // x labels: ~5 dates
   const step=Math.max(1,Math.round((n-1)/4));
   for(let i=0;i<n;i+=step){
-    g+=`<text x="${X(i)}" y="${H-8}" font-size="11" fill="${css('--muted')}" text-anchor="middle">${DATA[i].d.slice(5)}</text>`;
+    g+=`<text x="${X(i)}" y="${H-8}" font-size="10" font-family='${MONO}' fill="${css('--faint')}" text-anchor="middle">${DATA[i].d.slice(5)}</text>`;
   }
-  // expectation band (area)
   const up=upper.map((v,i)=>`${X(i)},${Y(v)}`).join(" ");
-  const dn=floor.map((v,i)=>`${X(i)},${Y(v)}`).reverse().join(" ");
-  g+=`<polygon points="${up} ${dn}" fill="${css('--band')}" opacity="0.55"/>`;
-  g+=`<text x="${L+6}" y="${Y(upper[n-1])-6}" font-size="11" fill="${css('--muted')}">backtest band</text>`;
-  // equity line + emphasized endpoint
+  const upl=floor.map((v,i)=>`${X(i)},${Y(v)}`);
+  const dn=upl.slice().reverse().join(" ");
+  g+=`<polygon points="${up} ${dn}" fill="${css('--band')}"/>`;
+  g+=`<polyline points="${up}" fill="none" stroke="${css('--rule')}" stroke-width="1"/>`;
+  g+=`<polyline points="${upl.join(' ')}" fill="none" stroke="${css('--rule')}" stroke-width="1"/>`;
+  g+=`<text x="${L+4}" y="${Y(upper[n-1])-8}" font-size="10" font-family='${MONO}' fill="${css('--faint')}" letter-spacing="1">EXPECTATION BAND</text>`;
   const line=vals.map((v,i)=>`${X(i)},${Y(v)}`).join(" ");
-  g+=`<polyline points="${line}" fill="none" stroke="${css('--accent')}" stroke-width="2.2" stroke-linejoin="round"/>`;
-  g+=`<circle cx="${X(n-1)}" cy="${Y(vals[n-1])}" r="4" fill="${css('--accent')}" stroke="${css('--card')}" stroke-width="2"/>`;
-  // crosshair
-  g+=`<line id="xh" x1="0" x2="0" y1="${T}" y2="${T+ih}" stroke="${css('--muted')}" stroke-width="1" stroke-dasharray="3 3" opacity="0"/>`;
-  g+=`<circle id="xp" r="4.5" fill="${css('--accent')}" stroke="${css('--card')}" stroke-width="2" opacity="0"/>`;
+  g+=`<polyline points="${line}" fill="none" stroke="${css('--green')}" stroke-width="1.6" stroke-linejoin="round"/>`;
+  g+=`<circle cx="${X(n-1)}" cy="${Y(vals[n-1])}" r="3" fill="${css('--green')}"/>`;
+  g+=`<text x="${X(n-1)+8}" y="${Y(vals[n-1])+3.5}" font-size="10.5" font-family='${MONO}' fill="${css('--green')}">${fmt2(vals[n-1])}</text>`;
+  g+=`<line id="xh" x1="0" x2="0" y1="${T}" y2="${T+ih}" stroke="${css('--muted')}" stroke-width="1" stroke-dasharray="2 3" opacity="0"/>`;
+  g+=`<circle id="xp" r="3.5" fill="${css('--green')}" opacity="0"/>`;
   svg.innerHTML=g;
   const xh=svg.querySelector("#xh"), xp=svg.querySelector("#xp");
   svg.addEventListener("mousemove",ev=>{
     const r=svg.getBoundingClientRect();
     const px=(ev.clientX-r.left)*(W/r.width);
     const i=Math.min(n-1,Math.max(0,Math.round((px-L)/iw*(n-1))));
-    xh.setAttribute("x1",X(i)); xh.setAttribute("x2",X(i)); xh.setAttribute("opacity",1);
+    xh.setAttribute("x1",X(i)); xh.setAttribute("x2",X(i)); xh.setAttribute("opacity",.6);
     xp.setAttribute("cx",X(i)); xp.setAttribute("cy",Y(vals[i])); xp.setAttribute("opacity",1);
     tip.style.display="block";
     const half=ev.clientX-r.left>r.width/2;
     tip.style.left=half?"auto":(ev.clientX-r.left+14)+"px";
     tip.style.right=half?(r.width-(ev.clientX-r.left)+14)+"px":"auto";
-    tip.style.top=(ev.clientY-r.top-14)+"px";
-    tip.innerHTML=`${DATA[i].d}<br><b>${fmt2(vals[i])}</b> <span style="color:${css('--muted')}">· band ${fmt(floor[i])}–${fmt(upper[i])}</span>`;
+    tip.style.top=(ev.clientY-r.top-10)+"px";
+    tip.innerHTML=`${DATA[i].d}<br><b>${fmt2(vals[i])}</b>`;
   });
   svg.addEventListener("mouseleave",()=>{tip.style.display="none";
     xh.setAttribute("opacity",0); xp.setAttribute("opacity",0);});
