@@ -1,0 +1,252 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FARMARE — Deposit &amp; Withdraw</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%231d5c3e'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='20' font-weight='bold' fill='%23fcfcfa' text-anchor='middle'%3EF%3C/text%3E%3C/svg%3E">
+<style>
+:root{
+  --bg:#fcfcfa; --ink:#141a16; --muted:#6b7570; --faint:#98a19b;
+  --rule:#dadfda; --rule-strong:#141a16; --green:#1d5c3e; --green-soft:#eaf0eb;
+  --amber:#8a6d1f; --amber-bg:#faf5e4; --red:#993326;
+}
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#12161a; --ink:#e6e9e4; --muted:#8f9a93; --faint:#68716b;
+    --rule:#2b3230; --rule-strong:#e6e9e4; --green:#7cc3a0; --green-soft:#1c2620;
+    --amber:#d0b263; --amber-bg:#2a2416; --red:#d97b6c; }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:14px/1.55 -apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+main{max-width:520px;margin:0 auto;padding:2.6rem 1.3rem 3rem}
+.mast{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:.5rem}
+.wordmark{font-family:Charter,"Iowan Old Style",Georgia,serif;font-size:1.4rem;
+  font-weight:700;letter-spacing:.3em;margin:0}
+.mast a{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);text-decoration:none}
+.tagline{font-size:.82rem;color:var(--muted);margin:.4rem 0 0;font-style:italic;font-family:Charter,Georgia,serif}
+hr{border:0;border-top:2px solid var(--rule-strong);margin:1.1rem 0 1.4rem}
+.mono{font-family:"SF Mono",ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.stat{padding:.7rem 0;border-bottom:1px solid var(--rule)}
+.stat:nth-child(odd){padding-right:1rem;border-right:1px solid var(--rule)}
+.stat:nth-child(even){padding-left:1rem}
+.stat label{display:block;font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:.25rem}
+.stat b{font-family:"SF Mono",ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums;font-size:1.2rem;font-weight:500}
+.card{margin-top:1.6rem}
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--rule);margin-bottom:1.1rem}
+.tab{flex:1;padding:.6rem;text-align:center;font-size:.72rem;letter-spacing:.12em;
+  text-transform:uppercase;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px}
+.tab.on{color:var(--ink);border-bottom-color:var(--green)}
+.field{position:relative;margin:.6rem 0}
+.field input{width:100%;padding:.85rem 4rem .85rem .9rem;font-size:1.15rem;
+  font-family:"SF Mono",ui-monospace,Menlo,monospace;background:var(--bg);
+  border:1px solid var(--rule);border-radius:8px;color:var(--ink)}
+.field input:focus{outline:none;border-color:var(--green)}
+.field .max{position:absolute;right:.7rem;top:50%;transform:translateY(-50%);
+  font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--green);
+  cursor:pointer;border:1px solid var(--green);border-radius:99px;padding:.15rem .5rem;background:none}
+.avail{font-size:.74rem;color:var(--muted);margin:.2rem .2rem 0}
+button.act{width:100%;padding:.9rem;margin-top:1rem;font-size:.8rem;letter-spacing:.08em;
+  text-transform:uppercase;font-weight:600;background:var(--green);color:#fff;
+  border:none;border-radius:8px;cursor:pointer}
+button.act:disabled{opacity:.4;cursor:not-allowed}
+.connect{width:100%;padding:.9rem;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;
+  font-weight:600;background:var(--ink);color:var(--bg);border:none;border-radius:8px;cursor:pointer}
+.who{font-size:.72rem;color:var(--muted);text-align:right}
+.note{background:var(--amber-bg);border-left:3px solid var(--amber);border-radius:0 6px 6px 0;
+  padding:.7rem .9rem;margin:1rem 0;font-size:.82rem}
+.msg{margin-top:1rem;font-size:.82rem;min-height:1.2em}
+.msg.err{color:var(--red)} .msg.ok{color:var(--green)}
+.assur{margin-top:1.6rem;font-size:.76rem;color:var(--muted);line-height:1.6;
+  border-top:1px solid var(--rule);padding-top:1rem}
+.assur b{color:var(--ink)}
+footer{margin-top:1.6rem;color:var(--faint);font-size:.72rem;font-style:italic;font-family:Charter,Georgia,serif;line-height:1.6}
+a{color:var(--green)}
+</style></head><body>
+<main>
+<div class="mast">
+  <h1 class="wordmark">FARMARE</h1>
+  <a href="./">← Track record</a>
+</div>
+<p class="tagline">Deposit and withdraw. Your funds sit in an on-chain vault
+you can exit at any time — no one, including the operator, can move them out
+to a third address.</p>
+<hr>
+
+<div id="notdeployed" class="note" style="display:none">
+  <b>Not yet live.</b> The vault contract is audited-in-testing but not yet
+  deployed to Base mainnet. This interface is ready; it will activate the
+  moment the vault address is set. Follow the
+  <a href="./">track record</a> for the go-live date.
+</div>
+
+<div id="wrongnet" class="note" style="display:none">
+  This vault lives on <b>Base</b>. <a href="#" id="switchnet">Switch network</a>.
+</div>
+
+<div class="stats" id="stats" style="display:none">
+  <div class="stat"><label>Your position</label><b id="posval">—</b></div>
+  <div class="stat"><label>Wallet USDC</label><b id="walusdc">—</b></div>
+  <div class="stat"><label>NAV / share</label><b id="nav">—</b></div>
+  <div class="stat"><label>Vault AUM</label><b id="aum">—</b></div>
+</div>
+
+<div class="card" id="panel" style="display:none">
+  <div class="tabs">
+    <div class="tab on" data-t="deposit">Deposit</div>
+    <div class="tab" data-t="withdraw">Withdraw</div>
+  </div>
+  <div class="field">
+    <input id="amt" inputmode="decimal" placeholder="0.00" autocomplete="off">
+    <button class="max" id="maxbtn">Max</button>
+  </div>
+  <div class="avail" id="avail"></div>
+  <button class="act" id="action" disabled>Connect wallet</button>
+  <div class="msg" id="msg"></div>
+</div>
+
+<button class="connect" id="connect">Connect wallet</button>
+<div class="who" id="who"></div>
+
+<div class="assur">
+  <b>What the contract guarantees, verifiably:</b> withdrawals are always
+  open (even if the operator pauses new deposits); the operator can change
+  rules only after a 48-hour public timelock; the keeper bot can rebalance
+  between whitelisted venues but can never withdraw funds. Contract and tests
+  are open: <a href="https://github.com/felixdigennaro/farmare" id="repolink">source &amp; audits</a>.
+</div>
+
+<footer>Simulated track record to date; on-chain deposits carry real smart-contract
+and DeFi risk. Not investment advice. Only deposit what you can afford to lose.</footer>
+</main>
+
+<script>
+// ---- configuration (fill VAULT after the mainnet deploy) ----
+const CFG = {
+  vault: "0x0000000000000000000000000000000000000000", // set on go-live
+  usdc:  "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+  chainId: "0x2105",           // Base mainnet (8453)
+  usdcDecimals: 6, shareDecimals: 18,
+};
+
+// ---- tiny ABI-encoding helpers (no library, CSP-safe) ----
+const pad = h => h.replace(/^0x/,"").padStart(64,"0");
+const addr = a => pad(a.toLowerCase());
+const uint = n => pad(BigInt(n).toString(16));
+const SEL = {
+  balanceOf:"0x70a08231", allowance:"0xdd62ed3e", approve:"0x095ea7b3",
+  decimals:"0x313ce567", deposit:"0x6e553f65", redeem:"0xba087652",
+  maxRedeem:"0xd905777e", totalAssets:"0x01e1d114", navPerShare:"0x6ff1c9bc",
+  convertToAssets:"0x07a2d13a", totalSupply:"0x18160ddd",
+};
+let eth, account;
+
+async function rpc(method, params){ return await eth.request({method, params}); }
+async function call(to, data){ return await rpc("eth_call",[{to,data},"latest"]); }
+function dec(hex, d){ const v=BigInt(hex||"0x0"); const b=10n**BigInt(d);
+  const w=v/b, f=(v%b).toString().padStart(d,"0").slice(0,2); return Number(w)+Number("0."+f); }
+function fmt(n){ return n.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function toUnits(x,d){ const [w,f=""]=String(x).split("."); return BigInt(w+ (f+"0".repeat(d)).slice(0,d)); }
+
+const live = () => CFG.vault !== "0x0000000000000000000000000000000000000000";
+let tab="deposit";
+
+async function refresh(){
+  if(!account||!live()) return;
+  const [bU,bS,nav,aum] = await Promise.all([
+    call(CFG.usdc, SEL.balanceOf+addr(account)),
+    call(CFG.vault, SEL.balanceOf+addr(account)),
+    call(CFG.vault, SEL.navPerShare),
+    call(CFG.vault, SEL.totalAssets),
+  ]);
+  const shares = dec(bS, CFG.shareDecimals);
+  const navv = dec(nav, 18);
+  document.getElementById("walusdc").textContent = "$"+fmt(dec(bU,CFG.usdcDecimals));
+  document.getElementById("posval").textContent = "$"+fmt(shares*navv);
+  document.getElementById("nav").textContent = "$"+navv.toFixed(4);
+  document.getElementById("aum").textContent = "$"+fmt(dec(aum,CFG.usdcDecimals));
+  window._bal = {usdc: dec(bU,CFG.usdcDecimals), shares};
+  setAvail();
+}
+function setAvail(){
+  const a=document.getElementById("avail");
+  if(!window._bal){a.textContent="";return;}
+  a.textContent = tab==="deposit"
+    ? "Available: $"+fmt(window._bal.usdc)+" USDC"
+    : "Your position: $"+fmt(window._bal.shares* (dec(window._navHex||"0xde0b6b3a7640000",18)));
+}
+
+async function connect(){
+  eth = window.ethereum;
+  if(!eth){ msg("No Ethereum wallet found. Install MetaMask or a Base-compatible wallet.","err"); return; }
+  const accts = await rpc("eth_requestAccounts",[]);
+  account = accts[0];
+  document.getElementById("who").textContent = account.slice(0,6)+"…"+account.slice(-4);
+  document.getElementById("connect").style.display="none";
+  const net = await rpc("eth_chainId",[]);
+  document.getElementById("wrongnet").style.display = net===CFG.chainId?"none":"block";
+  if(!live()){ document.getElementById("notdeployed").style.display="block"; return; }
+  document.getElementById("stats").style.display="grid";
+  document.getElementById("panel").style.display="block";
+  document.getElementById("action").disabled=false;
+  updateAction();
+  refresh();
+  eth.on&&eth.on("accountsChanged",()=>location.reload());
+  eth.on&&eth.on("chainChanged",()=>location.reload());
+}
+
+function msg(t,cls){ const m=document.getElementById("msg"); m.textContent=t; m.className="msg "+(cls||""); }
+function updateAction(){ document.getElementById("action").textContent = tab==="deposit"?"Deposit USDC":"Withdraw"; }
+
+document.querySelectorAll(".tab").forEach(el=>el.onclick=()=>{
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("on"));
+  el.classList.add("on"); tab=el.dataset.t; updateAction(); setAvail();
+  document.getElementById("amt").value=""; msg("");
+});
+document.getElementById("maxbtn").onclick=()=>{
+  if(!window._bal) return;
+  document.getElementById("amt").value = tab==="deposit"
+    ? window._bal.usdc.toFixed(2) : window._bal.shares.toFixed(6);
+};
+document.getElementById("connect").onclick=connect;
+document.getElementById("switchnet")&&(document.getElementById("switchnet").onclick=async e=>{
+  e.preventDefault();
+  try{ await rpc("wallet_switchEthereumChain",[{chainId:CFG.chainId}]); location.reload(); }
+  catch(_){ msg("Add Base network in your wallet, then retry.","err"); }
+});
+
+async function send(to,data){
+  const tx=await rpc("eth_sendTransaction",[{from:account,to,data}]);
+  msg("Transaction sent — waiting for confirmation…","");
+  // poll receipt
+  for(let i=0;i<60;i++){ await new Promise(r=>setTimeout(r,2500));
+    const r=await rpc("eth_getTransactionReceipt",[tx]).catch(()=>null);
+    if(r){ if(BigInt(r.status)===1n){ return true; } throw new Error("reverted"); } }
+  throw new Error("timeout");
+}
+
+document.getElementById("action").onclick=async()=>{
+  const raw=document.getElementById("amt").value.trim();
+  if(!raw||Number(raw)<=0){ msg("Enter an amount.","err"); return; }
+  const btn=document.getElementById("action"); btn.disabled=true;
+  try{
+    if(tab==="deposit"){
+      const amt=toUnits(raw,CFG.usdcDecimals);
+      const al=BigInt(await call(CFG.usdc, SEL.allowance+addr(account)+addr(CFG.vault)));
+      if(al<amt){ msg("Approve USDC (1/2)…"); await send(CFG.usdc, SEL.approve+addr(CFG.vault)+uint(amt)); }
+      msg("Depositing (2/2)…");
+      await send(CFG.vault, SEL.deposit+uint(amt)+addr(account));
+      msg("Deposit confirmed. Welcome aboard.","ok");
+    } else {
+      const shares=toUnits(raw,CFG.shareDecimals);
+      msg("Withdrawing…");
+      await send(CFG.vault, SEL.redeem+uint(shares)+addr(account)+addr(account));
+      msg("Withdrawal confirmed. Funds are in your wallet.","ok");
+    }
+    document.getElementById("amt").value=""; refresh();
+  }catch(e){ msg("Failed: "+(e.message||e),"err"); }
+  btn.disabled=false;
+};
+
+// initial state without wallet
+if(!live()) document.getElementById("notdeployed").style.display="block";
+</script>
+</body></html>
