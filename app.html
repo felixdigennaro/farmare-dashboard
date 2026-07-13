@@ -6,33 +6,32 @@
 :root{
   --bg:#fcfcfa; --ink:#141a16; --muted:#6b7570; --faint:#98a19b;
   --rule:#dadfda; --rule-strong:#141a16; --green:#1d5c3e; --green-soft:#eaf0eb;
-  --amber:#8a6d1f; --amber-bg:#faf5e4; --red:#993326;
+  --band:#eef1ec; --amber:#8a6d1f; --amber-bg:#faf5e4; --red:#993326;
 }
 @media (prefers-color-scheme: dark){
   :root{ --bg:#12161a; --ink:#e6e9e4; --muted:#8f9a93; --faint:#68716b;
     --rule:#2b3230; --rule-strong:#e6e9e4; --green:#7cc3a0; --green-soft:#1c2620;
-    --amber:#d0b263; --amber-bg:#2a2416; --red:#d97b6c; }
+    --band:#1b211e; --amber:#d0b263; --amber-bg:#2a2416; --red:#d97b6c; }
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);
   font:14px/1.55 -apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
-main{max-width:560px;margin:0 auto;padding:2.4rem 1.3rem 3rem}
+main{max-width:720px;margin:0 auto;padding:2.4rem 1.3rem 3rem}
 .mast{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:.6rem}
-.wordmark{font-family:Charter,"Iowan Old Style",Georgia,serif;font-size:1.4rem;
-  font-weight:700;letter-spacing:.3em;margin:0}
+.wordmark{font-family:Charter,"Iowan Old Style",Georgia,serif;font-size:1.4rem;font-weight:700;letter-spacing:.3em;margin:0}
 .nav{display:flex;gap:1.1rem}
 .nav a{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);text-decoration:none;padding-bottom:.15rem}
 .nav a.on{color:var(--ink);border-bottom:2px solid var(--green)}
 .tagline{font-size:.82rem;color:var(--muted);margin:.4rem 0 0;font-style:italic;font-family:Charter,Georgia,serif}
 hr{border:0;border-top:2px solid var(--rule-strong);margin:1.1rem 0 1.4rem}
 .mono{font-family:"SF Mono",ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums}
+h2{font-size:.72rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--ink);margin:1.8rem 0 1rem}
+h2 small{color:var(--faint);letter-spacing:.14em;font-weight:400}
 
-/* P&L hero */
-.pnl{border:1px solid var(--rule);border-radius:12px;padding:1.2rem 1.3rem;margin-bottom:1.2rem}
+.pnl{border:1px solid var(--rule);border-radius:12px;padding:1.2rem 1.3rem}
 .pnl .head{display:flex;justify-content:space-between;align-items:baseline}
 .pnl label{font-size:.66rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
-.pnl .big{font-family:"SF Mono",ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums;
-  font-size:2rem;font-weight:500;letter-spacing:-.02em;margin:.15rem 0 .1rem}
+.pnl .big{font-family:"SF Mono",ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums;font-size:2rem;font-weight:500;letter-spacing:-.02em;margin:.15rem 0 .1rem}
 .pnl .delta{font-family:"SF Mono",ui-monospace,Menlo,monospace;font-size:.95rem;font-weight:600}
 .up{color:var(--green)} .down{color:var(--red)}
 .pnl .grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;margin-top:1rem;border-top:1px solid var(--rule);padding-top:.9rem}
@@ -41,31 +40,49 @@ hr{border:0;border-top:2px solid var(--rule-strong);margin:1.1rem 0 1.4rem}
 .pnl .cell{padding-right:.8rem}
 .pnl .cell+.cell{border-left:1px solid var(--rule);padding-left:.8rem}
 
+.chart-wrap{position:relative;margin-top:.4rem}
+#chart{width:100%;height:auto;display:block}
+.chart-note{font-size:.75rem;color:var(--muted);margin:.6rem 0 0;font-style:italic;font-family:Charter,Georgia,serif}
+.legend{display:flex;gap:1.2rem;font-size:.72rem;color:var(--muted);margin:.4rem 0 0}
+.legend i{display:inline-block;width:14px;height:2px;vertical-align:middle;margin-right:.35rem}
+.tip{position:absolute;pointer-events:none;background:var(--bg);border:1px solid var(--rule-strong);
+  padding:.4rem .6rem;font-size:.74rem;display:none;white-space:nowrap;line-height:1.5}
+.tip b{font-family:"SF Mono",ui-monospace,Menlo,monospace}
+
 .tabs{display:flex;border-bottom:1px solid var(--rule);margin-bottom:1.1rem}
-.tab{flex:1;padding:.6rem;text-align:center;font-size:.72rem;letter-spacing:.12em;
-  text-transform:uppercase;cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px}
+.tab{flex:1;padding:.6rem;text-align:center;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;
+  cursor:pointer;color:var(--muted);border-bottom:2px solid transparent;margin-bottom:-1px}
 .tab.on{color:var(--ink);border-bottom-color:var(--green)}
 .field{position:relative;margin:.6rem 0}
-.field input{width:100%;padding:.85rem 4rem .85rem .9rem;font-size:1.15rem;
-  font-family:"SF Mono",ui-monospace,Menlo,monospace;background:var(--bg);
-  border:1px solid var(--rule);border-radius:8px;color:var(--ink)}
+.field input{width:100%;padding:.85rem 4rem .85rem .9rem;font-size:1.15rem;font-family:"SF Mono",ui-monospace,Menlo,monospace;
+  background:var(--bg);border:1px solid var(--rule);border-radius:8px;color:var(--ink)}
 .field input:focus{outline:none;border-color:var(--green)}
-.field .max{position:absolute;right:.7rem;top:50%;transform:translateY(-50%);
-  font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--green);
-  cursor:pointer;border:1px solid var(--green);border-radius:99px;padding:.15rem .5rem;background:none}
+.field .max{position:absolute;right:.7rem;top:50%;transform:translateY(-50%);font-size:.66rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--green);cursor:pointer;border:1px solid var(--green);border-radius:99px;padding:.15rem .5rem;background:none}
 .avail{font-size:.74rem;color:var(--muted);margin:.2rem .2rem 0}
-button.act{width:100%;padding:.9rem;margin-top:1rem;font-size:.8rem;letter-spacing:.08em;
-  text-transform:uppercase;font-weight:600;background:var(--green);color:#fff;border:none;border-radius:8px;cursor:pointer}
+button.act{width:100%;padding:.9rem;margin-top:1rem;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;
+  font-weight:600;background:var(--green);color:#fff;border:none;border-radius:8px;cursor:pointer}
 button.act:disabled{opacity:.4;cursor:not-allowed}
-.connect{width:100%;padding:.9rem;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;
-  font-weight:600;background:var(--ink);color:var(--bg);border:none;border-radius:8px;cursor:pointer}
+.connect{width:100%;padding:.9rem;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600;
+  background:var(--ink);color:var(--bg);border:none;border-radius:8px;cursor:pointer}
 .who{font-size:.72rem;color:var(--muted);text-align:right;margin-top:.5rem}
-.note{background:var(--amber-bg);border-left:3px solid var(--amber);border-radius:0 6px 6px 0;
-  padding:.7rem .9rem;margin:1rem 0;font-size:.82rem}
+.note{background:var(--amber-bg);border-left:3px solid var(--amber);border-radius:0 6px 6px 0;padding:.7rem .9rem;margin:1rem 0;font-size:.82rem}
 .note a{color:var(--amber);font-weight:600}
 .msg{margin-top:1rem;font-size:.82rem;min-height:1.2em}
 .msg.err{color:var(--red)} .msg.ok{color:var(--green)}
-.assur{margin-top:1.6rem;font-size:.76rem;color:var(--muted);line-height:1.6;border-top:1px solid var(--rule);padding-top:1rem}
+
+.ev{display:grid;grid-template-columns:9rem 1fr;gap:1rem;padding:.55rem 0;border-bottom:1px solid var(--rule)}
+.ev:last-child{border-bottom:none}
+.ev-when{font-family:"SF Mono",ui-monospace,Menlo,monospace;font-size:.72rem;color:var(--muted);padding-top:.15rem;white-space:nowrap}
+.ev-cat{display:inline-block;font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
+  margin-right:.6rem;padding-left:.85rem;position:relative}
+.ev-cat::before{content:"";position:absolute;left:0;top:50%;transform:translateY(-50%);width:6px;height:6px;background:var(--faint)}
+.mine .ev-cat{color:var(--green)} .mine .ev-cat::before{background:var(--green)}
+.sev-e .ev-cat{color:var(--red)} .sev-e .ev-cat::before{background:var(--red)}
+.ev-txt{font-size:.82rem}
+@media(max-width:560px){.ev{grid-template-columns:1fr;gap:.15rem}}
+.muted{color:var(--muted);font-size:.8rem}
+.assur{margin-top:1.8rem;font-size:.76rem;color:var(--muted);line-height:1.6;border-top:1px solid var(--rule);padding-top:1rem}
 .assur b{color:var(--ink)}
 footer{margin-top:1.4rem;color:var(--faint);font-size:.72rem;font-style:italic;font-family:Charter,Georgia,serif;line-height:1.6}
 a{color:var(--green)}
@@ -75,27 +92,23 @@ a{color:var(--green)}
   <h1 class="wordmark">FARMARE</h1>
   <nav class="nav"><a href="./">Fund</a><a href="app.html" class="on">My Account</a></nav>
 </div>
-<p class="tagline">Your position, your profit &amp; loss, and deposits or
-withdrawals — all in one place. You can exit at any time; no one, including
-the operator, can move your funds to a third address.</p>
+<p class="tagline">Your own view of the fund — your equity curve, your profit
+&amp; loss, and every action taken with your money. You can withdraw at any
+time; no one, including the operator, can move your funds elsewhere.</p>
 <hr>
 
 <div id="notdeployed" class="note" style="display:none">
   <b>Not yet live.</b> The vault is fully tested but not yet deployed to Base
-  mainnet. This account page is ready and will activate the moment the vault
-  address is set — follow the <a href="./">track record</a> for the date.
+  mainnet. Below you can already see the fund's per-share track record your
+  account will mirror. Deposits open at go-live — follow the
+  <a href="./">track record</a> for the date.
 </div>
-
 <div id="wrongnet" class="note" style="display:none">
   This vault runs on <b>Base</b>. <a href="#" id="addnet">Add / switch to Base</a>.
 </div>
 
-<!-- personal P&L -->
 <div class="pnl" id="pnl" style="display:none">
-  <div class="head">
-    <label>Your position</label>
-    <label id="navlbl" class="mono"></label>
-  </div>
+  <div class="head"><label>Your position</label><label id="navlbl" class="mono"></label></div>
   <div class="big" id="posval">—</div>
   <div class="delta" id="pnldelta">—</div>
   <div class="grid">
@@ -105,16 +118,18 @@ the operator, can move your funds to a third address.</p>
   </div>
 </div>
 
-<!-- deposit / withdraw -->
+<h2 id="chartTitle">Fund performance <small>— per-share, your account tracks this</small></h2>
+<div class="chart-wrap">
+  <svg id="chart" viewBox="0 0 720 260" role="img" aria-label="Equity curve"></svg>
+  <div class="tip" id="tip"></div>
+</div>
+<div class="legend" id="legend"></div>
+<p class="chart-note" id="chartNote"></p>
+
 <div id="panel" style="display:none">
-  <div class="tabs">
-    <div class="tab on" data-t="deposit">Deposit</div>
-    <div class="tab" data-t="withdraw">Withdraw</div>
-  </div>
-  <div class="field">
-    <input id="amt" inputmode="decimal" placeholder="0.00" autocomplete="off">
-    <button class="max" id="maxbtn">Max</button>
-  </div>
+  <h2>Deposit &amp; withdraw</h2>
+  <div class="tabs"><div class="tab on" data-t="deposit">Deposit</div><div class="tab" data-t="withdraw">Withdraw</div></div>
+  <div class="field"><input id="amt" inputmode="decimal" placeholder="0.00" autocomplete="off"><button class="max" id="maxbtn">Max</button></div>
   <div class="avail" id="avail"></div>
   <button class="act" id="action">Deposit USDC</button>
   <div class="msg" id="msg"></div>
@@ -123,157 +138,199 @@ the operator, can move your funds to a third address.</p>
 <button class="connect" id="connect">Connect wallet</button>
 <div class="who" id="who"></div>
 
+<h2>Activity <small>— your account &amp; what the manager did with it</small></h2>
+<div id="log"><p class="muted">Connect your wallet to see your deposits and
+withdrawals alongside the fund's operations.</p></div>
+
 <div class="assur">
-  <b>How your P&amp;L is computed:</b> net invested = everything you deposited
-  minus everything you withdrew, read straight from the vault's on-chain
-  events; current value = your shares × today's NAV. The difference is your
-  unrealized profit or loss — nothing here is self-reported.
+  <b>How your figures are computed:</b> your equity curve is your share balance
+  on each date × the fund's NAV that date; net invested is every deposit minus
+  every withdrawal, read from on-chain events; the difference is your
+  unrealized P&amp;L. Nothing is self-reported.
   <br><b>Guarantees:</b> withdrawals are always open; rule changes need a 48h
   public timelock; the keeper can rebalance but never withdraw. Source &amp;
   tests: <a href="https://github.com/felixdigennaro/farmare">open repository</a>.
 </div>
 <footer>Simulated track record to date; on-chain deposits carry real
-smart-contract and DeFi risk. Not investment advice. Only deposit what you
-can afford to lose.</footer>
+smart-contract and DeFi risk. Not investment advice. Only deposit what you can afford to lose.</footer>
 </main>
 
 <script>
 const CFG = {
-  vault: "0x0000000000000000000000000000000000000000", // set on go-live
-  usdc:  "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
-  deployBlock: 0,                 // set to the vault deploy block on go-live
-  chainId: "0x2105",              // Base (8453)
-  usdcDecimals: 6, shareDecimals: 18,
-  baseParams: {
-    chainId: "0x2105", chainName: "Base",
-    nativeCurrency: {name:"Ether", symbol:"ETH", decimals:18},
-    rpcUrls: ["https://mainnet.base.org"],
-    blockExplorerUrls: ["https://basescan.org"],
-  },
+  vault:"0x0000000000000000000000000000000000000000", usdc:"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+  deployBlock:0, chainId:"0x2105", usdcDecimals:6, shareDecimals:18,
+  baseParams:{chainId:"0x2105",chainName:"Base",nativeCurrency:{name:"Ether",symbol:"ETH",decimals:18},
+    rpcUrls:["https://mainnet.base.org"],blockExplorerUrls:["https://basescan.org"]},
 };
-const T_DEPOSIT  = "0xdcbc1c05240f31ff3ad067ef1ee35ce4997762752e3a095284754544f4c709d7";
-const T_WITHDRAW = "0xfbde797d201c681b91056529119e0b02407c7bb96a4a2c75c01fc9667232c8db";
+const T_DEP="0xdcbc1c05240f31ff3ad067ef1ee35ce4997762752e3a095284754544f4c709d7";
+const T_WD ="0xfbde797d201c681b91056529119e0b02407c7bb96a4a2c75c01fc9667232c8db";
+const SEL={balanceOf:"0x70a08231",allowance:"0xdd62ed3e",approve:"0x095ea7b3",
+  deposit:"0x6e553f65",redeem:"0xba087652",totalAssets:"0x01e1d114",navPerShare:"0x6ff1c9bc"};
 
-const pad = h => h.replace(/^0x/,"").padStart(64,"0");
-const addr = a => pad(a.toLowerCase());
-const uint = n => pad(BigInt(n).toString(16));
-const topicAddr = a => "0x"+pad(a.toLowerCase());
-const SEL = { balanceOf:"0x70a08231", allowance:"0xdd62ed3e", approve:"0x095ea7b3",
-  deposit:"0x6e553f65", redeem:"0xba087652", totalAssets:"0x01e1d114", navPerShare:"0x6ff1c9bc" };
-let eth, account, tab="deposit";
+const pad=h=>h.replace(/^0x/,"").padStart(64,"0"), addr=a=>pad(a.toLowerCase()), uint=n=>pad(BigInt(n).toString(16));
+const topicAddr=a=>"0x"+pad(a.toLowerCase()), bn=h=>BigInt(h||"0x0");
+const dec=(v,d)=>{v=BigInt(v);const b=10n**BigInt(d);const w=v/b;const f=(v%b).toString().padStart(d,"0").slice(0,2);return Number(w)+Number("0."+f);};
+const fmt=n=>n.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});
+const toUnits=(x,d)=>{const[w,f=""]=String(x).split(".");return BigInt(w+(f+"0".repeat(d)).slice(0,d));};
+const live=()=>CFG.vault!=="0x0000000000000000000000000000000000000000";
+const css=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+const MONO='"SF Mono",ui-monospace,Menlo,monospace';
+let eth,account,tab="deposit",NAV=null,ACT=[],MINE=[];
 
-async function rpc(m,p){ return await eth.request({method:m,params:p}); }
-async function call(to,data){ return await rpc("eth_call",[{to,data},"latest"]); }
-const bn = h => BigInt(h||"0x0");
-function dec(v,d){ v=BigInt(v); const b=10n**BigInt(d); const w=v/b;
-  const f=(v%b).toString().padStart(d,"0").slice(0,2); return Number(w)+Number("0."+f); }
-const fmt = n => n.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});
-const toUnits = (x,d) => { const [w,f=""]=String(x).split("."); return BigInt(w+(f+"0".repeat(d)).slice(0,d)); };
-const live = () => CFG.vault !== "0x0000000000000000000000000000000000000000";
+async function rpc(m,p){return await eth.request({method:m,params:p});}
+async function call(to,data){return await rpc("eth_call",[{to,data},"latest"]);}
 
-async function netInvested(){
-  // reconstruct cost basis from the vault's Deposit/Withdraw events for this owner
-  const base = {fromBlock:"0x"+CFG.deployBlock.toString(16), toBlock:"latest", address:CFG.vault};
-  const dLogs = await rpc("eth_getLogs",[{...base, topics:[T_DEPOSIT, null, topicAddr(account)]}]).catch(()=>[]);
-  const wLogs = await rpc("eth_getLogs",[{...base, topics:[T_WITHDRAW, null, null, topicAddr(account)]}]).catch(()=>[]);
-  let inv = 0n;
-  for(const l of dLogs) inv += bn("0x"+l.data.slice(2,66));   // assets = first word
-  for(const l of wLogs) inv -= bn("0x"+l.data.slice(2,66));
-  return inv; // USDC units, net
+async function loadFeeds(){
+  try{ NAV=(await (await fetch("nav.json?"+Date.now())).json()).series; }catch(_){ NAV=[]; }
+  try{ ACT=(await (await fetch("activity.json?"+Date.now())).json()).events; }catch(_){ ACT=[]; }
+}
+
+// ---------- chart: fund NAV (indexed) + optional personal overlay ----------
+function drawChart(personal){
+  const svg=document.getElementById("chart"),tip=document.getElementById("tip");
+  if(!NAV||NAV.length<2){ svg.outerHTML='<p class="muted">Performance history will appear here.</p>'; return; }
+  const W=720,H=260,L=30,R=64,T=14,B=28,iw=W-L-R,ih=H-T-B,n=NAV.length;
+  const navIdx=NAV.map(p=>p.nav/NAV[0].nav*100);       // fund, indexed to 100
+  let ser=[navIdx], cols=[css('--faint')], labels=["Fund NAV (indexed 100)"];
+  if(personal){ ser=[personal.value, personal.basis];   // both in $, same axis
+    cols=[css('--green'),css('--muted')];
+    labels=["Your value","Net invested"]; }
+  const all=ser.flat().filter(x=>x!=null); let lo=Math.min(...all),hi=Math.max(...all);
+  const pad=(hi-lo)*0.12||1; lo-=pad; hi+=pad;
+  const X=i=>L+i/(n-1)*iw, Y=v=>T+(1-(v-lo)/(hi-lo))*ih;
+  let g="";
+  for(let k=0;k<=2;k++){const v=lo+(hi-lo)*(0.1+k*0.4),y=Y(v);
+    g+=`<line x1="${L}" x2="${L+iw}" y1="${y}" y2="${y}" stroke="${css('--rule')}" stroke-width="1"/>`;
+    g+=`<text x="${L+iw+6}" y="${y+3.5}" font-size="10" font-family='${MONO}' fill="${css('--faint')}">${personal?'$'+fmt(v):(v).toFixed(1)}</text>`;}
+  const step=Math.max(1,Math.round((n-1)/4));
+  for(let i=0;i<n;i+=step) g+=`<text x="${X(i)}" y="${H-8}" font-size="10" font-family='${MONO}' fill="${css('--faint')}" text-anchor="middle">${NAV[i].d.slice(5)}</text>`;
+  ser.forEach((s,si)=>{ const dash= si===1&&personal ? ' stroke-dasharray="4 4"':'';
+    const pts=s.map((v,i)=>v==null?null:`${X(i)},${Y(v)}`).filter(Boolean).join(" ");
+    g+=`<polyline points="${pts}" fill="none" stroke="${cols[si]}" stroke-width="${si===0&&personal?2:1.6}"${dash}/>`; });
+  if(personal){ const last=personal.value.filter(v=>v!=null); const li=personal.value.length-1;
+    g+=`<circle cx="${X(li)}" cy="${Y(personal.value[li])}" r="3" fill="${css('--green')}"/>`; }
+  g+=`<line id="xh" x1="0" x2="0" y1="${T}" y2="${T+ih}" stroke="${css('--muted')}" stroke-width="1" stroke-dasharray="2 3" opacity="0"/>`;
+  svg.innerHTML=g;
+  const xh=svg.querySelector("#xh");
+  svg.onmousemove=ev=>{const r=svg.getBoundingClientRect();const px=(ev.clientX-r.left)*(W/r.width);
+    const i=Math.min(n-1,Math.max(0,Math.round((px-L)/iw*(n-1))));
+    xh.setAttribute("x1",X(i));xh.setAttribute("x2",X(i));xh.setAttribute("opacity",.6);
+    tip.style.display="block";const half=ev.clientX-r.left>r.width/2;
+    tip.style.left=half?"auto":(ev.clientX-r.left+14)+"px";tip.style.right=half?(r.width-(ev.clientX-r.left)+14)+"px":"auto";
+    tip.style.top=(ev.clientY-r.top-10)+"px";
+    tip.innerHTML = personal&&personal.value[i]!=null
+      ? `${NAV[i].d}<br><b>$${fmt(personal.value[i])}</b> <span style="color:var(--muted)">· in $${fmt(personal.basis[i])}</span>`
+      : `${NAV[i].d}<br><b>${navIdx[i].toFixed(2)}</b> <span style="color:var(--muted)">indexed</span>`; };
+  svg.onmouseleave=()=>{tip.style.display="none";xh.setAttribute("opacity",0);};
+  // legend
+  document.getElementById("legend").innerHTML=labels.map((t,i)=>
+    `<span><i style="background:${cols[i]}"></i>${t}</span>`).join("");
+}
+
+// ---------- personal reconstruction from on-chain share events ----------
+async function personalCurve(){
+  const base={fromBlock:"0x"+CFG.deployBlock.toString(16),toBlock:"latest",address:CFG.vault};
+  const dl=await rpc("eth_getLogs",[{...base,topics:[T_DEP,null,topicAddr(account)]}]).catch(()=>[]);
+  const wl=await rpc("eth_getLogs",[{...base,topics:[T_WD,null,null,topicAddr(account)]}]).catch(()=>[]);
+  // event → {date, dShares, dAssets(+in/-out)}
+  const evs=[]; MINE=[];
+  async function dateOf(blkHex){ const b=await rpc("eth_getBlockByNumber",[blkHex,false]);
+    return new Date(Number(bn(b.timestamp))*1000).toISOString().slice(0,10); }
+  for(const l of dl){ const assets=dec("0x"+l.data.slice(2,66),CFG.usdcDecimals),sh=dec("0x"+l.data.slice(66,130),CFG.shareDecimals);
+    const d=await dateOf(l.blockNumber); evs.push({d,dSh:sh,dAs:assets}); MINE.push({ts:d+"T00:00",cat:"deposit",mine:1,text:`You deposited $${fmt(assets)}`}); }
+  for(const l of wl){ const assets=dec("0x"+l.data.slice(2,66),CFG.usdcDecimals),sh=dec("0x"+l.data.slice(66,130),CFG.shareDecimals);
+    const d=await dateOf(l.blockNumber); evs.push({d,dSh:-sh,dAs:-assets}); MINE.push({ts:d+"T00:00",cat:"withdrawal",mine:1,text:`You withdrew $${fmt(assets)}`}); }
+  if(!evs.length) return null;
+  // build per-date share balance and cost basis aligned to NAV dates
+  const value=[],basis=[];
+  for(const p of NAV){ let sh=0,inv=0;
+    for(const e of evs) if(e.d<=p.d){ sh+=e.dSh; inv+=e.dAs; }
+    value.push(sh>1e-9? sh*p.nav : (inv>0?inv:null));
+    basis.push(inv>0?inv:null); }
+  return {value,basis};
+}
+
+// ---------- activity log (mine + fund) ----------
+function renderLog(){
+  const merged=[...MINE, ...ACT.map(e=>({ts:e.ts,cat:e.cat,text:e.text,sev:e.cat==="emergency"?"e":""}))]
+    .sort((a,b)=>a.ts<b.ts?1:-1).slice(0,40);
+  const el=document.getElementById("log");
+  if(!merged.length){ el.innerHTML='<p class="muted">No activity yet.</p>'; return; }
+  el.innerHTML=merged.map(e=>`<div class="ev ${e.mine?'mine':''} ${e.sev==='e'?'sev-e':''}">
+    <div class="ev-when">${e.ts.slice(0,16).replace("T","&nbsp;&nbsp;")}</div>
+    <div><span class="ev-cat">${e.cat}</span><span class="ev-txt">${e.text.replace(/</g,"&lt;")}</span></div></div>`).join("");
 }
 
 async function refresh(){
   if(!account||!live()) return;
-  const [bU,bS,nav,aum,inv] = await Promise.all([
-    call(CFG.usdc, SEL.balanceOf+addr(account)),
-    call(CFG.vault, SEL.balanceOf+addr(account)),
-    call(CFG.vault, SEL.navPerShare),
-    call(CFG.vault, SEL.totalAssets),
-    netInvested(),
-  ]);
-  const shares=dec(bS,CFG.shareDecimals), navv=dec(nav,18);
-  const cur=shares*navv, invested=dec("0x"+inv.toString(16), CFG.usdcDecimals);
-  const pnl=cur-invested, pct=invested>0?pnl/invested:0;
+  const [bU,bS,nav]=await Promise.all([
+    call(CFG.usdc,SEL.balanceOf+addr(account)), call(CFG.vault,SEL.balanceOf+addr(account)), call(CFG.vault,SEL.navPerShare)]);
+  const shares=dec(bS,CFG.shareDecimals),navv=dec(nav,18);
   window._navHex=nav; window._bal={usdc:dec(bU,CFG.usdcDecimals),shares};
-
+  const pc=await personalCurve();
+  const cur=shares*navv, invested=pc?pc.basis.filter(x=>x!=null).slice(-1)[0]||0:0;
+  const pnl=cur-invested, pct=invested>0?pnl/invested:0;
+  document.getElementById("pnl").style.display="block";
   document.getElementById("navlbl").textContent="NAV $"+navv.toFixed(4);
   document.getElementById("posval").textContent="$"+fmt(cur);
-  const dcls = pnl>=0?"up":"down", sign=pnl>=0?"+":"−";
-  document.getElementById("pnldelta").innerHTML=
-    `<span class="${dcls}">${sign}$${fmt(Math.abs(pnl))} · ${sign}${fmt(Math.abs(pct)*100)}%</span> <span style="color:var(--muted)">unrealized</span>`;
+  const dc=pnl>=0?"up":"down",sg=pnl>=0?"+":"−";
+  document.getElementById("pnldelta").innerHTML=`<span class="${dc}">${sg}$${fmt(Math.abs(pnl))} · ${sg}${fmt(Math.abs(pct)*100)}%</span> <span style="color:var(--muted)">unrealized</span>`;
   document.getElementById("invested").textContent="$"+fmt(invested);
   document.getElementById("curval").textContent="$"+fmt(cur);
   document.getElementById("walusdc").textContent="$"+fmt(window._bal.usdc);
-  setAvail();
+  if(pc){ document.getElementById("chartTitle").innerHTML='Your equity <small>— value vs net invested</small>';
+    document.getElementById("chartNote").textContent="Your money since your first deposit, valued daily at the fund's NAV.";
+    drawChart(pc); } else {
+    document.getElementById("chartNote").textContent="Deposit to start your own equity curve; it will track the fund NAV above.";
+    drawChart(null); }
+  renderLog(); setAvail();
 }
-function setAvail(){
-  const a=document.getElementById("avail"); if(!window._bal){a.textContent="";return;}
-  a.textContent = tab==="deposit"
-    ? "Available to deposit: $"+fmt(window._bal.usdc)+" USDC"
-    : "Available to withdraw: $"+fmt(window._bal.shares*dec(window._navHex||"0x0",18));
-}
+function setAvail(){const a=document.getElementById("avail");if(!window._bal){a.textContent="";return;}
+  a.textContent=tab==="deposit"?"Available to deposit: $"+fmt(window._bal.usdc)+" USDC"
+    :"Available to withdraw: $"+fmt(window._bal.shares*dec(window._navHex||"0x0",18));}
 
 async function connect(){
   eth=window.ethereum;
-  if(!eth){ msg("No wallet found. Install MetaMask (or any Base-compatible wallet).","err"); return; }
+  if(!eth){ msg("No wallet found. Install MetaMask or any Base-compatible wallet.","err"); return; }
   account=(await rpc("eth_requestAccounts",[]))[0];
   document.getElementById("who").textContent=account.slice(0,6)+"…"+account.slice(-4);
   document.getElementById("connect").style.display="none";
   const net=await rpc("eth_chainId",[]);
   document.getElementById("wrongnet").style.display=net===CFG.chainId?"none":"block";
   if(!live()){ document.getElementById("notdeployed").style.display="block"; return; }
-  document.getElementById("pnl").style.display="block";
   document.getElementById("panel").style.display="block";
   refresh();
   eth.on&&eth.on("accountsChanged",()=>location.reload());
   eth.on&&eth.on("chainChanged",()=>location.reload());
 }
-function msg(t,c){ const m=document.getElementById("msg"); m.textContent=t; m.className="msg "+(c||""); }
-
-document.querySelectorAll(".tab").forEach(el=>el.onclick=()=>{
-  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("on"));
-  el.classList.add("on"); tab=el.dataset.t;
-  document.getElementById("action").textContent = tab==="deposit"?"Deposit USDC":"Withdraw";
-  document.getElementById("amt").value=""; msg(""); setAvail();
-});
-document.getElementById("maxbtn").onclick=()=>{ if(!window._bal) return;
-  document.getElementById("amt").value = tab==="deposit"
-    ? window._bal.usdc.toFixed(2) : window._bal.shares.toFixed(6); };
+function msg(t,c){const m=document.getElementById("msg");m.textContent=t;m.className="msg "+(c||"");}
+document.querySelectorAll(".tab").forEach(el=>el.onclick=()=>{document.querySelectorAll(".tab").forEach(t=>t.classList.remove("on"));
+  el.classList.add("on");tab=el.dataset.t;document.getElementById("action").textContent=tab==="deposit"?"Deposit USDC":"Withdraw";
+  document.getElementById("amt").value="";msg("");setAvail();});
+document.getElementById("maxbtn").onclick=()=>{if(!window._bal)return;document.getElementById("amt").value=tab==="deposit"?window._bal.usdc.toFixed(2):window._bal.shares.toFixed(6);};
 document.getElementById("connect").onclick=connect;
-document.getElementById("addnet").onclick=async e=>{ e.preventDefault();
-  try{ await rpc("wallet_switchEthereumChain",[{chainId:CFG.chainId}]); }
-  catch(err){ if(err.code===4902) await rpc("wallet_addEthereumChain",[CFG.baseParams]); }
-  location.reload();
-};
+document.getElementById("addnet").onclick=async e=>{e.preventDefault();
+  try{await rpc("wallet_switchEthereumChain",[{chainId:CFG.chainId}]);}catch(err){if(err.code===4902)await rpc("wallet_addEthereumChain",[CFG.baseParams]);}location.reload();};
+async function send(to,data){const tx=await rpc("eth_sendTransaction",[{from:account,to,data}]);msg("Transaction sent — waiting for confirmation…");
+  for(let i=0;i<80;i++){await new Promise(r=>setTimeout(r,2500));const r=await rpc("eth_getTransactionReceipt",[tx]).catch(()=>null);
+    if(r){if(bn(r.status)===1n)return true;throw new Error("reverted");}}throw new Error("timeout");}
+document.getElementById("action").onclick=async()=>{const raw=document.getElementById("amt").value.trim();
+  if(!raw||Number(raw)<=0){msg("Enter an amount.","err");return;}const btn=document.getElementById("action");btn.disabled=true;
+  try{ if(tab==="deposit"){const amt=toUnits(raw,CFG.usdcDecimals);
+      const al=bn(await call(CFG.usdc,SEL.allowance+addr(account)+addr(CFG.vault)));
+      if(al<amt){msg("Approve USDC (1 of 2)…");await send(CFG.usdc,SEL.approve+addr(CFG.vault)+uint(amt));}
+      msg("Depositing (2 of 2)…");await send(CFG.vault,SEL.deposit+uint(amt)+addr(account));msg("Deposit confirmed. Welcome aboard.","ok");
+    } else { const shares=toUnits(raw,CFG.shareDecimals);msg("Withdrawing…");
+      await send(CFG.vault,SEL.redeem+uint(shares)+addr(account)+addr(account));msg("Withdrawal confirmed. Funds are in your wallet.","ok"); }
+    document.getElementById("amt").value="";refresh();
+  }catch(e){msg("Failed: "+(e.message||e),"err");}btn.disabled=false;};
 
-async function send(to,data){
-  const tx=await rpc("eth_sendTransaction",[{from:account,to,data}]);
-  msg("Transaction sent — waiting for confirmation…");
-  for(let i=0;i<80;i++){ await new Promise(r=>setTimeout(r,2500));
-    const r=await rpc("eth_getTransactionReceipt",[tx]).catch(()=>null);
-    if(r){ if(bn(r.status)===1n) return true; throw new Error("reverted"); } }
-  throw new Error("timeout");
-}
-document.getElementById("action").onclick=async()=>{
-  const raw=document.getElementById("amt").value.trim();
-  if(!raw||Number(raw)<=0){ msg("Enter an amount.","err"); return; }
-  const btn=document.getElementById("action"); btn.disabled=true;
-  try{
-    if(tab==="deposit"){
-      const amt=toUnits(raw,CFG.usdcDecimals);
-      const al=bn(await call(CFG.usdc, SEL.allowance+addr(account)+addr(CFG.vault)));
-      if(al<amt){ msg("Approve USDC (step 1 of 2)…"); await send(CFG.usdc, SEL.approve+addr(CFG.vault)+uint(amt)); }
-      msg("Depositing (step 2 of 2)…"); await send(CFG.vault, SEL.deposit+uint(amt)+addr(account));
-      msg("Deposit confirmed. Welcome aboard.","ok");
-    } else {
-      const shares=toUnits(raw,CFG.shareDecimals);
-      msg("Withdrawing…"); await send(CFG.vault, SEL.redeem+uint(shares)+addr(account)+addr(account));
-      msg("Withdrawal confirmed. Funds are in your wallet.","ok");
-    }
-    document.getElementById("amt").value=""; refresh();
-  }catch(e){ msg("Failed: "+(e.message||e),"err"); }
-  btn.disabled=false;
-};
-if(!live()) document.getElementById("notdeployed").style.display="block";
+// initial render (no wallet): show the fund curve + fund activity read-only
+(async()=>{ await loadFeeds(); drawChart(null); renderLog();
+  document.getElementById("chartNote").textContent = live()
+    ? "The fund's per-share performance. Connect your wallet to overlay your own equity."
+    : "The fund's per-share track record so far — your account will mirror this once you deposit.";
+  if(!live()) document.getElementById("notdeployed").style.display="block";
+})();
 </script>
 </body></html>
