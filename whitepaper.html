@@ -77,29 +77,31 @@ a{color:var(--green)}
     <a class="dl" id="pdf" href="FARMARE_Whitepaper_EN.pdf">Download PDF ↓</a>
   </div>
   <article id="doc-en"><h1>FARMARE — Whitepaper</h1>
-<p class="meta">Automated on-chain yield, engineered for the worst regime</p>
-<p class="meta">Version 1.0 — July 2026. No token. No DAO. Non-custodial vault on Base/Arbitrum.</p>
+<p class="meta">An engineered, delta-neutral basis strategy — market-neutral carry, at scale</p>
+<p class="meta">Version 2.0 — July 2026. No token. No DAO. Non-custodial vault on Base/Arbitrum.</p>
 <h2 id="s1">Abstract</h2>
-<p>FARMARE is a rules-based, automated yield strategy delivered as a self-custodial ERC-4626 vault on Ethereum L2s. It combines a diversified stablecoin core with a hedged, concentrated liquidity-provision engine, under a risk framework selected on a <em>maximin</em> criterion — every design decision is chosen for its worst-case market regime, not its best. Depositors hold vault shares priced at daily NAV and may exit at any time; no party, including the operator, can move deposited funds to a third address. There is no governance token and no DAO: the operator sets the rules, but every rule change is bound by a 48-hour on-chain timelock and hard-coded ceilings, and the depositor&#x27;s right to redeem is unconditional. <strong>All performance to date is simulated (paper trading on live data); this document is informational and is not an offer of any financial product.</strong></p>
+<p>FARMARE is a rules-based, automated yield strategy delivered as a self-custodial ERC-4626 vault on Ethereum L2s. It runs a single, diversified <strong>delta-neutral basis</strong> book — long staked-ETH collateral, short an equal notional of ETH perpetual futures — harvesting perpetual funding and staking yield with no exposure to the direction of ETH, sized with adaptive, stress-capped leverage. Depositors hold vault shares priced at daily NAV and may exit at any time; no party, including the operator, can move deposited funds to a third address. There is no governance token and no DAO: the operator sets the rules, but every rule change is bound by a 48-hour on-chain timelock and hard-coded ceilings, and the depositor&#x27;s right to redeem is unconditional. <strong>All performance to date is simulated (paper trading on live data); this document is informational and is not an offer of any financial product.</strong></p>
 <h2 id="s2">1. The problem</h2>
 <p>On-chain yield is abundant but hostile to passive capital. Stablecoin rates compress the moment capital arrives; concentrated liquidity positions earn rich fees but bleed value in any trending market (&quot;gamma bleed&quot;); incentive farms carry exploit and rug risk. Most retail and even institutional capital either sits in the lowest-yield venues or takes uncompensated directional and smart-contract risk chasing headline APYs. What is missing is not another high-APY venue — it is disciplined, automated <em>management</em> of the trade-off between fee income, impermanent loss, and tail risk.</p>
 <h2 id="s3">2. Strategy</h2>
-<p>FARMARE runs a <strong>core–satellite</strong> allocation, validated in Phase 0 as a static <strong>Prudent 80/20</strong> profile.</p>
-<p><strong>Core (≈80%) — stablecoin yield.</strong> Capital rotates across whitelisted blue-chip protocols (Aave, Morpho, Fluid, Pendle, Compound, Curve, Aerodrome, Uniswap), diversified over two venues with a hard cap of ~50% per protocol. When a fixed rate beats the best floating rate by ≥1 percentage point, the core <strong>locks that rate</strong> via Pendle Principal Tokens, converting a variable yield into a bond-like fixed return immune to APY compression.</p>
-<p><strong>Engine (≈20%) — hedged market-making.</strong> Concentrated ETH/USDC liquidity on Uniswap v3 with a volatility-adaptive range, paired with a conditional short-perpetual hedge. The hedge neutralizes the position&#x27;s directional exposure, turning the LP from a bet on price into a <strong>carry trade on trading fees</strong>. When funding clearly pays more than expected LP fees, the sleeve switches to a delta-neutral funding-capture position; when neither is viable (hyper-volatility or a parabolic trend), a viability guard <strong>parks</strong> the sleeve in the stable core until the economics return.</p>
+<p>FARMARE Alpha runs a single, diversified <strong>delta-neutral basis</strong> book.</p>
+<p><strong>The position.</strong> It holds staked-ETH spot — liquid-staking and liquid-restaking tokens (stETH / weETH, dual-restaked on EigenLayer and Symbiotic) — and shorts an equal notional of ETH perpetual futures. The two legs cancel price exposure, so the book is <strong>market-neutral</strong>: it does not bet on which way ETH moves. What it earns is <strong>carry</strong> — the perpetual funding that longs pay shorts, plus the staking yield on the collateral, net of borrow cost.</p>
+<p><strong>Diversification.</strong> The book is spread across ~8 funding markets so that no single venue&#x27;s dislocation dominates. Idiosyncratic basis noise averages down, which is what lets the strategy run leverage safely.</p>
+<p><strong>Adaptive leverage.</strong> Because the carry is positive and the position is neutral, sizing it up multiplies return without adding directional risk. Leverage scales with the richness of trailing funding — up to a stress-capped <strong>3x</strong> when carry is rich, de-levering toward 1x when funding thins or stress appears. The added risk is liquidation and collateral risk, not market direction — quantified in §8.</p>
+<p>This replaces FARMARE&#x27;s earlier core–satellite design: the same disciplined, worst-regime engineering, concentrated into the highest-carry neutral strategy.</p>
 <h2 id="s4">3. Where the yield comes from (and why it persists)</h2>
-<p class="li">1. <strong>Lending / LP spreads</strong> — money-market and AMM equilibrium rates</p>
-<p>(5–12% on-chain), paid by persistent on-chain credit demand.</p>
-<p class="li">2. <strong>Fixed-vs-floating premium</strong> — PT buyers are paid 2–6pp to absorb rate</p>
-<p>compression risk that most capital refuses to hold.</p>
-<p class="li">3. <strong>LP fees net of hedged risk</strong> — concentrated liquidity earns outsized</p>
-<p>fees; the adaptive range and delta hedge remove most directional and gamma cost that passive LPs systematically mismanage.</p>
-<p class="li">4. <strong>Perpetual funding</strong> — longs pay shorts most of the time; captured only</p>
-<p>when it clearly beats the alternatives.</p>
+<p class="li">1. <strong>Perpetual funding</strong> — in crypto, perpetual longs pay shorts the large</p>
+<p>majority of the time. Measured on real data, ETH funding averaged ~14%/yr through-cycle and was positive on ~88% of days. A delta-neutral book harvests this directly, with no directional exposure.</p>
+<p class="li">2. <strong>Staking + restaking yield</strong> — the spot leg is staked and restaked</p>
+<p>(EigenLayer / Symbiotic), earning protocol issuance and AVS rewards <em>on top of</em> funding.</p>
+<p class="li">3. <strong>Leverage on a positive-EV neutral book</strong> — because the carry is positive</p>
+<p>and the position is market-neutral, sizing it up multiplies the return without adding directional risk, up to a stress-tested cap.</p>
+<p class="li">4. <strong>Diversification premium</strong> — spreading across many funding markets averages</p>
+<p>down idiosyncratic dislocation, which is what lets the book run its leverage safely.</p>
 <h2 id="s5">4. Evidence</h2>
 <p>All results are reproducible from the project repository.</p>
-<div class="tw"><table><thead><tr><th>Test</th><th>Data</th><th>Result</th></tr></thead><tbody><tr><td>Real bear semester (ETH −44%)</td><td>Real pool volumes, prices, funding</td><td>Hedged LP <strong>+26% vs hold</strong>, −5% max drawdown</td></tr><tr><td>Three regimes (bear / flat / bull)</td><td>Real + synthetic</td><td>Prudent 80/20 never worse than −2pp vs any alternative</td></tr><tr><td>Three chains (Base, Solana, BSC)</td><td>Real data, same strategy</td><td>Hedge thesis confirmed on all three</td></tr><tr><td>Decade 2016–2026</td><td>Coinbase prices, era-anchored economics</td><td>Guarded portfolio positive <strong>every calendar year</strong> (worst +3.7%)</td></tr><tr><td>Fixed-rate (PT) vs floating</td><td>147 days of Pendle rates</td><td>PT ladder <strong>+11.5% vs +5.6%</strong></td></tr><tr><td>Ideas rejected by the data</td><td>maximin across regimes</td><td>6, incl. trend filters and vol regime-switching</td></tr></tbody></table></div>
-<p><strong>Outcome range by regime (net of modeled costs):</strong> portfolio +7.5% (worst tested regime) / +16.3% (sideways) / +10% (bull); engine-only 2023–2026 validation +13% to +22% per year. The worst-case figure is the design floor, not the expectation.</p>
+<div class="tw"><table><thead><tr><th>Test</th><th>Data</th><th>Result</th></tr></thead><tbody><tr><td>ETH funding harvest, through-cycle</td><td>Real funding, Binance 2019–2026</td><td><strong>+14.1%/yr</strong> unlevered, positive on ~88% of days, worst rolling 12m still +1%</td></tr><tr><td>Real backtest of the flagship</td><td>Real funding + Lido staking + Aave borrow, 2023–2026</td><td>$100k → <strong>$290k</strong> (+47%/yr, net of fees), delta-neutral through ETH&#x27;s −68% drawdown</td></tr><tr><td>Leverage stress battery</td><td>Adversarial: depeg, venue failure, funding collapse</td><td>Safe leverage <strong>2–3x</strong>; 5x rejected — it liquidates on a single crisis</td></tr><tr><td>Diversification</td><td>Monte Carlo, 8 markets</td><td>Cuts the single-asset liquidation tail from ~13% to &lt;1% at the same leverage</td></tr><tr><td>Whale on-chain validation</td><td>17 top DeBank portfolios read on-chain</td><td>Confirms staking/restaking + basis carry as the dominant real strategy</td></tr></tbody></table></div>
+<p><strong>Forward expectation (through-cycle, net of fees):</strong> median ~+26%/yr, mean ~+30%. The realized 2023–2026 backtest exceeded the through-cycle median. Full risk and drawdown profile in §8.</p>
 <h2 id="s6">5. Protocol architecture</h2>
 <pre>   depositors ──deposit/withdraw──▶  FarmVault (ERC-4626, on Base)
                                      · shares priced at daily NAV
@@ -125,18 +127,21 @@ a{color:var(--green)}
 <h2 id="s8">7. Fees</h2>
 <p>Share-based, identical to a classic fund: a management fee accrued pro-rata on AUM and a performance fee charged only on gains <strong>above the high-water mark</strong>, both minted to the operator as share dilution (never taken from principal). Defaults: 1%/year management, 10% performance. All fee changes pass the 48h timelock and the hard ceilings above.</p>
 <h2 id="s9">8. Risk framework</h2>
-<p>Automatic guards, checked hourly and acted on within 6 hours:</p>
-<p class="li">• <strong>Depeg</strong> — any underlying below $0.99 excludes the pool; if held, an</p>
-<p>immediate emergency exit fires.</p>
-<p class="li">• <strong>TVL collapse</strong> — a −30% drop from the 7-day high excludes / exits the pool.</p>
-<p class="li">• <strong>Diversification</strong> — the two core slots never share a protocol.</p>
-<p class="li">• <strong>Viability guard</strong> — the engine parks when fees stop covering volatility</p>
-<p>(decade-tested through 2017, 2020 and 2022).</p>
-<p class="li">• <strong>Circuit breakers</strong> — a keeper operation reverting on &gt;0.5% single-op loss,</p>
-<p>plus a rolling 2%/24h cumulative-loss cap.</p>
-<p class="li">• <strong>Auditability</strong> — every decision is journaled and git-committed with</p>
-<p>timestamps; a public dashboard rebuilds from that history.</p>
-<p>Quantified worst cases (from the production-code stress suite): a single-candle −35% ETH gap ≈ −2.4% at portfolio level; an underlying depeg while held costs ~0.23% of the affected slot plus drift until the next run; a total data-API outage aborts the run with state intact and no loss.</p>
+<p>FARMARE Alpha is a <strong>leveraged</strong> strategy. Its return is high because it takes real, bounded risks — priced explicitly in a production stress suite, not assumed away. <strong>This is not a capital-preservation product.</strong></p>
+<p><strong>Return and drawdown profile (through-cycle, stress-tested, net of fees):</strong></p>
+<div class="tw"><table><thead><tr><th></th><th></th></tr></thead><tbody><tr><td>Median annual return</td><td>~+26%</td></tr><tr><td>Mean annual return</td><td>~+30%</td></tr><tr><td>Worst 5% of years</td><td>~−7%</td></tr><tr><td>Average maximum drawdown</td><td>~−11%</td></tr><tr><td><strong>Severe combined crisis</strong> (funding collapse + basis dislocation + collateral depeg at once)</td><td>~<strong>−24%</strong> in a year</td></tr></tbody></table></div>
+<p><strong>Principal risks and mitigations:</strong></p>
+<p class="li">• <strong>Funding collapse</strong> — if perpetual funding compresses to zero or turns</p>
+<p>negative for a sustained stretch, the levered carry bleeds. Mitigated by adaptive de-leveraging toward 1x and diversification across markets.</p>
+<p class="li">• <strong>Leverage / liquidation</strong> — leverage is capped at a stress-tested <strong>3x</strong>.</p>
+<p>5x was rejected by the stress suite: it liquidates on a single collateral depeg or venue failure. A market-wide deleveraging can still force loss.</p>
+<p class="li">• <strong>Collateral (LST/LRT) depeg</strong> — staked-ETH collateral can trade below ETH</p>
+<p>(stETH −7% in June 2022; ezETH −10% in April 2024). Liquid-restaking exposure is capped at <strong>≤50%</strong> of the collateral — the rest in stETH / plain ETH — with continuous peg monitoring and automatic unwind.</p>
+<p class="li">• <strong>Venue / smart-contract</strong> — perpetual-venue, lending-market or bridge</p>
+<p>failure. Diversified across venues; funds sit in a non-custodial vault the operator can never withdraw from; per-venue caps bound single-venue exposure.</p>
+<p class="li">• <strong>Borrow-rate spikes</strong> — the cost of the leverage leg can spike; the model</p>
+<p>prices spikes to 20%.</p>
+<p><strong>Structural protections</strong> (product-agnostic): unconditional <code>redeem()</code> at NAV, a 48h timelock on every rule change, hard-coded fee ceilings, per-venue caps, a per-operation and rolling cumulative-loss circuit breaker, and a fully journaled, git-committed decision history that a public dashboard rebuilds from.</p>
 <h2 id="s10">9. Security</h2>
 <p>An internal adversarial review fixed five findings — a first-deposit inflation attack, a reentrancy vector, orphaned funds on venue removal, an unbounded cumulative-loss path, and a UI decimals bug — each with a regression test. The contract suite passes 20/20 (unit, security, fuzz, and Base-mainnet fork tests against real Aave and Morpho). This internal review is <strong>not a substitute for a professional external audit</strong>, which is a prerequisite before third-party funds, alongside a public testnet with a bug bounty and staged deposit caps.</p>
 <h2 id="s11">10. Roadmap</h2>
@@ -144,36 +149,38 @@ a{color:var(--green)}
 <p>regimes, chains and a decade of data.</p>
 <p class="li">• <strong>Phase 1 — Live paper trading.</strong> Active: the strategy runs on live data in</p>
 <p>a virtual portfolio, every decision published to an auditable track record.</p>
-<p class="li">• <strong>Phase 2 — On-chain vault.</strong> In progress: ERC-4626 vault + Aave/Morpho</p>
-<p>adapters built and fork-tested; deposit/withdraw UI live. Remaining: Pendle and Uniswap-v3 engine adapters, external audit, testnet, then a small pilot.</p>
-<p class="li">• <strong>Phase 3 — Scale.</strong> Gradual capital increase and the full hedged engine</p>
-<p>once the forward test and audit gates are cleared.</p>
+<p class="li">• <strong>Phase 2 — On-chain vault.</strong> In progress: the ERC-4626 vault, share/NAV</p>
+<p>accounting, fees, timelock and lending adapters (Aave / Morpho) are built and fork-tested, and the deposit/withdraw UI is live. Remaining: the <strong>Alpha execution engine</strong> — perpetual-venue, restaking-collateral and borrow adapters plus the delta-neutral hedging keeper — then external audit, testnet and a small self-funded pilot.</p>
+<p class="li">• <strong>Phase 3 — Scale.</strong> Gradual capital increase once the forward test and audit</p>
+<p>gates are cleared.</p>
 <h2 id="s12">11. Legal &amp; disclaimers</h2>
 <p>FARMARE does not currently custody or accept third-party funds. All performance shown is <strong>simulated</strong> (paper trading on live market data) and is not a forecast. On-chain deposits, once live, carry real smart-contract and DeFi risk, including total loss. Nothing herein is investment advice or an offer or solicitation of any financial product. Accepting third-party funds with management is a regulated activity (MiCA in the EU); it will not occur until the appropriate legal structuring and authorizations are in place.</p></article>
   <article id="doc-it" class="hidden"><h1>FARMARE — Whitepaper</h1>
-<p class="meta">Rendimento on-chain automatizzato, progettato per il regime peggiore</p>
-<p class="meta">Versione 1.0 — Luglio 2026. Nessun token. Nessuna DAO. Vault non custodiale su Base/Arbitrum.</p>
+<p class="meta">Una strategia basis delta-neutral ingegnerizzata — carry neutrale al mercato, in scala</p>
+<p class="meta">Versione 2.0 — Luglio 2026. Nessun token. Nessuna DAO. Vault non custodiale su Base/Arbitrum.</p>
 <h2 id="s1">Abstract</h2>
-<p>FARMARE è una strategia di rendimento automatizzata e a regole, distribuita come vault ERC-4626 self-custodial su L2 di Ethereum. Combina un core in stablecoin diversificato con un motore di liquidity provision concentrata e coperta, sotto un framework di rischio scelto con criterio <em>maximin</em> — ogni decisione di design è selezionata per il suo regime peggiore, non per il migliore. I depositanti detengono quote del vault valutate al NAV giornaliero e possono uscire in qualsiasi momento; nessuno, operatore incluso, può spostare i fondi depositati verso un indirizzo terzo. Non esiste token di governance né DAO: l&#x27;operatore stabilisce le regole, ma ogni modifica è vincolata da un timelock on-chain di 48 ore e da tetti hard-coded, e il diritto di rimborso del depositante è incondizionato. <strong>Tutti i risultati ad oggi sono simulati (paper trading su dati live); questo documento è informativo e non costituisce offerta di alcun prodotto finanziario.</strong></p>
+<p>FARMARE è una strategia di rendimento automatizzata e a regole, distribuita come vault ERC-4626 self-custodial su L2 di Ethereum. Esegue un singolo libro <strong>basis delta-neutral</strong> diversificato — collaterale in ETH stakato, short di pari nozionale su perpetual ETH — che raccoglie il funding dei perpetual e il rendimento dello staking senza esposizione alla direzione di ETH, dimensionato con leva adattiva e limitata dagli stress test. I depositanti detengono quote del vault valutate al NAV giornaliero e possono uscire in qualsiasi momento; nessuno, operatore incluso, può spostare i fondi depositati verso un indirizzo terzo. Non esiste token di governance né DAO: l&#x27;operatore stabilisce le regole, ma ogni modifica è vincolata da un timelock on-chain di 48 ore e da tetti hard-coded, e il diritto di rimborso del depositante è incondizionato. <strong>Tutti i risultati ad oggi sono simulati (paper trading su dati live); questo documento è informativo e non costituisce offerta di alcun prodotto finanziario.</strong></p>
 <h2 id="s2">1. Il problema</h2>
 <p>Il rendimento on-chain è abbondante ma ostile al capitale passivo. I tassi delle stablecoin si comprimono appena arriva capitale; le posizioni di liquidità concentrata incassano fee ricche ma perdono valore in ogni mercato con trend (&quot;gamma bleed&quot;); le farm a incentivi portano rischio di exploit e rug. La maggior parte del capitale resta nelle sedi a rendimento più basso oppure si assume rischio direzionale e di smart contract non remunerato inseguendo APY di vetrina. Ciò che manca non è un&#x27;altra sede ad alto APY — è la <em>gestione</em> disciplinata e automatica del trade-off tra fee, impermanent loss e rischio di coda.</p>
 <h2 id="s3">2. Strategia</h2>
-<p>FARMARE adotta un&#x27;allocazione <strong>core–satellite</strong>, validata in Fase 0 come profilo statico <strong>Prudente 80/20</strong>.</p>
-<p><strong>Core (≈80%) — rendimento stablecoin.</strong> Il capitale ruota tra protocolli blue-chip in whitelist (Aave, Morpho, Fluid, Pendle, Compound, Curve, Aerodrome, Uniswap), diversificato su due sedi con un tetto rigido di ~50% per protocollo. Quando un tasso fisso batte il miglior variabile di ≥1 punto percentuale, il core <strong>blocca quel tasso</strong> tramite i Principal Token di Pendle, trasformando un rendimento variabile in un ritorno fisso, immune alla compressione degli APY.</p>
-<p><strong>Motore (≈20%) — market-making coperto.</strong> Liquidità concentrata ETH/USDC su Uniswap v3 con range adattivo alla volatilità, abbinata a una copertura short perpetual condizionale. La copertura neutralizza l&#x27;esposizione direzionale, trasformando la LP da scommessa sul prezzo a <strong>carry trade sulle fee di trading</strong>. Quando il funding rende chiaramente più delle fee LP attese, il comparto passa a una posizione delta-neutral di cattura del funding; quando nessuna delle due è viabile (iper-volatilità o trend parabolico), una guardia di viabilità <strong>parcheggia</strong> il comparto nel core stabile finché l&#x27;economia non torna favorevole.</p>
+<p>FARMARE Alpha esegue un singolo libro <strong>basis delta-neutral</strong> diversificato.</p>
+<p><strong>La posizione.</strong> Detiene ETH stakato a spot — token di liquid-staking e liquid-restaking (stETH / weETH, dual-restaked su EigenLayer e Symbiotic) — e vende allo scoperto un pari nozionale di perpetual ETH. Le due gambe annullano l&#x27;esposizione al prezzo: il libro è <strong>neutrale al mercato</strong>, non scommette sulla direzione di ETH. Ciò che incassa è <strong>carry</strong> — il funding che i long pagano agli short, più lo staking sul collaterale, al netto del costo del prestito.</p>
+<p><strong>Diversificazione.</strong> Il libro è distribuito su ~8 mercati di funding, così che nessuna dislocazione di una singola sede domini. Il rumore idiosincratico del basis si media, ed è ciò che permette alla strategia di usare la leva in sicurezza.</p>
+<p><strong>Leva adattiva.</strong> Poiché il carry è positivo e la posizione è neutrale, aumentarla moltiplica il rendimento senza aggiungere rischio direzionale. La leva scala con la ricchezza del funding recente — fino a un tetto <strong>3x</strong> validato dagli stress test quando il carry è ricco, riducendosi verso 1x quando il funding si assottiglia o emerge stress. Il rischio aggiunto è di liquidazione e di collaterale, non di direzione — quantificato nel §8.</p>
+<p>Questo sostituisce il precedente design core–satellite di FARMARE: la stessa ingegneria disciplinata sul regime peggiore, concentrata nella strategia neutrale a carry più alto.</p>
 <h2 id="s4">3. Da dove viene il rendimento (e perché persiste)</h2>
-<p class="li">1. <strong>Spread di lending / LP</strong> — tassi di equilibrio dei money market e degli</p>
-<p>AMM (5–12% on-chain), pagati dalla domanda persistente di credito on-chain.</p>
-<p class="li">2. <strong>Premio fisso-contro-variabile</strong> — chi compra PT è pagato 2–6 punti per</p>
-<p>assorbire il rischio di compressione che gran parte del capitale rifiuta.</p>
-<p class="li">3. <strong>Fee LP al netto del rischio coperto</strong> — la liquidità concentrata genera</p>
-<p>fee sproporzionate; range adattivo e copertura delta rimuovono gran parte del costo direzionale e di gamma che gli LP passivi gestiscono male.</p>
-<p class="li">4. <strong>Funding dei perpetual</strong> — i long pagano gli short per la maggior parte</p>
-<p>del tempo; catturato solo quando batte chiaramente le alternative.</p>
+<p class="li">1. <strong>Funding dei perpetual</strong> — nel cripto i long dei perpetual pagano gli short</p>
+<p>la gran parte del tempo. Misurato sui dati reali, il funding di ETH ha reso ~14%/anno through-cycle ed è stato positivo ~88% dei giorni. Un libro delta-neutral lo raccoglie direttamente, senza esposizione direzionale.</p>
+<p class="li">2. <strong>Staking + restaking</strong> — la gamba spot è stakata e restaked (EigenLayer /</p>
+<p>Symbiotic), incassando emissioni di protocollo e reward AVS <em>in aggiunta</em> al funding.</p>
+<p class="li">3. <strong>Leva su un libro neutrale a EV positivo</strong> — poiché il carry è positivo e la</p>
+<p>posizione è neutrale, aumentarla moltiplica il rendimento senza aggiungere rischio direzionale, fino a un tetto validato dagli stress test.</p>
+<p class="li">4. <strong>Premio di diversificazione</strong> — distribuire su molti mercati di funding</p>
+<p>media il rischio idiosincratico di dislocazione, ciò che permette al libro di usare la sua leva in sicurezza.</p>
 <h2 id="s5">4. Le evidenze</h2>
 <p>Tutti i risultati sono riproducibili dal repository del progetto.</p>
-<div class="tw"><table><thead><tr><th>Test</th><th>Dati</th><th>Risultato</th></tr></thead><tbody><tr><td>Semestre bear reale (ETH −44%)</td><td>Volumi, prezzi e funding reali</td><td>LP coperta <strong>+26% vs hold</strong>, max drawdown −5%</td></tr><tr><td>Tre regimi (bear / laterale / bull)</td><td>Reali + sintetici</td><td>Il Prudente 80/20 mai peggiore di −2pp rispetto a ogni alternativa</td></tr><tr><td>Tre chain (Base, Solana, BSC)</td><td>Dati reali, stessa strategia</td><td>Tesi della copertura confermata su tutte e tre</td></tr><tr><td>Decennio 2016–2026</td><td>Prezzi Coinbase, economics ancorate a oggi</td><td>Portafoglio con guardie positivo <strong>ogni anno solare</strong> (peggiore +3,7%)</td></tr><tr><td>Tasso fisso (PT) vs variabile</td><td>147 giorni di tassi Pendle</td><td>Ladder PT <strong>+11,5% vs +5,6%</strong></td></tr><tr><td>Idee bocciate dai dati</td><td>maximin sui regimi</td><td>6, inclusi trend filter e regime switching su volatilità</td></tr></tbody></table></div>
-<p><strong>Intervallo dei risultati per regime (al netto dei costi modellati):</strong> portafoglio +7,5% (regime peggiore testato) / +16,3% (laterale) / +10% (bull); validazione del solo motore 2023–2026 da +13% a +22% l&#x27;anno. La cifra peggiore è il pavimento di progetto, non l&#x27;aspettativa.</p>
+<div class="tw"><table><thead><tr><th>Test</th><th>Dati</th><th>Risultato</th></tr></thead><tbody><tr><td>Harvest funding ETH, through-cycle</td><td>Funding reale, Binance 2019–2026</td><td><strong>+14,1%/anno</strong> senza leva, positivo ~88% dei giorni, peggior 12 mesi mobile ancora +1%</td></tr><tr><td>Backtest reale del flagship</td><td>Funding + staking Lido + borrow Aave reali, 2023–2026</td><td>$100k → <strong>$290k</strong> (+47%/anno, al netto delle fee), neutrale attraverso il −68% di ETH</td></tr><tr><td>Batteria di stress sulla leva</td><td>Avversari: depeg, fallimento sede, collasso funding</td><td>Leva sicura <strong>2–3x</strong>; 5x scartata — liquida su una sola crisi</td></tr><tr><td>Diversificazione</td><td>Monte Carlo, 8 mercati</td><td>Riduce la coda di liquidazione da ~13% a &lt;1% a parità di leva</td></tr><tr><td>Validazione whale on-chain</td><td>17 portafogli top di DeBank letti on-chain</td><td>Conferma staking/restaking + basis carry come strategia reale dominante</td></tr></tbody></table></div>
+<p><strong>Aspettativa forward (through-cycle, al netto delle fee):</strong> mediana ~+26%/anno, media ~+30%. Il backtest reale 2023–2026 ha superato la mediana through-cycle. Profilo completo di rischio e drawdown nel §8.</p>
 <h2 id="s6">5. Architettura del protocollo</h2>
 <pre>   depositanti ──deposita/preleva──▶  FarmVault (ERC-4626, su Base)
                                       · quote valutate al NAV giornaliero
@@ -199,18 +206,21 @@ a{color:var(--green)}
 <h2 id="s8">7. Commissioni</h2>
 <p>A quote, identiche a un fondo classico: una commissione di gestione maturata pro-rata sull&#x27;AUM e una di performance applicata solo sui guadagni <strong>sopra l&#x27;high-water mark</strong>, entrambe emesse all&#x27;operatore come diluizione di quote (mai prelevate dal capitale). Default: 1%/anno gestione, 10% performance. Ogni modifica passa dal timelock di 48h e dai tetti massimi sopra indicati.</p>
 <h2 id="s9">8. Framework di rischio</h2>
-<p>Guardie automatiche, verificate ogni ora e attuate entro 6 ore:</p>
-<p class="li">• <strong>Depeg</strong> — un sottostante sotto 0,99$ esclude la pool; se in posizione,</p>
-<p>scatta un&#x27;uscita d&#x27;emergenza immediata.</p>
-<p class="li">• <strong>Crollo del TVL</strong> — un −30% dal massimo a 7 giorni esclude / fa uscire.</p>
-<p class="li">• <strong>Diversificazione</strong> — i due slot del core non condividono mai un protocollo.</p>
-<p class="li">• <strong>Guardia di viabilità</strong> — il motore parcheggia quando le fee non coprono</p>
-<p>più la volatilità (testata sul decennio, inclusi 2017, 2020, 2022).</p>
-<p class="li">• <strong>Circuit breaker</strong> — operazione del keeper respinta oltre lo 0,5% di</p>
-<p>perdita singola, più un tetto cumulativo del 2%/24h.</p>
-<p class="li">• <strong>Verificabilità</strong> — ogni decisione è registrata a journal e committata su</p>
-<p>git con timestamp; una dashboard pubblica si ricostruisce da quella storia.</p>
-<p>Scenari peggiori quantificati (dalla suite di stress sul codice di produzione): un gap ETH −35% in una candela ≈ −2,4% a livello di portafoglio; un depeg del sottostante in posizione costa ~0,23% dello slot più la deriva fino al run successivo; un blackout totale delle API interrompe il run con stato intatto e nessuna perdita.</p>
+<p>FARMARE Alpha è una strategia <strong>a leva</strong>. Il rendimento è alto perché si assumono rischi reali e limitati — prezzati esplicitamente in una suite di stress di produzione, non ignorati. <strong>Non è un prodotto di preservazione del capitale.</strong></p>
+<p><strong>Profilo di rendimento e drawdown (through-cycle, stress-tested, al netto delle fee):</strong></p>
+<div class="tw"><table><thead><tr><th></th><th></th></tr></thead><tbody><tr><td>Rendimento annuo mediano</td><td>~+26%</td></tr><tr><td>Rendimento annuo medio</td><td>~+30%</td></tr><tr><td>Peggior 5% degli anni</td><td>~−7%</td></tr><tr><td>Drawdown massimo medio</td><td>~−11%</td></tr><tr><td><strong>Crisi combinata severa</strong> (collasso funding + dislocazione basis + depeg collaterale insieme)</td><td>~<strong>−24%</strong> in un anno</td></tr></tbody></table></div>
+<p><strong>Rischi principali e mitigazioni:</strong></p>
+<p class="li">• <strong>Collasso del funding</strong> — se il funding dei perpetual si comprime a zero o</p>
+<p>diventa negativo a lungo, il carry levato erode. Mitigato dalla de-leva adattiva verso 1x e dalla diversificazione sui mercati.</p>
+<p class="li">• <strong>Leva / liquidazione</strong> — la leva è limitata a un <strong>3x</strong> validato dagli stress</p>
+<p>test. Il 5x è stato scartato: liquida su un solo depeg del collaterale o fallimento di una sede. Un deleveraging di mercato può comunque forzare perdite.</p>
+<p class="li">• <strong>Depeg del collaterale (LST/LRT)</strong> — l&#x27;ETH stakato può scambiare sotto ETH</p>
+<p>(stETH −7% nel giugno 2022; ezETH −10% nell&#x27;aprile 2024). L&#x27;esposizione a liquid-restaking è limitata al <strong>≤50%</strong> del collaterale — il resto in stETH / ETH puro — con monitoraggio continuo del peg e unwind automatico.</p>
+<p class="li">• <strong>Sede / smart-contract</strong> — fallimento di una venue perpetual, di un money</p>
+<p>market o di un bridge. Diversificato sulle sedi; i fondi sono in un vault non custodiale da cui l&#x27;operatore non può mai prelevare; tetti per-sede limitano l&#x27;esposizione singola.</p>
+<p class="li">• <strong>Spike dei tassi di prestito</strong> — il costo della gamba di leva può salire; il</p>
+<p>modello prezza spike fino al 20%.</p>
+<p><strong>Protezioni strutturali</strong> (indipendenti dal prodotto): <code>redeem()</code> incondizionato al NAV, timelock di 48h su ogni modifica, tetti hard-coded sulle fee, cap per-sede, circuit breaker per-operazione e cumulativo, e una storia decisionale interamente a journal e committata su git da cui una dashboard pubblica si ricostruisce.</p>
 <h2 id="s10">9. Sicurezza</h2>
 <p>Una revisione interna avversariale ha corretto cinque criticità — inflation attack sul primo deposito, un vettore di reentrancy, fondi orfani alla rimozione di una sede, un percorso di perdita cumulativa illimitata e un bug decimali nella UI — ciascuna con test di regressione. La suite passa 20/20 (unit, sicurezza, fuzz e fork test su Base contro Aave e Morpho reali). Questa revisione interna <strong>non sostituisce un audit esterno professionale</strong>, prerequisito prima di fondi di terzi, insieme a una testnet pubblica con bug bounty e cap graduali sui depositi.</p>
 <h2 id="s11">10. Roadmap</h2>
@@ -218,8 +228,8 @@ a{color:var(--green)}
 <p>chain e un decennio di dati.</p>
 <p class="li">• <strong>Fase 1 — Paper trading live.</strong> Attiva: la strategia gira su dati live in</p>
 <p>un portafoglio virtuale, ogni decisione pubblicata su un track record verificabile.</p>
-<p class="li">• <strong>Fase 2 — Vault on-chain.</strong> In corso: vault ERC-4626 + adapter Aave/Morpho</p>
-<p>costruiti e fork-testati; UI deposito/prelievo live. Restano: adapter Pendle e Uniswap-v3 del motore, audit esterno, testnet, poi un pilota.</p>
+<p class="li">• <strong>Fase 2 — Vault on-chain.</strong> In corso: vault ERC-4626, contabilità</p>
+<p>quote/NAV, fee, timelock e adapter di lending (Aave / Morpho) costruiti e fork-testati; UI deposito/prelievo live. Restano: il <strong>motore di esecuzione Alpha</strong> — adapter per venue perpetual, collaterale restaking e borrow, più il keeper di hedging delta-neutral — poi audit esterno, testnet e un piccolo pilota auto-finanziato.</p>
 <p class="li">• <strong>Fase 3 — Scala.</strong> Aumento graduale del capitale e motore coperto completo</p>
 <p>una volta superati i gate di forward test e audit.</p>
 <h2 id="s12">11. Note legali &amp; disclaimer</h2>
