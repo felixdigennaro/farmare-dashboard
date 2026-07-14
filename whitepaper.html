@@ -111,7 +111,8 @@ a{color:var(--green)}
                                             │ allocate / deallocate (bounded)
                               ┌─────────────┴─────────────┐
                          Venue adapters (vault ⇄ venue only)
-                         Aave v3 · Morpho/ERC-4626 · (Pendle, Uniswap v3)
+                Ethena basis (sUSDe) · leveraged basis (Morpho, 3x hard cap)
+                     Aave v3 / Morpho lending (safe sleeve &amp; park)
                                             ▲
                               off-chain KEEPER executes the public algorithm</pre>
 <p>The <strong>keeper</strong> is an off-chain process that signs only <code>allocate</code> / <code>deallocate</code> / <code>accrueFees</code>, exclusively between whitelisted adapters and within caps and a per-operation loss bound. It has no path to withdraw funds. Adapters can only move assets vault → venue → vault. Value (NAV) is read live from the adapters, so any loss marks down immediately and fairly.</p>
@@ -132,7 +133,7 @@ a{color:var(--green)}
 <div class="tw"><table><thead><tr><th></th><th></th></tr></thead><tbody><tr><td>Median annual return</td><td>~+26%</td></tr><tr><td>Mean annual return</td><td>~+30%</td></tr><tr><td>Worst 5% of years</td><td>~−7%</td></tr><tr><td>Average maximum drawdown</td><td>~−11%</td></tr><tr><td><strong>Severe combined crisis</strong> (funding collapse + basis dislocation + collateral depeg at once)</td><td>~<strong>−24%</strong> in a year</td></tr></tbody></table></div>
 <p><strong>Principal risks and mitigations:</strong></p>
 <p class="li">• <strong>Funding collapse</strong> — if perpetual funding compresses to zero or turns</p>
-<p>negative for a sustained stretch, the levered carry bleeds. Mitigated by adaptive de-leveraging toward 1x and diversification across markets.</p>
+<p>negative for a sustained stretch, the levered carry bleeds. Mitigated by adaptive de-leveraging toward 1x, diversification across markets, and an automatic <strong>crisis guard</strong>: when trailing funding breaks down the book fully unwinds and parks in the lending sleeve until the carry regime returns — cutting the modeled combined-crisis drawdown from ~−23% to ~−10%.</p>
 <p class="li">• <strong>Leverage / liquidation</strong> — leverage is capped at a stress-tested <strong>3x</strong>.</p>
 <p>5x was rejected by the stress suite: it liquidates on a single collateral depeg or venue failure. A market-wide deleveraging can still force loss.</p>
 <p class="li">• <strong>Collateral (LST/LRT) depeg</strong> — staked-ETH collateral can trade below ETH</p>
@@ -190,7 +191,8 @@ a{color:var(--green)}
                                             │ allocate / deallocate (limitate)
                               ┌─────────────┴─────────────┐
                          Adapter delle sedi (vault ⇄ sede soltanto)
-                         Aave v3 · Morpho/ERC-4626 · (Pendle, Uniswap v3)
+               Basis Ethena (sUSDe) · basis a leva (Morpho, tetto rigido 3x)
+                    Lending Aave v3 / Morpho (comparto sicuro e parcheggio)
                                             ▲
                               KEEPER off-chain esegue l&#x27;algoritmo pubblico</pre>
 <p>Il <strong>keeper</strong> è un processo off-chain che firma solo <code>allocate</code> / <code>deallocate</code> / <code>accrueFees</code>, esclusivamente tra adapter in whitelist ed entro i cap e un limite di perdita per operazione. Non ha alcun percorso per prelevare fondi. Gli adapter possono muovere asset solo vault → sede → vault. Il valore (NAV) è letto in tempo reale dagli adapter, quindi ogni perdita si riflette subito e in modo equo.</p>
@@ -211,7 +213,7 @@ a{color:var(--green)}
 <div class="tw"><table><thead><tr><th></th><th></th></tr></thead><tbody><tr><td>Rendimento annuo mediano</td><td>~+26%</td></tr><tr><td>Rendimento annuo medio</td><td>~+30%</td></tr><tr><td>Peggior 5% degli anni</td><td>~−7%</td></tr><tr><td>Drawdown massimo medio</td><td>~−11%</td></tr><tr><td><strong>Crisi combinata severa</strong> (collasso funding + dislocazione basis + depeg collaterale insieme)</td><td>~<strong>−24%</strong> in un anno</td></tr></tbody></table></div>
 <p><strong>Rischi principali e mitigazioni:</strong></p>
 <p class="li">• <strong>Collasso del funding</strong> — se il funding dei perpetual si comprime a zero o</p>
-<p>diventa negativo a lungo, il carry levato erode. Mitigato dalla de-leva adattiva verso 1x e dalla diversificazione sui mercati.</p>
+<p>diventa negativo a lungo, il carry levato erode. Mitigato dalla de-leva adattiva verso 1x, dalla diversificazione sui mercati e da una <strong>guardia di crisi</strong> automatica: quando il funding si rompe, il libro si smonta del tutto e parcheggia nel comparto di lending finché il regime di carry non torna — riducendo il drawdown modellato della crisi combinata da ~−23% a ~−10%.</p>
 <p class="li">• <strong>Leva / liquidazione</strong> — la leva è limitata a un <strong>3x</strong> validato dagli stress</p>
 <p>test. Il 5x è stato scartato: liquida su un solo depeg del collaterale o fallimento di una sede. Un deleveraging di mercato può comunque forzare perdite.</p>
 <p class="li">• <strong>Depeg del collaterale (LST/LRT)</strong> — l&#x27;ETH stakato può scambiare sotto ETH</p>
