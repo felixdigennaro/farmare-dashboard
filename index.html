@@ -55,17 +55,19 @@ main{max-width:1000px;margin:0 auto;padding:5rem 2.6rem 7rem}
 .hero-h span{color:var(--muted)}
 .hero-sub{font-size:1.02rem;line-height:1.55;color:var(--muted);
   margin:1.1rem 0 0;max-width:60ch}
-.chips{display:flex;gap:.6rem;flex-wrap:wrap;margin:2.4rem 0 0}
+.chips{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;
+  margin:2.4rem 0 0}
 .chip{font-size:.78rem;color:var(--muted);border:1px solid var(--rule);
-  border-radius:999px;padding:.5rem 1rem .5rem .85rem;white-space:nowrap;
-  background:var(--bg);display:inline-flex;align-items:center;gap:.5rem}
+  border-radius:999px;padding:.55rem 1.1rem .55rem .9rem;white-space:nowrap;
+  background:var(--bg);display:flex;align-items:center;gap:.5rem;
+  overflow:hidden;text-overflow:ellipsis}
 .chip::before{content:"";width:14px;height:14px;flex:none;
   background-color:var(--green);
   -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23000' d='M9.55 17.05 4.5 12l1.4-1.4 3.65 3.6 8.15-8.15L19.1 7.5z'/%3E%3C/svg%3E") center/contain no-repeat;
   mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23000' d='M9.55 17.05 4.5 12l1.4-1.4 3.65 3.6 8.15-8.15L19.1 7.5z'/%3E%3C/svg%3E") center/contain no-repeat}
 .chip b{color:var(--ink);font-weight:600}
-@media(max-width:640px){.chips{gap:.5rem}
-  .chip{white-space:normal;width:100%;align-items:flex-start}
+@media(max-width:640px){.chips{grid-template-columns:1fr;gap:.5rem}
+  .chip{white-space:normal;align-items:flex-start}
   .chip::before{margin-top:.15rem}}
 .calc{background:var(--green-soft);border:1px solid var(--rule);
   border-radius:18px;padding:2rem 2.2rem;margin:2.8rem 0 0}
@@ -221,7 +223,7 @@ footer{margin-top:2.2rem;padding-top:1rem;border-top:1px solid var(--rule);
   <button class="langbtn" id="lang">IT</button></nav>
 </div>
 <div class="substrip"><b>live</b> · day 1005 · paper trading ·
-crisis guard active · 1.9x · updated <span id="ago">2026-07-14 18:08 UTC</span></div>
+crisis guard active · 1.9x · updated <span id="ago">2026-07-14 18:12 UTC</span></div>
 
 <p class="hero-h" data-i18n="heroH">We collect the fee that leveraged traders
 pay, every day — <span>whichever way the market moves.</span></p>
@@ -230,9 +232,9 @@ pay, every day — <span>whichever way the market moves.</span></p>
 committed to a public, timestamped history.</p>
 
 <div class="chips">
-  <span class="chip" data-i18n="chip1"><b>You keep custody</b> — the operator can never move funds to a third address</span>
-  <span class="chip" data-i18n="chip2"><b>Withdraw anytime</b> — exit is a smart-contract right</span>
-  <span class="chip" data-i18n="chip3"><b>48h notice</b> on any rule change, on-chain</span>
+  <span class="chip" data-i18n="chip1"><b>Self-custody</b>&nbsp;— always yours</span>
+  <span class="chip" data-i18n="chip2"><b>Withdraw anytime</b>&nbsp;— it's your right</span>
+  <span class="chip" data-i18n="chip3"><b>48h on-chain notice</b>&nbsp;— on any change</span>
 </div>
 
 <div class="calc">
@@ -396,9 +398,9 @@ const MULT = 2.8485, ETH_MULT = 1.1289, ST_MULT = 1.1438;
   const IT = {
     heroH:'Incassiamo la commissione che i trader a leva pagano ogni giorno — <span>qualunque direzione prenda il mercato.</span>',
     heroSub:'Strategia neutrale al mercato · target ~26%/anno al netto delle fee · ogni numero è generato dal sistema e committato in una storia pubblica e timestampata.',
-    chip1:'<b>La custodia resta tua</b> — l’operatore non può mai spostare i fondi verso terzi',
-    chip2:'<b>Prelievo sempre aperto</b> — l’uscita è un diritto nel contratto',
-    chip3:'<b>Preavviso 48h</b> on-chain su ogni modifica delle regole',
+    chip1:'<b>Auto-custodia</b>&nbsp;— sempre tua',
+    chip2:'<b>Prelievo sempre aperto</b>&nbsp;— è un tuo diritto',
+    chip3:'<b>Preavviso 48h on-chain</b>&nbsp;— su ogni modifica',
     calcLab:'Quanto sarebbero diventati i tuoi? — backtest reale, Oct 2023 → Jul 2026',
     calcNote:'Al netto di tutte le fee. Backtest su dati reali, non una promessa: l’attesa forward è ~+26%/anno mediano, e anni negativi sono possibili.',
     dipFa:'peggior calo −0.6%', labEth:'Comprare ETH', dipEth:'peggior calo −68%',
@@ -429,7 +431,7 @@ const MULT = 2.8485, ETH_MULT = 1.1289, ST_MULT = 1.1438;
   });
 })();
 const V0 = 99997.2602739726;
-const GEN = new Date("2026-07-14T18:08:07Z");
+const GEN = new Date("2026-07-14T18:12:30Z");
 (function(){
   const el = document.getElementById("ago");
   const mins = Math.max(0, Math.round((Date.now() - GEN) / 60000));
