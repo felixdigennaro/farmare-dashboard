@@ -1,0 +1,249 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FARMARE — Whitepaper</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%231d5c3e'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='20' font-weight='bold' fill='%23fcfcfa' text-anchor='middle'%3EF%3C/text%3E%3C/svg%3E">
+<style>
+:root{
+  --bg:#fcfcfa; --ink:#141a16; --muted:#5e6b63; --faint:#98a19b;
+  --rule:#dadfda; --rule-strong:#141a16; --green:#1d5c3e; --green-soft:#eaf0eb;
+  --code-bg:#f2f5f2;
+}
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#12161a; --ink:#e6e9e4; --muted:#8f9a93; --faint:#68716b;
+    --rule:#2b3230; --rule-strong:#e6e9e4; --green:#7cc3a0; --green-soft:#1c2620;
+    --code-bg:#171f1a; }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font:15px/1.6 -apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1040px;margin:0 auto;padding:2.4rem 1.3rem 4rem;
+  display:grid;grid-template-columns:220px 1fr;gap:2.6rem}
+@media(max-width:820px){.wrap{grid-template-columns:1fr;gap:1.2rem}.toc{display:none}}
+.mast{grid-column:1/-1;display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:.6rem;
+  border-bottom:2px solid var(--rule-strong);padding-bottom:1rem;margin-bottom:.6rem}
+.wordmark{font-family:Charter,"Iowan Old Style",Georgia,serif;font-size:1.4rem;font-weight:700;letter-spacing:.3em;margin:0}
+nav.top{display:flex;gap:1.1rem;align-items:baseline}
+nav.top a{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);text-decoration:none;padding-bottom:.15rem}
+nav.top a.on{color:var(--ink);border-bottom:2px solid var(--green)}
+.toc{position:sticky;top:1.5rem;align-self:start;font-size:.8rem}
+.toc .lab{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);margin-bottom:.6rem}
+.toc a{display:block;color:var(--muted);text-decoration:none;padding:.28rem 0;border-left:2px solid var(--rule);padding-left:.7rem;margin-left:-.7rem}
+.toc a:hover{color:var(--green);border-left-color:var(--green)}
+.actions{display:flex;gap:.7rem;align-items:center;flex-wrap:wrap;margin-bottom:1.4rem}
+.lang{display:inline-flex;border:1px solid var(--rule);border-radius:99px;overflow:hidden}
+.lang button{background:none;border:none;padding:.3rem .8rem;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--muted);cursor:pointer}
+.lang button.on{background:var(--green);color:#fff}
+.dl{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--green);text-decoration:none;
+  border:1px solid var(--green);border-radius:99px;padding:.3rem .8rem}
+article h1{font-family:Charter,"Iowan Old Style",Georgia,serif;font-size:1.9rem;line-height:1.15;margin:0 0 .2rem}
+article .meta{color:var(--muted);font-style:italic;font-family:Charter,Georgia,serif;margin:.1rem 0}
+article h2{font-family:Charter,Georgia,serif;font-size:1.3rem;margin:2rem 0 .7rem;padding-top:1.4rem;border-top:1px solid var(--rule);text-wrap:balance}
+article h3{font-size:1rem;margin:1.2rem 0 .3rem}
+article p{max-width:70ch;margin:.55rem 0}
+article p.li{max-width:70ch;margin:.3rem 0 .3rem 1.1rem}
+article code{font-family:"SF Mono",ui-monospace,Menlo,monospace;font-size:.86em;background:var(--code-bg);
+  padding:.05rem .3rem;border-radius:4px}
+article pre{font-family:"SF Mono",ui-monospace,Menlo,monospace;font-size:.72rem;line-height:1.4;background:var(--code-bg);
+  padding:1rem;border-radius:8px;overflow-x:auto}
+.tw{overflow-x:auto;margin:.8rem 0}
+table{border-collapse:collapse;width:100%;font-size:.86rem}
+th,td{border-bottom:1px solid var(--rule);padding:.45rem .6rem;text-align:left;vertical-align:top}
+th{font-size:.66rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600}
+td{font-variant-numeric:tabular-nums}
+footer{grid-column:1/-1;margin-top:2rem;border-top:1px solid var(--rule);padding-top:1rem;
+  color:var(--faint);font-size:.75rem;font-style:italic;font-family:Charter,Georgia,serif}
+a{color:var(--green)}
+.hidden{display:none}
+</style></head><body>
+<div class="wrap">
+<div class="mast">
+  <h1 class="wordmark">FARMARE</h1>
+  <nav class="top"><a href="./">Fund</a><a href="app.html">My Account</a><a href="whitepaper.html" class="on">Whitepaper</a></nav>
+</div>
+
+<aside class="toc">
+  <div class="lab">Contents</div>
+  <div id="toc-en"><a href="#s1">Abstract</a><a href="#s2">1. The problem</a><a href="#s3">2. Strategy</a><a href="#s4">3. Where the yield comes from (and why it persists)</a><a href="#s5">4. Evidence</a><a href="#s6">5. Protocol architecture</a><a href="#s7">6. Governance — sole operator, no token</a><a href="#s8">7. Fees</a><a href="#s9">8. Risk framework</a><a href="#s10">9. Security</a><a href="#s11">10. Roadmap</a><a href="#s12">11. Legal &amp; disclaimers</a></div>
+  <div id="toc-it" class="hidden"><a href="#s1">Abstract</a><a href="#s2">1. Il problema</a><a href="#s3">2. Strategia</a><a href="#s4">3. Da dove viene il rendimento (e perché persiste)</a><a href="#s5">4. Le evidenze</a><a href="#s6">5. Architettura del protocollo</a><a href="#s7">6. Governance — operatore unico, nessun token</a><a href="#s8">7. Commissioni</a><a href="#s9">8. Framework di rischio</a><a href="#s10">9. Sicurezza</a><a href="#s11">10. Roadmap</a><a href="#s12">11. Note legali &amp; disclaimer</a></div>
+</aside>
+
+<main>
+  <div class="actions">
+    <span class="lang">
+      <button id="b-en" class="on" onclick="setLang('en')">EN</button>
+      <button id="b-it" onclick="setLang('it')">IT</button>
+    </span>
+    <a class="dl" id="pdf" href="FARMARE_Whitepaper_EN.pdf">Download PDF ↓</a>
+  </div>
+  <article id="doc-en"><h1>FARMARE — Whitepaper</h1>
+<p class="meta">Automated on-chain yield, engineered for the worst regime</p>
+<p class="meta">Version 1.0 — July 2026. No token. No DAO. Non-custodial vault on Base/Arbitrum.</p>
+<h2 id="s1">Abstract</h2>
+<p>FARMARE is a rules-based, automated yield strategy delivered as a self-custodial ERC-4626 vault on Ethereum L2s. It combines a diversified stablecoin core with a hedged, concentrated liquidity-provision engine, under a risk framework selected on a <em>maximin</em> criterion — every design decision is chosen for its worst-case market regime, not its best. Depositors hold vault shares priced at daily NAV and may exit at any time; no party, including the operator, can move deposited funds to a third address. There is no governance token and no DAO: the operator sets the rules, but every rule change is bound by a 48-hour on-chain timelock and hard-coded ceilings, and the depositor&#x27;s right to redeem is unconditional. <strong>All performance to date is simulated (paper trading on live data); this document is informational and is not an offer of any financial product.</strong></p>
+<h2 id="s2">1. The problem</h2>
+<p>On-chain yield is abundant but hostile to passive capital. Stablecoin rates compress the moment capital arrives; concentrated liquidity positions earn rich fees but bleed value in any trending market (&quot;gamma bleed&quot;); incentive farms carry exploit and rug risk. Most retail and even institutional capital either sits in the lowest-yield venues or takes uncompensated directional and smart-contract risk chasing headline APYs. What is missing is not another high-APY venue — it is disciplined, automated <em>management</em> of the trade-off between fee income, impermanent loss, and tail risk.</p>
+<h2 id="s3">2. Strategy</h2>
+<p>FARMARE runs a <strong>core–satellite</strong> allocation, validated in Phase 0 as a static <strong>Prudent 80/20</strong> profile.</p>
+<p><strong>Core (≈80%) — stablecoin yield.</strong> Capital rotates across whitelisted blue-chip protocols (Aave, Morpho, Fluid, Pendle, Compound, Curve, Aerodrome, Uniswap), diversified over two venues with a hard cap of ~50% per protocol. When a fixed rate beats the best floating rate by ≥1 percentage point, the core <strong>locks that rate</strong> via Pendle Principal Tokens, converting a variable yield into a bond-like fixed return immune to APY compression.</p>
+<p><strong>Engine (≈20%) — hedged market-making.</strong> Concentrated ETH/USDC liquidity on Uniswap v3 with a volatility-adaptive range, paired with a conditional short-perpetual hedge. The hedge neutralizes the position&#x27;s directional exposure, turning the LP from a bet on price into a <strong>carry trade on trading fees</strong>. When funding clearly pays more than expected LP fees, the sleeve switches to a delta-neutral funding-capture position; when neither is viable (hyper-volatility or a parabolic trend), a viability guard <strong>parks</strong> the sleeve in the stable core until the economics return.</p>
+<h2 id="s4">3. Where the yield comes from (and why it persists)</h2>
+<p class="li">1. <strong>Lending / LP spreads</strong> — money-market and AMM equilibrium rates</p>
+<p>(5–12% on-chain), paid by persistent on-chain credit demand.</p>
+<p class="li">2. <strong>Fixed-vs-floating premium</strong> — PT buyers are paid 2–6pp to absorb rate</p>
+<p>compression risk that most capital refuses to hold.</p>
+<p class="li">3. <strong>LP fees net of hedged risk</strong> — concentrated liquidity earns outsized</p>
+<p>fees; the adaptive range and delta hedge remove most directional and gamma cost that passive LPs systematically mismanage.</p>
+<p class="li">4. <strong>Perpetual funding</strong> — longs pay shorts most of the time; captured only</p>
+<p>when it clearly beats the alternatives.</p>
+<h2 id="s5">4. Evidence</h2>
+<p>All results are reproducible from the project repository.</p>
+<div class="tw"><table><thead><tr><th>Test</th><th>Data</th><th>Result</th></tr></thead><tbody><tr><td>Real bear semester (ETH −44%)</td><td>Real pool volumes, prices, funding</td><td>Hedged LP <strong>+26% vs hold</strong>, −5% max drawdown</td></tr><tr><td>Three regimes (bear / flat / bull)</td><td>Real + synthetic</td><td>Prudent 80/20 never worse than −2pp vs any alternative</td></tr><tr><td>Three chains (Base, Solana, BSC)</td><td>Real data, same strategy</td><td>Hedge thesis confirmed on all three</td></tr><tr><td>Decade 2016–2026</td><td>Coinbase prices, era-anchored economics</td><td>Guarded portfolio positive <strong>every calendar year</strong> (worst +3.7%)</td></tr><tr><td>Fixed-rate (PT) vs floating</td><td>147 days of Pendle rates</td><td>PT ladder <strong>+11.5% vs +5.6%</strong></td></tr><tr><td>Ideas rejected by the data</td><td>maximin across regimes</td><td>6, incl. trend filters and vol regime-switching</td></tr></tbody></table></div>
+<p><strong>Outcome range by regime (net of modeled costs):</strong> portfolio +7.5% (worst tested regime) / +16.3% (sideways) / +10% (bull); engine-only 2023–2026 validation +13% to +22% per year. The worst-case figure is the design floor, not the expectation.</p>
+<h2 id="s6">5. Protocol architecture</h2>
+<pre>   depositors ──deposit/withdraw──▶  FarmVault (ERC-4626, on Base)
+                                     · shares priced at daily NAV
+                                     · venue whitelist + 48h timelock
+                                     · per-venue caps · loss circuit breaker
+                                     · entry/mgmt/performance fees (HWM)
+                                            │ allocate / deallocate (bounded)
+                              ┌─────────────┴─────────────┐
+                         Venue adapters (vault ⇄ venue only)
+                         Aave v3 · Morpho/ERC-4626 · (Pendle, Uniswap v3)
+                                            ▲
+                              off-chain KEEPER executes the public algorithm</pre>
+<p>The <strong>keeper</strong> is an off-chain process that signs only <code>allocate</code> / <code>deallocate</code> / <code>accrueFees</code>, exclusively between whitelisted adapters and within caps and a per-operation loss bound. It has no path to withdraw funds. Adapters can only move assets vault → venue → vault. Value (NAV) is read live from the adapters, so any loss marks down immediately and fairly.</p>
+<h2 id="s7">6. Governance — sole operator, no token</h2>
+<p>FARMARE has <strong>no DAO and no governance token</strong>, by explicit design. The operator (a hardware-wallet owner) is the sole decision-maker for venues, caps, fees and keeper appointment. Depositor protection is structural, not a matter of trust:</p>
+<p class="li">• <strong>48-hour timelock</strong> on every rule change — announce-then-apply, so anyone</p>
+<p>who disagrees can exit <em>before</em> it takes effect.</p>
+<p class="li">• <strong>Hard-coded ceilings</strong> the operator cannot exceed (management fee ≤5%,</p>
+<p>performance fee ≤30%).</p>
+<p class="li">• <strong>Unconditional exit</strong> — <code>redeem()</code> at NAV works at any time, even while new</p>
+<p>deposits are paused; withdrawals auto-unwind venue positions.</p>
+<p class="li">• <strong>Minimal keeper</strong> — the automation can rebalance but never withdraw.</p>
+<h2 id="s8">7. Fees</h2>
+<p>Share-based, identical to a classic fund: a management fee accrued pro-rata on AUM and a performance fee charged only on gains <strong>above the high-water mark</strong>, both minted to the operator as share dilution (never taken from principal). Defaults: 2%/year management, 20% performance. All fee changes pass the 48h timelock and the hard ceilings above.</p>
+<h2 id="s9">8. Risk framework</h2>
+<p>Automatic guards, checked hourly and acted on within 6 hours:</p>
+<p class="li">• <strong>Depeg</strong> — any underlying below $0.99 excludes the pool; if held, an</p>
+<p>immediate emergency exit fires.</p>
+<p class="li">• <strong>TVL collapse</strong> — a −30% drop from the 7-day high excludes / exits the pool.</p>
+<p class="li">• <strong>Diversification</strong> — the two core slots never share a protocol.</p>
+<p class="li">• <strong>Viability guard</strong> — the engine parks when fees stop covering volatility</p>
+<p>(decade-tested through 2017, 2020 and 2022).</p>
+<p class="li">• <strong>Circuit breakers</strong> — a keeper operation reverting on &gt;0.5% single-op loss,</p>
+<p>plus a rolling 2%/24h cumulative-loss cap.</p>
+<p class="li">• <strong>Auditability</strong> — every decision is journaled and git-committed with</p>
+<p>timestamps; a public dashboard rebuilds from that history.</p>
+<p>Quantified worst cases (from the production-code stress suite): a single-candle −35% ETH gap ≈ −2.4% at portfolio level; an underlying depeg while held costs ~0.23% of the affected slot plus drift until the next run; a total data-API outage aborts the run with state intact and no loss.</p>
+<h2 id="s10">9. Security</h2>
+<p>An internal adversarial review fixed five findings — a first-deposit inflation attack, a reentrancy vector, orphaned funds on venue removal, an unbounded cumulative-loss path, and a UI decimals bug — each with a regression test. The contract suite passes 20/20 (unit, security, fuzz, and Base-mainnet fork tests against real Aave and Morpho). This internal review is <strong>not a substitute for a professional external audit</strong>, which is a prerequisite before third-party funds, alongside a public testnet with a bug bounty and staged deposit caps.</p>
+<h2 id="s11">10. Roadmap</h2>
+<p class="li">• <strong>Phase 0 — Research &amp; backtest.</strong> Complete: strategy validated across</p>
+<p>regimes, chains and a decade of data.</p>
+<p class="li">• <strong>Phase 1 — Live paper trading.</strong> Active: the strategy runs on live data in</p>
+<p>a virtual portfolio, every decision published to an auditable track record.</p>
+<p class="li">• <strong>Phase 2 — On-chain vault.</strong> In progress: ERC-4626 vault + Aave/Morpho</p>
+<p>adapters built and fork-tested; deposit/withdraw UI live. Remaining: Pendle and Uniswap-v3 engine adapters, external audit, testnet, then a small pilot.</p>
+<p class="li">• <strong>Phase 3 — Scale.</strong> Gradual capital increase and the full hedged engine</p>
+<p>once the forward test and audit gates are cleared.</p>
+<h2 id="s12">11. Legal &amp; disclaimers</h2>
+<p>FARMARE does not currently custody or accept third-party funds. All performance shown is <strong>simulated</strong> (paper trading on live market data) and is not a forecast. On-chain deposits, once live, carry real smart-contract and DeFi risk, including total loss. Nothing herein is investment advice or an offer or solicitation of any financial product. Accepting third-party funds with management is a regulated activity (MiCA in the EU); it will not occur until the appropriate legal structuring and authorizations are in place.</p></article>
+  <article id="doc-it" class="hidden"><h1>FARMARE — Whitepaper</h1>
+<p class="meta">Rendimento on-chain automatizzato, progettato per il regime peggiore</p>
+<p class="meta">Versione 1.0 — Luglio 2026. Nessun token. Nessuna DAO. Vault non custodiale su Base/Arbitrum.</p>
+<h2 id="s1">Abstract</h2>
+<p>FARMARE è una strategia di rendimento automatizzata e a regole, distribuita come vault ERC-4626 self-custodial su L2 di Ethereum. Combina un core in stablecoin diversificato con un motore di liquidity provision concentrata e coperta, sotto un framework di rischio scelto con criterio <em>maximin</em> — ogni decisione di design è selezionata per il suo regime peggiore, non per il migliore. I depositanti detengono quote del vault valutate al NAV giornaliero e possono uscire in qualsiasi momento; nessuno, operatore incluso, può spostare i fondi depositati verso un indirizzo terzo. Non esiste token di governance né DAO: l&#x27;operatore stabilisce le regole, ma ogni modifica è vincolata da un timelock on-chain di 48 ore e da tetti hard-coded, e il diritto di rimborso del depositante è incondizionato. <strong>Tutti i risultati ad oggi sono simulati (paper trading su dati live); questo documento è informativo e non costituisce offerta di alcun prodotto finanziario.</strong></p>
+<h2 id="s2">1. Il problema</h2>
+<p>Il rendimento on-chain è abbondante ma ostile al capitale passivo. I tassi delle stablecoin si comprimono appena arriva capitale; le posizioni di liquidità concentrata incassano fee ricche ma perdono valore in ogni mercato con trend (&quot;gamma bleed&quot;); le farm a incentivi portano rischio di exploit e rug. La maggior parte del capitale resta nelle sedi a rendimento più basso oppure si assume rischio direzionale e di smart contract non remunerato inseguendo APY di vetrina. Ciò che manca non è un&#x27;altra sede ad alto APY — è la <em>gestione</em> disciplinata e automatica del trade-off tra fee, impermanent loss e rischio di coda.</p>
+<h2 id="s3">2. Strategia</h2>
+<p>FARMARE adotta un&#x27;allocazione <strong>core–satellite</strong>, validata in Fase 0 come profilo statico <strong>Prudente 80/20</strong>.</p>
+<p><strong>Core (≈80%) — rendimento stablecoin.</strong> Il capitale ruota tra protocolli blue-chip in whitelist (Aave, Morpho, Fluid, Pendle, Compound, Curve, Aerodrome, Uniswap), diversificato su due sedi con un tetto rigido di ~50% per protocollo. Quando un tasso fisso batte il miglior variabile di ≥1 punto percentuale, il core <strong>blocca quel tasso</strong> tramite i Principal Token di Pendle, trasformando un rendimento variabile in un ritorno fisso, immune alla compressione degli APY.</p>
+<p><strong>Motore (≈20%) — market-making coperto.</strong> Liquidità concentrata ETH/USDC su Uniswap v3 con range adattivo alla volatilità, abbinata a una copertura short perpetual condizionale. La copertura neutralizza l&#x27;esposizione direzionale, trasformando la LP da scommessa sul prezzo a <strong>carry trade sulle fee di trading</strong>. Quando il funding rende chiaramente più delle fee LP attese, il comparto passa a una posizione delta-neutral di cattura del funding; quando nessuna delle due è viabile (iper-volatilità o trend parabolico), una guardia di viabilità <strong>parcheggia</strong> il comparto nel core stabile finché l&#x27;economia non torna favorevole.</p>
+<h2 id="s4">3. Da dove viene il rendimento (e perché persiste)</h2>
+<p class="li">1. <strong>Spread di lending / LP</strong> — tassi di equilibrio dei money market e degli</p>
+<p>AMM (5–12% on-chain), pagati dalla domanda persistente di credito on-chain.</p>
+<p class="li">2. <strong>Premio fisso-contro-variabile</strong> — chi compra PT è pagato 2–6 punti per</p>
+<p>assorbire il rischio di compressione che gran parte del capitale rifiuta.</p>
+<p class="li">3. <strong>Fee LP al netto del rischio coperto</strong> — la liquidità concentrata genera</p>
+<p>fee sproporzionate; range adattivo e copertura delta rimuovono gran parte del costo direzionale e di gamma che gli LP passivi gestiscono male.</p>
+<p class="li">4. <strong>Funding dei perpetual</strong> — i long pagano gli short per la maggior parte</p>
+<p>del tempo; catturato solo quando batte chiaramente le alternative.</p>
+<h2 id="s5">4. Le evidenze</h2>
+<p>Tutti i risultati sono riproducibili dal repository del progetto.</p>
+<div class="tw"><table><thead><tr><th>Test</th><th>Dati</th><th>Risultato</th></tr></thead><tbody><tr><td>Semestre bear reale (ETH −44%)</td><td>Volumi, prezzi e funding reali</td><td>LP coperta <strong>+26% vs hold</strong>, max drawdown −5%</td></tr><tr><td>Tre regimi (bear / laterale / bull)</td><td>Reali + sintetici</td><td>Il Prudente 80/20 mai peggiore di −2pp rispetto a ogni alternativa</td></tr><tr><td>Tre chain (Base, Solana, BSC)</td><td>Dati reali, stessa strategia</td><td>Tesi della copertura confermata su tutte e tre</td></tr><tr><td>Decennio 2016–2026</td><td>Prezzi Coinbase, economics ancorate a oggi</td><td>Portafoglio con guardie positivo <strong>ogni anno solare</strong> (peggiore +3,7%)</td></tr><tr><td>Tasso fisso (PT) vs variabile</td><td>147 giorni di tassi Pendle</td><td>Ladder PT <strong>+11,5% vs +5,6%</strong></td></tr><tr><td>Idee bocciate dai dati</td><td>maximin sui regimi</td><td>6, inclusi trend filter e regime switching su volatilità</td></tr></tbody></table></div>
+<p><strong>Intervallo dei risultati per regime (al netto dei costi modellati):</strong> portafoglio +7,5% (regime peggiore testato) / +16,3% (laterale) / +10% (bull); validazione del solo motore 2023–2026 da +13% a +22% l&#x27;anno. La cifra peggiore è il pavimento di progetto, non l&#x27;aspettativa.</p>
+<h2 id="s6">5. Architettura del protocollo</h2>
+<pre>   depositanti ──deposita/preleva──▶  FarmVault (ERC-4626, su Base)
+                                      · quote valutate al NAV giornaliero
+                                      · whitelist sedi + timelock 48h
+                                      · cap per sede · circuit breaker perdite
+                                      · fee ingresso/gestione/performance (HWM)
+                                            │ allocate / deallocate (limitate)
+                              ┌─────────────┴─────────────┐
+                         Adapter delle sedi (vault ⇄ sede soltanto)
+                         Aave v3 · Morpho/ERC-4626 · (Pendle, Uniswap v3)
+                                            ▲
+                              KEEPER off-chain esegue l&#x27;algoritmo pubblico</pre>
+<p>Il <strong>keeper</strong> è un processo off-chain che firma solo <code>allocate</code> / <code>deallocate</code> / <code>accrueFees</code>, esclusivamente tra adapter in whitelist ed entro i cap e un limite di perdita per operazione. Non ha alcun percorso per prelevare fondi. Gli adapter possono muovere asset solo vault → sede → vault. Il valore (NAV) è letto in tempo reale dagli adapter, quindi ogni perdita si riflette subito e in modo equo.</p>
+<h2 id="s7">6. Governance — operatore unico, nessun token</h2>
+<p>FARMARE <strong>non ha DAO né token di governance</strong>, per scelta esplicita. L&#x27;operatore (owner con hardware wallet) è l&#x27;unico decisore su sedi, cap, fee e nomina del keeper. La protezione dei depositanti è strutturale, non una questione di fiducia:</p>
+<p class="li">• <strong>Timelock di 48 ore</strong> su ogni modifica delle regole — annuncia-poi-applica,</p>
+<p>così chi non è d&#x27;accordo può uscire <em>prima</em> che diventi effettiva.</p>
+<p class="li">• <strong>Tetti hard-coded</strong> che l&#x27;operatore non può superare (commissione di</p>
+<p>gestione ≤5%, di performance ≤30%).</p>
+<p class="li">• <strong>Uscita incondizionata</strong> — <code>redeem()</code> al NAV funziona sempre, anche a nuovi</p>
+<p>depositi in pausa; i prelievi smontano automaticamente le posizioni.</p>
+<p class="li">• <strong>Keeper minimale</strong> — l&#x27;automazione può ribilanciare ma mai prelevare.</p>
+<h2 id="s8">7. Commissioni</h2>
+<p>A quote, identiche a un fondo classico: una commissione di gestione maturata pro-rata sull&#x27;AUM e una di performance applicata solo sui guadagni <strong>sopra l&#x27;high-water mark</strong>, entrambe emesse all&#x27;operatore come diluizione di quote (mai prelevate dal capitale). Default: 2%/anno gestione, 20% performance. Ogni modifica passa dal timelock di 48h e dai tetti massimi sopra indicati.</p>
+<h2 id="s9">8. Framework di rischio</h2>
+<p>Guardie automatiche, verificate ogni ora e attuate entro 6 ore:</p>
+<p class="li">• <strong>Depeg</strong> — un sottostante sotto 0,99$ esclude la pool; se in posizione,</p>
+<p>scatta un&#x27;uscita d&#x27;emergenza immediata.</p>
+<p class="li">• <strong>Crollo del TVL</strong> — un −30% dal massimo a 7 giorni esclude / fa uscire.</p>
+<p class="li">• <strong>Diversificazione</strong> — i due slot del core non condividono mai un protocollo.</p>
+<p class="li">• <strong>Guardia di viabilità</strong> — il motore parcheggia quando le fee non coprono</p>
+<p>più la volatilità (testata sul decennio, inclusi 2017, 2020, 2022).</p>
+<p class="li">• <strong>Circuit breaker</strong> — operazione del keeper respinta oltre lo 0,5% di</p>
+<p>perdita singola, più un tetto cumulativo del 2%/24h.</p>
+<p class="li">• <strong>Verificabilità</strong> — ogni decisione è registrata a journal e committata su</p>
+<p>git con timestamp; una dashboard pubblica si ricostruisce da quella storia.</p>
+<p>Scenari peggiori quantificati (dalla suite di stress sul codice di produzione): un gap ETH −35% in una candela ≈ −2,4% a livello di portafoglio; un depeg del sottostante in posizione costa ~0,23% dello slot più la deriva fino al run successivo; un blackout totale delle API interrompe il run con stato intatto e nessuna perdita.</p>
+<h2 id="s10">9. Sicurezza</h2>
+<p>Una revisione interna avversariale ha corretto cinque criticità — inflation attack sul primo deposito, un vettore di reentrancy, fondi orfani alla rimozione di una sede, un percorso di perdita cumulativa illimitata e un bug decimali nella UI — ciascuna con test di regressione. La suite passa 20/20 (unit, sicurezza, fuzz e fork test su Base contro Aave e Morpho reali). Questa revisione interna <strong>non sostituisce un audit esterno professionale</strong>, prerequisito prima di fondi di terzi, insieme a una testnet pubblica con bug bounty e cap graduali sui depositi.</p>
+<h2 id="s11">10. Roadmap</h2>
+<p class="li">• <strong>Fase 0 — Ricerca &amp; backtest.</strong> Completata: strategia validata su regimi,</p>
+<p>chain e un decennio di dati.</p>
+<p class="li">• <strong>Fase 1 — Paper trading live.</strong> Attiva: la strategia gira su dati live in</p>
+<p>un portafoglio virtuale, ogni decisione pubblicata su un track record verificabile.</p>
+<p class="li">• <strong>Fase 2 — Vault on-chain.</strong> In corso: vault ERC-4626 + adapter Aave/Morpho</p>
+<p>costruiti e fork-testati; UI deposito/prelievo live. Restano: adapter Pendle e Uniswap-v3 del motore, audit esterno, testnet, poi un pilota.</p>
+<p class="li">• <strong>Fase 3 — Scala.</strong> Aumento graduale del capitale e motore coperto completo</p>
+<p>una volta superati i gate di forward test e audit.</p>
+<h2 id="s12">11. Note legali &amp; disclaimer</h2>
+<p>FARMARE oggi non custodisce né accetta fondi di terzi. Tutti i risultati mostrati sono <strong>simulati</strong> (paper trading su dati di mercato reali) e non sono una previsione. I depositi on-chain, una volta attivi, comportano rischi reali di smart contract e DeFi, inclusa la perdita totale. Nulla qui costituisce consulenza d&#x27;investimento né offerta o sollecitazione di prodotti finanziari. Accettare fondi di terzi con gestione è attività regolamentata (MiCA nell&#x27;UE); non avverrà finché non saranno in essere la strutturazione legale e le autorizzazioni appropriate.</p></article>
+  <footer>Version 1.0 · July 2026 · FARMARE — automated on-chain yield.
+  Simulated results; not investment advice and not an offer. The web page is
+  the primary reference; a versioned PDF is available above.</footer>
+</main>
+</div>
+<script>
+function setLang(l){
+  var en = l==="en";
+  document.getElementById("doc-en").classList.toggle("hidden", !en);
+  document.getElementById("doc-it").classList.toggle("hidden", en);
+  document.getElementById("toc-en").classList.toggle("hidden", !en);
+  document.getElementById("toc-it").classList.toggle("hidden", en);
+  document.getElementById("b-en").classList.toggle("on", en);
+  document.getElementById("b-it").classList.toggle("on", !en);
+  document.getElementById("pdf").href = en ? "FARMARE_Whitepaper_EN.pdf" : "FARMARE_Whitepaper_IT.pdf";
+  document.documentElement.lang = l;
+  try{ localStorage.setItem("wp_lang", l); }catch(e){}
+}
+(function(){ var l; try{ l=localStorage.getItem("wp_lang"); }catch(e){}
+  if(!l){ l=(navigator.language||"en").slice(0,2)==="it"?"it":"en"; }
+  if(l==="it") setLang("it"); })();
+</script>
+</body></html>
