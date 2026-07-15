@@ -289,7 +289,7 @@ footer{margin-top:2.2rem;padding-top:1rem;border-top:1px solid var(--rule);
 <div class="substrip"><b data-i18n="ssLive">1006-day backtest</b> · <span
 data-i18n="ssData">real market data</span> · <span data-i18n="ssMon">monitored
 live since</span> 15 Jul 2026 · <span data-i18n="ssGuard">crisis guard active</span> · 1.9x · <span
-data-i18n="ssUpd">updated</span> <span id="ago">2026-07-15 14:10 UTC</span></div>
+data-i18n="ssUpd">updated</span> <span id="ago">2026-07-15 14:17 UTC</span></div>
 
 <p class="hero-h" data-i18n="heroH">$100,000 → $284,900 <span>in
 33 months.<br>Worst dip: −0.6%.</span></p>
@@ -513,7 +513,10 @@ month. Every figure is net of the 10% performance + 1%/yr management fees.</p>
 client funds, no custody. Simulated results; not investment advice and not
 an offer. Updated four times daily by the CI pipeline; the complete decision
 journal is available for inspection on request. Methodology, limitations and
-the full risk framework: see the documents linked above.</footer>
+the full risk framework: see the documents linked above. The vault itself is
+live on Ethereum mainnet — its
+<a href="https://etherscan.io/address/0x873C1b701ABDb9334018f4044FEF1d10B430265C#code">code, fees and balance
+are public on Etherscan</a>.</footer>
 </main>
 <div class="stickycta"><a href="app.html" data-i18n="ctaMain">Deposit now →</a></div>
 <script>
@@ -701,7 +704,7 @@ const PERF = {"2023": {"y": 0.25775, "m": {"10": 0.019919, "11": 0.094637, "12":
     eqH:'$100,000 dal primo giorno <small>— FARMARE contro le alternative</small>',
     eqNote:'Gli stessi $100.000, negli stessi giorni: FARMARE contro comprare ETH (chiusure giornaliere reali), stablecoin al 5% e contante. Backtest, non una proiezione — l’attesa forward è ~+26%/anno mediano, e anni negativi sono possibili. Metodologia e framework di rischio completo nel whitepaper. Passa il mouse per i valori giornalieri.',
     dfH:'Dati giornalieri', sgH:'Salvaguardie <small>— automatiche</small>', vgA2:'/anno (regime di carry sano)', sg1b:'se il funding si rompe, il libro si smonta completamente e parcheggia nel comparto di lending finché il regime di carry non torna', sg2b:'massimo 3x, imposto dal contratto del vault stesso — non dalla disciplina dell’operatore', sg3b:'esposizione liquid-restaking limitata al 50% del collaterale; peg monitorato in continuo con smontaggio automatico', sg4b:'ogni decisione è messa a giornale e committata su git con timestamp',
-    footNote:'Portafoglio virtuale su dati di mercato reali — nessun fondo di clienti, nessuna custodia. Risultati simulati; non è consulenza d’investimento né un’offerta. Aggiornato quattro volte al giorno dalla pipeline CI; il giornale decisionale completo è disponibile su richiesta. Metodologia, limiti e framework di rischio completo: vedi i documenti linkati sopra.',
+    footNote:'Portafoglio virtuale su dati di mercato reali — nessun fondo di clienti, nessuna custodia. Risultati simulati; non è consulenza d’investimento né un’offerta. Aggiornato quattro volte al giorno dalla pipeline CI; il giornale decisionale completo è disponibile su richiesta. Metodologia, limiti e framework di rischio completo: vedi i documenti linkati sopra. Il vault gira su Ethereum mainnet — <a href="https://etherscan.io/address/0x873C1b701ABDb9334018f4044FEF1d10B430265C#code">codice, fee e saldo sono pubblici su Etherscan</a>.',
     ptH:'Programma partner',
     ptBody:'Porti qualcuno e guadagni <b>il 25% di ogni fee che incassiamo sul suo capitale</b> — un quarto della nostra fee di performance del 10% e della nostra fee di gestione dell’1%/anno, finché resta. Niente inviti, niente registrazione: colleghi il wallet e il tuo link è pronto.',
     pt1:'Lui paga lo stesso — esce dalla <b>nostra</b> fee',
@@ -752,7 +755,7 @@ const PERF = {"2023": {"y": 0.25775, "m": {"10": 0.019919, "11": 0.094637, "12":
   if ((navigator.language || '').toLowerCase().slice(0, 2) === 'it') setLang('it');
 })();
 const V0 = 99997.2602739726;
-const GEN = new Date("2026-07-15T14:10:56Z");
+const GEN = new Date("2026-07-15T14:17:50Z");
 (function(){
   const el = document.getElementById("ago");
   function tick(){
