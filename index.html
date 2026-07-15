@@ -89,12 +89,17 @@ main{max-width:1000px;margin:0 auto;padding:5rem 2.6rem 7rem}
 .calc .row{display:flex;align-items:center;gap:1.1rem;margin:1.1rem 0 .3rem}
 .calc input[type=range]{flex:1;accent-color:var(--green);height:4px}
 .calc .amt{font-family:"SF Mono",ui-monospace,Menlo,monospace;font-size:1rem;
-  min-width:6rem;font-weight:600}
+  min-width:8.2rem;font-weight:600}
 .calc .out{font-family:"SF Mono",ui-monospace,Menlo,monospace;
   font-size:clamp(2.2rem,5vw,2.9rem);font-weight:600;letter-spacing:-.02em}
 .calc .gain{color:var(--green);font-size:1rem;margin-left:.6rem;font-weight:600}
 .calc .note{font-size:.8rem;line-height:1.5;color:var(--faint);margin:1rem 0 0;
   max-width:62ch}
+/* four decades ($1k–$10M) need width: on phones stack the figure above a
+   full-width slider — must sit after the .calc rules above to win the cascade */
+@media(max-width:640px){
+  .calc .row{flex-direction:column;align-items:stretch;gap:.55rem}
+  .calc .amt{min-width:0}}
 .cmp{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
   gap:1rem;margin:1.4rem 0 0}
 .cmp-card{border:1px solid var(--rule);border-radius:14px;
@@ -279,7 +284,7 @@ footer{margin-top:2.2rem;padding-top:1rem;border-top:1px solid var(--rule);
 <div class="substrip"><b data-i18n="ssLive">live simulation</b> · <span
 data-i18n="ssDay">day</span> 1006 · <span data-i18n="ssData">real market
 data</span> · <span data-i18n="ssGuard">crisis guard active</span> · 1.9x · <span data-i18n="ssUpd">updated</span> <span
-id="ago">2026-07-15 09:34 UTC</span></div>
+id="ago">2026-07-15 09:38 UTC</span></div>
 
 <p class="hero-h" data-i18n="heroH">$100,000 → $284,900 <span>in
 33 months.<br>Worst dip: −0.6%.</span></p>
@@ -315,7 +320,7 @@ order. The operator deposits his own capital first.</p>
   </div>
   <div class="row">
     <span class="amt" id="c-amt">$10,000</span>
-    <input type="range" id="c-in" min="1000" max="100000" step="1000" value="10000">
+    <input type="range" id="c-in" min="0" max="1000" step="1" value="250">
   </div>
   <div id="acc-view">
     <div><span class="out" id="c-out">—</span><span class="gain" id="c-gain"></span></div>
@@ -537,6 +542,16 @@ const PERF = {"2023": {"y": 0.25775, "m": {"10": 0.019919, "11": 0.094637, "12":
 (function(){
   const usd = v => "$" + Math.round(v).toLocaleString("en-US");
   const inp = document.getElementById("c-in");
+  // $1k → $10M spans four decades: a linear slider would make small amounts
+  // unpickable, so position maps logarithmically and snaps to round figures
+  const POS_MIN = 3, POS_MAX = 7;   // 10^3 … 10^7
+  function amountAt(pos){
+    const v = Math.pow(10, POS_MIN + (POS_MAX - POS_MIN) * (pos / 1000));
+    if (v < 10000) return Math.round(v / 1000) * 1000;
+    if (v < 100000) return Math.round(v / 5000) * 5000;
+    if (v < 1000000) return Math.round(v / 25000) * 25000;
+    return Math.round(v / 100000) * 100000;
+  }
   const months = [];
   Object.keys(PERF).sort().forEach(y =>
     Object.keys(PERF[y].m).sort().forEach(mo => months.push(PERF[y].m[mo])));
@@ -552,7 +567,7 @@ const PERF = {"2023": {"y": 0.25775, "m": {"10": 0.019919, "11": 0.094637, "12":
     if (navD > 1) { paidD += navD - 1; navD = 1; }
   });
   function calc(){
-    const a = parseInt(inp.value, 10);
+    const a = amountAt(parseInt(inp.value, 10));
     document.getElementById("c-amt").textContent = usd(a);
     document.getElementById("c-out").textContent = usd(a * MULT);
     document.getElementById("c-gain").textContent = "+" + ((MULT - 1) * 100).toFixed(1) + "%";
@@ -758,7 +773,7 @@ const PERF = {"2023": {"y": 0.25775, "m": {"10": 0.019919, "11": 0.094637, "12":
   if ((navigator.language || '').toLowerCase().slice(0, 2) === 'it') setLang('it');
 })();
 const V0 = 99997.2602739726;
-const GEN = new Date("2026-07-15T09:34:04Z");
+const GEN = new Date("2026-07-15T09:38:59Z");
 (function(){
   const el = document.getElementById("ago");
   function tick(){
