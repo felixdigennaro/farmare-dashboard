@@ -286,7 +286,7 @@ footer{margin-top:2.2rem;padding-top:1rem;border-top:1px solid var(--rule);
   <button class="langbtn" id="lang">IT</button></nav>
 </div>
 <div class="substrip"><b>live simulation</b> · day 1006 · real market data ·
-crisis guard active · 1.9x · updated <span id="ago">2026-07-15 06:01 UTC</span></div>
+crisis guard active · 1.9x · updated <span id="ago">2026-07-15 06:23 UTC</span></div>
 
 <p class="hero-h" data-i18n="heroH">$10,000 → $28,490 <span>in
 33 months.<br>Worst dip: −0.6%.</span></p>
@@ -542,6 +542,40 @@ month. Every figure is net of the 10% performance + 1%/yr management fees.</p>
   the first to know at launch.</p>
 </div>
 
+<hr>
+<h2 data-i18n="ptH">Partner programme</h2>
+<div class="cols">
+  <section>
+    <p class="op-body" data-i18n="ptBody">Do you bring investors? Introduce
+    capital to FARMARE and earn <b>up to 30% of our fees</b> on the deposits
+    you introduce — for life, paid monthly in USDC, enforced by the smart
+    contract: your accrual is verifiable on-chain, not promised in a letter.
+    The people you introduce pay exactly the same fees either way.</p>
+    <div class="chips" style="margin-top:1.3rem;grid-template-columns:1fr;
+      max-width:22rem">
+      <span class="chip" data-i18n="pt1"><b>20%</b>&nbsp;of fees — base</span>
+      <span class="chip" data-i18n="pt2"><b>25%</b>&nbsp;— over $250k introduced</span>
+      <span class="chip" data-i18n="pt3"><b>30%</b>&nbsp;— over $1M introduced</span>
+    </div>
+    <div class="docs" style="margin-top:1.3rem" data-i18n="ptPdfW"><a
+      href="FARMARE_Partner_EN.pdf">Partner one-pager (PDF)</a></div>
+  </section>
+  <section>
+    <form class="join" data-key="fm_partner" method="POST" style="margin-top:.2rem"
+      action="https://docs.google.com/forms/d/e/1FAIpQLSdok2pccv2U5LyEm7DmSNx-pJp-nM-UOJP7O0cEyVJ_01G-Sw/formResponse">
+      <input type="email" name="emailAddress" required autocomplete="email"
+        placeholder="Your best email" data-i18n-ph="phEmail">
+      <button class="cta" type="submit" data-i18n="ptCta">Apply as partner →</button>
+    </form>
+    <p class="join-ok" hidden data-i18n="ptOk">✓ Application received — the
+    operator will reply to you personally.</p>
+    <p class="ctanote" data-i18n="ptNote">Tell us who you are and the capital
+    you can introduce — the operator replies personally. Where distributing
+    investment products requires authorisation, the programme is limited to
+    lawful introductions; details in the one-pager.</p>
+  </section>
+</div>
+
 <footer>Virtual portfolio on live market data — no client funds, no custody.
 Simulated results; not investment advice and not an offer. Updated four
 times daily by the CI pipeline; the complete decision journal is available
@@ -656,8 +690,17 @@ const PERF = {"2023": {"y": 0.25775, "m": {"10": 0.019919, "11": 0.094637, "12":
   window.addEventListener("fm-lang", () => { tabsDraw(); draw(); });
 })();
 (function(){
-  const ok = document.querySelectorAll('.join-ok');
-  document.querySelectorAll('form.join').forEach(function(f, i){
+  const forms = document.querySelectorAll('form.join');
+  const okOf = f => (f.nextElementSibling &&
+    f.nextElementSibling.classList.contains('join-ok'))
+    ? f.nextElementSibling : f.parentElement.querySelector('.join-ok');
+  const markDone = key => forms.forEach(f => {
+    if ((f.dataset.key || 'fm_joined') !== key) return;
+    f.hidden = true;
+    const o = okOf(f); if (o) o.hidden = false;
+  });
+  forms.forEach(function(f){
+    const key = f.dataset.key || 'fm_joined';
     f.addEventListener('submit', function(ev){
       ev.preventDefault();
       const email = f.querySelector('input[name=emailAddress]').value;
@@ -665,17 +708,16 @@ const PERF = {"2023": {"y": 0.25775, "m": {"10": 0.019919, "11": 0.094637, "12":
         headers:{'Content-Type':'application/x-www-form-urlencoded'},
         body:'emailAddress=' + encodeURIComponent(email) + '&fvv=1&pageHistory=0'
       }).finally(function(){
-        f.hidden = true;
-        const okEl = f.parentElement.querySelector('.join-ok') || ok[i];
-        if (okEl) okEl.hidden = false;
-        try{localStorage.setItem('fm_joined','1')}catch(e){}
+        markDone(key);
+        try{localStorage.setItem(key,'1')}catch(e){}
       });
     });
   });
-  try{ if(localStorage.getItem('fm_joined')){
-    document.querySelectorAll('form.join').forEach(f=>f.hidden=true);
-    ok.forEach(o=>o.hidden=false);
-  }}catch(e){}
+  try{
+    ['fm_joined','fm_partner'].forEach(k => {
+      if (localStorage.getItem(k)) markDone(k);
+    });
+  }catch(e){}
 })();
 (function(){
   const IT = {
@@ -715,6 +757,15 @@ const PERF = {"2023": {"y": 0.25775, "m": {"10": 0.019919, "11": 0.094637, "12":
     incNote:'Classe a distribuzione: il guadagno realizzato di ogni mese viene pagato in USDC sul tuo wallet invece di essere reinvestito. Un mese in perdita non paga nulla — viene prima recuperato (high-water mark). I payout variano col funding; al netto di tutte le fee.',
     perfH:'Performance <small>— al netto di tutte le fee, periodo per periodo</small>',
     perfNote:'Clicca un anno per vederlo mese per mese. Ogni cifra è al netto del 10% di performance + 1%/anno di gestione.',
+    ptH:'Programma partner',
+    ptBody:'Porti investitori? Introduci capitale in FARMARE e guadagna <b>fino al 30% delle nostre fee</b> sui depositi che introduci — a vita, pagato ogni mese in USDC, garantito dallo smart contract: la tua maturazione è verificabile on-chain, non promessa in una lettera. Chi introduci paga esattamente le stesse fee in ogni caso.',
+    pt1:'<b>20%</b>&nbsp;delle fee — base',
+    pt2:'<b>25%</b>&nbsp;— oltre $250k introdotti',
+    pt3:'<b>30%</b>&nbsp;— oltre $1M introdotti',
+    ptPdfW:'<a href="FARMARE_Partner_IT.pdf">One-pager partner (PDF)</a>',
+    ptCta:'Candidati come partner →',
+    ptOk:'✓ Candidatura ricevuta — l’operatore ti risponderà personalmente.',
+    ptNote:'Dicci chi sei e il capitale che puoi introdurre — l’operatore risponde personalmente. Dove la distribuzione di prodotti d’investimento richiede autorizzazione, il programma è limitato a introduzioni lecite; dettagli nel one-pager.',
     q6:'Posso ricevere il rendimento ogni mese invece di reinvestirlo?',
     a6:'Sì. Al lancio scegli tra due classi di quote: <b>Accumulo</b> (i guadagni si capitalizzano nel prezzo della quota) e <b>Reddito mensile</b> (ogni mese il guadagno realizzato sopra il tuo massimo storico personale ti viene pagato in USDC sul wallet, automaticamente). Un mese in perdita non paga nulla — viene prima recuperato, poi i payout riprendono. Puoi cambiare classe in qualsiasi momento col preavviso standard di 48h; le fee sono identiche.',
     faqH:'Domande frequenti',
@@ -748,7 +799,7 @@ const PERF = {"2023": {"y": 0.25775, "m": {"10": 0.019919, "11": 0.094637, "12":
   if ((navigator.language || '').toLowerCase().slice(0, 2) === 'it') setLang('it');
 })();
 const V0 = 99997.2602739726;
-const GEN = new Date("2026-07-15T06:01:20Z");
+const GEN = new Date("2026-07-15T06:23:40Z");
 (function(){
   const el = document.getElementById("ago");
   const mins = Math.max(0, Math.round((Date.now() - GEN) / 60000));
