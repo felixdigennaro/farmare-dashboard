@@ -70,11 +70,10 @@ main{max-width:1000px;margin:0 auto;padding:5rem 2.6rem 7rem}
 .chips{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;
   margin:2.4rem 0 0}
 .chip{font-size:.78rem;color:var(--muted);border:1px solid var(--rule);
-  border-radius:999px;padding:.55rem 1.1rem .55rem .9rem;white-space:nowrap;
-  background:var(--bg);display:flex;align-items:center;gap:.5rem;
-  overflow:hidden;text-overflow:ellipsis}
-.chip::before{content:"";width:14px;height:14px;flex:none;
-  background-color:var(--green);
+  border-radius:999px;padding:.55rem .9rem;white-space:nowrap;
+  background:var(--bg);overflow:hidden;text-overflow:ellipsis}
+.chip::before{content:"";width:14px;height:14px;display:inline-block;
+  vertical-align:-2px;background-color:var(--green);margin-right:.5rem;
   -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23000' d='M9.55 17.05 4.5 12l1.4-1.4 3.65 3.6 8.15-8.15L19.1 7.5z'/%3E%3C/svg%3E") center/contain no-repeat;
   mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23000' d='M9.55 17.05 4.5 12l1.4-1.4 3.65 3.6 8.15-8.15L19.1 7.5z'/%3E%3C/svg%3E") center/contain no-repeat}
 .chip b{color:var(--ink);font-weight:600}
@@ -129,6 +128,7 @@ main{max-width:1000px;margin:0 auto;padding:5rem 2.6rem 7rem}
 .cta2:hover{border-color:var(--ink)}
 .ctanote{font-size:.78rem;line-height:1.5;color:var(--faint);margin:1rem 0 0;
   max-width:64ch}
+.ctanote a{color:var(--green)}
 .faq details{border-top:1px solid var(--rule);padding:1.05rem 0}
 .faq summary{cursor:pointer;font-size:.95rem;font-weight:600;list-style:none}
 .faq summary::-webkit-details-marker{display:none}
@@ -289,7 +289,7 @@ footer{margin-top:2.2rem;padding-top:1rem;border-top:1px solid var(--rule);
 <div class="substrip"><b data-i18n="ssLive">1006-day backtest</b> · <span
 data-i18n="ssData">real market data</span> · <span data-i18n="ssMon">monitored
 live since</span> 15 Jul 2026 · <span data-i18n="ssGuard">crisis guard active</span> · 1.9x · <span
-data-i18n="ssUpd">updated</span> <span id="ago">2026-07-15 13:26 UTC</span></div>
+data-i18n="ssUpd">updated</span> <span id="ago">2026-07-15 13:49 UTC</span></div>
 
 <p class="hero-h" data-i18n="heroH">$100,000 → $284,900 <span>in
 33 months.<br>Worst dip: −0.6%.</span></p>
@@ -497,19 +497,15 @@ month. Every figure is net of the 10% performance + 1%/yr management fees.</p>
 <h2 data-i18n="ptH">Partner programme</h2>
 <div class="cols">
   <section>
-    <p class="op-body" data-i18n="ptBody">Open to everyone — no invitation, no
-    sign-up: <b>connect your wallet and your personal link is ready</b>.
-    Anyone who deposits through it is tagged to you on-chain, and you earn
-    <b>25% of the fees FARMARE charges on that capital</b> — 25% of our 10%
-    performance fee and of our 1%/yr management fee, for as long as they stay,
-    claimable anytime, enforced by the smart contract rather than promised in
-    a letter. It is a share of <b>our</b> fee: the people you introduce pay
-    exactly the same either way, and nothing is taken from their principal.</p>
+    <p class="op-body" data-i18n="ptBody">Bring someone in and you earn
+    <b>25% of every fee we charge on their capital</b> — a quarter of our 10%
+    performance fee and of our 1%/yr management fee, for as long as they stay.
+    No invitation, no sign-up: connect your wallet and your link is ready.</p>
     <div class="chips" style="margin-top:1.3rem;grid-template-columns:1fr;
       max-width:22rem">
-      <span class="chip" data-i18n="pt1"><b>25%</b>&nbsp;of our performance fee</span>
-      <span class="chip" data-i18n="pt2"><b>25%</b>&nbsp;of our management fee</span>
-      <span class="chip" data-i18n="pt3"><b>30%</b>&nbsp;— ceiling fixed in the contract</span>
+      <span class="chip" data-i18n="pt1">They pay the same — it comes out of <b>our</b> fee</span>
+      <span class="chip" data-i18n="pt2">Written in the contract, not in a letter</span>
+      <span class="chip" data-i18n="pt3">Claim it on-chain whenever you like</span>
     </div>
     <div class="docs" style="margin-top:1.3rem" data-i18n="ptPdfW"><a
       href="FARMARE_Partner_EN.pdf">Partner one-pager (PDF)</a></div>
@@ -698,7 +694,7 @@ const PERF = {"2023": {"y": 0.25775, "m": {"10": 0.019919, "11": 0.094637, "12":
     phEmail:'La tua migliore email',
     chip1:'<b>Auto-custodia</b>&nbsp;— sempre tua',
     chip2:'<b>Prelievo sempre aperto</b>&nbsp;— è un tuo diritto',
-    chip3:'<b>Preavviso 48h on-chain</b>&nbsp;— su ogni modifica',
+    chip3:'<b>Preavviso 48h on-chain</b>&nbsp;— ogni modifica',
     calcLab:'Quanto sarebbero diventati i tuoi? — backtest reale, Oct 2023 → Jul 2026',
     calcNote:'Al netto di tutte le fee. Backtest su dati reali, non una promessa: l’attesa forward è ~+26%/anno mediano, e anni negativi sono possibili.',
     dipFa:'peggior calo −0.6%', labEth:'Comprare ETH', dipEth:'peggior calo −68%',
@@ -737,10 +733,10 @@ const PERF = {"2023": {"y": 0.25775, "m": {"10": 0.019919, "11": 0.094637, "12":
     dfH:'Dati giornalieri', sgH:'Salvaguardie <small>— automatiche</small>', vgA2:'/anno (regime di carry sano)', sg1b:'se il funding si rompe, il libro si smonta completamente e parcheggia nel comparto di lending finché il regime di carry non torna', sg2b:'massimo 3x, imposto dal contratto del vault stesso — non dalla disciplina dell’operatore', sg3b:'esposizione liquid-restaking limitata al 50% del collaterale; peg monitorato in continuo con smontaggio automatico', sg4b:'ogni decisione è messa a giornale e committata su git con timestamp',
     footNote:'Portafoglio virtuale su dati di mercato reali — nessun fondo di clienti, nessuna custodia. Risultati simulati; non è consulenza d’investimento né un’offerta. Aggiornato quattro volte al giorno dalla pipeline CI; il giornale decisionale completo è disponibile su richiesta. Metodologia, limiti e framework di rischio completo: vedi i documenti linkati sopra.',
     ptH:'Programma partner',
-    ptBody:'Aperto a tutti — niente inviti, niente registrazione: <b>collega il wallet e il tuo link personale è pronto</b>. Chi deposita dal tuo link viene associato a te on-chain, e guadagni <b>il 25% delle fee che FARMARE incassa su quel capitale</b> — il 25% della nostra fee di performance del 10% e della nostra fee di gestione dell’1%/anno, finché resta, riscattabile quando vuoi, garantito dallo smart contract e non promesso in una lettera. È una quota della <b>nostra</b> fee: chi introduci paga esattamente lo stesso in ogni caso, e nulla viene tolto dal suo capitale.',
-    pt1:'<b>25%</b>&nbsp;della nostra fee di performance',
-    pt2:'<b>25%</b>&nbsp;della nostra fee di gestione',
-    pt3:'<b>30%</b>&nbsp;— tetto fissato nel contratto',
+    ptBody:'Porti qualcuno e guadagni <b>il 25% di ogni fee che incassiamo sul suo capitale</b> — un quarto della nostra fee di performance del 10% e della nostra fee di gestione dell’1%/anno, finché resta. Niente inviti, niente registrazione: colleghi il wallet e il tuo link è pronto.',
+    pt1:'Lui paga lo stesso — esce dalla <b>nostra</b> fee',
+    pt2:'Scritto nel contratto, non in una lettera',
+    pt3:'Lo riscatti on-chain quando vuoi',
     ptPdfW:'<a href="FARMARE_Partner_IT.pdf">One-pager partner (PDF)</a>',
     ptCta:'Ottieni il tuo link — collega il wallet →',
     ptCta2:'Introduci capitali importanti? Parla con l’operatore →',
@@ -786,7 +782,7 @@ const PERF = {"2023": {"y": 0.25775, "m": {"10": 0.019919, "11": 0.094637, "12":
   if ((navigator.language || '').toLowerCase().slice(0, 2) === 'it') setLang('it');
 })();
 const V0 = 99997.2602739726;
-const GEN = new Date("2026-07-15T13:26:57Z");
+const GEN = new Date("2026-07-15T13:49:17Z");
 (function(){
   const el = document.getElementById("ago");
   function tick(){

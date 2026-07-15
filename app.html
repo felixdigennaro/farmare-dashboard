@@ -202,7 +202,8 @@ const T_DEP="0xdcbc1c05240f31ff3ad067ef1ee35ce4997762752e3a095284754544f4c709d7"
 const T_WD ="0xfbde797d201c681b91056529119e0b02407c7bb96a4a2c75c01fc9667232c8db";
 const SEL={balanceOf:"0x70a08231",allowance:"0xdd62ed3e",approve:"0x095ea7b3",
   deposit:"0x6e553f65",depositRef:"0x6f72aa29",redeem:"0xba087652",totalAssets:"0x01e1d114",navPerShare:"0x6ff1c9bc",
-  refShares:"0x6fed7c37",refPending:"0x469d104e",claimRef:"0x83a84ba9",refBps:"0x7b6b4ecb"};
+  refShares:"0x6fed7c37",refPending:"0x469d104e",claimRef:"0x83a84ba9",refBps:"0x7b6b4ecb",
+  totalSupply:"0x18160ddd",minFirst:"0x7dbc3c98"};
 // partner link support: ?ref=0xPartner tags the first deposit on-chain via
 // depositWithReferrer — sticky across visits, never overwrites an earlier tag
 const REF=(()=>{try{
@@ -404,6 +405,17 @@ async function send(to,data){const tx=await rpc("eth_sendTransaction",[{from:acc
 document.getElementById("action").onclick=async()=>{const raw=document.getElementById("amt").value.trim();
   if(!raw||Number(raw)<=0){msg("Enter an amount.","err");return;}const btn=document.getElementById("action");btn.disabled=true;
   try{ if(tab==="deposit"){const amt=toUnits(raw,CFG.usdcDecimals);
+      // Fail here, in words, rather than let the wallet quote a phantom fee:
+      // an un-estimatable (reverting) tx makes MetaMask fall back to a wild
+      // gas number, which reads as "this costs $95" instead of "this fails".
+      const held=bn(await call(CFG.usdc,SEL.balanceOf+addr(account)));
+      if(held<amt){msg("You only have "+fmt(dec(held,CFG.usdcDecimals))+" USDC in this wallet.","err");btn.disabled=false;return;}
+      // The vault requires a minimum on the very first deposit ever (an
+      // inflation-attack guard); it never applies once anyone has deposited.
+      if(bn(await call(CFG.vault,SEL.totalSupply))===0n){
+        const min=bn(await call(CFG.vault,SEL.minFirst));
+        if(amt<min){msg("This would be the vault's first deposit, which must be at least "+fmt(dec(min,CFG.usdcDecimals))+" USDC. Any amount is fine after that.","err");btn.disabled=false;return;}
+      }
       const al=bn(await call(CFG.usdc,SEL.allowance+addr(account)+addr(CFG.vault)));
       if(al<amt){msg("Approve USDC (1 of 2)…");await send(CFG.usdc,SEL.approve+addr(CFG.vault)+uint(amt));}
       msg("Depositing (2 of 2)…");
