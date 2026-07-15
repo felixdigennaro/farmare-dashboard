@@ -63,7 +63,7 @@ main{max-width:1000px;margin:0 auto;padding:5rem 2.6rem 7rem}
 .docs a:hover{border-bottom-color:var(--green)}
 .hero-h{font-family:Charter,"Iowan Old Style",Georgia,serif;
   font-size:clamp(2rem,4.4vw,2.85rem);line-height:1.18;
-  letter-spacing:-.015em;margin:2.6rem 0 0;font-weight:400;max-width:20ch}
+  letter-spacing:-.015em;margin:2.6rem 0 0;font-weight:400;max-width:34ch}
 .hero-h span{color:var(--muted)}
 .hero-sub{font-size:1.02rem;line-height:1.55;color:var(--muted);
   margin:1.1rem 0 0;max-width:60ch}
@@ -137,6 +137,7 @@ main{max-width:1000px;margin:0 auto;padding:5rem 2.6rem 7rem}
   cursor:pointer;text-transform:uppercase}
 .langbtn:hover{color:var(--ink);border-color:var(--ink)}
 .join{display:flex;gap:.7rem;flex-wrap:wrap;margin:2.4rem 0 0;max-width:34rem}
+.join[hidden]{display:none}
 .join input{flex:1;min-width:14rem;padding:.95rem 1.2rem;font-size:.95rem;
   border:1px solid var(--rule);border-radius:10px;background:var(--bg);
   color:var(--ink);outline:none}
@@ -274,10 +275,10 @@ footer{margin-top:2.2rem;padding-top:1rem;border-top:1px solid var(--rule);
   <button class="langbtn" id="lang">IT</button></nav>
 </div>
 <div class="substrip"><b>live simulation</b> · day 1006 · real market data ·
-crisis guard active · 1.9x · updated <span id="ago">2026-07-15 05:12 UTC</span></div>
+crisis guard active · 1.9x · updated <span id="ago">2026-07-15 05:33 UTC</span></div>
 
-<p class="hero-h" data-i18n="heroH">$10,000 → $28,490
-<span>in 33 months. Worst dip: −0.6%.</span></p>
+<p class="hero-h" data-i18n="heroH">$10,000 → $28,490 <span>in
+33 months.<br>Worst dip: −0.6%.</span></p>
 <p class="hero-sub" data-i18n="heroSub">We collect the fee that leveraged
 traders pay, every day — whichever way the market moves. Market-neutral ·
 target ~26%/yr net of fees · real backtest, Oct 2023 → Jul 2026.</p>
@@ -639,7 +640,7 @@ const PERF = {"2023": {"y": 0.25775, "m": {"10": 0.019919, "11": 0.094637, "12":
 })();
 (function(){
   const IT = {
-    heroH:'$10,000 → $28,490 <span>in 33 mesi. Peggior calo: −0.6%.</span>',
+    heroH:'$10,000 → $28,490 <span>in 33 mesi.<br>Peggior calo: −0.6%.</span>',
     heroSub:'Incassiamo la commissione che i trader a leva pagano ogni giorno — qualunque direzione prenda il mercato. Neutrale al mercato · target ~26%/anno netto · backtest reale, Oct 2023 → Jul 2026.',
     phEmail:'La tua migliore email',
     joinOk:'✓ Sei in lista — sarai il primo a saperlo al lancio.',
@@ -706,7 +707,7 @@ const PERF = {"2023": {"y": 0.25775, "m": {"10": 0.019919, "11": 0.094637, "12":
   if ((navigator.language || '').toLowerCase().slice(0, 2) === 'it') setLang('it');
 })();
 const V0 = 99997.2602739726;
-const GEN = new Date("2026-07-15T05:12:16Z");
+const GEN = new Date("2026-07-15T05:33:14Z");
 (function(){
   const el = document.getElementById("ago");
   const mins = Math.max(0, Math.round((Date.now() - GEN) / 60000));
