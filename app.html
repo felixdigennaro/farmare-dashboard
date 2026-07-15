@@ -176,7 +176,14 @@ const CFG = {
 const T_DEP="0xdcbc1c05240f31ff3ad067ef1ee35ce4997762752e3a095284754544f4c709d7";
 const T_WD ="0xfbde797d201c681b91056529119e0b02407c7bb96a4a2c75c01fc9667232c8db";
 const SEL={balanceOf:"0x70a08231",allowance:"0xdd62ed3e",approve:"0x095ea7b3",
-  deposit:"0x6e553f65",redeem:"0xba087652",totalAssets:"0x01e1d114",navPerShare:"0x6ff1c9bc"};
+  deposit:"0x6e553f65",depositRef:"0x6f72aa29",redeem:"0xba087652",totalAssets:"0x01e1d114",navPerShare:"0x6ff1c9bc"};
+// partner link support: ?ref=0xPartner tags the first deposit on-chain via
+// depositWithReferrer — sticky across visits, never overwrites an earlier tag
+const REF=(()=>{try{
+  const q=(new URLSearchParams(location.search).get("ref")||"").toLowerCase();
+  if(/^0x[0-9a-f]{40}$/.test(q)){localStorage.setItem("fm_ref",q);return q;}
+  return localStorage.getItem("fm_ref")||"";
+}catch(e){return "";}})();
 
 const pad=h=>h.replace(/^0x/,"").padStart(64,"0"), addr=a=>pad(a.toLowerCase()), uint=n=>pad(BigInt(n).toString(16));
 const topicAddr=a=>"0x"+pad(a.toLowerCase()), bn=h=>BigInt(h||"0x0");
@@ -330,7 +337,12 @@ document.getElementById("action").onclick=async()=>{const raw=document.getElemen
   try{ if(tab==="deposit"){const amt=toUnits(raw,CFG.usdcDecimals);
       const al=bn(await call(CFG.usdc,SEL.allowance+addr(account)+addr(CFG.vault)));
       if(al<amt){msg("Approve USDC (1 of 2)…");await send(CFG.usdc,SEL.approve+addr(CFG.vault)+uint(amt));}
-      msg("Depositing (2 of 2)…");await send(CFG.vault,SEL.deposit+uint(amt)+addr(account));msg("Deposit confirmed. Welcome aboard.","ok");
+      msg("Depositing (2 of 2)…");
+      const viaRef = REF && REF !== account.toLowerCase();
+      await send(CFG.vault, viaRef
+        ? SEL.depositRef+uint(amt)+addr(account)+addr(REF)
+        : SEL.deposit+uint(amt)+addr(account));
+      msg("Deposit confirmed. Welcome aboard.","ok");
     } else { const shares=toUnits(raw,CFG.shareDecimals);msg("Withdrawing…");
       await send(CFG.vault,SEL.redeem+uint(shares)+addr(account)+addr(account));msg("Withdrawal confirmed. Funds are in your wallet.","ok"); }
     document.getElementById("amt").value="";refresh();

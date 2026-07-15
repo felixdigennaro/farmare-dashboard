@@ -5,6 +5,12 @@
 > `EthenaBasisAdapter` and `LeveragedBasisAdapter` — are unit- and fork-tested
 > but **not yet covered by any security review**, internal or external. They
 > must be reviewed before holding any third-party funds.
+>
+> **Scope note (2026-07-15):** the partner-referral module added to
+> `FarmVault` (`depositWithReferrer`, share attribution in `_update`, fee
+> split in `_mintFee`, `claimReferralFees`, 30% hard cap + timelock) is
+> unit-tested (9 tests incl. depositor-NAV-invariance) but likewise **not
+> yet covered by any security review**.
 
 Adversarial self-audit before external review. Threat model: a compromised
 keeper key, a hostile/compromised venue adapter, and an arbitrary attacker
