@@ -289,7 +289,7 @@ footer{margin-top:2.2rem;padding-top:1rem;border-top:1px solid var(--rule);
 <div class="substrip"><b data-i18n="ssLive">1006-day backtest</b> · <span
 data-i18n="ssData">real market data</span> · <span data-i18n="ssMon">monitored
 live since</span> 15 Jul 2026 · <span data-i18n="ssGuard">crisis guard active</span> · 1.9x · <span
-data-i18n="ssUpd">updated</span> <span id="ago">2026-07-15 13:54 UTC</span></div>
+data-i18n="ssUpd">updated</span> <span id="ago">2026-07-15 14:10 UTC</span></div>
 
 <p class="hero-h" data-i18n="heroH">$100,000 → $284,900 <span>in
 33 months.<br>Worst dip: −0.6%.</span></p>
@@ -389,31 +389,6 @@ high-water mark + 1%/yr — charged only on gains beyond your previous peak.
 Never on your principal.</p>
 
 <hr class="strong">
-<h2 style="margin-top:3.2rem" data-i18n="verH">The numbers
-<small data-i18n="verS">— backtest figures, and what you can check yourself</small></h2>
-<p class="ctanote" style="margin:0 0 1.6rem" data-i18n="verNote">Be clear on
-what these are: <b>backtest</b> figures on a $100,000 reference, produced by
-replaying real market data — no client money stands behind them. What you
-<b>can</b> verify independently, right now:
-<a href="nav.json">download the raw daily NAV series</a> the charts are drawn
-from · read the
-<a href="https://etherscan.io/address/0x873C1b701ABDb9334018f4044FEF1d10B430265C#code">vault's source code</a>
-and its fees, timelock and loss caps on Etherscan ·
-<a href="https://etherscan.io/address/0x873C1b701ABDb9334018f4044FEF1d10B430265C">see the vault's real balance
-on-chain</a> (today: no third-party capital) · follow every published run in
-the <a href="https://github.com/felixdigennaro/farmare-dashboard/commits/main">git
-ledger</a>. The research code behind the backtest is not public yet.</p>
-<div class="kpis">
-  <div class="kpi"><label data-i18n="k1">Portfolio value</label><b>$284,899.58</b>
-    <span class="sub" data-i18n="k1s">virtual capital</span></div>
-  <div class="kpi"><label data-i18n="k2">Since inception</label><b class="up">+184.90%</b>
-    <span class="sub" data-i18n="k2s">NAV per share basis</span></div>
-  <div class="kpi"><label data-i18n="k3">Annualized</label><b>+46.2%</b>
-    <span class="sub" data-i18n="k3s">net of fees · target ~26%/yr</span></div>
-  <div class="kpi"><label data-i18n="k4">Max drawdown</label><b>-0.59%</b>
-    <span class="sub" data-i18n="k4s">daily closes, since inception</span></div>
-</div>
-<hr>
 <h2 data-i18n="perfH">Performance <small data-i18n="perfS">— net of all fees,
 period by period</small></h2>
 <div class="perf-tabs" id="perf-tabs"></div>
@@ -464,9 +439,10 @@ month. Every figure is net of the 10% performance + 1%/yr management fees.</p>
     capital first. Be clear on what the numbers are: the 1006-day curve is
     a <b>backtest</b> replayed on real market data, not 1006 days of live
     trading. The system that produces it started publishing forward on
-    15 Jul 2026, and from that day every run is committed to a public
-    git ledger whose timestamps cannot be rewritten — linked at the bottom of
-    the data section. You are early, and you can watch from day one.</p>
+    15 Jul 2026, and from that day every run is committed to a
+    <a href="https://github.com/felixdigennaro/farmare-dashboard/commits/main">public
+    git ledger</a> whose timestamps cannot be rewritten. You are early, and you
+    can watch from day one.</p>
     </div></details>
   <details><summary data-i18n="q4">What happens if the operator disappears?</summary>
     <p data-i18n="a4">Your withdrawal right does not depend on the operator:
@@ -707,9 +683,7 @@ const PERF = {"2023": {"y": 0.25775, "m": {"10": 0.019919, "11": 0.094637, "12":
     ctaPrev:'Anteprima del tuo account',
     ctaNote:'Fee: 10% dei profitti sopra il tuo massimo storico + 1%/anno — solo sui guadagni oltre il tuo picco precedente. Mai sul capitale.',
     q7:'Chi lo gestisce?',
-    a7:'Felice Digennaro, operatore unico — deposita per primo il proprio capitale. Sia chiaro cosa sono i numeri: la curva di 1006 giorni è un <b>backtest</b> ricostruito su dati di mercato reali, non 1006 giorni di trading vissuto. Il sistema che la produce ha iniziato a pubblicare in avanti il 15 Jul 2026, e da quel giorno ogni run è committato in un registro git pubblico i cui timestamp non si riscrivono — linkato in fondo alla sezione dati. Sei in anticipo, e puoi guardare dal primo giorno.',
-    verH:'I numeri', verS:'— cifre da backtest, e cosa puoi controllare tu',
-    verNote:'Sia chiaro cosa sono: cifre da <b>backtest</b> su un riferimento di $100.000, prodotte rigiocando dati di mercato reali — nessun capitale di clienti c\'è dietro. Cosa <b>puoi</b> verificare da solo, adesso: <a href="nav.json">scarica la serie NAV giornaliera grezza</a> da cui nascono i grafici · leggi il <a href="https://etherscan.io/address/0x873C1b701ABDb9334018f4044FEF1d10B430265C#code">codice del vault</a> con fee, timelock e loss cap su Etherscan · <a href="https://etherscan.io/address/0x873C1b701ABDb9334018f4044FEF1d10B430265C">guarda il saldo reale del vault on-chain</a> (oggi: nessun capitale di terzi) · segui ogni run pubblicato nel <a href="https://github.com/felixdigennaro/farmare-dashboard/commits/main">registro git</a>. Il codice di ricerca dietro il backtest non è ancora pubblico.',
+    a7:'Felice Digennaro, operatore unico — deposita per primo il proprio capitale. Sia chiaro cosa sono i numeri: la curva di 1006 giorni è un <b>backtest</b> ricostruito su dati di mercato reali, non 1006 giorni di trading vissuto. Il sistema che la produce ha iniziato a pubblicare in avanti il 15 Jul 2026, e da quel giorno ogni run è committato in un <a href="https://github.com/felixdigennaro/farmare-dashboard/commits/main">registro git pubblico</a> i cui timestamp non si riscrivono. Sei in anticipo, e puoi guardare dal primo giorno.',
     ctamidL:'Hai visto abbastanza dati?',
     depNote:'Non-custodial: depositi direttamente nel vault dal tuo wallet e puoi prelevare in qualsiasi momento. Il capitale dell’operatore è dentro per primo.',
     ctamidF:'Il tuo capitale, il tuo wallet, la tua scelta.',
@@ -724,10 +698,6 @@ const PERF = {"2023": {"y": 0.25775, "m": {"10": 0.019919, "11": 0.094637, "12":
     ssMon:'monitorato live dal',
     ssGuard:'guardia di crisi attiva', ssGuardP:'guardia di crisi: parcheggiato (comparto sicuro)',
     ssUpd:'aggiornato',
-    k1:'Valore del portafoglio', k1s:'capitale virtuale',
-    k2:'Da inizio', k2s:'su base NAV per quota',
-    k3:'Annualizzato', k3s:'al netto delle fee · target ~26%/anno',
-    k4:'Max drawdown', k4s:'chiusure giornaliere, da inizio',
     eqH:'$100,000 dal primo giorno <small>— FARMARE contro le alternative</small>',
     eqNote:'Gli stessi $100.000, negli stessi giorni: FARMARE contro comprare ETH (chiusure giornaliere reali), stablecoin al 5% e contante. Backtest, non una proiezione — l’attesa forward è ~+26%/anno mediano, e anni negativi sono possibili. Metodologia e framework di rischio completo nel whitepaper. Passa il mouse per i valori giornalieri.',
     dfH:'Dati giornalieri', sgH:'Salvaguardie <small>— automatiche</small>', vgA2:'/anno (regime di carry sano)', sg1b:'se il funding si rompe, il libro si smonta completamente e parcheggia nel comparto di lending finché il regime di carry non torna', sg2b:'massimo 3x, imposto dal contratto del vault stesso — non dalla disciplina dell’operatore', sg3b:'esposizione liquid-restaking limitata al 50% del collaterale; peg monitorato in continuo con smontaggio automatico', sg4b:'ogni decisione è messa a giornale e committata su git con timestamp',
@@ -782,7 +752,7 @@ const PERF = {"2023": {"y": 0.25775, "m": {"10": 0.019919, "11": 0.094637, "12":
   if ((navigator.language || '').toLowerCase().slice(0, 2) === 'it') setLang('it');
 })();
 const V0 = 99997.2602739726;
-const GEN = new Date("2026-07-15T13:54:11Z");
+const GEN = new Date("2026-07-15T14:10:56Z");
 (function(){
   const el = document.getElementById("ago");
   function tick(){
