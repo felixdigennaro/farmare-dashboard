@@ -288,7 +288,7 @@ footer{margin-top:2.2rem;padding-top:1rem;border-top:1px solid var(--rule);
 <div class="substrip"><b data-i18n="ssLive">live simulation</b> · <span
 data-i18n="ssDay">day</span> 1006 · <span data-i18n="ssData">real market
 data</span> · <span data-i18n="ssGuard">crisis guard active</span> · 1.9x · <span data-i18n="ssUpd">updated</span> <span
-id="ago">2026-07-15 07:24 UTC</span></div>
+id="ago">2026-07-15 07:37 UTC</span></div>
 
 <p class="hero-h" data-i18n="heroH">$10,000 → $28,490 <span>in
 33 months.<br>Worst dip: −0.6%.</span></p>
@@ -365,21 +365,6 @@ order. The operator deposits his own capital first.</p>
     <span data-i18n="dipBk">eroded by inflation</span></div>
 </div>
 
-<div class="steps">
-  <span class="done" data-i18n="st1">Backtest validated</span>
-  <span class="done" data-i18n="st2">Paper trading live — day 1006</span>
-  <span class="now" data-i18n="st3">Security audit</span>
-  <span class="todo" data-i18n="st4">Vault live — deposits open</span>
-</div>
-
-<div class="ctarow">
-  <a class="cta" href="#join" data-i18n="ctaMain">Reserve your spot →</a>
-  <a class="cta2" href="app.html" data-i18n="ctaPrev">Preview your account</a>
-</div>
-<p class="ctanote" data-i18n="ctaNote">Fees: 10% of profits above your
-high-water mark + 1%/yr — charged only on gains beyond your previous peak.
-Never on your principal.</p>
-
 <hr>
 <h2 data-i18n="hiwH">How it works — in 30 seconds</h2>
 <div class="hiw">
@@ -400,26 +385,20 @@ Never on your principal.</p>
     sleeve until it recovers — automatically.</p></div>
 </div>
 
-<hr>
-<h2 data-i18n="opH">Who runs this</h2>
-<div class="op">
-  <div class="op-badge">FD</div>
-  <div>
-    <p class="op-name">Felice Di Gennaro — <span data-i18n="opRole">sole
-    operator</span></p>
-    <p class="op-body" data-i18n="opBody">I deposit my own capital first, and
-    I answer for every decision. The system's full history — every move, every
-    guard action, every figure — has been committed to a public,
-    tamper-evident git ledger for 1006 days: timestamps cannot be
-    rewritten. No team-photo theatre, no promises. A ledger you can audit.</p>
-    <div class="docs">
-      <a href="whitepaper.html">Whitepaper</a>
-      <a href="FARMARE_Whitepaper_EN.pdf">PDF</a>
-      <a href="https://github.com/felixdigennaro/farmare-dashboard/blob/main/AUDIT.md">Audit</a>
-      <a href="https://github.com/felixdigennaro/farmare-dashboard/commits/main">Git ledger</a>
-    </div>
-  </div>
+<div class="steps">
+  <span class="done" data-i18n="st1">Backtest validated</span>
+  <span class="done" data-i18n="st2">Paper trading live — day 1006</span>
+  <span class="now" data-i18n="st3">Security audit</span>
+  <span class="todo" data-i18n="st4">Vault live — deposits open</span>
 </div>
+
+<div class="ctarow">
+  <a class="cta" href="#join" data-i18n="ctaMain">Reserve your spot →</a>
+  <a class="cta2" href="app.html" data-i18n="ctaPrev">Preview your account</a>
+</div>
+<p class="ctanote" data-i18n="ctaNote">Fees: 10% of profits above your
+high-water mark + 1%/yr — charged only on gains beyond your previous peak.
+Never on your principal.</p>
 
 <hr class="strong">
 <h2 style="margin-top:3.2rem" data-i18n="verH">Verify it yourself
@@ -435,6 +414,16 @@ Never on your principal.</p>
     <span class="sub" data-i18n="k4s">daily closes, since inception</span></div>
 </div>
 <hr>
+<h2 data-i18n="perfH">Performance <small data-i18n="perfS">— net of all fees,
+period by period</small></h2>
+<div class="perf-tabs" id="perf-tabs"></div>
+<div class="chart-wrap">
+  <svg id="perf" viewBox="0 0 880 270" role="img"
+    aria-label="Net returns by year, drill into months"></svg>
+</div>
+<p class="chart-note" data-i18n="perfNote">Click a year to inspect it month by
+month. Every figure is net of the 10% performance + 1%/yr management fees.</p>
+<hr>
 <h2 data-i18n="eqH">Equity <small>— against the forward-expectation band</small></h2>
 <div class="chart-wrap">
   <svg id="chart" viewBox="0 0 880 300" role="img"
@@ -449,16 +438,6 @@ whitepaper. Hover for daily values.</p>
   <table><tr><th>Date</th><th>Total</th><th>NAV / share</th><th>State</th></tr>
   <tr><td>2026-07-15</td><td>$284,899.58</td><td>$2.8490</td><td>1.9x</td></tr><tr><td>2026-07-14</td><td>$284,847.19</td><td>$2.8485</td><td>1.9x</td></tr><tr><td>2026-07-13</td><td>$284,789.20</td><td>$2.8479</td><td>1.9x</td></tr><tr><td>2026-07-12</td><td>$284,675.87</td><td>$2.8468</td><td>1.9x</td></tr><tr><td>2026-07-11</td><td>$284,530.33</td><td>$2.8453</td><td>1.9x</td></tr><tr><td>2026-07-10</td><td>$284,368.90</td><td>$2.8437</td><td>parked</td></tr><tr><td>2026-07-09</td><td>$284,340.86</td><td>$2.8434</td><td>parked</td></tr><tr><td>2026-07-08</td><td>$284,312.81</td><td>$2.8431</td><td>parked</td></tr><tr><td>2026-07-07</td><td>$284,284.77</td><td>$2.8428</td><td>parked</td></tr><tr><td>2026-07-06</td><td>$284,256.74</td><td>$2.8426</td><td>parked</td></tr><tr><td>2026-07-05</td><td>$284,228.70</td><td>$2.8423</td><td>parked</td></tr><tr><td>2026-07-04</td><td>$284,200.67</td><td>$2.8420</td><td>parked</td></tr><tr><td>2026-07-03</td><td>$284,172.65</td><td>$2.8417</td><td>parked</td></tr><tr><td>2026-07-02</td><td>$284,144.62</td><td>$2.8414</td><td>parked</td></tr><tr><td>2026-07-01</td><td>$284,116.60</td><td>$2.8412</td><td>parked</td></tr><tr><td>2026-06-30</td><td>$284,088.46</td><td>$2.8409</td><td>parked</td></tr><tr><td>2026-06-29</td><td>$284,057.33</td><td>$2.8406</td><td>parked</td></tr><tr><td>2026-06-28</td><td>$284,026.21</td><td>$2.8403</td><td>parked</td></tr><tr><td>2026-06-27</td><td>$283,995.08</td><td>$2.8400</td><td>parked</td></tr><tr><td>2026-06-26</td><td>$283,971.59</td><td>$2.8397</td><td>1.4x</td></tr><tr><td>2026-06-25</td><td>$283,932.92</td><td>$2.8393</td><td>1.4x</td></tr><tr><td>2026-06-24</td><td>$283,984.01</td><td>$2.8398</td><td>1.5x</td></tr><tr><td>2026-06-23</td><td>$284,022.49</td><td>$2.8402</td><td>1.6x</td></tr><tr><td>2026-06-22</td><td>$284,089.63</td><td>$2.8409</td><td>1.6x</td></tr><tr><td>2026-06-21</td><td>$283,995.66</td><td>$2.8400</td><td>1.6x</td></tr><tr><td>2026-06-20</td><td>$283,887.06</td><td>$2.8389</td><td>parked</td></tr><tr><td>2026-06-19</td><td>$283,859.07</td><td>$2.8386</td><td>parked</td></tr><tr><td>2026-06-18</td><td>$283,831.07</td><td>$2.8383</td><td>parked</td></tr><tr><td>2026-06-17</td><td>$283,803.08</td><td>$2.8380</td><td>parked</td></tr><tr><td>2026-06-16</td><td>$283,775.09</td><td>$2.8378</td><td>parked</td></tr></table>
 </details>
-<hr>
-<h2 data-i18n="perfH">Performance <small data-i18n="perfS">— net of all fees,
-period by period</small></h2>
-<div class="perf-tabs" id="perf-tabs"></div>
-<div class="chart-wrap">
-  <svg id="perf" viewBox="0 0 880 270" role="img"
-    aria-label="Net returns by year, drill into months"></svg>
-</div>
-<p class="chart-note" data-i18n="perfNote">Click a year to inspect it month by
-month. Every figure is net of the 10% performance + 1%/yr management fees.</p>
 <hr>
 <div class="cols">
   <section>
@@ -496,6 +475,13 @@ month. Every figure is net of the 10% performance + 1%/yr management fees.</p>
 <h2 data-i18n="ledH">Ledger <small>— capital movements &amp; events</small></h2>
 <div class="ev"><div class="ev-when">live</div><div><span class="ev-cat" data-i18n="ledCat">strategy</span><span class="ev-txt" data-i18n="ledLive">Delta-neutral basis running; leverage adapts to trailing funding. Per-run detail in the Telegram feed.</span></div></div>
 
+<div class="docs" style="margin-top:2.2rem">
+  <a href="whitepaper.html">Whitepaper</a>
+  <a href="FARMARE_Whitepaper_EN.pdf">PDF</a>
+  <a href="https://github.com/felixdigennaro/farmare-dashboard/blob/main/AUDIT.md">Audit</a>
+  <a href="https://github.com/felixdigennaro/farmare-dashboard/commits/main">Git ledger</a>
+</div>
+
 <div class="ctamid">
   <p data-i18n="ctamidL">Seen enough of the data?</p>
   <a class="cta" href="#join" data-i18n="ctaMain">Reserve your spot →</a>
@@ -518,6 +504,13 @@ month. Every figure is net of the 10% performance + 1%/yr management fees.</p>
     keeper can rebalance between whitelisted venues but has no code path to
     move funds to any third address. Every rule change has a 48-hour on-chain
     notice, so you can exit before it applies.</p></details>
+  <details><summary data-i18n="q7">Who runs this?</summary>
+    <p data-i18n="a7">Felice Di Gennaro, sole operator — he deposits his own
+    capital first. Every decision the system takes — every move, every guard
+    action, every figure — has been committed to a public, tamper-evident git
+    ledger for 1006 days: timestamps cannot be rewritten. No team-photo
+    theatre, no promises: a ledger you can audit, linked at the bottom of the
+    data section.</p></details>
   <details><summary data-i18n="q4">What happens if the operator disappears?</summary>
     <p data-i18n="a4">Your withdrawal right does not depend on the operator:
     redeem() is permissionless and always open. The worst case is unwinding at
@@ -761,8 +754,8 @@ const PERF = {"2023": {"y": 0.25775, "m": {"10": 0.019919, "11": 0.094637, "12":
     h2b:'Il fondo detiene ETH in staking e shorta pari importo di ETH: i movimenti di prezzo si annullano. Resta il flusso di commissioni, più la resa dello staking sul collaterale.',
     h3t:'Il sistema protegge il libro',
     h3b:'La leva è limitata a 3x dallo smart contract stesso, e quando il regime delle commissioni si rompe il libro si parcheggia in un comparto di lending sicuro finché non recupera — automaticamente.',
-    opH:'Chi lo gestisce', opRole:'operatore unico',
-    opBody:'Deposito per primo il mio capitale e rispondo di ogni decisione. L’intera storia del sistema — ogni mossa, ogni azione della guardia, ogni cifra — è committata da 1006 giorni in un registro git pubblico e a prova di manomissione: i timestamp non si riscrivono. Niente teatrino da foto di team, niente promesse. Un registro che puoi verificare.',
+    q7:'Chi lo gestisce?',
+    a7:'Felice Di Gennaro, operatore unico — deposita per primo il proprio capitale. Ogni decisione del sistema — ogni mossa, ogni azione della guardia, ogni cifra — è committata da 1006 giorni in un registro git pubblico e a prova di manomissione: i timestamp non si riscrivono. Niente teatrino da foto di team, niente promesse: un registro verificabile, linkato in fondo alla sezione dati.',
     verH:'Verifica tu stesso', verS:'— dati live grezzi, aggiornati 4 volte al giorno dal sistema',
     ctamidL:'Hai visto abbastanza dati?',
     ctamidF:'Al lancio i depositi aprono in ordine di lista.',
@@ -846,7 +839,7 @@ const PERF = {"2023": {"y": 0.25775, "m": {"10": 0.019919, "11": 0.094637, "12":
   if ((navigator.language || '').toLowerCase().slice(0, 2) === 'it') setLang('it');
 })();
 const V0 = 99997.2602739726;
-const GEN = new Date("2026-07-15T07:24:48Z");
+const GEN = new Date("2026-07-15T07:37:09Z");
 (function(){
   const el = document.getElementById("ago");
   function tick(){
