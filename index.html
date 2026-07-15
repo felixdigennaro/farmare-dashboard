@@ -160,6 +160,17 @@ main{max-width:1000px;margin:0 auto;padding:5rem 2.6rem 7rem}
 .op-name span{color:var(--muted);font-weight:400}
 .op-body{font-size:.9rem;line-height:1.65;color:var(--muted);margin:0;
   max-width:64ch}
+.dist-cmp{display:grid;grid-template-columns:1fr 1fr;gap:1rem;
+  margin:1.2rem 0 0;max-width:38rem}
+@media(max-width:560px){.dist-cmp{grid-template-columns:1fr}}
+.dist-cmp>div{background:var(--bg);border:1px solid var(--rule);
+  border-radius:12px;padding:.9rem 1.1rem}
+.dist-cmp label{font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted);display:block}
+.dist-cmp b{display:block;font-family:"SF Mono",ui-monospace,Menlo,monospace;
+  font-size:1.3rem;font-weight:600;margin-top:.3rem}
+.dist-cmp span{font-size:.72rem;color:var(--faint);display:block;
+  margin-top:.25rem}
 .perf-tabs{display:flex;gap:.5rem;flex-wrap:wrap;margin:0 0 1.2rem}
 .ptab{border:1px solid var(--rule);background:none;color:var(--muted);
   border-radius:999px;padding:.4rem 1.05rem;font-size:.72rem;cursor:pointer;
@@ -275,7 +286,7 @@ footer{margin-top:2.2rem;padding-top:1rem;border-top:1px solid var(--rule);
   <button class="langbtn" id="lang">IT</button></nav>
 </div>
 <div class="substrip"><b>live simulation</b> · day 1006 · real market data ·
-crisis guard active · 1.9x · updated <span id="ago">2026-07-15 05:56 UTC</span></div>
+crisis guard active · 1.9x · updated <span id="ago">2026-07-15 06:01 UTC</span></div>
 
 <p class="hero-h" data-i18n="heroH">$10,000 → $28,490 <span>in
 33 months.<br>Worst dip: −0.6%.</span></p>
@@ -320,6 +331,18 @@ order. The operator deposits his own capital first.</p>
   <div id="inc-view" hidden>
     <div><span class="out" id="inc-out">—</span><span class="gain"
       data-i18n="perMonth">/month · median payout</span></div>
+    <div class="dist-cmp">
+      <div>
+        <label data-i18n="diIncL">Monthly income — after 33 months</label>
+        <b id="di-tot">—</b>
+        <span id="di-sub">—</span>
+      </div>
+      <div>
+        <label data-i18n="diAccL">Grow — same period</label>
+        <b id="di-acc">—</b>
+        <span id="di-gap">—</span>
+      </div>
+    </div>
     <p class="note"><span id="inc-range"></span><span data-i18n="incNote">
     Distributing class: each month's realized gain is paid to your wallet in
     USDC instead of compounding. A losing month pays nothing — it is recovered
@@ -540,6 +563,13 @@ const PERF = {"2023": {"y": 0.25775, "m": {"10": 0.019919, "11": 0.094637, "12":
   const med = sorted.length ? sorted[Math.floor(sorted.length / 2)] : 0;
   const best = months.length ? Math.max(...months) : 0;
   const paid = months.filter(v => v > 0).length;
+  // distributing class, simulated with the HWM rule: gains are paid out,
+  // losses are recovered before payouts resume — principal never compounds
+  let navD = 1, paidD = 0;
+  months.forEach(r => {
+    navD *= 1 + r;
+    if (navD > 1) { paidD += navD - 1; navD = 1; }
+  });
   function calc(){
     const a = parseInt(inp.value, 10);
     document.getElementById("c-amt").textContent = usd(a);
@@ -554,6 +584,15 @@ const PERF = {"2023": {"y": 0.25775, "m": {"10": 0.019919, "11": 0.094637, "12":
     document.getElementById("inc-range").textContent = it
       ? `Nel backtest: pagati ${paid} mesi su ${months.length} · miglior mese +${usd(a * best)}. `
       : `In the backtest: ${paid} of ${months.length} months paid · best month +${usd(a * best)}. `;
+    const cap = a * navD, cedole = a * paidD, acc = a * MULT;
+    document.getElementById("di-tot").textContent = usd(cap + cedole);
+    document.getElementById("di-sub").textContent = it
+      ? `${usd(cedole)} incassati sul wallet + capitale ${usd(cap)}`
+      : `${usd(cedole)} paid to your wallet + ${usd(cap)} capital`;
+    document.getElementById("di-acc").textContent = usd(acc);
+    document.getElementById("di-gap").textContent = it
+      ? `il reinvestimento vale +${usd(acc - cap - cedole)} in più`
+      : `compounding is worth +${usd(acc - cap - cedole)} more`;
   }
   inp.addEventListener("input", calc); calc();
   window.addEventListener("fm-lang", calc);
@@ -671,6 +710,8 @@ const PERF = {"2023": {"y": 0.25775, "m": {"10": 0.019919, "11": 0.094637, "12":
     ctamidF:'Al lancio i depositi aprono in ordine di lista.',
     mAcc:'Accumulo', mInc:'Reddito mensile',
     perMonth:'/mese · payout mediano',
+    diIncL:'Reddito mensile — dopo 33 mesi',
+    diAccL:'Accumulo — stesso periodo',
     incNote:'Classe a distribuzione: il guadagno realizzato di ogni mese viene pagato in USDC sul tuo wallet invece di essere reinvestito. Un mese in perdita non paga nulla — viene prima recuperato (high-water mark). I payout variano col funding; al netto di tutte le fee.',
     perfH:'Performance <small>— al netto di tutte le fee, periodo per periodo</small>',
     perfNote:'Clicca un anno per vederlo mese per mese. Ogni cifra è al netto del 10% di performance + 1%/anno di gestione.',
@@ -707,7 +748,7 @@ const PERF = {"2023": {"y": 0.25775, "m": {"10": 0.019919, "11": 0.094637, "12":
   if ((navigator.language || '').toLowerCase().slice(0, 2) === 'it') setLang('it');
 })();
 const V0 = 99997.2602739726;
-const GEN = new Date("2026-07-15T05:56:52Z");
+const GEN = new Date("2026-07-15T06:01:20Z");
 (function(){
   const el = document.getElementById("ago");
   const mins = Math.max(0, Math.round((Date.now() - GEN) / 60000));
