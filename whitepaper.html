@@ -127,6 +127,13 @@ a{color:var(--green)}
 <p class="li">• <strong>Minimal keeper</strong> — the automation can rebalance but never withdraw.</p>
 <h2 id="s8">7. Fees</h2>
 <p>Share-based, identical to a classic fund: a management fee accrued pro-rata on AUM and a performance fee charged only on gains <strong>above the high-water mark</strong>, both minted to the operator as share dilution (never taken from principal). Defaults: 1%/year management, 10% performance. All fee changes pass the 48h timelock and the hard ceilings above.</p>
+<h3>7.1 Share classes — Grow and Monthly income</h3>
+<p>Depositors choose one of two share classes; the strategy, the risk and the fees are identical in both.</p>
+<p class="li">• <strong>Grow (accumulating).</strong> Gains compound in the share price. This is the</p>
+<p>default and the class every figure on the site refers to.</p>
+<p class="li">• <strong>Monthly income (distributing).</strong> At the end of each calendar month, the</p>
+<p>realized gain above the depositor&#x27;s personal high-water mark is paid out automatically in USDC to the depositor&#x27;s own wallet, instead of compounding. A flat or losing month pays <strong>nothing</strong> — the loss is recovered first, and payouts resume only above the previous peak, so income is never paid out of principal. Payouts vary with the funding regime and are not a fixed coupon.</p>
+<p>Operationally the payout is a keeper-executed <code>redeem()</code> of the gain portion to the depositor&#x27;s address — the same permissionless exit right every share has; no new trust assumption is introduced. Class can be switched at any time; the change takes effect with the standard 48h notice.</p>
 <h2 id="s9">8. Risk framework</h2>
 <p>FARMARE Alpha is a <strong>leveraged</strong> strategy. Its return is high because it takes real, bounded risks — priced explicitly in a production stress suite, not assumed away. <strong>This is not a capital-preservation product.</strong></p>
 <p><strong>Return and drawdown profile (through-cycle, stress-tested, net of fees):</strong></p>
@@ -207,6 +214,13 @@ a{color:var(--green)}
 <p class="li">• <strong>Keeper minimale</strong> — l&#x27;automazione può ribilanciare ma mai prelevare.</p>
 <h2 id="s8">7. Commissioni</h2>
 <p>A quote, identiche a un fondo classico: una commissione di gestione maturata pro-rata sull&#x27;AUM e una di performance applicata solo sui guadagni <strong>sopra l&#x27;high-water mark</strong>, entrambe emesse all&#x27;operatore come diluizione di quote (mai prelevate dal capitale). Default: 1%/anno gestione, 10% performance. Ogni modifica passa dal timelock di 48h e dai tetti massimi sopra indicati.</p>
+<h3>7.1 Classi di quote — Accumulo e Reddito mensile</h3>
+<p>Chi deposita sceglie una di due classi di quote; strategia, rischio e commissioni sono identici in entrambe.</p>
+<p class="li">• <strong>Accumulo.</strong> I guadagni si capitalizzano nel prezzo della quota. È la</p>
+<p>classe di default, quella a cui si riferisce ogni cifra sul sito.</p>
+<p class="li">• <strong>Reddito mensile (a distribuzione).</strong> Alla fine di ogni mese solare, il</p>
+<p>guadagno realizzato sopra l&#x27;high-water mark personale del depositante gli viene pagato automaticamente in USDC sul proprio wallet, invece di capitalizzarsi. Un mese piatto o in perdita <strong>non paga nulla</strong> — la perdita viene prima recuperata, e i payout riprendono solo sopra il picco precedente: il reddito non è mai pagato attingendo al capitale. I payout variano col regime di funding e non sono una cedola fissa.</p>
+<p>Operativamente il payout è una <code>redeem()</code> eseguita dal keeper per la sola parte di guadagno, verso l&#x27;indirizzo del depositante — lo stesso diritto di uscita permissionless di ogni quota; nessuna nuova ipotesi di fiducia. La classe si può cambiare in qualsiasi momento; la modifica ha effetto col preavviso standard di 48h.</p>
 <h2 id="s9">8. Framework di rischio</h2>
 <p>FARMARE Alpha è una strategia <strong>a leva</strong>. Il rendimento è alto perché si assumono rischi reali e limitati — prezzati esplicitamente in una suite di stress di produzione, non ignorati. <strong>Non è un prodotto di preservazione del capitale.</strong></p>
 <p><strong>Profilo di rendimento e drawdown (through-cycle, stress-tested, al netto delle fee):</strong></p>
