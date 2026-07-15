@@ -289,7 +289,7 @@ footer{margin-top:2.2rem;padding-top:1rem;border-top:1px solid var(--rule);
 <div class="substrip"><b data-i18n="ssLive">1006-day backtest</b> · <span
 data-i18n="ssData">real market data</span> · <span data-i18n="ssMon">monitored
 live since</span> 15 Jul 2026 · <span data-i18n="ssGuard">crisis guard active</span> · 1.9x · <span
-data-i18n="ssUpd">updated</span> <span id="ago">2026-07-15 14:17 UTC</span></div>
+data-i18n="ssUpd">updated</span> <span id="ago">2026-07-15 14:28 UTC</span></div>
 
 <p class="hero-h" data-i18n="heroH">$100,000 → $284,900 <span>in
 33 months.<br>Worst dip: −0.6%.</span></p>
@@ -462,11 +462,6 @@ month. Every figure is net of the 10% performance + 1%/yr management fees.</p>
     to your wallet in USDC, automatically). A losing month pays nothing — it is
     recovered first before payouts resume. You can switch class at any time
     with the standard 48h notice; fees are identical.</p></details>
-</div>
-
-<div class="ctamid last">
-  <p data-i18n="ctamidF">Your capital, your wallet, your call.</p>
-  <a class="cta" href="app.html" data-i18n="ctaMain">Deposit now →</a>
 </div>
 
 <hr>
@@ -689,7 +684,6 @@ const PERF = {"2023": {"y": 0.25775, "m": {"10": 0.019919, "11": 0.094637, "12":
     a7:'Felice Digennaro, operatore unico — deposita per primo il proprio capitale. Sia chiaro cosa sono i numeri: la curva di 1006 giorni è un <b>backtest</b> ricostruito su dati di mercato reali, non 1006 giorni di trading vissuto. Il sistema che la produce ha iniziato a pubblicare in avanti il 15 Jul 2026, e da quel giorno ogni run è committato in un <a href="https://github.com/felixdigennaro/farmare-dashboard/commits/main">registro git pubblico</a> i cui timestamp non si riscrivono. Sei in anticipo, e puoi guardare dal primo giorno.',
     ctamidL:'Hai visto abbastanza dati?',
     depNote:'Non-custodial: depositi direttamente nel vault dal tuo wallet e puoi prelevare in qualsiasi momento. Il capitale dell’operatore è dentro per primo.',
-    ctamidF:'Il tuo capitale, il tuo wallet, la tua scelta.',
     mAcc:'Accumulo', mInc:'Reddito mensile',
     perMonth:'/mese · payout mediano',
     diIncL:'Reddito mensile — dopo 33 mesi',
@@ -755,7 +749,7 @@ const PERF = {"2023": {"y": 0.25775, "m": {"10": 0.019919, "11": 0.094637, "12":
   if ((navigator.language || '').toLowerCase().slice(0, 2) === 'it') setLang('it');
 })();
 const V0 = 99997.2602739726;
-const GEN = new Date("2026-07-15T14:17:50Z");
+const GEN = new Date("2026-07-15T14:28:47Z");
 (function(){
   const el = document.getElementById("ago");
   function tick(){
