@@ -282,11 +282,13 @@ footer{margin-top:2.2rem;padding-top:1rem;border-top:1px solid var(--rule);
 <main>
 <div class="mast">
   <h1 class="wordmark">FARMARE</h1>
-  <nav class="topnav"><a href="./" class="on">Fund</a><a href="app.html">My Account</a>
+  <nav class="topnav"><a href="./" class="on">Fund</a><a href="app.html">My Account</a><a href="whitepaper.html">Whitepaper</a>
   <button class="langbtn" id="lang">IT</button></nav>
 </div>
-<div class="substrip"><b>live simulation</b> · day 1006 · real market data ·
-crisis guard active · 1.9x · updated <span id="ago">2026-07-15 06:56 UTC</span></div>
+<div class="substrip"><b data-i18n="ssLive">live simulation</b> · <span
+data-i18n="ssDay">day</span> 1006 · <span data-i18n="ssData">real market
+data</span> · <span data-i18n="ssGuard">crisis guard active</span> · 1.9x · <span data-i18n="ssUpd">updated</span> <span
+id="ago">2026-07-15 07:24 UTC</span></div>
 
 <p class="hero-h" data-i18n="heroH">$10,000 → $28,490 <span>in
 33 months.<br>Worst dip: −0.6%.</span></p>
@@ -294,7 +296,8 @@ crisis guard active · 1.9x · updated <span id="ago">2026-07-15 06:56 UTC</span
 traders pay, every day — whichever way the market moves. Market-neutral ·
 target ~26%/yr net of fees · real backtest, Oct 2023 → Jul 2026.</p>
 
-<form class="join" id="join" method="POST"
+<div id="join">
+<form class="join" method="POST"
   action="https://docs.google.com/forms/d/e/1FAIpQLSfW3hbRvCjgaIyUeNnPt_EMPz2ADdmkwNBAb3miiwKBjIdw9A/formResponse">
   <input type="email" name="emailAddress" required autocomplete="email"
     placeholder="Your best email" data-i18n-ph="phEmail">
@@ -302,6 +305,7 @@ target ~26%/yr net of fees · real backtest, Oct 2023 → Jul 2026.</p>
 </form>
 <p class="join-ok" hidden data-i18n="joinOk">✓ You're on the list — you'll be
 the first to know at launch.</p>
+</div>
 <p class="ctanote" data-i18n="scarcity">This strategy has finite capacity —
 the funding pool dilutes as assets grow, so access at launch follows list
 order. The operator deposits his own capital first.</p>
@@ -421,26 +425,27 @@ Never on your principal.</p>
 <h2 style="margin-top:3.2rem" data-i18n="verH">Verify it yourself
 <small data-i18n="verS">— raw live data, updated 4×/day by the system</small></h2>
 <div class="kpis">
-  <div class="kpi"><label>Portfolio value</label><b>$284,899.58</b>
-    <span class="sub">virtual capital</span></div>
-  <div class="kpi"><label>Since inception</label><b class="up">+184.90%</b>
-    <span class="sub">NAV per share basis</span></div>
-  <div class="kpi"><label>Annualized</label><b>+46.2%</b>
-    <span class="sub">net of fees · target ~26%/yr</span></div>
-  <div class="kpi"><label>Max drawdown</label><b>-0.59%</b>
-    <span class="sub">daily closes, since inception</span></div>
+  <div class="kpi"><label data-i18n="k1">Portfolio value</label><b>$284,899.58</b>
+    <span class="sub" data-i18n="k1s">virtual capital</span></div>
+  <div class="kpi"><label data-i18n="k2">Since inception</label><b class="up">+184.90%</b>
+    <span class="sub" data-i18n="k2s">NAV per share basis</span></div>
+  <div class="kpi"><label data-i18n="k3">Annualized</label><b>+46.2%</b>
+    <span class="sub" data-i18n="k3s">net of fees · target ~26%/yr</span></div>
+  <div class="kpi"><label data-i18n="k4">Max drawdown</label><b>-0.59%</b>
+    <span class="sub" data-i18n="k4s">daily closes, since inception</span></div>
 </div>
 <hr>
-<h2>Equity <small>— against the forward-expectation band</small></h2>
+<h2 data-i18n="eqH">Equity <small>— against the forward-expectation band</small></h2>
 <div class="chart-wrap">
   <svg id="chart" viewBox="0 0 880 300" role="img"
     aria-label="Portfolio equity versus the forward-expectation band"></svg>
   <div class="tip" id="tip"></div>
 </div>
-<p class="chart-note">The shaded band is FARMARE Alpha's expectation range,
-~+5% p.a. to the ~+26% p.a. median. Figures are backtested, not a projection;
-methodology and risk framework are in the whitepaper. Hover for daily values.</p>
-<details><summary>Daily figures</summary>
+<p class="chart-note" data-i18n="eqNote">The shaded band is FARMARE Alpha's
+expectation range, ~+5% p.a. to the ~+26% p.a. median. Figures are
+backtested, not a projection; methodology and risk framework are in the
+whitepaper. Hover for daily values.</p>
+<details><summary data-i18n="dfH">Daily figures</summary>
   <table><tr><th>Date</th><th>Total</th><th>NAV / share</th><th>State</th></tr>
   <tr><td>2026-07-15</td><td>$284,899.58</td><td>$2.8490</td><td>1.9x</td></tr><tr><td>2026-07-14</td><td>$284,847.19</td><td>$2.8485</td><td>1.9x</td></tr><tr><td>2026-07-13</td><td>$284,789.20</td><td>$2.8479</td><td>1.9x</td></tr><tr><td>2026-07-12</td><td>$284,675.87</td><td>$2.8468</td><td>1.9x</td></tr><tr><td>2026-07-11</td><td>$284,530.33</td><td>$2.8453</td><td>1.9x</td></tr><tr><td>2026-07-10</td><td>$284,368.90</td><td>$2.8437</td><td>parked</td></tr><tr><td>2026-07-09</td><td>$284,340.86</td><td>$2.8434</td><td>parked</td></tr><tr><td>2026-07-08</td><td>$284,312.81</td><td>$2.8431</td><td>parked</td></tr><tr><td>2026-07-07</td><td>$284,284.77</td><td>$2.8428</td><td>parked</td></tr><tr><td>2026-07-06</td><td>$284,256.74</td><td>$2.8426</td><td>parked</td></tr><tr><td>2026-07-05</td><td>$284,228.70</td><td>$2.8423</td><td>parked</td></tr><tr><td>2026-07-04</td><td>$284,200.67</td><td>$2.8420</td><td>parked</td></tr><tr><td>2026-07-03</td><td>$284,172.65</td><td>$2.8417</td><td>parked</td></tr><tr><td>2026-07-02</td><td>$284,144.62</td><td>$2.8414</td><td>parked</td></tr><tr><td>2026-07-01</td><td>$284,116.60</td><td>$2.8412</td><td>parked</td></tr><tr><td>2026-06-30</td><td>$284,088.46</td><td>$2.8409</td><td>parked</td></tr><tr><td>2026-06-29</td><td>$284,057.33</td><td>$2.8406</td><td>parked</td></tr><tr><td>2026-06-28</td><td>$284,026.21</td><td>$2.8403</td><td>parked</td></tr><tr><td>2026-06-27</td><td>$283,995.08</td><td>$2.8400</td><td>parked</td></tr><tr><td>2026-06-26</td><td>$283,971.59</td><td>$2.8397</td><td>1.4x</td></tr><tr><td>2026-06-25</td><td>$283,932.92</td><td>$2.8393</td><td>1.4x</td></tr><tr><td>2026-06-24</td><td>$283,984.01</td><td>$2.8398</td><td>1.5x</td></tr><tr><td>2026-06-23</td><td>$284,022.49</td><td>$2.8402</td><td>1.6x</td></tr><tr><td>2026-06-22</td><td>$284,089.63</td><td>$2.8409</td><td>1.6x</td></tr><tr><td>2026-06-21</td><td>$283,995.66</td><td>$2.8400</td><td>1.6x</td></tr><tr><td>2026-06-20</td><td>$283,887.06</td><td>$2.8389</td><td>parked</td></tr><tr><td>2026-06-19</td><td>$283,859.07</td><td>$2.8386</td><td>parked</td></tr><tr><td>2026-06-18</td><td>$283,831.07</td><td>$2.8383</td><td>parked</td></tr><tr><td>2026-06-17</td><td>$283,803.08</td><td>$2.8380</td><td>parked</td></tr><tr><td>2026-06-16</td><td>$283,775.09</td><td>$2.8378</td><td>parked</td></tr></table>
 </details>
@@ -457,36 +462,39 @@ month. Every figure is net of the 10% performance + 1%/yr management fees.</p>
 <hr>
 <div class="cols">
   <section>
-    <h2>Holdings</h2>
+    <h2 data-i18n="holdH">Holdings</h2>
     <div class="pos" style="display:block">
   <div style="display:flex;justify-content:space-between;align-items:baseline">
-    <div class="pos-name">FARMARE Alpha &nbsp;<span class="term term-on">delta-neutral basis</span></div></div>
-  <div class="pos-venue">Long staked-ETH (weETH / stETH, dual-restaked) + short
-    ETH perpetual — market-neutral. Diversified across ~8 venues, adaptive
-    leverage up to 3x on funding carry. De-levers automatically when funding
-    thins.</div>
+    <div class="pos-name">FARMARE Alpha &nbsp;<span class="term term-on"
+      data-i18n="hChip">delta-neutral basis</span></div></div>
+  <div class="pos-venue" data-i18n="hBody">Long staked-ETH (weETH / stETH,
+    dual-restaked) + short ETH perpetual — market-neutral. Diversified across
+    ~8 venues, adaptive leverage up to 3x on funding carry. De-levers
+    automatically when funding thins.</div>
 </div>
     
-    <p class="muted" style="margin-top:.9rem">Crisis guard: active · trailing funding +7.2%/yr (carry regime healthy).</p>
+    <p class="muted" style="margin-top:.9rem"><span data-i18n="vgA">Crisis guard: active · trailing funding</span> +7.2%<span data-i18n="vgA2">/yr (carry regime healthy)</span>.</p>
   </section>
   <section>
-    <h2>Safeguards <small>— automatic</small></h2>
-    <div class="sg"><b>Crisis guard</b>
-      <span>if trailing funding breaks down, the book fully unwinds and parks
-      in the lending sleeve until the carry regime returns</span></div>
-    <div class="sg"><b>Leverage hard cap</b>
-      <span>3x maximum, enforced by the vault contract itself — not by
-      operator discipline</span></div>
-    <div class="sg"><b>Collateral peg limits</b>
-      <span>liquid-restaking exposure capped at 50% of collateral; peg
-      monitored continuously with automatic unwind</span></div>
-    <div class="sg"><b>Tamper-evident ledger</b>
-      <span>every decision journaled and git-committed with timestamps</span></div>
+    <h2 data-i18n="sgH">Safeguards <small>— automatic</small></h2>
+    <div class="sg"><b data-i18n="sg1">Crisis guard</b>
+      <span data-i18n="sg1b">if trailing funding breaks down, the book fully
+      unwinds and parks in the lending sleeve until the carry regime
+      returns</span></div>
+    <div class="sg"><b data-i18n="sg2">Leverage hard cap</b>
+      <span data-i18n="sg2b">3x maximum, enforced by the vault contract itself
+      — not by operator discipline</span></div>
+    <div class="sg"><b data-i18n="sg3">Collateral peg limits</b>
+      <span data-i18n="sg3b">liquid-restaking exposure capped at 50% of
+      collateral; peg monitored continuously with automatic unwind</span></div>
+    <div class="sg"><b data-i18n="sg4">Tamper-evident ledger</b>
+      <span data-i18n="sg4b">every decision journaled and git-committed with
+      timestamps</span></div>
   </section>
 </div>
 <hr>
-<h2>Ledger <small>— capital movements &amp; events</small></h2>
-<div class="ev"><div class="ev-when">live</div><div><span class="ev-cat">strategy</span><span class="ev-txt">Delta-neutral basis running; leverage adapts to trailing funding. Per-run detail in the Telegram feed.</span></div></div>
+<h2 data-i18n="ledH">Ledger <small>— capital movements &amp; events</small></h2>
+<div class="ev"><div class="ev-when">live</div><div><span class="ev-cat" data-i18n="ledCat">strategy</span><span class="ev-txt" data-i18n="ledLive">Delta-neutral basis running; leverage adapts to trailing funding. Per-run detail in the Telegram feed.</span></div></div>
 
 <div class="ctamid">
   <p data-i18n="ctamidL">Seen enough of the data?</p>
@@ -584,11 +592,11 @@ month. Every figure is net of the 10% performance + 1%/yr management fees.</p>
   </section>
 </div>
 
-<footer>Virtual portfolio on live market data — no client funds, no custody.
-Simulated results; not investment advice and not an offer. Updated four
-times daily by the CI pipeline; the complete decision journal is available
-for inspection on request. Methodology, limitations and the full risk
-framework: see the documents linked above.</footer>
+<footer data-i18n="footNote">Virtual portfolio on live market data — no
+client funds, no custody. Simulated results; not investment advice and not
+an offer. Updated four times daily by the CI pipeline; the complete decision
+journal is available for inspection on request. Methodology, limitations and
+the full risk framework: see the documents linked above.</footer>
 </main>
 <div class="stickycta"><a href="#join" data-i18n="ctaMain">Reserve your spot →</a></div>
 <script>
@@ -765,6 +773,29 @@ const PERF = {"2023": {"y": 0.25775, "m": {"10": 0.019919, "11": 0.094637, "12":
     incNote:'Classe a distribuzione: il guadagno realizzato di ogni mese viene pagato in USDC sul tuo wallet invece di essere reinvestito. Un mese in perdita non paga nulla — viene prima recuperato (high-water mark). I payout variano col funding; al netto di tutte le fee.',
     perfH:'Performance <small>— al netto di tutte le fee, periodo per periodo</small>',
     perfNote:'Clicca un anno per vederlo mese per mese. Ogni cifra è al netto del 10% di performance + 1%/anno di gestione.',
+    ssLive:'simulazione live', ssDay:'giorno', ssData:'dati di mercato reali',
+    ssGuard:'guardia di crisi attiva', ssGuardP:'guardia di crisi: parcheggiato (comparto sicuro)',
+    ssUpd:'aggiornato',
+    k1:'Valore del portafoglio', k1s:'capitale virtuale',
+    k2:'Da inizio', k2s:'su base NAV per quota',
+    k3:'Annualizzato', k3s:'al netto delle fee · target ~26%/anno',
+    k4:'Max drawdown', k4s:'chiusure giornaliere, da inizio',
+    eqH:'Equity <small>— contro la banda di attesa forward</small>',
+    eqNote:'La banda ombreggiata è l’intervallo di attesa di FARMARE Alpha, da ~+5% annuo alla mediana ~+26% annuo. Cifre da backtest, non una proiezione; metodologia e framework di rischio nel whitepaper. Passa il mouse per i valori giornalieri.',
+    dfH:'Dati giornalieri',
+    holdH:'Posizioni', sgH:'Salvaguardie <small>— automatiche</small>',
+    ledH:'Registro <small>— movimenti di capitale ed eventi</small>',
+    hChip:'basis delta-neutral',
+    hBody:'Long su ETH in staking (weETH / stETH, dual-restaked) + short su perpetual ETH — neutrale al mercato. Diversificato su ~8 venue, leva adattiva fino a 3x sul funding. Si de-leva automaticamente quando il funding si assottiglia.',
+    vgA:'Guardia di crisi: attiva · funding trailing', vgA2:'/anno (regime di carry sano)',
+    vgP:'Guardia di crisi: <b>parcheggiato nel comparto di lending</b> — regime di funding compromesso; rientra dopo 5 giorni consecutivi di funding sopra il 5%.',
+    sg1:'Guardia di crisi', sg1b:'se il funding si rompe, il libro si smonta completamente e parcheggia nel comparto di lending finché il regime di carry non torna',
+    sg2:'Tetto rigido alla leva', sg2b:'massimo 3x, imposto dal contratto del vault stesso — non dalla disciplina dell’operatore',
+    sg3:'Limiti di peg del collaterale', sg3b:'esposizione liquid-restaking limitata al 50% del collaterale; peg monitorato in continuo con smontaggio automatico',
+    sg4:'Registro a prova di manomissione', sg4b:'ogni decisione è messa a giornale e committata su git con timestamp',
+    ledCat:'strategia',
+    ledLive:'Basis delta-neutral in esecuzione; la leva si adatta al funding trailing. Dettaglio per-run nel feed Telegram.',
+    footNote:'Portafoglio virtuale su dati di mercato reali — nessun fondo di clienti, nessuna custodia. Risultati simulati; non è consulenza d’investimento né un’offerta. Aggiornato quattro volte al giorno dalla pipeline CI; il giornale decisionale completo è disponibile su richiesta. Metodologia, limiti e framework di rischio completo: vedi i documenti linkati sopra.',
     ptH:'Programma partner',
     ptBody:'Aperto a tutti — niente inviti, niente registrazione: <b>collega il wallet e il tuo link personale è pronto</b>. Chi deposita dal tuo link viene associato a te on-chain, e guadagni <b>fino al 30% delle nostre fee</b> su quel capitale — a vita, riscattabile quando vuoi, garantito dallo smart contract e non promesso in una lettera. Chi introduci paga esattamente le stesse fee in ogni caso.',
     pt1:'<b>20%</b>&nbsp;delle fee — base',
@@ -806,16 +837,27 @@ const PERF = {"2023": {"y": 0.25775, "m": {"10": 0.019919, "11": 0.094637, "12":
   }
   document.getElementById('lang').addEventListener('click',
     () => setLang(cur === 'en' ? 'it' : 'en'));
+  window.addEventListener('fm-lang', () => {
+    const b = document.getElementById('bandlab');
+    if (b) b.textContent = document.documentElement.lang === 'it'
+      ? 'ATTESA FORWARD (mediana) — NON UNA PROIEZIONE'
+      : 'FORWARD EXPECTATION (median) — NOT A PROJECTION';
+  });
   if ((navigator.language || '').toLowerCase().slice(0, 2) === 'it') setLang('it');
 })();
 const V0 = 99997.2602739726;
-const GEN = new Date("2026-07-15T06:56:04Z");
+const GEN = new Date("2026-07-15T07:24:48Z");
 (function(){
   const el = document.getElementById("ago");
-  const mins = Math.max(0, Math.round((Date.now() - GEN) / 60000));
-  el.textContent = mins < 60 ? mins + " min ago"
-    : mins < 2880 ? Math.round(mins / 60) + " h ago"
-    : Math.round(mins / 1440) + " d ago";
+  function tick(){
+    const it = document.documentElement.lang === "it";
+    const mins = Math.max(0, Math.round((Date.now() - GEN) / 60000));
+    el.textContent = mins < 60 ? mins + (it ? " min fa" : " min ago")
+      : mins < 2880 ? Math.round(mins / 60) + (it ? " h fa" : " h ago")
+      : Math.round(mins / 1440) + (it ? " g fa" : " d ago");
+  }
+  tick();
+  window.addEventListener("fm-lang", tick);
 })();
 (function(){
   const svg = document.getElementById("chart"), tip = document.getElementById("tip");
@@ -851,7 +893,7 @@ const GEN = new Date("2026-07-15T06:56:04Z");
   g+=`<polygon points="${up} ${dn}" fill="${css('--band')}"/>`;
   g+=`<polyline points="${up}" fill="none" stroke="${css('--rule')}" stroke-width="1"/>`;
   g+=`<polyline points="${upl.join(' ')}" fill="none" stroke="${css('--rule')}" stroke-width="1"/>`;
-  g+=`<text x="${L+4}" y="${Y(upper[n-1])-8}" font-size="10" font-family='${MONO}' fill="${css('--faint')}" letter-spacing="1">FORWARD EXPECTATION (median) — NOT A PROJECTION</text>`;
+  g+=`<text id="bandlab" x="${L+4}" y="${Y(upper[n-1])-8}" font-size="10" font-family='${MONO}' fill="${css('--faint')}" letter-spacing="1">${document.documentElement.lang==='it'?'ATTESA FORWARD (mediana) — NON UNA PROIEZIONE':'FORWARD EXPECTATION (median) — NOT A PROJECTION'}</text>`;
   const line=vals.map((v,i)=>`${X(i)},${Y(v)}`).join(" ");
   g+=`<polyline points="${line}" fill="none" stroke="${css('--green')}" stroke-width="1.6" stroke-linejoin="round"/>`;
   g+=`<circle cx="${X(n-1)}" cy="${Y(vals[n-1])}" r="3" fill="${css('--green')}"/>`;

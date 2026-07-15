@@ -1,6 +1,14 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>FARMARE — My Account</title>
+<meta name="description" content="Your own view of the FARMARE fund: your equity curve, your P&L, your partner link — non-custodial, withdraw anytime.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="FARMARE">
+<meta property="og:title" content="FARMARE — My Account">
+<meta property="og:description" content="Your own view of the fund: equity curve, P&L, partner link. Non-custodial — withdraw anytime.">
+<meta property="og:url" content="https://farmarecapital.com/app.html">
+<meta property="og:image" content="https://farmarecapital.com/og.png">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%231d5c3e'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='20' font-weight='bold' fill='%23fcfcfa' text-anchor='middle'%3EF%3C/text%3E%3C/svg%3E">
 <style>
 :root{
@@ -15,12 +23,14 @@
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);
-  font:14px/1.55 -apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
-main{max-width:720px;margin:0 auto;padding:2.4rem 1.3rem 3rem}
+  font:15px/1.62 -apple-system,"Segoe UI",Roboto,sans-serif;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+main{max-width:760px;margin:0 auto;padding:3.2rem 1.4rem 4rem}
 .mast{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:.6rem}
-.wordmark{font-family:Charter,"Iowan Old Style",Georgia,serif;font-size:1.4rem;font-weight:700;letter-spacing:.3em;margin:0}
-.nav{display:flex;gap:1.1rem}
-.nav a{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);text-decoration:none;padding-bottom:.15rem}
+.wordmark{font-family:Charter,"Iowan Old Style",Georgia,serif;font-size:1.6rem;font-weight:700;letter-spacing:.34em;margin:0}
+.nav{display:flex;gap:1.4rem}
+.nav a{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);text-decoration:none;padding-bottom:.15rem}
+.nav a:hover{color:var(--ink)}
 .nav a.on{color:var(--ink);border-bottom:2px solid var(--green)}
 .tagline{font-size:.82rem;color:var(--muted);margin:.4rem 0 0;font-style:italic;font-family:Charter,Georgia,serif}
 hr{border:0;border-top:2px solid var(--rule-strong);margin:1.1rem 0 1.4rem}
@@ -108,11 +118,11 @@ time; no one, including the operator, can move your funds elsewhere.</p>
   <b>Not yet live.</b> The vault is fully tested but not yet deployed to
   mainnet. Below you can already see the fund's per-share track record your
   account will mirror. Deposits open at go-live —
-  <a href="mailto:felix.digennaro@gmail.com?subject=FARMARE%20launch%20list&body=Add%20me%20to%20the%20launch%20list.">join
+  <a href="./#join">join
   the launch list</a> to be notified first.
 </div>
 <div id="wrongnet" class="note" style="display:none">
-  This vault runs on <b>Base</b>. <a href="#" id="addnet">Add / switch to Base</a>.
+  This vault runs on <b>Ethereum mainnet</b>. <a href="#" id="addnet">Switch network</a>.
 </div>
 
 <div class="pnl" id="pnl" style="display:none">
@@ -182,10 +192,11 @@ profits above high-water mark + 1%/yr. Not investment advice.</footer>
 
 <script>
 const CFG = {
-  vault:"0x0000000000000000000000000000000000000000", usdc:"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
-  deployBlock:0, chainId:"0x2105", usdcDecimals:6, shareDecimals:6,
-  baseParams:{chainId:"0x2105",chainName:"Base",nativeCurrency:{name:"Ether",symbol:"ETH",decimals:18},
-    rpcUrls:["https://mainnet.base.org"],blockExplorerUrls:["https://basescan.org"]},
+  // Ethereum mainnet (the Alpha engine's home — see contracts/DeployAlpha.s.sol)
+  vault:"0x0000000000000000000000000000000000000000", usdc:"0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+  deployBlock:0, chainId:"0x1", usdcDecimals:6, shareDecimals:6,
+  baseParams:{chainId:"0x1",chainName:"Ethereum",nativeCurrency:{name:"Ether",symbol:"ETH",decimals:18},
+    rpcUrls:["https://ethereum-rpc.publicnode.com"],blockExplorerUrls:["https://etherscan.io"]},
 };
 const T_DEP="0xdcbc1c05240f31ff3ad067ef1ee35ce4997762752e3a095284754544f4c709d7";
 const T_WD ="0xfbde797d201c681b91056529119e0b02407c7bb96a4a2c75c01fc9667232c8db";
@@ -324,7 +335,7 @@ function setAvail(){const a=document.getElementById("avail");if(!window._bal){a.
 
 async function connect(){
   eth=window.ethereum;
-  if(!eth){ msg("No wallet found. Install MetaMask or any Base-compatible wallet.","err"); return; }
+  if(!eth){ msg("No wallet found. Install MetaMask or any Ethereum wallet.","err"); return; }
   account=(await rpc("eth_requestAccounts",[]))[0];
   document.getElementById("who").textContent=account.slice(0,6)+"…"+account.slice(-4);
   document.getElementById("connect").style.display="none";
