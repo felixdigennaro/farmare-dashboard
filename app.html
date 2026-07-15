@@ -138,7 +138,7 @@ time; no one, including the operator, can move your funds elsewhere.</p>
 
 <div class="pnl" id="refcard" style="display:none">
   <div class="head"><label>Your partner link — no sign-up needed</label>
-    <label id="refbps" class="mono"></label></div>
+    <label id="refbps" class="mono">25% of our fees</label></div>
   <div class="field"><input id="reflink" readonly style="font-size:.78rem">
     <button class="max" id="refcopy">Copy</button></div>
   <div class="grid" id="refstats" style="display:none">
@@ -356,8 +356,8 @@ function showRefCard(){
   card.style.display="block";
   document.getElementById("reflink").value="https://farmarecapital.com/app.html?ref="+account;
   document.getElementById("refnote").textContent = live()
-    ? "Anyone who deposits through your link is tagged to you on-chain — you earn a share of our fees on their capital, for life. Payouts are ordinary vault shares you can redeem anytime."
-    : "Share it now: anyone who opens your link is remembered, and their first deposit at launch is tagged to you on-chain. You earn 25% of our fees on the capital you introduce — for life, enforced by the smart contract.";
+    ? "Anyone who deposits through your link is tagged to you on-chain. You then earn 25% of the fees FARMARE charges on their capital — that is 25% of our 10% performance fee and of our 1%/yr management fee, for as long as they stay. It is a share of OUR fee: they pay exactly the same either way, and nothing comes out of their principal. Payouts are ordinary vault shares you can redeem anytime."
+    : "Share it now: anyone who opens your link is remembered, and their first deposit is tagged to you on-chain. You earn 25% of the fees FARMARE charges on that capital — 25% of our 10% performance fee and of our 1%/yr management fee — for as long as they stay, enforced by the smart contract.";
   if(live()) refreshRef();
 }
 async function refreshRef(){

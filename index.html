@@ -289,7 +289,7 @@ footer{margin-top:2.2rem;padding-top:1rem;border-top:1px solid var(--rule);
 <div class="substrip"><b data-i18n="ssLive">1006-day backtest</b> · <span
 data-i18n="ssData">real market data</span> · <span data-i18n="ssMon">monitored
 live since</span> 15 Jul 2026 · <span data-i18n="ssGuard">crisis guard active</span> · 1.9x · <span
-data-i18n="ssUpd">updated</span> <span id="ago">2026-07-15 12:51 UTC</span></div>
+data-i18n="ssUpd">updated</span> <span id="ago">2026-07-15 13:06 UTC</span></div>
 
 <p class="hero-h" data-i18n="heroH">$100,000 → $284,900 <span>in
 33 months.<br>Worst dip: −0.6%.</span></p>
@@ -488,14 +488,16 @@ month. Every figure is net of the 10% performance + 1%/yr management fees.</p>
     <p class="op-body" data-i18n="ptBody">Open to everyone — no invitation, no
     sign-up: <b>connect your wallet and your personal link is ready</b>.
     Anyone who deposits through it is tagged to you on-chain, and you earn
-    <b>up to 30% of our fees</b> on that capital — for life, claimable
-    anytime, enforced by the smart contract rather than promised in a letter.
-    The people you introduce pay exactly the same fees either way.</p>
+    <b>25% of the fees FARMARE charges on that capital</b> — 25% of our 10%
+    performance fee and of our 1%/yr management fee, for as long as they stay,
+    claimable anytime, enforced by the smart contract rather than promised in
+    a letter. It is a share of <b>our</b> fee: the people you introduce pay
+    exactly the same either way, and nothing is taken from their principal.</p>
     <div class="chips" style="margin-top:1.3rem;grid-template-columns:1fr;
       max-width:22rem">
-      <span class="chip" data-i18n="pt1"><b>20%</b>&nbsp;of fees — base</span>
-      <span class="chip" data-i18n="pt2"><b>25%</b>&nbsp;— over $250k introduced</span>
-      <span class="chip" data-i18n="pt3"><b>30%</b>&nbsp;— over $1M introduced</span>
+      <span class="chip" data-i18n="pt1"><b>25%</b>&nbsp;of our performance fee</span>
+      <span class="chip" data-i18n="pt2"><b>25%</b>&nbsp;of our management fee</span>
+      <span class="chip" data-i18n="pt3"><b>30%</b>&nbsp;— ceiling fixed in the contract</span>
     </div>
     <div class="docs" style="margin-top:1.3rem" data-i18n="ptPdfW"><a
       href="FARMARE_Partner_EN.pdf">Partner one-pager (PDF)</a></div>
@@ -722,10 +724,10 @@ const PERF = {"2023": {"y": 0.25775, "m": {"10": 0.019919, "11": 0.094637, "12":
     dfH:'Dati giornalieri', sgH:'Salvaguardie <small>— automatiche</small>', vgA2:'/anno (regime di carry sano)', sg1b:'se il funding si rompe, il libro si smonta completamente e parcheggia nel comparto di lending finché il regime di carry non torna', sg2b:'massimo 3x, imposto dal contratto del vault stesso — non dalla disciplina dell’operatore', sg3b:'esposizione liquid-restaking limitata al 50% del collaterale; peg monitorato in continuo con smontaggio automatico', sg4b:'ogni decisione è messa a giornale e committata su git con timestamp',
     footNote:'Portafoglio virtuale su dati di mercato reali — nessun fondo di clienti, nessuna custodia. Risultati simulati; non è consulenza d’investimento né un’offerta. Aggiornato quattro volte al giorno dalla pipeline CI; il giornale decisionale completo è disponibile su richiesta. Metodologia, limiti e framework di rischio completo: vedi i documenti linkati sopra.',
     ptH:'Programma partner',
-    ptBody:'Aperto a tutti — niente inviti, niente registrazione: <b>collega il wallet e il tuo link personale è pronto</b>. Chi deposita dal tuo link viene associato a te on-chain, e guadagni <b>fino al 30% delle nostre fee</b> su quel capitale — a vita, riscattabile quando vuoi, garantito dallo smart contract e non promesso in una lettera. Chi introduci paga esattamente le stesse fee in ogni caso.',
-    pt1:'<b>20%</b>&nbsp;delle fee — base',
-    pt2:'<b>25%</b>&nbsp;— oltre $250k introdotti',
-    pt3:'<b>30%</b>&nbsp;— oltre $1M introdotti',
+    ptBody:'Aperto a tutti — niente inviti, niente registrazione: <b>collega il wallet e il tuo link personale è pronto</b>. Chi deposita dal tuo link viene associato a te on-chain, e guadagni <b>il 25% delle fee che FARMARE incassa su quel capitale</b> — il 25% della nostra fee di performance del 10% e della nostra fee di gestione dell’1%/anno, finché resta, riscattabile quando vuoi, garantito dallo smart contract e non promesso in una lettera. È una quota della <b>nostra</b> fee: chi introduci paga esattamente lo stesso in ogni caso, e nulla viene tolto dal suo capitale.',
+    pt1:'<b>25%</b>&nbsp;della nostra fee di performance',
+    pt2:'<b>25%</b>&nbsp;della nostra fee di gestione',
+    pt3:'<b>30%</b>&nbsp;— tetto fissato nel contratto',
     ptPdfW:'<a href="FARMARE_Partner_IT.pdf">One-pager partner (PDF)</a>',
     ptCta:'Ottieni il tuo link — collega il wallet →',
     ptCta2:'Introduci capitali importanti? Parla con l’operatore →',
@@ -771,7 +773,7 @@ const PERF = {"2023": {"y": 0.25775, "m": {"10": 0.019919, "11": 0.094637, "12":
   if ((navigator.language || '').toLowerCase().slice(0, 2) === 'it') setLang('it');
 })();
 const V0 = 99997.2602739726;
-const GEN = new Date("2026-07-15T12:51:20Z");
+const GEN = new Date("2026-07-15T13:06:41Z");
 (function(){
   const el = document.getElementById("ago");
   function tick(){
