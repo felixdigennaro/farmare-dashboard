@@ -126,6 +126,20 @@ time; no one, including the operator, can move your funds elsewhere.</p>
   </div>
 </div>
 
+<div class="pnl" id="refcard" style="display:none">
+  <div class="head"><label>Your partner link — no sign-up needed</label>
+    <label id="refbps" class="mono"></label></div>
+  <div class="field"><input id="reflink" readonly style="font-size:.78rem">
+    <button class="max" id="refcopy">Copy</button></div>
+  <div class="grid" id="refstats" style="display:none">
+    <div class="cell"><label>Capital you introduced</label><b id="refaum">—</b></div>
+    <div class="cell"><label>Your accrued fees</label><b id="refpend">—</b></div>
+    <div class="cell"><label>Payout</label><b><a href="#" id="refclaim"
+      style="color:var(--green)">Claim →</a></b></div>
+  </div>
+  <div class="avail" id="refnote" style="margin-top:.6rem"></div>
+</div>
+
 <h2 id="chartTitle">Fund performance <small>— per-share, your account tracks this</small></h2>
 <div class="chart-wrap">
   <svg id="chart" viewBox="0 0 720 260" role="img" aria-label="Equity curve"></svg>
@@ -176,7 +190,8 @@ const CFG = {
 const T_DEP="0xdcbc1c05240f31ff3ad067ef1ee35ce4997762752e3a095284754544f4c709d7";
 const T_WD ="0xfbde797d201c681b91056529119e0b02407c7bb96a4a2c75c01fc9667232c8db";
 const SEL={balanceOf:"0x70a08231",allowance:"0xdd62ed3e",approve:"0x095ea7b3",
-  deposit:"0x6e553f65",depositRef:"0x6f72aa29",redeem:"0xba087652",totalAssets:"0x01e1d114",navPerShare:"0x6ff1c9bc"};
+  deposit:"0x6e553f65",depositRef:"0x6f72aa29",redeem:"0xba087652",totalAssets:"0x01e1d114",navPerShare:"0x6ff1c9bc",
+  refShares:"0x6fed7c37",refPending:"0x469d104e",claimRef:"0x83a84ba9",refBps:"0x7b6b4ecb"};
 // partner link support: ?ref=0xPartner tags the first deposit on-chain via
 // depositWithReferrer — sticky across visits, never overwrites an earlier tag
 const REF=(()=>{try{
@@ -313,6 +328,7 @@ async function connect(){
   account=(await rpc("eth_requestAccounts",[]))[0];
   document.getElementById("who").textContent=account.slice(0,6)+"…"+account.slice(-4);
   document.getElementById("connect").style.display="none";
+  showRefCard();
   const net=await rpc("eth_chainId",[]);
   document.getElementById("wrongnet").style.display=net===CFG.chainId?"none":"block";
   if(!live()){ document.getElementById("notdeployed").style.display="block"; return; }
@@ -322,6 +338,48 @@ async function connect(){
   eth.on&&eth.on("chainChanged",()=>location.reload());
 }
 function msg(t,c){const m=document.getElementById("msg");m.textContent=t;m.className="msg "+(c||"");}
+
+// ---- self-serve partner link: every connected wallet IS a partner ----
+function showRefCard(){
+  const card=document.getElementById("refcard");
+  card.style.display="block";
+  document.getElementById("reflink").value="https://farmarecapital.com/app.html?ref="+account;
+  document.getElementById("refnote").textContent = live()
+    ? "Anyone who deposits through your link is tagged to you on-chain — you earn a share of our fees on their capital, for life. Payouts are ordinary vault shares you can redeem anytime."
+    : "Share it now: anyone who opens your link is remembered, and their first deposit at launch is tagged to you on-chain. You earn 25% of our fees on the capital you introduce — for life, enforced by the smart contract.";
+  if(live()) refreshRef();
+}
+async function refreshRef(){
+  try{
+    const [rs,rp,nav,bps]=await Promise.all([
+      call(CFG.vault,SEL.refShares+addr(account)),
+      call(CFG.vault,SEL.refPending+addr(account)),
+      call(CFG.vault,SEL.navPerShare),
+      call(CFG.vault,SEL.refBps)]);
+    const navv=dec(nav,18);
+    const aum=dec(rs,CFG.shareDecimals)*navv, pend=dec(rp,CFG.shareDecimals)*navv;
+    document.getElementById("refstats").style.display="grid";
+    document.getElementById("refbps").textContent=(Number(bn(bps))/100)+"% of our fees";
+    document.getElementById("refaum").textContent="$"+fmt(aum);
+    document.getElementById("refpend").textContent="$"+fmt(pend);
+    document.getElementById("refclaim").style.opacity=pend>0?"1":".4";
+  }catch(e){}
+}
+document.getElementById("refcopy").onclick=()=>{
+  const i=document.getElementById("reflink"); i.select();
+  (navigator.clipboard?navigator.clipboard.writeText(i.value):Promise.reject())
+    .catch(()=>document.execCommand("copy"));
+  document.getElementById("refcopy").textContent="Copied";
+  setTimeout(()=>document.getElementById("refcopy").textContent="Copy",1500);
+};
+document.getElementById("refclaim").onclick=async(e)=>{
+  e.preventDefault(); if(!live())return;
+  try{ msg("Claiming your partner fees…");
+    await send(CFG.vault,SEL.claimRef);
+    msg("Claimed — the shares are in your balance.","ok");
+    refresh(); refreshRef();
+  }catch(err){ msg("Claim failed: "+(err.message||err),"err"); }
+};
 document.querySelectorAll(".tab").forEach(el=>el.onclick=()=>{document.querySelectorAll(".tab").forEach(t=>t.classList.remove("on"));
   el.classList.add("on");tab=el.dataset.t;document.getElementById("action").textContent=tab==="deposit"?"Deposit USDC":"Withdraw";
   document.getElementById("amt").value="";msg("");setAvail();});

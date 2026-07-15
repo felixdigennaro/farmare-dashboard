@@ -286,7 +286,7 @@ footer{margin-top:2.2rem;padding-top:1rem;border-top:1px solid var(--rule);
   <button class="langbtn" id="lang">IT</button></nav>
 </div>
 <div class="substrip"><b>live simulation</b> · day 1006 · real market data ·
-crisis guard active · 1.9x · updated <span id="ago">2026-07-15 06:30 UTC</span></div>
+crisis guard active · 1.9x · updated <span id="ago">2026-07-15 06:56 UTC</span></div>
 
 <p class="hero-h" data-i18n="heroH">$10,000 → $28,490 <span>in
 33 months.<br>Worst dip: −0.6%.</span></p>
@@ -546,10 +546,11 @@ month. Every figure is net of the 10% performance + 1%/yr management fees.</p>
 <h2 data-i18n="ptH">Partner programme</h2>
 <div class="cols">
   <section>
-    <p class="op-body" data-i18n="ptBody">Do you bring investors? Introduce
-    capital to FARMARE and earn <b>up to 30% of our fees</b> on the deposits
-    you introduce — for life, paid monthly in USDC, enforced by the smart
-    contract: your accrual is verifiable on-chain, not promised in a letter.
+    <p class="op-body" data-i18n="ptBody">Open to everyone — no invitation, no
+    sign-up: <b>connect your wallet and your personal link is ready</b>.
+    Anyone who deposits through it is tagged to you on-chain, and you earn
+    <b>up to 30% of our fees</b> on that capital — for life, claimable
+    anytime, enforced by the smart contract rather than promised in a letter.
     The people you introduce pay exactly the same fees either way.</p>
     <div class="chips" style="margin-top:1.3rem;grid-template-columns:1fr;
       max-width:22rem">
@@ -561,18 +562,25 @@ month. Every figure is net of the 10% performance + 1%/yr management fees.</p>
       href="FARMARE_Partner_EN.pdf">Partner one-pager (PDF)</a></div>
   </section>
   <section>
-    <form class="join" data-key="fm_partner" method="POST" style="margin-top:.2rem"
+    <div class="ctarow" style="margin-top:.2rem">
+      <a class="cta" href="app.html" data-i18n="ptCta">Get your link — connect
+      your wallet →</a>
+    </div>
+    <p class="ctanote" data-i18n="ptNote2">Your link, your referred capital
+    and your accrued fees live in <a href="app.html">My Account</a>, next to
+    your own investment — claimable on-chain whenever you like.</p>
+    <form class="join" data-key="fm_partner" method="POST" style="margin-top:1.2rem"
       action="https://docs.google.com/forms/d/e/1FAIpQLSdok2pccv2U5LyEm7DmSNx-pJp-nM-UOJP7O0cEyVJ_01G-Sw/formResponse">
       <input type="email" name="emailAddress" required autocomplete="email"
         placeholder="Your best email" data-i18n-ph="phEmail">
-      <button class="cta" type="submit" data-i18n="ptCta">Apply as partner →</button>
+      <button class="cta2" type="submit" style="border:1px solid var(--rule);background:none"
+        data-i18n="ptCta2">Introducing serious size? Talk to the operator →</button>
     </form>
-    <p class="join-ok" hidden data-i18n="ptOk">✓ Application received — the
-    operator will reply to you personally.</p>
-    <p class="ctanote" data-i18n="ptNote">Tell us who you are and the capital
-    you can introduce — the operator replies personally. Where distributing
-    investment products requires authorisation, the programme is limited to
-    lawful introductions; details in the one-pager.</p>
+    <p class="join-ok" hidden data-i18n="ptOk">✓ Received — the operator will
+    reply to you personally.</p>
+    <p class="ctanote" data-i18n="ptNote">Where distributing investment
+    products requires authorisation, the programme is limited to lawful
+    introductions; details in the one-pager.</p>
   </section>
 </div>
 
@@ -758,14 +766,16 @@ const PERF = {"2023": {"y": 0.25775, "m": {"10": 0.019919, "11": 0.094637, "12":
     perfH:'Performance <small>— al netto di tutte le fee, periodo per periodo</small>',
     perfNote:'Clicca un anno per vederlo mese per mese. Ogni cifra è al netto del 10% di performance + 1%/anno di gestione.',
     ptH:'Programma partner',
-    ptBody:'Porti investitori? Introduci capitale in FARMARE e guadagna <b>fino al 30% delle nostre fee</b> sui depositi che introduci — a vita, pagato ogni mese in USDC, garantito dallo smart contract: la tua maturazione è verificabile on-chain, non promessa in una lettera. Chi introduci paga esattamente le stesse fee in ogni caso.',
+    ptBody:'Aperto a tutti — niente inviti, niente registrazione: <b>collega il wallet e il tuo link personale è pronto</b>. Chi deposita dal tuo link viene associato a te on-chain, e guadagni <b>fino al 30% delle nostre fee</b> su quel capitale — a vita, riscattabile quando vuoi, garantito dallo smart contract e non promesso in una lettera. Chi introduci paga esattamente le stesse fee in ogni caso.',
     pt1:'<b>20%</b>&nbsp;delle fee — base',
     pt2:'<b>25%</b>&nbsp;— oltre $250k introdotti',
     pt3:'<b>30%</b>&nbsp;— oltre $1M introdotti',
     ptPdfW:'<a href="FARMARE_Partner_IT.pdf">One-pager partner (PDF)</a>',
-    ptCta:'Candidati come partner →',
-    ptOk:'✓ Candidatura ricevuta — l’operatore ti risponderà personalmente.',
-    ptNote:'Dicci chi sei e il capitale che puoi introdurre — l’operatore risponde personalmente. Dove la distribuzione di prodotti d’investimento richiede autorizzazione, il programma è limitato a introduzioni lecite; dettagli nel one-pager.',
+    ptCta:'Ottieni il tuo link — collega il wallet →',
+    ptCta2:'Introduci capitali importanti? Parla con l’operatore →',
+    ptNote2:'Il tuo link, il capitale che hai introdotto e le fee maturate vivono in <a href="app.html">My Account</a>, accanto al tuo investimento — riscattabili on-chain quando vuoi.',
+    ptOk:'✓ Ricevuto — l’operatore ti risponderà personalmente.',
+    ptNote:'Dove la distribuzione di prodotti d’investimento richiede autorizzazione, il programma è limitato a introduzioni lecite; dettagli nel one-pager.',
     q6:'Posso ricevere il rendimento ogni mese invece di reinvestirlo?',
     a6:'Sì. Al lancio scegli tra due classi di quote: <b>Accumulo</b> (i guadagni si capitalizzano nel prezzo della quota) e <b>Reddito mensile</b> (ogni mese il guadagno realizzato sopra il tuo massimo storico personale ti viene pagato in USDC sul wallet, automaticamente). Un mese in perdita non paga nulla — viene prima recuperato, poi i payout riprendono. Puoi cambiare classe in qualsiasi momento col preavviso standard di 48h; le fee sono identiche.',
     faqH:'Domande frequenti',
@@ -799,7 +809,7 @@ const PERF = {"2023": {"y": 0.25775, "m": {"10": 0.019919, "11": 0.094637, "12":
   if ((navigator.language || '').toLowerCase().slice(0, 2) === 'it') setLang('it');
 })();
 const V0 = 99997.2602739726;
-const GEN = new Date("2026-07-15T06:30:57Z");
+const GEN = new Date("2026-07-15T06:56:04Z");
 (function(){
   const el = document.getElementById("ago");
   const mins = Math.max(0, Math.round((Date.now() - GEN) / 60000));
