@@ -132,6 +132,9 @@ main{max-width:1000px;margin:0 auto;padding:5rem 2.6rem 7rem}
 .faq details[open] summary::after{content:"–"}
 .faq p{font-size:.88rem;line-height:1.6;color:var(--muted);margin:.7rem 0 0;
   max-width:70ch}
+.opline{display:flex;gap:1.1rem;align-items:flex-start;margin-top:.8rem}
+.opline p{margin:0}
+.opimg{width:64px;height:64px;border-radius:50%;object-fit:cover;flex:none}
 .langbtn{background:none;border:1px solid var(--rule);border-radius:7px;
   color:var(--muted);font-size:.68rem;letter-spacing:.1em;padding:.3rem .65rem;
   cursor:pointer;text-transform:uppercase}
@@ -144,13 +147,8 @@ main{max-width:1000px;margin:0 auto;padding:5rem 2.6rem 7rem}
 .join input:focus{border-color:var(--green)}
 .join .cta{border:none;cursor:pointer;font-family:inherit}
 .join-ok{font-size:1rem;color:var(--green);font-weight:600;margin:2.4rem 0 0}
-.hiw{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin-top:.6rem}
-@media(max-width:720px){.hiw{grid-template-columns:1fr;gap:1.4rem}}
-.hiw-step span{display:inline-flex;width:28px;height:28px;border-radius:50%;
   background:var(--green-soft);color:var(--green);font-weight:700;
   align-items:center;justify-content:center;font-size:.85rem}
-.hiw-step b{display:block;font-size:.95rem;margin:.7rem 0 .35rem}
-.hiw-step p{font-size:.85rem;line-height:1.6;color:var(--muted);margin:0}
 .op-body{font-size:.9rem;line-height:1.65;color:var(--muted);margin:0;
   max-width:64ch}
 .dist-cmp{display:grid;grid-template-columns:1fr 1fr;gap:1rem;
@@ -281,7 +279,7 @@ footer{margin-top:2.2rem;padding-top:1rem;border-top:1px solid var(--rule);
 <div class="substrip"><b data-i18n="ssLive">live simulation</b> · <span
 data-i18n="ssDay">day</span> 1006 · <span data-i18n="ssData">real market
 data</span> · <span data-i18n="ssGuard">crisis guard active</span> · 1.9x · <span data-i18n="ssUpd">updated</span> <span
-id="ago">2026-07-15 07:47 UTC</span></div>
+id="ago">2026-07-15 07:52 UTC</span></div>
 
 <p class="hero-h" data-i18n="heroH">$10,000 → $28,490 <span>in
 33 months.<br>Worst dip: −0.6%.</span></p>
@@ -358,26 +356,6 @@ order. The operator deposits his own capital first.</p>
     <span data-i18n="dipBk">eroded by inflation</span></div>
 </div>
 
-<hr>
-<h2 data-i18n="hiwH">How it works — in 30 seconds</h2>
-<div class="hiw">
-  <div class="hiw-step"><span>1</span>
-    <b data-i18n="h1t">Traders pay to bet with leverage</b>
-    <p data-i18n="h1b">Perpetual-futures traders pay a recurring “funding”
-    fee to whoever takes the other side of their trade. It is paid around the
-    clock, in bull and bear markets alike.</p></div>
-  <div class="hiw-step"><span>2</span>
-    <b data-i18n="h2t">We hold the other side — fully hedged</b>
-    <p data-i18n="h2b">The fund holds staked ETH and shorts an equal amount of
-    ETH, so price moves cancel out. What remains is the fee flow, plus staking
-    yield on the collateral.</p></div>
-  <div class="hiw-step"><span>3</span>
-    <b data-i18n="h3t">The system protects the book</b>
-    <p data-i18n="h3b">Leverage is capped at 3x by the smart contract itself,
-    and when the fee regime breaks down the book parks in a safe lending
-    sleeve until it recovers — automatically.</p></div>
-</div>
-
 <div class="steps">
   <span class="done" data-i18n="st1">Backtest validated</span>
   <span class="done" data-i18n="st2">Paper trading live — day 1006</span>
@@ -431,42 +409,6 @@ whitepaper. Hover for daily values.</p>
   <table><tr><th>Date</th><th>Total</th><th>NAV / share</th><th>State</th></tr>
   <tr><td>2026-07-15</td><td>$284,899.58</td><td>$2.8490</td><td>1.9x</td></tr><tr><td>2026-07-14</td><td>$284,847.19</td><td>$2.8485</td><td>1.9x</td></tr><tr><td>2026-07-13</td><td>$284,789.20</td><td>$2.8479</td><td>1.9x</td></tr><tr><td>2026-07-12</td><td>$284,675.87</td><td>$2.8468</td><td>1.9x</td></tr><tr><td>2026-07-11</td><td>$284,530.33</td><td>$2.8453</td><td>1.9x</td></tr><tr><td>2026-07-10</td><td>$284,368.90</td><td>$2.8437</td><td>parked</td></tr><tr><td>2026-07-09</td><td>$284,340.86</td><td>$2.8434</td><td>parked</td></tr><tr><td>2026-07-08</td><td>$284,312.81</td><td>$2.8431</td><td>parked</td></tr><tr><td>2026-07-07</td><td>$284,284.77</td><td>$2.8428</td><td>parked</td></tr><tr><td>2026-07-06</td><td>$284,256.74</td><td>$2.8426</td><td>parked</td></tr><tr><td>2026-07-05</td><td>$284,228.70</td><td>$2.8423</td><td>parked</td></tr><tr><td>2026-07-04</td><td>$284,200.67</td><td>$2.8420</td><td>parked</td></tr><tr><td>2026-07-03</td><td>$284,172.65</td><td>$2.8417</td><td>parked</td></tr><tr><td>2026-07-02</td><td>$284,144.62</td><td>$2.8414</td><td>parked</td></tr><tr><td>2026-07-01</td><td>$284,116.60</td><td>$2.8412</td><td>parked</td></tr><tr><td>2026-06-30</td><td>$284,088.46</td><td>$2.8409</td><td>parked</td></tr><tr><td>2026-06-29</td><td>$284,057.33</td><td>$2.8406</td><td>parked</td></tr><tr><td>2026-06-28</td><td>$284,026.21</td><td>$2.8403</td><td>parked</td></tr><tr><td>2026-06-27</td><td>$283,995.08</td><td>$2.8400</td><td>parked</td></tr><tr><td>2026-06-26</td><td>$283,971.59</td><td>$2.8397</td><td>1.4x</td></tr><tr><td>2026-06-25</td><td>$283,932.92</td><td>$2.8393</td><td>1.4x</td></tr><tr><td>2026-06-24</td><td>$283,984.01</td><td>$2.8398</td><td>1.5x</td></tr><tr><td>2026-06-23</td><td>$284,022.49</td><td>$2.8402</td><td>1.6x</td></tr><tr><td>2026-06-22</td><td>$284,089.63</td><td>$2.8409</td><td>1.6x</td></tr><tr><td>2026-06-21</td><td>$283,995.66</td><td>$2.8400</td><td>1.6x</td></tr><tr><td>2026-06-20</td><td>$283,887.06</td><td>$2.8389</td><td>parked</td></tr><tr><td>2026-06-19</td><td>$283,859.07</td><td>$2.8386</td><td>parked</td></tr><tr><td>2026-06-18</td><td>$283,831.07</td><td>$2.8383</td><td>parked</td></tr><tr><td>2026-06-17</td><td>$283,803.08</td><td>$2.8380</td><td>parked</td></tr><tr><td>2026-06-16</td><td>$283,775.09</td><td>$2.8378</td><td>parked</td></tr></table>
 </details>
-<hr>
-<div class="cols">
-  <section>
-    <h2 data-i18n="holdH">Holdings</h2>
-    <div class="pos" style="display:block">
-  <div style="display:flex;justify-content:space-between;align-items:baseline">
-    <div class="pos-name">FARMARE Alpha &nbsp;<span class="term term-on"
-      data-i18n="hChip">delta-neutral basis</span></div></div>
-  <div class="pos-venue" data-i18n="hBody">Long staked-ETH (weETH / stETH,
-    dual-restaked) + short ETH perpetual — market-neutral. Diversified across
-    ~8 venues, adaptive leverage up to 3x on funding carry. De-levers
-    automatically when funding thins.</div>
-</div>
-    
-    <p class="muted" style="margin-top:.9rem"><span data-i18n="vgA">Crisis guard: active · trailing funding</span> +7.2%<span data-i18n="vgA2">/yr (carry regime healthy)</span>.</p>
-  </section>
-  <section>
-    <h2 data-i18n="sgH">Safeguards <small>— automatic</small></h2>
-    <div class="sg"><b data-i18n="sg1">Crisis guard</b>
-      <span data-i18n="sg1b">if trailing funding breaks down, the book fully
-      unwinds and parks in the lending sleeve until the carry regime
-      returns</span></div>
-    <div class="sg"><b data-i18n="sg2">Leverage hard cap</b>
-      <span data-i18n="sg2b">3x maximum, enforced by the vault contract itself
-      — not by operator discipline</span></div>
-    <div class="sg"><b data-i18n="sg3">Collateral peg limits</b>
-      <span data-i18n="sg3b">liquid-restaking exposure capped at 50% of
-      collateral; peg monitored continuously with automatic unwind</span></div>
-    <div class="sg"><b data-i18n="sg4">Tamper-evident ledger</b>
-      <span data-i18n="sg4b">every decision journaled and git-committed with
-      timestamps</span></div>
-  </section>
-</div>
-<hr>
-<h2 data-i18n="ledH">Ledger <small>— capital movements &amp; events</small></h2>
-<div class="ev"><div class="ev-when">live</div><div><span class="ev-cat" data-i18n="ledCat">strategy</span><span class="ev-txt" data-i18n="ledLive">Delta-neutral basis running; leverage adapts to trailing funding. Per-run detail in the Telegram feed.</span></div></div>
 
 <div class="docs" style="margin-top:2.2rem">
   <a href="whitepaper.html">Whitepaper</a>
@@ -498,12 +440,14 @@ whitepaper. Hover for daily values.</p>
     move funds to any third address. Every rule change has a 48-hour on-chain
     notice, so you can exit before it applies.</p></details>
   <details><summary data-i18n="q7">Who runs this?</summary>
-    <p data-i18n="a7">Felice Di Gennaro, sole operator — he deposits his own
+    <div class="opline"><img src="operator.jpg" alt="Felice Digennaro"
+      class="opimg" loading="lazy">
+    <p data-i18n="a7">Felice Digennaro, sole operator — he deposits his own
     capital first. Every decision the system takes — every move, every guard
     action, every figure — has been committed to a public, tamper-evident git
-    ledger for 1006 days: timestamps cannot be rewritten. No team-photo
-    theatre, no promises: a ledger you can audit, linked at the bottom of the
-    data section.</p></details>
+    ledger for 1006 days: timestamps cannot be rewritten. No promises:
+    a ledger you can audit, linked at the bottom of the data section.</p>
+    </div></details>
   <details><summary data-i18n="q4">What happens if the operator disappears?</summary>
     <p data-i18n="a4">Your withdrawal right does not depend on the operator:
     redeem() is permissionless and always open. The worst case is unwinding at
@@ -740,15 +684,8 @@ const PERF = {"2023": {"y": 0.25775, "m": {"10": 0.019919, "11": 0.094637, "12":
     st3:'Audit di sicurezza', st4:'Vault live — depositi aperti',
     ctaMain:'Riserva il tuo posto →', ctaPrev:'Anteprima del tuo account',
     ctaNote:'Fee: 10% dei profitti sopra il tuo massimo storico + 1%/anno — solo sui guadagni oltre il tuo picco precedente. Mai sul capitale.',
-    hiwH:'Come funziona — in 30 secondi',
-    h1t:'I trader pagano per scommettere a leva',
-    h1b:'Chi trada futures perpetui paga una commissione ricorrente («funding») a chi prende l’altro lato della sua posizione. Si paga giorno e notte, nei mercati toro e orso.',
-    h2t:'Noi teniamo l’altro lato — completamente coperti',
-    h2b:'Il fondo detiene ETH in staking e shorta pari importo di ETH: i movimenti di prezzo si annullano. Resta il flusso di commissioni, più la resa dello staking sul collaterale.',
-    h3t:'Il sistema protegge il libro',
-    h3b:'La leva è limitata a 3x dallo smart contract stesso, e quando il regime delle commissioni si rompe il libro si parcheggia in un comparto di lending sicuro finché non recupera — automaticamente.',
     q7:'Chi lo gestisce?',
-    a7:'Felice Di Gennaro, operatore unico — deposita per primo il proprio capitale. Ogni decisione del sistema — ogni mossa, ogni azione della guardia, ogni cifra — è committata da 1006 giorni in un registro git pubblico e a prova di manomissione: i timestamp non si riscrivono. Niente teatrino da foto di team, niente promesse: un registro verificabile, linkato in fondo alla sezione dati.',
+    a7:'Felice Digennaro, operatore unico — deposita per primo il proprio capitale. Ogni decisione del sistema — ogni mossa, ogni azione della guardia, ogni cifra — è committata da 1006 giorni in un registro git pubblico e a prova di manomissione: i timestamp non si riscrivono. Niente promesse: un registro verificabile, linkato in fondo alla sezione dati.',
     verH:'Verifica tu stesso', verS:'— dati live grezzi, aggiornati 4 volte al giorno dal sistema',
     ctamidL:'Hai visto abbastanza dati?',
     ctamidF:'Al lancio i depositi aprono in ordine di lista.',
@@ -768,19 +705,7 @@ const PERF = {"2023": {"y": 0.25775, "m": {"10": 0.019919, "11": 0.094637, "12":
     k4:'Max drawdown', k4s:'chiusure giornaliere, da inizio',
     eqH:'Equity <small>— contro la banda di attesa forward</small>',
     eqNote:'La banda ombreggiata è l’intervallo di attesa di FARMARE Alpha, da ~+5% annuo alla mediana ~+26% annuo. Cifre da backtest, non una proiezione; metodologia e framework di rischio nel whitepaper. Passa il mouse per i valori giornalieri.',
-    dfH:'Dati giornalieri',
-    holdH:'Posizioni', sgH:'Salvaguardie <small>— automatiche</small>',
-    ledH:'Registro <small>— movimenti di capitale ed eventi</small>',
-    hChip:'basis delta-neutral',
-    hBody:'Long su ETH in staking (weETH / stETH, dual-restaked) + short su perpetual ETH — neutrale al mercato. Diversificato su ~8 venue, leva adattiva fino a 3x sul funding. Si de-leva automaticamente quando il funding si assottiglia.',
-    vgA:'Guardia di crisi: attiva · funding trailing', vgA2:'/anno (regime di carry sano)',
-    vgP:'Guardia di crisi: <b>parcheggiato nel comparto di lending</b> — regime di funding compromesso; rientra dopo 5 giorni consecutivi di funding sopra il 5%.',
-    sg1:'Guardia di crisi', sg1b:'se il funding si rompe, il libro si smonta completamente e parcheggia nel comparto di lending finché il regime di carry non torna',
-    sg2:'Tetto rigido alla leva', sg2b:'massimo 3x, imposto dal contratto del vault stesso — non dalla disciplina dell’operatore',
-    sg3:'Limiti di peg del collaterale', sg3b:'esposizione liquid-restaking limitata al 50% del collaterale; peg monitorato in continuo con smontaggio automatico',
-    sg4:'Registro a prova di manomissione', sg4b:'ogni decisione è messa a giornale e committata su git con timestamp',
-    ledCat:'strategia',
-    ledLive:'Basis delta-neutral in esecuzione; la leva si adatta al funding trailing. Dettaglio per-run nel feed Telegram.',
+    dfH:'Dati giornalieri', sgH:'Salvaguardie <small>— automatiche</small>', vgA2:'/anno (regime di carry sano)', sg1b:'se il funding si rompe, il libro si smonta completamente e parcheggia nel comparto di lending finché il regime di carry non torna', sg2b:'massimo 3x, imposto dal contratto del vault stesso — non dalla disciplina dell’operatore', sg3b:'esposizione liquid-restaking limitata al 50% del collaterale; peg monitorato in continuo con smontaggio automatico', sg4b:'ogni decisione è messa a giornale e committata su git con timestamp',
     footNote:'Portafoglio virtuale su dati di mercato reali — nessun fondo di clienti, nessuna custodia. Risultati simulati; non è consulenza d’investimento né un’offerta. Aggiornato quattro volte al giorno dalla pipeline CI; il giornale decisionale completo è disponibile su richiesta. Metodologia, limiti e framework di rischio completo: vedi i documenti linkati sopra.',
     ptH:'Programma partner',
     ptBody:'Aperto a tutti — niente inviti, niente registrazione: <b>collega il wallet e il tuo link personale è pronto</b>. Chi deposita dal tuo link viene associato a te on-chain, e guadagni <b>fino al 30% delle nostre fee</b> su quel capitale — a vita, riscattabile quando vuoi, garantito dallo smart contract e non promesso in una lettera. Chi introduci paga esattamente le stesse fee in ogni caso.',
@@ -832,7 +757,7 @@ const PERF = {"2023": {"y": 0.25775, "m": {"10": 0.019919, "11": 0.094637, "12":
   if ((navigator.language || '').toLowerCase().slice(0, 2) === 'it') setLang('it');
 })();
 const V0 = 99997.2602739726;
-const GEN = new Date("2026-07-15T07:47:38Z");
+const GEN = new Date("2026-07-15T07:52:40Z");
 (function(){
   const el = document.getElementById("ago");
   function tick(){
