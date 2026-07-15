@@ -289,7 +289,7 @@ footer{margin-top:2.2rem;padding-top:1rem;border-top:1px solid var(--rule);
 <div class="substrip"><b data-i18n="ssLive">1006-day backtest</b> · <span
 data-i18n="ssData">real market data</span> · <span data-i18n="ssMon">monitored
 live since</span> 15 Jul 2026 · <span data-i18n="ssGuard">crisis guard active</span> · 1.9x · <span
-data-i18n="ssUpd">updated</span> <span id="ago">2026-07-15 13:06 UTC</span></div>
+data-i18n="ssUpd">updated</span> <span id="ago">2026-07-15 13:26 UTC</span></div>
 
 <p class="hero-h" data-i18n="heroH">$100,000 → $284,900 <span>in
 33 months.<br>Worst dip: −0.6%.</span></p>
@@ -389,8 +389,20 @@ high-water mark + 1%/yr — charged only on gains beyond your previous peak.
 Never on your principal.</p>
 
 <hr class="strong">
-<h2 style="margin-top:3.2rem" data-i18n="verH">Verify it yourself
-<small data-i18n="verS">— raw live data, updated 4×/day by the system</small></h2>
+<h2 style="margin-top:3.2rem" data-i18n="verH">The numbers
+<small data-i18n="verS">— backtest figures, and what you can check yourself</small></h2>
+<p class="ctanote" style="margin:0 0 1.6rem" data-i18n="verNote">Be clear on
+what these are: <b>backtest</b> figures on a $100,000 reference, produced by
+replaying real market data — no client money stands behind them. What you
+<b>can</b> verify independently, right now:
+<a href="nav.json">download the raw daily NAV series</a> the charts are drawn
+from · read the
+<a href="https://etherscan.io/address/0x873C1b701ABDb9334018f4044FEF1d10B430265C#code">vault's source code</a>
+and its fees, timelock and loss caps on Etherscan ·
+<a href="https://etherscan.io/address/0x873C1b701ABDb9334018f4044FEF1d10B430265C">see the vault's real balance
+on-chain</a> (today: no third-party capital) · follow every published run in
+the <a href="https://github.com/felixdigennaro/farmare-dashboard/commits/main">git
+ledger</a>. The research code behind the backtest is not public yet.</p>
 <div class="kpis">
   <div class="kpi"><label data-i18n="k1">Portfolio value</label><b>$284,899.58</b>
     <span class="sub" data-i18n="k1s">virtual capital</span></div>
@@ -700,7 +712,8 @@ const PERF = {"2023": {"y": 0.25775, "m": {"10": 0.019919, "11": 0.094637, "12":
     ctaNote:'Fee: 10% dei profitti sopra il tuo massimo storico + 1%/anno — solo sui guadagni oltre il tuo picco precedente. Mai sul capitale.',
     q7:'Chi lo gestisce?',
     a7:'Felice Digennaro, operatore unico — deposita per primo il proprio capitale. Sia chiaro cosa sono i numeri: la curva di 1006 giorni è un <b>backtest</b> ricostruito su dati di mercato reali, non 1006 giorni di trading vissuto. Il sistema che la produce ha iniziato a pubblicare in avanti il 15 Jul 2026, e da quel giorno ogni run è committato in un registro git pubblico i cui timestamp non si riscrivono — linkato in fondo alla sezione dati. Sei in anticipo, e puoi guardare dal primo giorno.',
-    verH:'Verifica tu stesso', verS:'— dati live grezzi, aggiornati 4 volte al giorno dal sistema',
+    verH:'I numeri', verS:'— cifre da backtest, e cosa puoi controllare tu',
+    verNote:'Sia chiaro cosa sono: cifre da <b>backtest</b> su un riferimento di $100.000, prodotte rigiocando dati di mercato reali — nessun capitale di clienti c\'è dietro. Cosa <b>puoi</b> verificare da solo, adesso: <a href="nav.json">scarica la serie NAV giornaliera grezza</a> da cui nascono i grafici · leggi il <a href="https://etherscan.io/address/0x873C1b701ABDb9334018f4044FEF1d10B430265C#code">codice del vault</a> con fee, timelock e loss cap su Etherscan · <a href="https://etherscan.io/address/0x873C1b701ABDb9334018f4044FEF1d10B430265C">guarda il saldo reale del vault on-chain</a> (oggi: nessun capitale di terzi) · segui ogni run pubblicato nel <a href="https://github.com/felixdigennaro/farmare-dashboard/commits/main">registro git</a>. Il codice di ricerca dietro il backtest non è ancora pubblico.',
     ctamidL:'Hai visto abbastanza dati?',
     depNote:'Non-custodial: depositi direttamente nel vault dal tuo wallet e puoi prelevare in qualsiasi momento. Il capitale dell’operatore è dentro per primo.',
     ctamidF:'Il tuo capitale, il tuo wallet, la tua scelta.',
@@ -773,7 +786,7 @@ const PERF = {"2023": {"y": 0.25775, "m": {"10": 0.019919, "11": 0.094637, "12":
   if ((navigator.language || '').toLowerCase().slice(0, 2) === 'it') setLang('it');
 })();
 const V0 = 99997.2602739726;
-const GEN = new Date("2026-07-15T13:06:41Z");
+const GEN = new Date("2026-07-15T13:26:57Z");
 (function(){
   const el = document.getElementById("ago");
   function tick(){
