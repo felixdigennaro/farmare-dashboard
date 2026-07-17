@@ -293,7 +293,7 @@ footer{margin-top:2.2rem;padding-top:1rem;border-top:1px solid var(--rule);
 <div class="substrip"><b data-i18n="ssLive">1008-day backtest</b> · <span
 data-i18n="ssData">real market data</span> · <span data-i18n="ssMon">monitored
 live since</span> 17 Jul 2026 · <span data-i18n="ssGuard">crisis guard active</span> · 2.0x · <span
-data-i18n="ssUpd">updated</span> <span id="ago">2026-07-17 08:56 UTC</span></div>
+data-i18n="ssUpd">updated</span> <span id="ago">2026-07-17 09:02 UTC</span></div>
 
 <p class="hero-h" data-i18n="heroH">$100,000 → $284,972 <span>in
 33 months.<br>Market-neutral through ETH’s −68%.</span></p>
@@ -320,6 +320,34 @@ the vault from your own wallet, and you can withdraw at any time.</p>
   <span class="chip" data-i18n="chip2"><b>Withdraw anytime</b>&nbsp;— it's your right</span>
   <span class="chip" data-i18n="chip3"><b>48h on-chain notice</b>&nbsp;— on fee &amp; venue changes</span>
 </div>
+
+<h2 style="margin-top:3.6rem" data-i18n="eqH">$100,000 since day one <small>— FARMARE vs the alternatives</small></h2>
+<div class="chart-wrap">
+  <svg id="chart" viewBox="0 0 880 300" role="img"
+    aria-label="Portfolio equity versus the forward-expectation band"></svg>
+  <div class="tip" id="tip"></div>
+</div>
+<div class="legend" id="eq-legend"></div>
+<p class="chart-note" data-i18n="eqNote">The same $100,000, on the same days:
+FARMARE against holding ETH (real daily closes), stablecoins at 5%, and cash.
+Backtested, not a projection — the forward expectation is ~+26%/yr median, and
+negative years are possible. Methodology and the full risk framework are in
+the whitepaper. Hover for daily values.</p>
+
+<div class="steps">
+  <span class="done" data-i18n="st1">Backtest validated — 1008 days of real data</span>
+  <span class="done" data-i18n="st2">Live monitoring — since 17 Jul 2026</span>
+  <span class="now" data-i18n="st3">Security audit</span>
+  <span class="done" data-i18n="st4">Vault live — deposits open</span>
+</div>
+
+<div class="ctarow">
+  <a class="cta" href="app.html" data-i18n="ctaMain">Deposit now →</a>
+  <a class="cta2" href="app.html" data-i18n="ctaPrev">Preview your account</a>
+</div>
+<p class="ctanote" data-i18n="ctaNote">Fees: 10% of profits above your
+high-water mark + 1%/yr — charged only on gains beyond your previous peak.
+Never on your principal.</p>
 
 <div class="calc">
   <label data-i18n="calcLab">What would yours have become? — real backtest, Oct 2023 → Jul 2026</label>
@@ -371,34 +399,6 @@ the vault from your own wallet, and you can withdraw at any time.</p>
   <div class="cmp-card"><label data-i18n="labBk">Left in the bank</label><b id="v-bk">—</b>
     <span data-i18n="dipBk">eroded by inflation</span></div>
 </div>
-
-<h2 style="margin-top:3rem" data-i18n="eqH">$100,000 since day one <small>— FARMARE vs the alternatives</small></h2>
-<div class="chart-wrap">
-  <svg id="chart" viewBox="0 0 880 300" role="img"
-    aria-label="Portfolio equity versus the forward-expectation band"></svg>
-  <div class="tip" id="tip"></div>
-</div>
-<div class="legend" id="eq-legend"></div>
-<p class="chart-note" data-i18n="eqNote">The same $100,000, on the same days:
-FARMARE against holding ETH (real daily closes), stablecoins at 5%, and cash.
-Backtested, not a projection — the forward expectation is ~+26%/yr median, and
-negative years are possible. Methodology and the full risk framework are in
-the whitepaper. Hover for daily values.</p>
-
-<div class="steps">
-  <span class="done" data-i18n="st1">Backtest validated — 1008 days of real data</span>
-  <span class="done" data-i18n="st2">Live monitoring — since 17 Jul 2026</span>
-  <span class="now" data-i18n="st3">Security audit</span>
-  <span class="done" data-i18n="st4">Vault live — deposits open</span>
-</div>
-
-<div class="ctarow">
-  <a class="cta" href="app.html" data-i18n="ctaMain">Deposit now →</a>
-  <a class="cta2" href="app.html" data-i18n="ctaPrev">Preview your account</a>
-</div>
-<p class="ctanote" data-i18n="ctaNote">Fees: 10% of profits above your
-high-water mark + 1%/yr — charged only on gains beyond your previous peak.
-Never on your principal.</p>
 
 <hr class="strong">
 <h2 data-i18n="perfH">Performance <small data-i18n="perfS">— net of all fees,
@@ -767,7 +767,7 @@ const PERF = {"2023": {"y": 0.25775, "m": {"10": 0.019919, "11": 0.094637, "12":
   if ((navigator.language || '').toLowerCase().slice(0, 2) === 'it') setLang('it');
 })();
 const V0 = 99997.2602739726;
-const GEN = new Date("2026-07-17T08:56:23Z");
+const GEN = new Date("2026-07-17T09:02:01Z");
 (function(){
   const el = document.getElementById("ago");
   function tick(){
