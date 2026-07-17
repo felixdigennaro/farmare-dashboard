@@ -42,8 +42,10 @@ main{max-width:1000px;margin:0 auto;padding:5rem 2.6rem 7rem}
   color:var(--muted);text-decoration:none;padding-bottom:.15rem}
 .topnav a:hover{color:var(--ink)}
 .topnav a.on{color:var(--ink);border-bottom:2px solid var(--green)}
-.substrip{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;
-  color:var(--muted);margin-top:1.1rem;text-align:center}
+.substrip{font-size:.63rem;letter-spacing:.07em;text-transform:uppercase;
+  color:var(--muted);margin-top:1.1rem;text-align:center;white-space:nowrap;
+  overflow-x:auto}
+@media(max-width:720px){.substrip{white-space:normal}}
 .substrip b{color:var(--green);font-weight:600}
 .cta{display:inline-block;padding:.95rem 1.9rem;
   background:var(--green);color:#fff;text-decoration:none;border-radius:10px;
@@ -62,14 +64,14 @@ main{max-width:1000px;margin:0 auto;padding:5rem 2.6rem 7rem}
   color:var(--green);text-decoration:none;border-bottom:1px solid var(--rule)}
 .docs a:hover{border-bottom-color:var(--green)}
 .hero-h{font-family:Charter,"Iowan Old Style",Georgia,serif;
-  font-size:clamp(2rem,4.4vw,2.85rem);line-height:1.18;
+  font-size:clamp(1.9rem,3.8vw,2.5rem);line-height:1.2;
   letter-spacing:-.015em;margin:2.6rem auto 0;font-weight:400;
-  max-width:30ch;text-align:center}
+  max-width:none;text-align:center}
 .hero-h span{color:var(--muted)}
 .hero-sub{font-size:1.06rem;line-height:1.6;color:var(--muted);
   margin:1.4rem auto 0;max-width:60ch;text-align:center}
-.hero-cav{font-size:.82rem;line-height:1.55;color:var(--faint);
-  margin:1.1rem auto 0;max-width:70ch;text-align:center}
+.hero-cav{font-size:.82rem;line-height:1.5;color:var(--faint);
+  margin:1.1rem auto 0;max-width:92ch;text-align:center}
 .chips{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;
   margin:2.4rem 0 0}
 .chip{font-size:.78rem;color:var(--muted);border:1px solid var(--rule);
@@ -291,21 +293,18 @@ footer{margin-top:2.2rem;padding-top:1rem;border-top:1px solid var(--rule);
   <button class="langbtn" id="lang">IT</button></nav>
 </div>
 <div class="substrip"><b data-i18n="ssLive">1008-day backtest</b> · <span
-data-i18n="ssData">real market data</span> · <span data-i18n="ssMon">monitored
-live since</span> 17 Jul 2026 · <span data-i18n="ssGuard">crisis guard active</span> · 2.0x · <span
-data-i18n="ssUpd">updated</span> <span id="ago">2026-07-17 09:02 UTC</span></div>
+data-i18n="ssData">real market data</span> · <span data-i18n="ssMon">live since</span> 17 Jul 2026 · <span data-i18n="ssGuard">crisis guard active</span> · 2.0x · <span
+data-i18n="ssUpd">updated</span> <span id="ago">2026-07-17 09:05 UTC</span></div>
 
 <p class="hero-h" data-i18n="heroH">$100,000 → $284,972 <span>in
 33 months.<br>Market-neutral through ETH’s −68%.</span></p>
 <p class="hero-sub" data-i18n="heroSub">We collect the fee that leveraged
 traders pay, every day — whichever way the market moves. Market-neutral ·
 target ~26%/yr net of fees · real backtest, Oct 2023 → Jul 2026.</p>
-<p class="hero-cav" data-i18n="heroCav">What the headline is: a backtest of the
-funding carry on real funding, staking and borrow data — it does not model
-price-path or basis-dislocation risk and draws largely on one venue's funding.
-The −0.6% figure is that backtest's funding-only drawdown; the real
-tail risks (collateral depeg, liquidation in stress) are different in kind and
-are set out in the whitepaper's risk section. Forward record public since
+<p class="hero-cav" data-i18n="heroCav">The headline is a backtest of the
+funding carry — it models no price risk, leans largely on one venue, and the
+−0.6% is its funding-only drawdown. The real tail risks (depeg,
+liquidation) are in the whitepaper. Forward record public since
 17 Jul 2026.</p>
 
 <div class="ctarow" style="margin-top:2.4rem">
@@ -682,7 +681,7 @@ const PERF = {"2023": {"y": 0.25775, "m": {"10": 0.019919, "11": 0.094637, "12":
   const IT = {
     heroH:'$100,000 → $284,972 <span>in 33 mesi.<br>Neutrale al mercato attraverso il −68% di ETH.</span>',
     heroSub:'Incassiamo la commissione che i trader a leva pagano ogni giorno — qualunque direzione prenda il mercato. Neutrale al mercato · target ~26%/anno netto · backtest reale, Oct 2023 → Jul 2026.',
-    heroCav:'Cos’è il dato di punta: un backtest del carry di funding su dati reali di funding, staking e borrow — non modella il rischio di prezzo né di dislocazione della base, e attinge in gran parte al funding di un solo venue. Il −0.6% è il drawdown di quel backtest sul solo funding; i rischi di coda reali (depeg del collaterale, liquidazione sotto stress) sono di natura diversa e sono descritti nella sezione rischio del whitepaper. Record in avanti pubblico dal 17 Jul 2026.',
+    heroCav:'Il dato di punta è un backtest del carry di funding — non modella il rischio di prezzo, si appoggia in gran parte a un solo venue, e il −0.6% è il suo drawdown sul solo funding. I rischi di coda reali (depeg, liquidazione) sono nel whitepaper. Record in avanti pubblico dal 17 Jul 2026.',
     phEmail:'La tua migliore email',
     chip1:'<b>Auto-custodia</b>&nbsp;— sempre tua',
     chip2:'<b>Prelievo sempre aperto</b>&nbsp;— è un tuo diritto',
@@ -710,8 +709,8 @@ const PERF = {"2023": {"y": 0.25775, "m": {"10": 0.019919, "11": 0.094637, "12":
     perfH:'Performance <small>— al netto di tutte le fee, periodo per periodo</small>',
     perfNote:'Clicca un anno per vederlo mese per mese. Ogni cifra è al netto del 10% di performance + 1%/anno di gestione.',
     ssLive:'backtest di 1008 giorni', ssData:'dati di mercato reali',
-    ssMon:'monitorato live dal',
-    ssGuard:'guardia di crisi attiva', ssGuardP:'guardia di crisi: parcheggiato (comparto sicuro)',
+    ssMon:'live dal',
+    ssGuard:'guardia attiva', ssGuardP:'guardia di crisi: parcheggiato (comparto sicuro)',
     ssUpd:'aggiornato',
     eqH:'$100,000 dal primo giorno <small>— FARMARE contro le alternative</small>',
     eqNote:'Gli stessi $100.000, negli stessi giorni: FARMARE contro comprare ETH (chiusure giornaliere reali), stablecoin al 5% e contante. Backtest, non una proiezione — l’attesa forward è ~+26%/anno mediano, e anni negativi sono possibili. Metodologia e framework di rischio completo nel whitepaper. Passa il mouse per i valori giornalieri.',
@@ -767,7 +766,7 @@ const PERF = {"2023": {"y": 0.25775, "m": {"10": 0.019919, "11": 0.094637, "12":
   if ((navigator.language || '').toLowerCase().slice(0, 2) === 'it') setLang('it');
 })();
 const V0 = 99997.2602739726;
-const GEN = new Date("2026-07-17T09:02:01Z");
+const GEN = new Date("2026-07-17T09:05:45Z");
 (function(){
   const el = document.getElementById("ago");
   function tick(){
