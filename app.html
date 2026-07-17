@@ -175,12 +175,15 @@ time; no one, including the operator, can move your funds elsewhere.</p>
 withdrawals alongside the fund's operations.</p></div>
 
 <div class="assur">
-  <b>How your figures are computed:</b> your equity curve is your share balance
-  on each date × the fund's NAV that date; net invested is every deposit minus
-  every withdrawal, read from on-chain events; the difference is your
-  unrealized P&amp;L. Nothing is self-reported.
-  <br><b>Guarantees:</b> withdrawals are always open; rule changes need a 48h
-  public timelock; the keeper can rebalance but never withdraw. Security &amp;
+  <b>How your figures are computed:</b> your value is your on-chain share
+  balance × the vault's live on-chain NAV; net invested is every deposit minus
+  every withdrawal, read from on-chain events; the difference is your P&amp;L.
+  Nothing is self-reported. The fund curve above is the backtest — your own
+  line tracks your real position, which begins the day you deposit and will
+  read flat until the live vault earns.
+  <br><b>Guarantees:</b> withdrawals are always open; changes to fees, venues
+  and the referral share need a 48h public timelock (keeper swap and pause are
+  immediate); the keeper can rebalance but never withdraw. Security &amp;
   tests: <a href="https://github.com/felixdigennaro/farmare-dashboard/blob/main/AUDIT.md">security
   review notes</a>.
 </div>
@@ -201,7 +204,7 @@ const CFG = {
 const T_DEP="0xdcbc1c05240f31ff3ad067ef1ee35ce4997762752e3a095284754544f4c709d7";
 const T_WD ="0xfbde797d201c681b91056529119e0b02407c7bb96a4a2c75c01fc9667232c8db";
 const SEL={balanceOf:"0x70a08231",allowance:"0xdd62ed3e",approve:"0x095ea7b3",
-  deposit:"0x6e553f65",depositRef:"0x6f72aa29",redeem:"0xba087652",totalAssets:"0x01e1d114",navPerShare:"0x6ff1c9bc",
+  deposit:"0x6e553f65",depositRef:"0x6f72aa29",redeem:"0xba087652",totalAssets:"0x01e1d114",navPerShare:"0xae097223",
   refShares:"0x6fed7c37",refPending:"0x469d104e",claimRef:"0x83a84ba9",refBps:"0x7b6b4ecb",
   totalSupply:"0x18160ddd",minFirst:"0x7dbc3c98"};
 // partner link support: ?ref=0xPartner tags the first deposit on-chain via
@@ -286,11 +289,15 @@ async function personalCurve(){
   for(const l of wl){ const assets=dec("0x"+l.data.slice(2,66),CFG.usdcDecimals),sh=dec("0x"+l.data.slice(66,130),CFG.shareDecimals);
     const d=await dateOf(l.blockNumber); evs.push({d,dSh:-sh,dAs:-assets}); MINE.push({ts:d+"T00:00",cat:"withdrawal",mine:1,text:`You withdrew $${fmt(assets)}`}); }
   if(!evs.length) return null;
-  // build per-date share balance and cost basis aligned to NAV dates
+  // Value your REAL shares at the REAL on-chain NAV — never at the simulated
+  // backtest NAV in nav.json. Your shares were minted at the live NAV (~1.00
+  // today); pricing them along the backtest curve would show a $100 deposit as
+  // ~$285. The fund curve is the backtest; this overlay is your actual money.
+  const navOnChain = window._navHex ? dec(window._navHex,18) : 1;
   const value=[],basis=[];
   for(const p of NAV){ let sh=0,inv=0;
     for(const e of evs) if(e.d<=p.d){ sh+=e.dSh; inv+=e.dAs; }
-    value.push(sh>1e-9? sh*p.nav : (inv>0?inv:null));
+    value.push(sh>1e-9? sh*navOnChain : (inv>0?inv:null));
     basis.push(inv>0?inv:null); }
   return {value,basis};
 }
@@ -433,7 +440,7 @@ document.getElementById("action").onclick=async()=>{const raw=document.getElemen
 (async()=>{ await loadFeeds(); drawChart(null); renderLog();
   document.getElementById("chartNote").textContent = live()
     ? "The fund's per-share performance. Connect your wallet to overlay your own equity."
-    : "The fund's per-share track record so far — your account will mirror this once you deposit.";
+    : "The fund's per-share curve is a backtest. Your own position starts the day you deposit and is valued at the live on-chain NAV — it does not inherit the backtest.";
   if(!live()) document.getElementById("notdeployed").style.display="block";
 })();
 </script>

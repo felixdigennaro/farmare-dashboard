@@ -1,17 +1,17 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>FARMARE — Market-neutral yield, ~26%/yr target. Public track record.</title>
-<meta name="description" content="$100,000 became $284,972 in 33 months — worst dip −0.6%. A market-neutral strategy that collects the fee leveraged traders pay, with a public, tamper-evident track record. Target ~26%/yr net of fees.">
+<title>FARMARE — Market-neutral yield, ~26%/yr target. Backtest + live vault.</title>
+<meta name="description" content="In backtest, $100,000 became $284,972 in 33 months. A market-neutral strategy that collects the fee leveraged traders pay. Live vault on Ethereum mainnet; forward record public since 17 Jul 2026. Target ~26%/yr net of fees.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="FARMARE">
-<meta property="og:title" content="$100,000 → $284,972 in 33 months. Worst dip −0.6%.">
-<meta property="og:description" content="Market-neutral yield from the fees leveraged traders pay — whichever way the market moves. Public, tamper-evident track record. Target ~26%/yr net of fees.">
+<meta property="og:title" content="$100,000 → $284,972 in 33 months, in backtest. Market-neutral.">
+<meta property="og:description" content="Market-neutral yield from the fees leveraged traders pay — whichever way the market moves. Backtest headline; live vault on Ethereum mainnet, forward record public. Target ~26%/yr net of fees.">
 <meta property="og:url" content="https://farmarecapital.com/">
 <meta property="og:image" content="https://farmarecapital.com/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="$100,000 → $284,972 in 33 months. Worst dip −0.6%.">
+<meta name="twitter:title" content="$100,000 → $284,972 in 33 months, in backtest. Market-neutral.">
 <meta name="twitter:image" content="https://farmarecapital.com/og.png">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%231d5c3e'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='20' font-weight='bold' fill='%23fcfcfa' text-anchor='middle'%3EF%3C/text%3E%3C/svg%3E">
 <style>
@@ -67,6 +67,8 @@ main{max-width:1000px;margin:0 auto;padding:5rem 2.6rem 7rem}
 .hero-h span{color:var(--muted)}
 .hero-sub{font-size:1.02rem;line-height:1.55;color:var(--muted);
   margin:1.1rem 0 0;max-width:60ch}
+.hero-cav{font-size:.8rem;line-height:1.5;color:var(--faint);
+  margin:.9rem 0 0;max-width:64ch}
 .chips{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;
   margin:2.4rem 0 0}
 .chip{font-size:.78rem;color:var(--muted);border:1px solid var(--rule);
@@ -288,27 +290,33 @@ footer{margin-top:2.2rem;padding-top:1rem;border-top:1px solid var(--rule);
 </div>
 <div class="substrip"><b data-i18n="ssLive">1008-day backtest</b> · <span
 data-i18n="ssData">real market data</span> · <span data-i18n="ssMon">monitored
-live since</span> 16 Jul 2026 · <span data-i18n="ssGuard">crisis guard active</span> · 2.0x · <span
-data-i18n="ssUpd">updated</span> <span id="ago">2026-07-17 04:07 UTC</span></div>
+live since</span> 17 Jul 2026 · <span data-i18n="ssGuard">crisis guard active</span> · 2.0x · <span
+data-i18n="ssUpd">updated</span> <span id="ago">2026-07-17 08:19 UTC</span></div>
 
 <p class="hero-h" data-i18n="heroH">$100,000 → $284,972 <span>in
-33 months.<br>Worst dip: −0.6%.</span></p>
+33 months.<br>Market-neutral through ETH’s −68%.</span></p>
 <p class="hero-sub" data-i18n="heroSub">We collect the fee that leveraged
 traders pay, every day — whichever way the market moves. Market-neutral ·
 target ~26%/yr net of fees · real backtest, Oct 2023 → Jul 2026.</p>
+<p class="hero-cav" data-i18n="heroCav">What the headline is: a backtest of the
+funding carry on real funding, staking and borrow data — it does not model
+price-path or basis-dislocation risk and draws largely on one venue's funding.
+The −0.6% figure is that backtest's funding-only drawdown; the real
+tail risks (collateral depeg, liquidation in stress) are different in kind and
+are set out in the whitepaper's risk section. Forward record public since
+17 Jul 2026.</p>
 
 <div class="ctarow" style="margin-top:2.4rem">
   <a class="cta" href="app.html" data-i18n="ctaMain">Deposit now →</a>
   <a class="cta2" href="whitepaper.html" data-i18n="ctaWp">Read the whitepaper</a>
 </div>
 <p class="ctanote" data-i18n="depNote">Non-custodial: you deposit straight into
-the vault from your own wallet, and you can withdraw at any time. The
-operator's own capital is in first.</p>
+the vault from your own wallet, and you can withdraw at any time.</p>
 
 <div class="chips">
   <span class="chip" data-i18n="chip1"><b>Self-custody</b>&nbsp;— always yours</span>
   <span class="chip" data-i18n="chip2"><b>Withdraw anytime</b>&nbsp;— it's your right</span>
-  <span class="chip" data-i18n="chip3"><b>48h on-chain notice</b>&nbsp;— on any change</span>
+  <span class="chip" data-i18n="chip3"><b>48h on-chain notice</b>&nbsp;— on fee &amp; venue changes</span>
 </div>
 
 <div class="calc">
@@ -329,7 +337,7 @@ operator's own capital is in first.</p>
   </div>
   <div id="inc-view" hidden>
     <div><span class="out" id="inc-out">—</span><span class="gain"
-      data-i18n="perMonth">/month · median payout</span></div>
+      data-i18n="perMonth">/month · illustrative</span></div>
     <div class="dist-cmp">
       <div>
         <label data-i18n="diIncL">Monthly income — after 33 months</label>
@@ -343,15 +351,17 @@ operator's own capital is in first.</p>
       </div>
     </div>
     <p class="note"><span id="inc-range"></span><span data-i18n="incNote">
-    Distributing class: each month's realized gain is paid to your wallet in
-    USDC instead of compounding. A losing month pays nothing — it is recovered
-    first (high-water mark). Payouts vary with funding; net of all fees.</span></p>
+    Illustrative view — how much of each month's gain you could have withdrawn
+    across the backtest, applying the high-water-mark rule (a losing month
+    draws nothing; it is recovered first). You withdraw whenever you like; the
+    amounts vary with funding and are net of all fees. Figures are from the
+    backtest, not a promise of future payouts.</span></p>
   </div>
 </div>
 
 <div class="cmp" id="cmp">
   <div class="cmp-card win"><label>FARMARE</label><b id="v-fa">—</b>
-    <span data-i18n="dipFa">worst dip −0.6%</span></div>
+    <span data-i18n="dipFa">backtest drawdown −0.6% · funding only</span></div>
   <div class="cmp-card"><label data-i18n="labEth">Holding ETH</label><b id="v-eth">—</b>
     <span class="bad" data-i18n="dipEth">worst dip −68%</span></div>
   <div class="cmp-card"><label data-i18n="labSt">Stablecoins at 5%</label><b id="v-st">—</b>
@@ -375,7 +385,7 @@ the whitepaper. Hover for daily values.</p>
 
 <div class="steps">
   <span class="done" data-i18n="st1">Backtest validated — 1008 days of real data</span>
-  <span class="done" data-i18n="st2">Live monitoring — since 16 Jul 2026</span>
+  <span class="done" data-i18n="st2">Live monitoring — since 17 Jul 2026</span>
   <span class="now" data-i18n="st3">Security audit</span>
   <span class="done" data-i18n="st4">Vault live — deposits open</span>
 </div>
@@ -430,16 +440,18 @@ month. Every figure is net of the 10% performance + 1%/yr management fees.</p>
   <details><summary data-i18n="q3">Who holds my money?</summary>
     <p data-i18n="a3">You do. Funds sit in a non-custodial vault: the operator's
     keeper can rebalance between whitelisted venues but has no code path to
-    move funds to any third address. Every rule change has a 48-hour on-chain
-    notice, so you can exit before it applies.</p></details>
+    move funds to any third address. Changes to fees, venues and the referral
+    share pass a 48-hour on-chain timelock, so you can exit before they apply;
+    swapping the keeper and pausing are immediate, so a problem can be
+    contained.</p></details>
   <details><summary data-i18n="q7">Who runs this?</summary>
     <div class="opline"><img src="operator.jpg" alt="Felice Digennaro"
       class="opimg" loading="lazy">
-    <p data-i18n="a7">Felice Digennaro, sole operator — he deposits his own
-    capital first. Be clear on what the numbers are: the 1008-day curve is
+    <p data-i18n="a7">Felice Digennaro, sole operator. Be clear on what the
+    numbers are: the 1008-day curve is
     a <b>backtest</b> replayed on real market data, not 1008 days of live
     trading. The system that produces it started publishing forward on
-    16 Jul 2026, and from that day every run is committed to a
+    17 Jul 2026, and from that day every run is committed to a
     <a href="https://github.com/felixdigennaro/farmare-dashboard/commits/main">public
     git ledger</a> whose timestamps cannot be rewritten. You are early, and you
     can watch from day one.</p>
@@ -456,12 +468,14 @@ month. Every figure is net of the 10% performance + 1%/yr management fees.</p>
     contract. Full mechanics in the whitepaper.</p></details>
   <details><summary data-i18n="q6">Can I receive the yield monthly instead of
     compounding it?</summary>
-    <p data-i18n="a6">Yes. At launch you choose between two share classes:
-    <b>Grow</b> (gains compound in the share price) and <b>Monthly income</b>
-    (each month, the realized gain above your personal high-water mark is paid
-    to your wallet in USDC, automatically). A losing month pays nothing — it is
-    recovered first before payouts resume. You can switch class at any time
-    with the standard 48h notice; fees are identical.</p></details>
+    <p data-i18n="a6">Yes — the timing is entirely yours. Your yield lives in
+    your share price: leave it to compound, or withdraw your gain whenever you
+    want. Redemption is always open and permissionless — only you trigger it,
+    with no lock and no schedule. The <b>Monthly income</b> toggle above is a
+    view: it illustrates what taking your gain each month would have looked
+    like across the backtest, applying the high-water-mark rule so a losing
+    month draws nothing. In practice you withdraw when you choose — there is no
+    separate class to pick and nothing is credited automatically.</p></details>
 </div>
 
 <hr>
@@ -539,8 +553,9 @@ const PERF = {"2023": {"y": 0.25775, "m": {"10": 0.019919, "11": 0.094637, "12":
   const med = sorted.length ? sorted[Math.floor(sorted.length / 2)] : 0;
   const best = months.length ? Math.max(...months) : 0;
   const paid = months.filter(v => v > 0).length;
-  // distributing class, simulated with the HWM rule: gains are paid out,
-  // losses are recovered before payouts resume — principal never compounds
+  // "monthly income" VIEW, simulated with the HWM rule: each month's gain is
+  // withdrawn (not compounded), losses recovered first — illustration only,
+  // the contract performs no automatic payout
   let navD = 1, paidD = 0;
   months.forEach(r => {
     navD *= 1 + r;
@@ -663,32 +678,33 @@ const PERF = {"2023": {"y": 0.25775, "m": {"10": 0.019919, "11": 0.094637, "12":
 })();
 (function(){
   const IT = {
-    heroH:'$100,000 → $284,972 <span>in 33 mesi.<br>Peggior calo: −0.6%.</span>',
+    heroH:'$100,000 → $284,972 <span>in 33 mesi.<br>Neutrale al mercato attraverso il −68% di ETH.</span>',
     heroSub:'Incassiamo la commissione che i trader a leva pagano ogni giorno — qualunque direzione prenda il mercato. Neutrale al mercato · target ~26%/anno netto · backtest reale, Oct 2023 → Jul 2026.',
+    heroCav:'Cos’è il dato di punta: un backtest del carry di funding su dati reali di funding, staking e borrow — non modella il rischio di prezzo né di dislocazione della base, e attinge in gran parte al funding di un solo venue. Il −0.6% è il drawdown di quel backtest sul solo funding; i rischi di coda reali (depeg del collaterale, liquidazione sotto stress) sono di natura diversa e sono descritti nella sezione rischio del whitepaper. Record in avanti pubblico dal 17 Jul 2026.',
     phEmail:'La tua migliore email',
     chip1:'<b>Auto-custodia</b>&nbsp;— sempre tua',
     chip2:'<b>Prelievo sempre aperto</b>&nbsp;— è un tuo diritto',
-    chip3:'<b>Preavviso 48h on-chain</b>&nbsp;— ogni modifica',
+    chip3:'<b>Preavviso 48h on-chain</b>&nbsp;— su fee e venue',
     calcLab:'Quanto sarebbero diventati i tuoi? — backtest reale, Oct 2023 → Jul 2026',
     calcNote:'Al netto di tutte le fee. Backtest su dati reali, non una promessa: l’attesa forward è ~+26%/anno mediano, e anni negativi sono possibili.',
-    dipFa:'peggior calo −0.6%', labEth:'Comprare ETH', dipEth:'peggior calo −68%',
+    dipFa:'drawdown backtest −0.6% · solo funding', labEth:'Comprare ETH', dipEth:'peggior calo −68%',
     labSt:'Stablecoin al 5%', dipSt:'nessun calo, resa bassa',
     labBk:'Fermo sul conto', dipBk:'eroso dall’inflazione',
     st1:'Backtest validato — 1008 giorni di dati reali',
-    st2:'Monitoraggio live — dal 16 Jul 2026',
+    st2:'Monitoraggio live — dal 17 Jul 2026',
     st3:'Audit di sicurezza', st4:'Vault live — depositi aperti',
     ctaMain:'Deposita ora →', ctaWp:'Leggi il whitepaper',
     ctaPrev:'Anteprima del tuo account',
     ctaNote:'Fee: 10% dei profitti sopra il tuo massimo storico + 1%/anno — solo sui guadagni oltre il tuo picco precedente. Mai sul capitale.',
     q7:'Chi lo gestisce?',
-    a7:'Felice Digennaro, operatore unico — deposita per primo il proprio capitale. Sia chiaro cosa sono i numeri: la curva di 1008 giorni è un <b>backtest</b> ricostruito su dati di mercato reali, non 1008 giorni di trading vissuto. Il sistema che la produce ha iniziato a pubblicare in avanti il 16 Jul 2026, e da quel giorno ogni run è committato in un <a href="https://github.com/felixdigennaro/farmare-dashboard/commits/main">registro git pubblico</a> i cui timestamp non si riscrivono. Sei in anticipo, e puoi guardare dal primo giorno.',
+    a7:'Felice Digennaro, operatore unico. Sia chiaro cosa sono i numeri: la curva di 1008 giorni è un <b>backtest</b> ricostruito su dati di mercato reali, non 1008 giorni di trading vissuto. Il sistema che la produce ha iniziato a pubblicare in avanti il 17 Jul 2026, e da quel giorno ogni run è committato in un <a href="https://github.com/felixdigennaro/farmare-dashboard/commits/main">registro git pubblico</a> i cui timestamp non si riscrivono. Sei in anticipo, e puoi guardare dal primo giorno.',
     ctamidL:'Hai visto abbastanza dati?',
-    depNote:'Non-custodial: depositi direttamente nel vault dal tuo wallet e puoi prelevare in qualsiasi momento. Il capitale dell’operatore è dentro per primo.',
+    depNote:'Non-custodial: depositi direttamente nel vault dal tuo wallet e puoi prelevare in qualsiasi momento.',
     mAcc:'Accumulo', mInc:'Reddito mensile',
-    perMonth:'/mese · payout mediano',
+    perMonth:'/mese · illustrativo',
     diIncL:'Reddito mensile — dopo 33 mesi',
     diAccL:'Accumulo — stesso periodo',
-    incNote:'Classe a distribuzione: il guadagno realizzato di ogni mese viene pagato in USDC sul tuo wallet invece di essere reinvestito. Un mese in perdita non paga nulla — viene prima recuperato (high-water mark). I payout variano col funding; al netto di tutte le fee.',
+    incNote:'Vista illustrativa — quanto avresti potuto prelevare del guadagno di ogni mese nel backtest, applicando la regola dell’high-water mark (un mese in perdita non preleva nulla; viene prima recuperato). Prelevi quando vuoi; gli importi variano col funding e sono al netto di tutte le fee. Cifre dal backtest, non una promessa di pagamenti futuri.',
     perfH:'Performance <small>— al netto di tutte le fee, periodo per periodo</small>',
     perfNote:'Clicca un anno per vederlo mese per mese. Ogni cifra è al netto del 10% di performance + 1%/anno di gestione.',
     ssLive:'backtest di 1008 giorni', ssData:'dati di mercato reali',
@@ -711,11 +727,11 @@ const PERF = {"2023": {"y": 0.25775, "m": {"10": 0.019919, "11": 0.094637, "12":
     ptOk:'✓ Ricevuto — l’operatore ti risponderà personalmente.',
     ptNote:'Dove la distribuzione di prodotti d’investimento richiede autorizzazione, il programma è limitato a introduzioni lecite; dettagli nel one-pager.',
     q6:'Posso ricevere il rendimento ogni mese invece di reinvestirlo?',
-    a6:'Sì. Al lancio scegli tra due classi di quote: <b>Accumulo</b> (i guadagni si capitalizzano nel prezzo della quota) e <b>Reddito mensile</b> (ogni mese il guadagno realizzato sopra il tuo massimo storico personale ti viene pagato in USDC sul wallet, automaticamente). Un mese in perdita non paga nulla — viene prima recuperato, poi i payout riprendono. Puoi cambiare classe in qualsiasi momento col preavviso standard di 48h; le fee sono identiche.',
+    a6:'Sì — i tempi li decidi tu. Il tuo rendimento vive nel prezzo della quota: puoi lasciarlo capitalizzare, oppure prelevare il tuo guadagno quando vuoi. Il prelievo è sempre aperto e permissionless — lo attivi solo tu, senza blocchi e senza calendario. Il toggle <b>Reddito mensile</b> qui sopra è una vista: illustra come sarebbe stato incassare il guadagno ogni mese nel backtest, applicando la regola dell’high-water mark così che un mese in perdita non prelevi nulla. In pratica prelevi quando scegli — non c’è una classe separata da scegliere e nulla viene accreditato in automatico.',
     faqH:'Domande frequenti',
     q1:'Come esco?', a1:'Il prelievo è un diritto nel contratto: redeem() funziona in qualsiasi momento al NAV del giorno, anche con i depositi in pausa. Uscite grandi dalla posizione stakata possono richiedere ~7 giorni (cooldown di Ethena); un buffer di liquidità copre i rimborsi normali all’istante.',
     q2:'Quanto pago?', a2:'10% dei profitti sopra il tuo massimo storico personale più 1%/anno di gestione, entrambi con tetti nel contratto. Mai sul capitale, mai due volte sullo stesso guadagno.',
-    q3:'Chi custodisce i miei soldi?', a3:'Tu. I fondi stanno in un vault non-custodiale: il keeper dell’operatore può ribilanciare tra venue in whitelist ma non ha alcun percorso nel codice per spostare fondi verso terzi. Ogni modifica ha 48 ore di preavviso on-chain.',
+    q3:'Chi custodisce i miei soldi?', a3:'Tu. I fondi stanno in un vault non-custodiale: il keeper dell’operatore può ribilanciare tra venue in whitelist ma non ha alcun percorso nel codice per spostare fondi verso terzi. Le modifiche a fee, venue e quota referral passano da un timelock on-chain di 48 ore; sostituzione del keeper e pausa sono immediate, per poter reagire a un problema.',
     q4:'E se l’operatore sparisce?', a4:'Il tuo diritto di prelievo non dipende dall’operatore: redeem() è permissionless e sempre aperto. Il caso peggiore è smontare al ritmo delle venue — mai perdere l’accesso ai fondi.',
     q5:'Da dove viene davvero il rendimento?', a5:'I trader di perpetual pagano una commissione ricorrente (funding) alla controparte. Il fondo detiene ETH stakato e shorta pari importo di perpetual ETH — l’esposizione al prezzo si annulla e il fondo incassa funding più staking, con leva massima 3x imposta dal contratto. Meccanica completa nel whitepaper.'
   };
@@ -749,7 +765,7 @@ const PERF = {"2023": {"y": 0.25775, "m": {"10": 0.019919, "11": 0.094637, "12":
   if ((navigator.language || '').toLowerCase().slice(0, 2) === 'it') setLang('it');
 })();
 const V0 = 99997.2602739726;
-const GEN = new Date("2026-07-17T04:07:26Z");
+const GEN = new Date("2026-07-17T08:19:01Z");
 (function(){
   const el = document.getElementById("ago");
   function tick(){
