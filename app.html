@@ -218,6 +218,11 @@ const REF=(()=>{try{
 const pad=h=>h.replace(/^0x/,"").padStart(64,"0"), addr=a=>pad(a.toLowerCase()), uint=n=>pad(BigInt(n).toString(16));
 const topicAddr=a=>"0x"+pad(a.toLowerCase()), bn=h=>BigInt(h||"0x0");
 const dec=(v,d)=>{v=BigInt(v);const b=10n**BigInt(d);const w=v/b;const f=(v%b).toString().padStart(d,"0").slice(0,2);return Number(w)+Number("0."+f);};
+// NAV needs more than dec()'s 2 dp: a 1e18-scaled NAV of 0.99999 truncates to
+// 0.99, showing a $100 deposit as $99. Keep 10 dp for the NAV specifically.
+const navNum=h=>Number(BigInt(h||"0x0")/(10n**8n))/1e10;
+// value (in asset units) of `sharesRaw` at 1e18-scaled `navHex`, full precision
+const shareValue=(sharesRaw,navHex)=>Number(BigInt(sharesRaw)*BigInt(navHex)/(10n**18n))/(10**CFG.shareDecimals);
 const fmt=n=>n.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});
 const toUnits=(x,d)=>{const[w,f=""]=String(x).split(".");return BigInt(w+(f+"0".repeat(d)).slice(0,d));};
 const live=()=>CFG.vault!=="0x0000000000000000000000000000000000000000";
@@ -293,7 +298,7 @@ async function personalCurve(){
   // backtest NAV in nav.json. Your shares were minted at the live NAV (~1.00
   // today); pricing them along the backtest curve would show a $100 deposit as
   // ~$285. The fund curve is the backtest; this overlay is your actual money.
-  const navOnChain = window._navHex ? dec(window._navHex,18) : 1;
+  const navOnChain = window._navHex ? navNum(window._navHex) : 1;
   const value=[],basis=[];
   for(const p of NAV){ let sh=0,inv=0;
     for(const e of evs) if(e.d<=p.d){ sh+=e.dSh; inv+=e.dAs; }
@@ -317,10 +322,10 @@ async function refresh(){
   if(!account||!live()) return;
   const [bU,bS,nav]=await Promise.all([
     call(CFG.usdc,SEL.balanceOf+addr(account)), call(CFG.vault,SEL.balanceOf+addr(account)), call(CFG.vault,SEL.navPerShare)]);
-  const shares=dec(bS,CFG.shareDecimals),navv=dec(nav,18);
+  const shares=dec(bS,CFG.shareDecimals),navv=navNum(nav);
   window._navHex=nav; window._bal={usdc:dec(bU,CFG.usdcDecimals),shares};
   const pc=await personalCurve();
-  const cur=shares*navv, invested=pc?pc.basis.filter(x=>x!=null).slice(-1)[0]||0:0;
+  const cur=shareValue(bS,nav), invested=pc?pc.basis.filter(x=>x!=null).slice(-1)[0]||0:0;
   const pnl=cur-invested, pct=invested>0?pnl/invested:0;
   document.getElementById("pnl").style.display="block";
   document.getElementById("navlbl").textContent="NAV $"+navv.toFixed(4);
@@ -339,12 +344,19 @@ async function refresh(){
 }
 function setAvail(){const a=document.getElementById("avail");if(!window._bal){a.textContent="";return;}
   a.textContent=tab==="deposit"?"Available to deposit: $"+fmt(window._bal.usdc)+" USDC"
-    :"Available to withdraw: $"+fmt(window._bal.shares*dec(window._navHex||"0x0",18));}
+    :"Available to withdraw: $"+fmt(window._bal.shares*navNum(window._navHex));}
 
 async function connect(){
   eth=window.ethereum;
   if(!eth){ msg("No wallet found. Install MetaMask or any Ethereum wallet.","err"); return; }
-  account=(await rpc("eth_requestAccounts",[]))[0];
+  const accs=await rpc("eth_requestAccounts",[]);   // prompts on first connect
+  if(accs&&accs[0]) wireAccount(accs[0]);
+}
+// Everything that turns a known account into a live session. Called by connect()
+// after the prompt, and by the eager-reconnect at load so a refresh or a return
+// visit keeps the wallet connected instead of dropping it.
+async function wireAccount(acc){
+  eth=window.ethereum; account=acc;
   document.getElementById("who").textContent=account.slice(0,6)+"…"+account.slice(-4);
   document.getElementById("connect").style.display="none";
   showRefCard();
@@ -353,8 +365,9 @@ async function connect(){
   if(!live()){ document.getElementById("notdeployed").style.display="block"; return; }
   document.getElementById("panel").style.display="block";
   refresh();
-  eth.on&&eth.on("accountsChanged",()=>location.reload());
-  eth.on&&eth.on("chainChanged",()=>location.reload());
+  if(!wireAccount._bound && eth.on){ wireAccount._bound=true;
+    eth.on("accountsChanged",()=>location.reload());
+    eth.on("chainChanged",()=>location.reload()); }
 }
 function msg(t,c){const m=document.getElementById("msg");m.textContent=t;m.className="msg "+(c||"");}
 
@@ -442,6 +455,12 @@ document.getElementById("action").onclick=async()=>{const raw=document.getElemen
     ? "The fund's per-share performance. Connect your wallet to overlay your own equity."
     : "The fund's per-share curve is a backtest. Your own position starts the day you deposit and is valued at the live on-chain NAV — it does not inherit the backtest.";
   if(!live()) document.getElementById("notdeployed").style.display="block";
+  // Eager reconnect: if the user already authorized this site, restore the
+  // session silently. eth_accounts never prompts — it returns [] when not
+  // connected — so a refresh or return visit keeps the wallet connected.
+  try{ const w=window.ethereum;
+    if(w){ eth=w; const accs=await w.request({method:"eth_accounts"});
+      if(accs&&accs[0]) wireAccount(accs[0]); } }catch(_){}
 })();
 </script>
 </body></html>
