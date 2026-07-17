@@ -68,10 +68,13 @@ main{max-width:1000px;margin:0 auto;padding:5rem 2.6rem 7rem}
   letter-spacing:-.015em;margin:2.6rem auto 0;font-weight:400;
   max-width:none;text-align:center}
 .hero-h span{color:var(--muted)}
-.hero-sub{font-size:1.06rem;line-height:1.6;color:var(--muted);
-  margin:1.4rem auto 0;max-width:60ch;text-align:center}
+.hero-sub{font-size:1.08rem;line-height:1.6;color:var(--muted);
+  margin:1.3rem auto 0;max-width:54ch;text-align:center}
+.hero-spec{font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--faint);margin:.9rem auto 0;text-align:center}
+.hero-spec b{color:var(--green);font-weight:600}
 .chips{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;
-  margin:2.4rem 0 0}
+  margin:3rem 0 0}
 .chip{font-size:.78rem;color:var(--muted);border:1px solid var(--rule);
   border-radius:999px;padding:.55rem .9rem;white-space:nowrap;
   background:var(--bg);overflow:hidden;text-overflow:ellipsis}
@@ -292,15 +295,15 @@ footer{margin-top:2.2rem;padding-top:1rem;border-top:1px solid var(--rule);
 </div>
 <div class="substrip"><b data-i18n="ssLive">1008-day backtest</b> · <span
 data-i18n="ssData">real market data</span> · <span data-i18n="ssMon">live since</span> 17 Jul 2026 · <span data-i18n="ssGuard">crisis guard active</span> · 2.0x · <span
-data-i18n="ssUpd">updated</span> <span id="ago">2026-07-17 09:27 UTC</span></div>
+data-i18n="ssUpd">updated</span> <span id="ago">2026-07-17 09:59 UTC</span></div>
 
 <p class="hero-h" data-i18n="heroH">$100,000 → $284,972 <span>in
 33 months.<br>Market-neutral through ETH’s −68%.</span></p>
 <p class="hero-sub" data-i18n="heroSub">We collect the fee that leveraged
-traders pay, every day — whichever way the market moves. Market-neutral ·
-target ~26%/yr net of fees · real backtest, Oct 2023 → Jul 2026.</p>
+traders pay, every day — whichever way the market moves.</p>
+<p class="hero-spec" data-i18n="heroSpec">Target <b>~26%/yr</b> net of fees · real backtest, Oct 2023 → Jul 2026</p>
 
-<div class="ctarow" style="margin-top:2.4rem">
+<div class="ctarow" style="margin-top:2.9rem">
   <a class="cta" href="app.html" data-i18n="ctaMain">Deposit now →</a>
   <a class="cta2" href="whitepaper.html" data-i18n="ctaWp">Read the whitepaper</a>
 </div>
@@ -677,7 +680,8 @@ const PERF = {"2023": {"y": 0.25775, "m": {"10": 0.019919, "11": 0.094637, "12":
 (function(){
   const IT = {
     heroH:'$100,000 → $284,972 <span>in 33 mesi.<br>Neutrale al mercato attraverso il −68% di ETH.</span>',
-    heroSub:'Incassiamo la commissione che i trader a leva pagano ogni giorno — qualunque direzione prenda il mercato. Neutrale al mercato · target ~26%/anno netto · backtest reale, Oct 2023 → Jul 2026.',
+    heroSub:'Incassiamo la commissione che i trader a leva pagano ogni giorno — qualunque direzione prenda il mercato.',
+    heroSpec:'Target <b>~26%/anno</b> netto · backtest reale, Oct 2023 → Jul 2026',
     phEmail:'La tua migliore email',
     chip1:'<b>Auto-custodia</b>&nbsp;— sempre tua',
     chip2:'<b>Prelievo sempre aperto</b>&nbsp;— è un tuo diritto',
@@ -762,7 +766,7 @@ const PERF = {"2023": {"y": 0.25775, "m": {"10": 0.019919, "11": 0.094637, "12":
   if ((navigator.language || '').toLowerCase().slice(0, 2) === 'it') setLang('it');
 })();
 const V0 = 99997.2602739726;
-const GEN = new Date("2026-07-17T09:27:50Z");
+const GEN = new Date("2026-07-17T09:59:00Z");
 (function(){
   const el = document.getElementById("ago");
   function tick(){
