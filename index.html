@@ -70,8 +70,6 @@ main{max-width:1000px;margin:0 auto;padding:5rem 2.6rem 7rem}
 .hero-h span{color:var(--muted)}
 .hero-sub{font-size:1.06rem;line-height:1.6;color:var(--muted);
   margin:1.4rem auto 0;max-width:60ch;text-align:center}
-.hero-cav{font-size:.82rem;line-height:1.5;color:var(--faint);
-  margin:1.1rem auto 0;max-width:92ch;text-align:center}
 .chips{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;
   margin:2.4rem 0 0}
 .chip{font-size:.78rem;color:var(--muted);border:1px solid var(--rule);
@@ -294,18 +292,13 @@ footer{margin-top:2.2rem;padding-top:1rem;border-top:1px solid var(--rule);
 </div>
 <div class="substrip"><b data-i18n="ssLive">1008-day backtest</b> · <span
 data-i18n="ssData">real market data</span> · <span data-i18n="ssMon">live since</span> 17 Jul 2026 · <span data-i18n="ssGuard">crisis guard active</span> · 2.0x · <span
-data-i18n="ssUpd">updated</span> <span id="ago">2026-07-17 09:10 UTC</span></div>
+data-i18n="ssUpd">updated</span> <span id="ago">2026-07-17 09:27 UTC</span></div>
 
 <p class="hero-h" data-i18n="heroH">$100,000 → $284,972 <span>in
 33 months.<br>Market-neutral through ETH’s −68%.</span></p>
 <p class="hero-sub" data-i18n="heroSub">We collect the fee that leveraged
 traders pay, every day — whichever way the market moves. Market-neutral ·
 target ~26%/yr net of fees · real backtest, Oct 2023 → Jul 2026.</p>
-<p class="hero-cav" data-i18n="heroCav">The headline is a backtest of the
-funding carry — it models no price risk, leans largely on one venue, and the
-−0.6% is its funding-only drawdown. The real tail risks (depeg,
-liquidation) are in the whitepaper. Forward record public since
-17 Jul 2026.</p>
 
 <div class="ctarow" style="margin-top:2.4rem">
   <a class="cta" href="app.html" data-i18n="ctaMain">Deposit now →</a>
@@ -329,9 +322,11 @@ the vault from your own wallet, and you can withdraw at any time.</p>
 <div class="legend" id="eq-legend"></div>
 <p class="chart-note" data-i18n="eqNote">The same $100,000, on the same days:
 FARMARE against holding ETH (real daily closes), stablecoins at 5%, and cash.
-Backtested, not a projection — the forward expectation is ~+26%/yr median, and
-negative years are possible. Methodology and the full risk framework are in
-the whitepaper. Hover for daily values.</p>
+It is a backtest of the funding carry — leaning largely on one venue, modelling
+no price risk — so the −0.6% is a funding-only drawdown; the real tail
+risks (depeg, liquidation) and the full risk framework are in the whitepaper.
+Not a projection: forward expectation ~+26%/yr median, negative years possible.
+Hover for daily values.</p>
 
 <div class="steps">
   <span class="done" data-i18n="st1">Backtest validated — 1008 days of real data</span>
@@ -683,7 +678,6 @@ const PERF = {"2023": {"y": 0.25775, "m": {"10": 0.019919, "11": 0.094637, "12":
   const IT = {
     heroH:'$100,000 → $284,972 <span>in 33 mesi.<br>Neutrale al mercato attraverso il −68% di ETH.</span>',
     heroSub:'Incassiamo la commissione che i trader a leva pagano ogni giorno — qualunque direzione prenda il mercato. Neutrale al mercato · target ~26%/anno netto · backtest reale, Oct 2023 → Jul 2026.',
-    heroCav:'Il dato di punta è un backtest del carry di funding — non modella il rischio di prezzo, si appoggia in gran parte a un solo venue, e il −0.6% è il suo drawdown sul solo funding. I rischi di coda reali (depeg, liquidazione) sono nel whitepaper. Record in avanti pubblico dal 17 Jul 2026.',
     phEmail:'La tua migliore email',
     chip1:'<b>Auto-custodia</b>&nbsp;— sempre tua',
     chip2:'<b>Prelievo sempre aperto</b>&nbsp;— è un tuo diritto',
@@ -715,7 +709,7 @@ const PERF = {"2023": {"y": 0.25775, "m": {"10": 0.019919, "11": 0.094637, "12":
     ssGuard:'guardia attiva', ssGuardP:'guardia di crisi: parcheggiato (comparto sicuro)',
     ssUpd:'aggiornato',
     eqH:'$100,000 dal primo giorno <small>— FARMARE contro le alternative</small>',
-    eqNote:'Gli stessi $100.000, negli stessi giorni: FARMARE contro comprare ETH (chiusure giornaliere reali), stablecoin al 5% e contante. Backtest, non una proiezione — l’attesa forward è ~+26%/anno mediano, e anni negativi sono possibili. Metodologia e framework di rischio completo nel whitepaper. Passa il mouse per i valori giornalieri.',
+    eqNote:'Gli stessi $100.000, negli stessi giorni: FARMARE contro comprare ETH (chiusure giornaliere reali), stablecoin al 5% e contante. È un backtest del carry di funding — si appoggia in gran parte a un solo venue e non modella il rischio di prezzo, quindi il −0.6% è un drawdown sul solo funding; i rischi di coda reali (depeg, liquidazione) e il framework di rischio completo sono nel whitepaper. Non una proiezione: attesa forward ~+26%/anno mediano, anni negativi possibili. Passa il mouse per i valori giornalieri.',
     dfH:'Dati giornalieri', sgH:'Salvaguardie <small>— automatiche</small>', vgA2:'/anno (regime di carry sano)', sg1b:'se il funding si rompe, il libro si smonta completamente e parcheggia nel comparto di lending finché il regime di carry non torna', sg2b:'massimo 3x, imposto dal contratto del vault stesso — non dalla disciplina dell’operatore', sg3b:'esposizione liquid-restaking limitata al 50% del collaterale; peg monitorato in continuo con smontaggio automatico', sg4b:'ogni decisione è messa a giornale e committata su git con timestamp',
     footNote:'Portafoglio virtuale su dati di mercato reali — nessun fondo di clienti, nessuna custodia. Risultati simulati; non è consulenza d’investimento né un’offerta. Aggiornato quattro volte al giorno dalla pipeline CI; il giornale decisionale completo è disponibile su richiesta. Metodologia, limiti e framework di rischio completo: vedi i documenti linkati sopra. Il vault gira su Ethereum mainnet — <a href="https://etherscan.io/address/0x873C1b701ABDb9334018f4044FEF1d10B430265C#code">codice, fee e saldo sono pubblici su Etherscan</a>.',
     ptH:'Programma partner',
@@ -768,7 +762,7 @@ const PERF = {"2023": {"y": 0.25775, "m": {"10": 0.019919, "11": 0.094637, "12":
   if ((navigator.language || '').toLowerCase().slice(0, 2) === 'it') setLang('it');
 })();
 const V0 = 99997.2602739726;
-const GEN = new Date("2026-07-17T09:10:44Z");
+const GEN = new Date("2026-07-17T09:27:50Z");
 (function(){
   const el = document.getElementById("ago");
   function tick(){
