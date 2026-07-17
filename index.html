@@ -295,7 +295,7 @@ footer{margin-top:2.2rem;padding-top:1rem;border-top:1px solid var(--rule);
 </div>
 <div class="substrip"><b data-i18n="ssLive">1008-day backtest</b> · <span
 data-i18n="ssData">real market data</span> · <span data-i18n="ssMon">live since</span> 17 Jul 2026 · <span data-i18n="ssGuard">crisis guard active</span> · 2.0x · <span
-data-i18n="ssUpd">updated</span> <span id="ago">2026-07-17 13:22 UTC</span></div>
+data-i18n="ssUpd">updated</span> <span id="ago">2026-07-17 14:27 UTC</span></div>
 
 <p class="hero-h" data-i18n="heroH">$100,000 → $284,972 <span>in
 33 months.<br>Market-neutral through ETH’s −68%.</span></p>
@@ -467,6 +467,16 @@ month. Every figure is net of the 10% performance + 1%/yr management fees.</p>
     equal amount of ETH perpetuals — price exposure cancels out, and the fund
     collects that funding plus staking yield, with leverage capped at 3x by the
     contract. Full mechanics in the whitepaper.</p></details>
+  <details><summary data-i18n="q8">What if funding stays low for a long time?</summary>
+    <p data-i18n="a8">Then the fund earns less — the return follows the funding,
+    it is not a fixed rate. When the carry regime weakens the crisis guard moves
+    the book into the safe lending sleeve (~5%/yr) instead of forcing risk, and
+    our design commitment is to <b>waive the management fee while parked</b>, so
+    a lean stretch costs you no more than holding that lending position yourself.
+    You keep the upside of being positioned when the carry regime returns — as it
+    has every cycle since 2019 — without paying for active management that isn't
+    running. (The waiver ships with the next contract revision; see the
+    whitepaper.)</p></details>
   <details><summary data-i18n="q6">Can I receive the yield monthly instead of
     compounding it?</summary>
     <p data-i18n="a6">Yes — the timing is entirely yours. Your yield lives in
@@ -734,7 +744,8 @@ const PERF = {"2023": {"y": 0.25775, "m": {"10": 0.019919, "11": 0.094637, "12":
     q2:'Quanto pago?', a2:'10% dei profitti sopra il tuo massimo storico personale più 1%/anno di gestione, entrambi con tetti nel contratto. Mai sul capitale, mai due volte sullo stesso guadagno.',
     q3:'Chi custodisce i miei soldi?', a3:'Tu. I fondi stanno in un vault non-custodiale: il keeper dell’operatore può ribilanciare tra venue in whitelist ma non ha alcun percorso nel codice per spostare fondi verso terzi. Le modifiche a fee, venue e quota referral passano da un timelock on-chain di 48 ore; sostituzione del keeper e pausa sono immediate, per poter reagire a un problema.',
     q4:'E se l’operatore sparisce?', a4:'Il tuo diritto di prelievo non dipende dall’operatore: redeem() è permissionless e sempre aperto. Il caso peggiore è smontare al ritmo delle venue — mai perdere l’accesso ai fondi.',
-    q5:'Da dove viene davvero il rendimento?', a5:'I trader di perpetual pagano una commissione ricorrente (funding) alla controparte. Il fondo detiene ETH stakato e shorta pari importo di perpetual ETH — l’esposizione al prezzo si annulla e il fondo incassa funding più staking, con leva massima 3x imposta dal contratto. Meccanica completa nel whitepaper.'
+    q5:'Da dove viene davvero il rendimento?', a5:'I trader di perpetual pagano una commissione ricorrente (funding) alla controparte. Il fondo detiene ETH stakato e shorta pari importo di perpetual ETH — l’esposizione al prezzo si annulla e il fondo incassa funding più staking, con leva massima 3x imposta dal contratto. Meccanica completa nel whitepaper.',
+    q8:'E se il funding resta basso a lungo?', a8:'Allora il fondo rende meno — il rendimento segue il funding, non è un tasso fisso. Quando il regime di carry si indebolisce, la guardia di crisi sposta il libro nel comparto lending sicuro (~5%/anno) invece di forzare il rischio, e il nostro impegno di design è <b>sospendere la commissione di gestione durante il parcheggio</b>: così una fase magra non ti costa più che tenere quella posizione di lending da solo. Mantieni il vantaggio di essere posizionato quando il regime di carry torna — come è successo a ogni ciclo dal 2019 — senza pagare per una gestione attiva che non sta girando. (La sospensione arriva con la prossima revisione del contratto; vedi il whitepaper.)'
   };
   const EN = {}, ENP = {};
   document.querySelectorAll('[data-i18n]').forEach(el => { EN[el.dataset.i18n] = el.innerHTML; });
@@ -766,7 +777,7 @@ const PERF = {"2023": {"y": 0.25775, "m": {"10": 0.019919, "11": 0.094637, "12":
   if ((navigator.language || '').toLowerCase().slice(0, 2) === 'it') setLang('it');
 })();
 const V0 = 99997.2602739726;
-const GEN = new Date("2026-07-17T13:22:00Z");
+const GEN = new Date("2026-07-17T14:27:10Z");
 (function(){
   const el = document.getElementById("ago");
   function tick(){
