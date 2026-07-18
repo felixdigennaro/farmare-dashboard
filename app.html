@@ -137,6 +137,12 @@ time; no one, including the operator, can move your funds elsewhere.</p>
     <div class="cell"><label>Current value</label><b id="curval">—</b></div>
     <div class="cell"><label>Wallet USDC</label><b id="walusdc">—</b></div>
   </div>
+  <div id="coupon" style="display:none;margin-top:1rem;border-top:1px solid var(--rule);padding-top:1rem">
+    <div class="head"><label>Interest available to collect</label></div>
+    <div class="big up" id="coupval" style="font-size:1.4rem">—</div>
+    <p class="avail" id="coupnote">Your gain above what you put in — withdraw it to your wallet and keep your capital working.</p>
+    <button class="act" id="collect" style="margin-top:.4rem">Collect the interest →</button>
+  </div>
 </div>
 
 <div class="pnl" id="refcard" style="display:none">
@@ -338,6 +344,14 @@ async function refresh(){
   document.getElementById("invested").textContent="$"+fmt(invested);
   document.getElementById("curval").textContent="$"+fmt(cur);
   document.getElementById("walusdc").textContent="$"+fmt(window._bal.usdc);
+  // Fase A — collect-the-interest: the gain above net invested, redeemable now
+  const gain=cur-invested;
+  const cbox=document.getElementById("coupon");
+  if(invested>0 && gain>0.5){
+    cbox.style.display="block";
+    document.getElementById("coupval").textContent="+$"+fmt(gain);
+    window._gainShares = navv>0 ? (gain/navv) : 0;   // shares to redeem for this gain
+  } else { cbox.style.display="none"; window._gainShares=0; }
   if(pc){ document.getElementById("chartTitle").innerHTML='Your equity <small>— value vs net invested</small>';
     document.getElementById("chartNote").textContent="Your money since your first deposit, valued daily at the fund's NAV.";
     drawChart(pc); } else {
@@ -420,6 +434,20 @@ document.querySelectorAll(".tab").forEach(el=>el.onclick=()=>{document.querySele
   document.getElementById("amt").value="";msg("");setAvail();});
 document.getElementById("maxbtn").onclick=()=>{if(!window._bal)return;document.getElementById("amt").value=tab==="deposit"?window._bal.usdc.toFixed(2):window._bal.shares.toFixed(6);};
 document.getElementById("connect").onclick=connect;
+document.getElementById("collect").onclick=async()=>{
+  const b=document.getElementById("collect"); b.disabled=true;
+  try{
+    if(!window._gainShares||window._gainShares<=0){msg("No interest to collect yet.","err");b.disabled=false;return;}
+    // leave a hair of dust to avoid rounding the redeem above the gain
+    const sh=Math.max(0,window._gainShares*0.999);
+    const units=toUnits(sh.toFixed(CFG.shareDecimals),CFG.shareDecimals);
+    msg("Collecting your interest…");
+    await send(CFG.vault,SEL.redeem+uint(units)+addr(account)+addr(account));
+    msg("Interest collected — it's in your wallet. Your capital stays invested.","ok");
+    refresh();
+  }catch(e){msg("Failed: "+(e.message||e),"err");}
+  b.disabled=false;
+};
 document.getElementById("addnet").onclick=async e=>{e.preventDefault();
   try{await rpc("wallet_switchEthereumChain",[{chainId:CFG.chainId}]);}catch(err){if(err.code===4902)await rpc("wallet_addEthereumChain",[CFG.baseParams]);}location.reload();};
 async function send(to,data){const tx=await rpc("eth_sendTransaction",[{from:account,to,data}]);msg("Transaction sent — waiting for confirmation…");
