@@ -295,7 +295,7 @@ footer{margin-top:2.2rem;padding-top:1rem;border-top:1px solid var(--rule);
 </div>
 <div class="substrip"><b data-i18n="ssLive">1008-day backtest</b> · <span
 data-i18n="ssData">real market data</span> · <span data-i18n="ssMon">live since</span> 18 Jul 2026 · <span data-i18n="ssGuard">crisis guard active</span> · 2.0x · <span
-data-i18n="ssUpd">updated</span> <span id="ago">2026-07-18 06:07 UTC</span></div>
+data-i18n="ssUpd">updated</span> <span id="ago">2026-07-18 06:13 UTC</span></div>
 
 <p class="hero-h" data-i18n="heroH">$100,000 → $307,982 <span>in
 33 months.<br>Market-neutral through ETH’s −68%.</span></p>
@@ -429,6 +429,30 @@ month. Every figure is net of the 10% performance + 1%/yr management fees.</p>
   <p data-i18n="ctamidL">Seen enough of the data?</p>
   <a class="cta" href="app.html" data-i18n="ctaMain">Deposit now →</a>
 </div>
+
+<hr>
+<h2 data-i18n="trH">The Protection Treasury <small data-i18n="trS">— in
+construction, live with contract v1 after the external audit</small></h2>
+<p class="op-body" style="margin:0 auto;max-width:70ch;text-align:center"
+  data-i18n="trBody">A separate safety fund that will stand in front of
+depositors' capital: it holds assets <b>outside the crypto strategy</b>
+(gold, equities, cash rails), it is funded by <b>the operator's own fees and
+seed capital</b> — not by depositors — and if the fund takes a crisis loss,
+the treasury pays <b>before</b> any depositor does. Coverage follows a simple
+rule: your capital is covered <b>until the interest you have collected has
+paid it back</b>; from then on you are playing with house money. The
+treasury's value and coverage ratio will be readable on-chain, live, by
+anyone.</p>
+<div class="chips" style="max-width:52rem;margin-left:auto;margin-right:auto">
+  <span class="chip" data-i18n="tr1">Funded by our fees — never by your deposits</span>
+  <span class="chip" data-i18n="tr2">Pays before any depositor loses</span>
+  <span class="chip" data-i18n="tr3">Coverage up to capacity — not a guarantee</span>
+</div>
+<p class="ctanote" data-i18n="trNote">Status: designed and simulated (2,000
+Monte-Carlo scenarios on real data); ships inside contract v1 and activates
+only after the external security audit. Until then no protection is active —
+what you see on this site today is the unprotected product. Full design and
+honest limits in the whitepaper.</p>
 
 <hr>
 <h2 data-i18n="faqH">Common questions</h2>
@@ -735,6 +759,12 @@ const PERF = {"2023": {"y": 0.265403, "m": {"10": 0.019903, "11": 0.09026, "12":
     eqNote:'Gli stessi $100.000, negli stessi giorni: FARMARE contro comprare ETH (chiusure giornaliere reali), stablecoin al 5% e contante. È un backtest del carry di funding su un basket BTC/ETH/SOL — ogni asset prende il più ricco tra due venue (Binance, Hyperliquid) con una regola trailing a 30 giorni che usa solo dati passati — e non modella il rischio di prezzo, quindi il −0.6% è un drawdown sul solo funding; i rischi di coda reali (depeg, liquidazione) e il framework di rischio completo sono nel whitepaper. Policy del basket fissata il 17 lug 2026; la curva ETH-only precedente è archiviata. Non una proiezione: attesa forward ~+26%/anno mediano, anni negativi possibili. Passa il mouse per i valori giornalieri.',
     dfH:'Dati giornalieri', sgH:'Salvaguardie <small>— automatiche</small>', vgA2:'/anno (regime di carry sano)', sg1b:'se il funding si rompe, il libro si smonta completamente e parcheggia nel comparto di lending finché il regime di carry non torna', sg2b:'massimo 3x, imposto dal contratto del vault stesso — non dalla disciplina dell’operatore', sg3b:'esposizione liquid-restaking limitata al 50% del collaterale; peg monitorato in continuo con smontaggio automatico', sg4b:'ogni decisione è messa a giornale e committata su git con timestamp',
     footNote:'Portafoglio virtuale su dati di mercato reali — nessun fondo di clienti, nessuna custodia. Risultati simulati; non è consulenza d’investimento né un’offerta. Aggiornato quattro volte al giorno dalla pipeline CI; il giornale decisionale completo è disponibile su richiesta. Metodologia, limiti e framework di rischio completo: vedi i documenti linkati sopra. Il vault gira su Ethereum mainnet — <a href="https://etherscan.io/address/0x873C1b701ABDb9334018f4044FEF1d10B430265C#code">codice, fee e saldo sono pubblici su Etherscan</a>.',
+    trH:'La Tesoreria di Protezione', trS:'— in costruzione, attiva col contratto v1 dopo l’audit esterno',
+    trBody:'Un fondo di sicurezza separato che si metterà davanti al capitale dei depositanti: detiene asset <b>fuori dalla strategia cripto</b> (oro, azionario, liquidità), è alimentato dalle <b>fee e dal capitale dell’operatore</b> — mai dai depositi — e se il fondo subisce una perdita in crisi, la tesoreria paga <b>prima</b> di qualsiasi depositante. La copertura segue una regola semplice: il tuo capitale è coperto <b>finché gli interessi che hai incassato non te lo hanno restituito</b>; da lì in poi stai giocando con i guadagni. Valore e rapporto di copertura della tesoreria saranno leggibili on-chain, in tempo reale, da chiunque.',
+    tr1:'Alimentata dalle nostre fee — mai dai tuoi depositi',
+    tr2:'Paga prima che qualsiasi depositante perda',
+    tr3:'Copertura fino a capienza — non una garanzia',
+    trNote:'Stato: progettata e simulata (2.000 scenari Monte Carlo su dati reali); arriva dentro il contratto v1 e si attiva solo dopo l’audit di sicurezza esterno. Fino ad allora nessuna protezione è attiva — ciò che vedi su questo sito oggi è il prodotto senza protezione. Design completo e limiti onesti nel whitepaper.',
     ptH:'Programma partner',
     ptBody:'Porti qualcuno e guadagni <b>il 25% di ogni fee che incassiamo sul suo capitale</b> — un quarto della nostra fee di performance del 10% e della nostra fee di gestione dell’1%/anno, finché resta. Niente inviti, niente registrazione: colleghi il wallet e il tuo link è pronto.',
     pt1:'Lui paga lo stesso — esce dalla <b>nostra</b> fee',
@@ -786,7 +816,7 @@ const PERF = {"2023": {"y": 0.265403, "m": {"10": 0.019903, "11": 0.09026, "12":
   if ((navigator.language || '').toLowerCase().slice(0, 2) === 'it') setLang('it');
 })();
 const V0 = 99997.2602739726;
-const GEN = new Date("2026-07-18T06:07:03Z");
+const GEN = new Date("2026-07-18T06:13:13Z");
 (function(){
   const el = document.getElementById("ago");
   function tick(){

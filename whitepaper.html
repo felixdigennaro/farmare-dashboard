@@ -148,6 +148,19 @@ a{color:var(--green)}
 <p class="li">• <strong>Borrow-rate spikes</strong> — the cost of the leverage leg can spike; the model</p>
 <p>prices spikes to 20%.</p>
 <p><strong>Structural protections</strong> (product-agnostic): unconditional <code>redeem()</code> at NAV, a 48h timelock on fee/venue/referral changes, hard-coded fee ceilings, per-venue caps, a per-operation and rolling cumulative-loss circuit breaker, and a fully journaled, git-committed decision history that a public dashboard rebuilds from.</p>
+<h3>8.1 The Protection Treasury (design commitment, ships with v1)</h3>
+<p>A segregated safety fund that stands in front of depositors&#x27; capital. Design, fixed after simulation on real data (2,000 Monte-Carlo scenarios; assumptions below):</p>
+<p class="li">• <strong>What it holds</strong>: assets outside the crypto strategy — tokenized gold</p>
+<p>(PAXG), an equity-index leg when a reliably priced on-chain instrument qualifies, and a liquid sUSDS rail for payouts. In a crypto-idiosyncratic crisis (depeg, venue failure) these do not fall with the book.</p>
+<p class="li">• <strong>Who funds it</strong>: the operator — a seed pledge plus 50% of FARMARE&#x27;s own</p>
+<p>fees until the coverage target is met, with any surplus above target withdrawable by the operator only through the 48h timelock. Depositor money never funds it. Yield earned by capital backing unclaimed coupons also accrues to the treasury (symmetric: its losses land there too).</p>
+<p class="li">• <strong>What it covers</strong>: deposited capital only, under an amortizing rule —</p>
+<p>each depositor is covered in full <strong>until the interest they have collected equals what they put in</strong>; from then on coverage retires. Simulated effect: crisis draws fall ~60% at the 10-year mark versus unbounded coverage, and the share of crises absorbed in full rises to 96–98%.</p>
+<p class="li">• <strong>Capacity coupling</strong>: deposits are capped at 5× the treasury&#x27;s value</p>
+<p>(covered exposure), so protection can never be diluted by growth — the fund can only take more capital as the treasury grows.</p>
+<p class="li">• <strong>What it is not</strong>: a guarantee. Coverage works up to the treasury&#x27;s</p>
+<p>capacity; severities beyond it, a failure of the vault contract itself, or a USDC failure are not covered. Assumptions behind the simulations — crisis frequency ~1 per 6–7 years, severity 5–30%, a gold/equity window that was exceptionally favourable — are declared, not hidden.</p>
+<p>Status: <strong>not yet active.</strong> The treasury contract ships inside v1 and activates only after the external audit; until then no protection exists and this section is a design commitment, not a feature.</p>
 <h2 id="s10">9. Security</h2>
 <p>An internal adversarial review fixed five findings — a first-deposit inflation attack, a reentrancy vector, orphaned funds on venue removal, an unbounded cumulative-loss path, and a UI decimals bug — each with a regression test. The contract suite passes 20/20 (unit, security, fuzz, and Base-mainnet fork tests against real Aave and Morpho). This internal review is <strong>not a substitute for a professional external audit</strong>, which is a prerequisite before third-party funds, alongside a public testnet with a bug bounty and staged deposit caps.</p>
 <h2 id="s11">10. Roadmap</h2>
@@ -233,6 +246,19 @@ a{color:var(--green)}
 <p class="li">• <strong>Spike dei tassi di prestito</strong> — il costo della gamba di leva può salire; il</p>
 <p>modello prezza spike fino al 20%.</p>
 <p><strong>Protezioni strutturali</strong> (indipendenti dal prodotto): <code>redeem()</code> incondizionato al NAV, timelock di 48h su fee/venue/referral, tetti hard-coded sulle fee, cap per-sede, circuit breaker per-operazione e cumulativo, e una storia decisionale interamente a journal e committata su git da cui una dashboard pubblica si ricostruisce.</p>
+<h3>8.1 La Tesoreria di Protezione (impegno di design, arriva col v1)</h3>
+<p>Un fondo di sicurezza segregato che si mette davanti al capitale dei depositanti. Design fissato dopo simulazione su dati reali (2.000 scenari Monte Carlo; ipotesi in fondo):</p>
+<p class="li">• <strong>Cosa detiene</strong>: asset fuori dalla strategia cripto — oro tokenizzato</p>
+<p>(PAXG), una gamba azionaria quando esisterà uno strumento on-chain affidabile nel prezzo, e un binario liquido sUSDS per i pagamenti. In una crisi cripto-idiosincratica (depeg, fallimento venue) non cadono col libro.</p>
+<p class="li">• <strong>Chi la alimenta</strong>: l&#x27;operatore — un pegno iniziale più il 50% delle fee</p>
+<p>di FARMARE fino al target di copertura, con il surplus sopra il target prelevabile dall&#x27;operatore solo via timelock 48h. Il denaro dei depositanti non la alimenta mai. Anche il rendimento del capitale dietro le cedole non riscosse matura alla tesoreria (simmetrico: le sue perdite ricadono lì).</p>
+<p class="li">• <strong>Cosa copre</strong>: solo il capitale depositato, con regola ad ammortamento —</p>
+<p>ogni depositante è coperto per intero <strong>finché gli interessi incassati non pareggiano quanto ha versato</strong>; da lì la copertura si ritira. Effetto simulato: i prelievi in crisi calano ~60% a 10 anni rispetto alla copertura illimitata, e le crisi assorbite per intero salgono al 96–98%.</p>
+<p class="li">• <strong>Aggancio alla capacità</strong>: i depositi sono limitati a 5× il valore della</p>
+<p>tesoreria (esposizione coperta): la protezione non può essere diluita dalla crescita — il fondo accetta più capitale solo se la tesoreria cresce.</p>
+<p class="li">• <strong>Cosa NON è</strong>: una garanzia. La copertura vale fino a capienza; severità</p>
+<p>oltre, un fallimento del contratto stesso del vault o un fallimento di USDC non sono coperti. Le ipotesi dietro le simulazioni — frequenza crisi ~1 ogni 6–7 anni, severità 5–30%, una finestra oro/azionario eccezionalmente favorevole — sono dichiarate, non nascoste.</p>
+<p>Stato: <strong>non ancora attiva.</strong> Il contratto della tesoreria arriva dentro il v1 e si attiva solo dopo l&#x27;audit esterno; fino ad allora nessuna protezione esiste e questa sezione è un impegno di design, non una feature.</p>
 <h2 id="s10">9. Sicurezza</h2>
 <p>Una revisione interna avversariale ha corretto cinque criticità — inflation attack sul primo deposito, un vettore di reentrancy, fondi orfani alla rimozione di una sede, un percorso di perdita cumulativa illimitata e un bug decimali nella UI — ciascuna con test di regressione. La suite passa 20/20 (unit, sicurezza, fuzz e fork test su Base contro Aave e Morpho reali). Questa revisione interna <strong>non sostituisce un audit esterno professionale</strong>, prerequisito prima di fondi di terzi, insieme a una testnet pubblica con bug bounty e cap graduali sui depositi.</p>
 <h2 id="s11">10. Roadmap</h2>
