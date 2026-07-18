@@ -75,22 +75,64 @@ main{max-width:1000px;margin:0 auto;padding:5rem 2.6rem 7rem}
 .hero-spec b{color:var(--green);font-weight:600}
 .chips{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;
   margin:3rem 0 0}
-.chip{font-size:.78rem;color:var(--muted);border:1px solid var(--rule);
-  border-radius:999px;padding:.55rem .9rem;white-space:nowrap;
-  background:var(--bg);overflow:hidden;text-overflow:ellipsis}
-.chip::before{content:"";width:14px;height:14px;display:inline-block;
-  vertical-align:-2px;background-color:var(--green);margin-right:.5rem;
+.chip{font-size:.8rem;color:var(--muted);border:1px solid var(--rule);
+  border-radius:14px;padding:.7rem .95rem;background:var(--bg);
+  display:flex;align-items:flex-start;gap:.55rem;line-height:1.4}
+.chip::before{content:"";width:15px;height:15px;flex:none;margin-top:.06rem;
+  background-color:var(--green);
   -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23000' d='M9.55 17.05 4.5 12l1.4-1.4 3.65 3.6 8.15-8.15L19.1 7.5z'/%3E%3C/svg%3E") center/contain no-repeat;
   mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23000' d='M9.55 17.05 4.5 12l1.4-1.4 3.65 3.6 8.15-8.15L19.1 7.5z'/%3E%3C/svg%3E") center/contain no-repeat}
 .chip b{color:var(--ink);font-weight:600}
-@media(max-width:640px){.chips{grid-template-columns:1fr;gap:.5rem}
-  .chip{white-space:normal;align-items:flex-start}
-  .chip::before{margin-top:.15rem}}
+@media(max-width:640px){.chips{grid-template-columns:1fr;gap:.5rem}}
+/* ── protection-treasury module (fintech panel) ─────────────── */
+.treye{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--green);font-weight:600;text-align:center;margin:0 0 .7rem}
+.trwrap{border:1px solid var(--rule);border-radius:22px;background:var(--band);
+  padding:2.6rem 2.6rem 2.1rem;margin:1.6rem 0 0}
+@media(max-width:640px){.trwrap{padding:1.7rem 1.4rem}}
+.trlead{font-size:1.08rem;line-height:1.62;color:var(--ink);max-width:62ch;
+  margin:0 auto;text-align:center}
+.trlead b{color:var(--green);font-weight:600}
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:1.9rem 0 0}
+@media(max-width:680px){.pillars{grid-template-columns:1fr}}
+.pillar{background:var(--bg);border:1px solid var(--rule);border-radius:15px;
+  padding:1.25rem 1.3rem}
+.pillar .ic{width:26px;height:26px;display:block;color:var(--green)}
+.pillar>b{display:block;font-size:.95rem;font-weight:600;color:var(--ink);
+  margin:.7rem 0 .35rem;letter-spacing:-.005em}
+.pillar span{font-size:.83rem;line-height:1.52;color:var(--muted)}
+.pillar span b{color:var(--ink);font-weight:600}
+.trwhen{display:grid;grid-template-columns:minmax(0,auto) 1fr;gap:1.6rem;
+  align-items:center;margin:1.1rem 0 0;padding:1.4rem 1.6rem;
+  border:1px solid var(--rule);border-radius:15px;background:var(--bg)}
+@media(max-width:640px){.trwhen{grid-template-columns:1fr;gap:.9rem;text-align:center}}
+.trstat b{font-family:"SF Mono",ui-monospace,Menlo,monospace;font-size:2.3rem;
+  font-weight:600;color:var(--green);display:block;letter-spacing:-.02em;line-height:1}
+.trstat span{font-size:.66rem;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--muted);display:block;margin-top:.45rem}
+.trwhen-body{margin:0;font-size:.87rem;line-height:1.55;color:var(--muted)}
+.trwhen-body b{color:var(--ink);font-weight:600}
+.evtags{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.7rem}
+@media(max-width:640px){.evtags{justify-content:center}}
+.evtag{font-size:.7rem;color:var(--muted);border:1px solid var(--rule);
+  border-radius:999px;padding:.28rem .7rem;background:var(--band);
+  display:inline-flex;align-items:center;gap:.4rem}
+.evtag::before{content:"";width:6px;height:6px;border-radius:50%;
+  background:var(--amber);flex:none}
+.trnote{font-size:.76rem;line-height:1.5;color:var(--faint);text-align:center;
+  max-width:66ch;margin:1.5rem auto 0}
 .calc{background:var(--green-soft);border:1px solid var(--rule);
   border-radius:18px;padding:2rem 2.2rem;margin:2.8rem 0 0;text-align:center}
 @media(max-width:640px){.calc{padding:1.4rem 1.4rem}}
 .calc label{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;
   color:var(--muted)}
+.calc .qeye{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--green);font-weight:600;margin:0 0 .5rem}
+.calc .qh{font-family:Charter,"Iowan Old Style",Georgia,serif;font-weight:400;
+  font-size:clamp(1.12rem,2.2vw,1.4rem);line-height:1.34;letter-spacing:-.01em;
+  color:var(--ink);margin:0 auto;max-width:34ch}
+.calc .qwin{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--faint);margin:.65rem 0 0}
 .calc .row{display:flex;align-items:center;justify-content:center;gap:1.1rem;margin:1.1rem 0 .3rem}
 .calc input[type=range]{flex:1;accent-color:var(--green);height:4px}
 .calc .amt{font-family:"SF Mono",ui-monospace,Menlo,monospace;font-size:1rem;
@@ -295,7 +337,7 @@ footer{margin-top:2.2rem;padding-top:1rem;border-top:1px solid var(--rule);
 </div>
 <div class="substrip"><b data-i18n="ssLive">1008-day backtest</b> · <span
 data-i18n="ssData">real market data</span> · <span data-i18n="ssMon">live since</span> 18 Jul 2026 · <span data-i18n="ssGuard">crisis guard active</span> · 2.0x · <span
-data-i18n="ssUpd">updated</span> <span id="ago">2026-07-18 06:53 UTC</span></div>
+data-i18n="ssUpd">updated</span> <span id="ago">2026-07-18 07:25 UTC</span></div>
 
 <p class="hero-h" data-i18n="heroH">$100,000 → $307,982 <span>in
 33 months.<br>Market-neutral through ETH’s −68%.</span></p>
@@ -375,7 +417,9 @@ month. Every figure is net of the 10% performance + 1%/yr management fees.</p>
 <hr>
 
 <div class="calc">
-  <label data-i18n="calcLab">If you had deposited this — how much interest would you have collected by now? Real backtest, Oct 2023 → Jul 2026</label>
+  <p class="qeye" data-i18n="calcEye">Interest calculator</p>
+  <p class="qh" data-i18n="calcQ">If you had deposited this — how much interest would you have collected by now?</p>
+  <p class="qwin" data-i18n="calcWin">Real backtest · Oct 2023 → Jul 2026</p>
   <div class="modes">
     <button type="button" class="mode on" id="m-inc" data-i18n="mInc">Interest collected</button>
     <button type="button" class="mode" id="m-acc" data-i18n="mAcc">If reinvested (DRIP)</button>
@@ -432,35 +476,57 @@ month. Every figure is net of the 10% performance + 1%/yr management fees.</p>
 </div>
 
 <hr>
+<p class="treye" data-i18n="trEye">Capital protection</p>
 <h2 data-i18n="trH">The Protection Treasury <small data-i18n="trS">— in
-construction, live with contract v1 after the external audit</small></h2>
-<p class="op-body" style="margin:0 auto;max-width:70ch;text-align:center"
-  data-i18n="trBody">A separate safety fund that will stand in front of
-depositors' capital: it holds a <b>diversified reserve outside the crypto strategy</b>
-(gold, equities, cash rails), it is funded by <b>the operator's own fees and
-seed capital</b> — not by depositors — and if the fund takes a crisis loss,
-the treasury pays <b>before</b> any depositor does. Coverage follows a simple
-rule: your capital is covered <b>until the interest you have collected has
-paid it back</b>; from then on you are playing with house money. The
-treasury's value and coverage ratio will be readable on-chain, live, by
-anyone.</p>
-<div class="chips" style="max-width:52rem;margin-left:auto;margin-right:auto">
-  <span class="chip" data-i18n="tr1">Funded by our fees — never by your deposits</span>
-  <span class="chip" data-i18n="tr2">Pays before any depositor loses</span>
-  <span class="chip" data-i18n="tr3">Coverage up to capacity — not a guarantee</span>
+construction · live with contract v1 after the external audit</small></h2>
+<div class="trwrap">
+  <p class="trlead" data-i18n="trLead">A safety fund <b>held apart from the
+  strategy</b> that stands in front of depositors' capital. It holds a
+  diversified reserve <b>outside crypto</b> — gold, equities, cash rails —
+  funded by our fees, never by your deposits.</p>
+
+  <div class="pillars">
+    <div class="pillar">
+      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v6c0 4.5 3.4 7.5 8 9 4.6-1.5 8-4.5 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg>
+      <b data-i18n="trP1t">Funded by our fees</b>
+      <span data-i18n="trP1b">Built from the operator's own fees and seed capital — never from your deposits.</span>
+    </div>
+    <div class="pillar">
+      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
+      <b data-i18n="trP2t">Pays before you do</b>
+      <span data-i18n="trP2b">If the fund takes a crisis loss, the treasury absorbs the hit <b>before</b> any depositor does.</span>
+    </div>
+    <div class="pillar">
+      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+      <b data-i18n="trP3t">Covered up to capacity</b>
+      <span data-i18n="trP3b">Your capital is covered until the interest you've collected has paid it back. Not a guarantee.</span>
+    </div>
+  </div>
+
+  <div class="trwhen">
+    <div class="trstat">
+      <b>~88%</b>
+      <span data-i18n="trStatL">of days in profit</span>
+    </div>
+    <div>
+      <p class="trwhen-body" data-i18n="trWhen">When would it ever pay out?
+      <b>Almost never.</b> A market-neutral basis book earns its carry on ~88%
+      of days across six years of real data. A real loss needs an extreme,
+      system-wide shock — the kind seen only a handful of times. Rare, brief —
+      and it is exactly those moments the treasury is built to absorb.</p>
+      <div class="evtags">
+        <span class="evtag" data-i18n="trEv1">Terra/Luna collapse · 2022</span>
+        <span class="evtag" data-i18n="trEv2">USDC depeg · March 2023</span>
+      </div>
+    </div>
+  </div>
+
+  <p class="trnote" data-i18n="trNote">Status: designed and simulated (2,000
+  Monte-Carlo scenarios on real data); ships inside contract v1 and activates
+  only after the external security audit. Until then no protection is active —
+  what you see today is the unprotected product. Full design and honest limits
+  in the whitepaper.</p>
 </div>
-<p class="op-body" style="margin:1rem auto 0;max-width:70ch;text-align:center;color:var(--muted)"
-  data-i18n="trRare">When would it ever pay out? Almost never. A market-neutral
-  basis book earns its carry on <b>~88% of days</b> across six years of real
-  data; a real loss needs an extreme, system-wide shock — the kind seen only a
-  handful of times, like the <b>2022 Terra/Luna collapse</b> or the
-  <b>March 2023 USDC depeg</b>. Rare, brief — and it is exactly those moments
-  the treasury is built to absorb, so your capital is covered even then.</p>
-<p class="ctanote" data-i18n="trNote">Status: designed and simulated (2,000
-Monte-Carlo scenarios on real data); ships inside contract v1 and activates
-only after the external security audit. Until then no protection is active —
-what you see on this site today is the unprotected product. Full design and
-honest limits in the whitepaper.</p>
 
 <hr>
 <h2 data-i18n="faqH">Common questions</h2>
@@ -737,7 +803,9 @@ const PERF = {"2023": {"y": 0.265403, "m": {"10": 0.019903, "11": 0.09026, "12":
     chip1:'<b>Auto-custodia</b>&nbsp;— sempre tua',
     chip2:'<b>Prelievo sempre aperto</b>&nbsp;— è un tuo diritto',
     chip3:'<b>Preavviso 48h on-chain</b>&nbsp;— su fee e venue',
-    calcLab:'Se li avessi depositati — quanti interessi avresti già incassato? Backtest reale, Oct 2023 → Jul 2026',
+    calcEye:'Calcolatore interessi',
+    calcQ:'Se li avessi depositati — quanti interessi avresti già incassato?',
+    calcWin:'Backtest reale · Oct 2023 → Jul 2026',
     calcNote:'Al netto di tutte le fee. Backtest su dati reali, non una promessa: l’attesa forward è ~+26%/anno mediano, e anni negativi sono possibili.',
     dipFa:'drawdown backtest −0.6% · solo funding', labEth:'Comprare ETH', dipEth:'peggior calo −68%',
     labSt:'Stablecoin al 5%', dipSt:'nessun calo, resa bassa',
@@ -767,13 +835,20 @@ const PERF = {"2023": {"y": 0.265403, "m": {"10": 0.019903, "11": 0.09026, "12":
     eqNote:'Gli stessi $100.000, negli stessi giorni: FARMARE contro comprare ETH (chiusure giornaliere reali), stablecoin al 5% e contante. È un backtest del carry di funding su un basket BTC/ETH/SOL — ogni asset prende il più ricco tra due venue (Binance, Hyperliquid) con una regola trailing a 30 giorni che usa solo dati passati — e non modella il rischio di prezzo, quindi il −0.6% è un drawdown sul solo funding; i rischi di coda reali (depeg, liquidazione) e il framework di rischio completo sono nel whitepaper. Policy del basket fissata il 17 lug 2026; la curva ETH-only precedente è archiviata. Non una proiezione: attesa forward ~+26%/anno mediano, anni negativi possibili. Passa il mouse per i valori giornalieri.',
     dfH:'Dati giornalieri', sgH:'Salvaguardie <small>— automatiche</small>', vgA2:'/anno (regime di carry sano)', sg1b:'se il funding si rompe, il libro si smonta completamente e parcheggia nel comparto di lending finché il regime di carry non torna', sg2b:'massimo 3x, imposto dal contratto del vault stesso — non dalla disciplina dell’operatore', sg3b:'esposizione liquid-restaking limitata al 50% del collaterale; peg monitorato in continuo con smontaggio automatico', sg4b:'ogni decisione è messa a giornale e committata su git con timestamp',
     footNote:'Portafoglio virtuale su dati di mercato reali — nessun fondo di clienti, nessuna custodia. Risultati simulati; non è consulenza d’investimento né un’offerta. Aggiornato quattro volte al giorno dalla pipeline CI; il giornale decisionale completo è disponibile su richiesta. Metodologia, limiti e framework di rischio completo: vedi i documenti linkati sopra. Il vault gira su Ethereum mainnet — <a href="https://etherscan.io/address/0x873C1b701ABDb9334018f4044FEF1d10B430265C#code">codice, fee e saldo sono pubblici su Etherscan</a>.',
-    trH:'La Tesoreria di Protezione', trS:'— in costruzione, attiva col contratto v1 dopo l’audit esterno',
-    trRare:'Quando pagherebbe mai? Quasi mai. Un libro basis neutrale al mercato incassa il suo carry <b>~88% dei giorni</b> su sei anni di dati reali; una perdita vera richiede uno shock estremo e sistemico — di quelli visti solo poche volte, come il <b>collasso Terra/Luna del 2022</b> o il <b>depeg di USDC del marzo 2023</b>. Rari, brevi — ed è proprio quei momenti che la tesoreria è costruita per assorbire, così il tuo capitale è coperto anche allora.',
-    trBody:'Un fondo di sicurezza separato che si metterà davanti al capitale dei depositanti: detiene una <b>riserva diversificata fuori dalla strategia cripto</b> (oro, azionario, liquidità), è alimentato dalle <b>fee e dal capitale dell’operatore</b> — mai dai depositi — e se il fondo subisce una perdita in crisi, la tesoreria paga <b>prima</b> di qualsiasi depositante. La copertura segue una regola semplice: il tuo capitale è coperto <b>finché gli interessi che hai incassato non te lo hanno restituito</b>; da lì in poi stai giocando con i guadagni. Valore e rapporto di copertura della tesoreria saranno leggibili on-chain, in tempo reale, da chiunque.',
-    tr1:'Alimentata dalle nostre fee — mai dai tuoi depositi',
-    tr2:'Paga prima che qualsiasi depositante perda',
-    tr3:'Copertura fino a capienza — non una garanzia',
-    trNote:'Stato: progettata e simulata (2.000 scenari Monte Carlo su dati reali); arriva dentro il contratto v1 e si attiva solo dopo l’audit di sicurezza esterno. Fino ad allora nessuna protezione è attiva — ciò che vedi su questo sito oggi è il prodotto senza protezione. Design completo e limiti onesti nel whitepaper.',
+    trEye:'Protezione del capitale',
+    trH:'La Tesoreria di Protezione', trS:'— in costruzione · attiva col contratto v1 dopo l’audit esterno',
+    trLead:'Un fondo di sicurezza <b>separato dalla strategia</b> che si mette davanti al capitale dei depositanti. Detiene una riserva diversificata <b>fuori dal mondo cripto</b> — oro, azionario, liquidità — alimentata dalle nostre fee, mai dai tuoi depositi.',
+    trP1t:'Alimentata dalle nostre fee',
+    trP1b:'Costruita con le commissioni e il capitale dell’operatore — mai con i tuoi depositi.',
+    trP2t:'Paga prima di te',
+    trP2b:'Se il fondo subisce una perdita in una crisi, la tesoreria assorbe il colpo <b>prima</b> di qualsiasi depositante.',
+    trP3t:'Copertura fino a capienza',
+    trP3b:'Il capitale è coperto finché gli interessi incassati non te l’hanno restituito. Non è una garanzia.',
+    trStatL:'dei giorni in profitto',
+    trWhen:'Quando pagherebbe mai? <b>Quasi mai.</b> Un libro basis neutrale al mercato incassa il suo carry ~88% dei giorni su sei anni di dati reali. Una perdita vera richiede uno shock estremo e sistemico — di quelli visti solo poche volte. Rari, brevi, ed è esattamente quei momenti che la tesoreria è costruita per assorbire.',
+    trEv1:'Collasso Terra/Luna · 2022',
+    trEv2:'Depeg USDC · marzo 2023',
+    trNote:'Stato: progettata e simulata (2.000 scenari Monte Carlo su dati reali); arriva dentro il contratto v1 e si attiva solo dopo l’audit di sicurezza esterno. Fino ad allora nessuna protezione è attiva — ciò che vedi oggi è il prodotto senza protezione. Design completo e limiti onesti nel whitepaper.',
     ptH:'Programma partner',
     ptBody:'Porti qualcuno e guadagni <b>il 25% di ogni fee che incassiamo sul suo capitale</b> — un quarto della nostra fee di performance del 10% e della nostra fee di gestione dell’1%/anno, finché resta. Niente inviti, niente registrazione: colleghi il wallet e il tuo link è pronto.',
     pt1:'Lui paga lo stesso — esce dalla <b>nostra</b> fee',
@@ -825,7 +900,7 @@ const PERF = {"2023": {"y": 0.265403, "m": {"10": 0.019903, "11": 0.09026, "12":
   if ((navigator.language || '').toLowerCase().slice(0, 2) === 'it') setLang('it');
 })();
 const V0 = 99997.2602739726;
-const GEN = new Date("2026-07-18T06:53:03Z");
+const GEN = new Date("2026-07-18T07:25:11Z");
 (function(){
   const el = document.getElementById("ago");
   function tick(){
