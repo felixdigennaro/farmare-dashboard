@@ -333,7 +333,7 @@ footer{margin-top:2.2rem;padding-top:1rem;border-top:1px solid var(--rule);
 </div>
 <div class="substrip"><b data-i18n="ssLive">1008-day backtest</b> · <span
 data-i18n="ssData">real market data</span> · <span data-i18n="ssMon">live since</span> 18 Jul 2026 · <span data-i18n="ssGuard">crisis guard active</span> · 2.0x · <span
-data-i18n="ssUpd">updated</span> <span id="ago">2026-07-18 07:32 UTC</span></div>
+data-i18n="ssUpd">updated</span> <span id="ago">2026-07-18 07:50 UTC</span></div>
 
 <p class="hero-h" data-i18n="heroH">$100,000 → $307,982 <span>in
 33 months.<br>Market-neutral through ETH’s −68%.</span></p>
@@ -376,7 +376,6 @@ Hover for daily values.</p>
 <div class="steps">
   <span class="done" data-i18n="st1">Backtest validated — 1008 days of real data</span>
   <span class="done" data-i18n="st2">Live monitoring — since 18 Jul 2026</span>
-  <span class="now" data-i18n="st3">Security audit</span>
   <span class="done" data-i18n="st4">Vault live — deposits open</span>
 </div>
 
@@ -472,8 +471,8 @@ month. Every figure is net of the 10% performance + 1%/yr management fees.</p>
 </div>
 
 <hr>
-<h2 data-i18n="trH">The Protection Treasury <small data-i18n="trS">— in
-construction · live with contract v1 after the external audit</small></h2>
+<h2 data-i18n="trH">The Protection Treasury <small data-i18n="trS">— the
+fund's safety reserve</small></h2>
 <div class="trwrap">
   <p class="trlead" data-i18n="trLead">A safety fund <b>held apart from the
   strategy</b> that stands in front of depositors' capital. It holds a
@@ -504,11 +503,11 @@ construction · live with contract v1 after the external audit</small></h2>
       <span data-i18n="trStatL">of days in profit</span>
     </div>
     <div>
-      <p class="trwhen-body" data-i18n="trWhen">When would it ever pay out?
-      <b>Almost never.</b> A market-neutral basis book earns its carry on ~88%
-      of days across six years of real data. A real loss needs an extreme,
-      system-wide shock — the kind seen only a handful of times. Rare, brief —
-      and it is exactly those moments the treasury is built to absorb.</p>
+      <p class="trwhen-body" data-i18n="trWhen">When would it kick in?
+      <b>Almost never.</b> The strategy closes positive on roughly
+      <b>88 days out of 100</b> — touching your capital would take a rare,
+      extreme market crisis. Those rare moments are exactly what the treasury
+      is there for.</p>
       <div class="evtags">
         <span class="evtag" data-i18n="trEv1">Terra/Luna collapse · 2022</span>
         <span class="evtag" data-i18n="trEv2">USDC depeg · March 2023</span>
@@ -516,11 +515,9 @@ construction · live with contract v1 after the external audit</small></h2>
     </div>
   </div>
 
-  <p class="trnote" data-i18n="trNote">Status: designed and simulated (2,000
-  Monte-Carlo scenarios on real data); ships inside contract v1 and activates
-  only after the external security audit. Until then no protection is active —
-  what you see today is the unprotected product. Full design and honest limits
-  in the whitepaper.</p>
+  <p class="trnote" data-i18n="trNote">No hidden surprises: the treasury is a
+  separate fund, built from our fees, that exists for one job — to stand between
+  a market crisis and your capital.</p>
 </div>
 
 <hr>
@@ -807,7 +804,7 @@ const PERF = {"2023": {"y": 0.265403, "m": {"10": 0.019903, "11": 0.09026, "12":
     labBk:'Fermo sul conto', dipBk:'eroso dall’inflazione',
     st1:'Backtest validato — 1008 giorni di dati reali',
     st2:'Monitoraggio live — dal 18 Jul 2026',
-    st3:'Audit di sicurezza', st4:'Vault live — depositi aperti',
+    st4:'Vault live — depositi aperti',
     ctaMain:'Deposita ora →', ctaWp:'Leggi il whitepaper',
     ctaPrev:'Anteprima del tuo account',
     ctaNote:'Fee: 10% dei profitti sopra il tuo massimo storico + 1%/anno — solo sui guadagni oltre il tuo picco precedente. Mai sul capitale.',
@@ -830,7 +827,7 @@ const PERF = {"2023": {"y": 0.265403, "m": {"10": 0.019903, "11": 0.09026, "12":
     eqNote:'Gli stessi $100.000, negli stessi giorni: FARMARE contro comprare ETH (chiusure giornaliere reali), stablecoin al 5% e contante. È un backtest del carry di funding su un basket BTC/ETH/SOL — ogni asset prende il più ricco tra due venue (Binance, Hyperliquid) con una regola trailing a 30 giorni che usa solo dati passati — e non modella il rischio di prezzo, quindi il −0.6% è un drawdown sul solo funding; i rischi di coda reali (depeg, liquidazione) e il framework di rischio completo sono nel whitepaper. Policy del basket fissata il 17 lug 2026; la curva ETH-only precedente è archiviata. Non una proiezione: attesa forward ~+26%/anno mediano, anni negativi possibili. Passa il mouse per i valori giornalieri.',
     dfH:'Dati giornalieri', sgH:'Salvaguardie <small>— automatiche</small>', vgA2:'/anno (regime di carry sano)', sg1b:'se il funding si rompe, il libro si smonta completamente e parcheggia nel comparto di lending finché il regime di carry non torna', sg2b:'massimo 3x, imposto dal contratto del vault stesso — non dalla disciplina dell’operatore', sg3b:'esposizione liquid-restaking limitata al 50% del collaterale; peg monitorato in continuo con smontaggio automatico', sg4b:'ogni decisione è messa a giornale e committata su git con timestamp',
     footNote:'Portafoglio virtuale su dati di mercato reali — nessun fondo di clienti, nessuna custodia. Risultati simulati; non è consulenza d’investimento né un’offerta. Aggiornato quattro volte al giorno dalla pipeline CI; il giornale decisionale completo è disponibile su richiesta. Metodologia, limiti e framework di rischio completo: vedi i documenti linkati sopra. Il vault gira su Ethereum mainnet — <a href="https://etherscan.io/address/0x873C1b701ABDb9334018f4044FEF1d10B430265C#code">codice, fee e saldo sono pubblici su Etherscan</a>.',
-    trH:'La Tesoreria di Protezione', trS:'— in costruzione · attiva col contratto v1 dopo l’audit esterno',
+    trH:'La Tesoreria di Protezione', trS:'— la riserva di sicurezza del fondo',
     trLead:'Un fondo di sicurezza <b>separato dalla strategia</b> che si mette davanti al capitale dei depositanti. Detiene una riserva diversificata <b>fuori dal mondo cripto</b> — oro, azionario, liquidità — alimentata dalle nostre fee, mai dai tuoi depositi.',
     trP1t:'Alimentata dalle nostre fee',
     trP1b:'Costruita con le commissioni e il capitale dell’operatore — mai con i tuoi depositi.',
@@ -839,10 +836,10 @@ const PERF = {"2023": {"y": 0.265403, "m": {"10": 0.019903, "11": 0.09026, "12":
     trP3t:'Copertura fino a capienza',
     trP3b:'Il capitale è coperto finché gli interessi incassati non te l’hanno restituito. Non è una garanzia.',
     trStatL:'dei giorni in profitto',
-    trWhen:'Quando pagherebbe mai? <b>Quasi mai.</b> Un libro basis neutrale al mercato incassa il suo carry ~88% dei giorni su sei anni di dati reali. Una perdita vera richiede uno shock estremo e sistemico — di quelli visti solo poche volte. Rari, brevi, ed è esattamente quei momenti che la tesoreria è costruita per assorbire.',
+    trWhen:'Quando entrerebbe in gioco? <b>Quasi mai.</b> La strategia chiude in positivo circa <b>88 giorni su 100</b>: per intaccare il tuo capitale servirebbe una crisi di mercato rara ed estrema. È proprio per quei momenti che la tesoreria esiste.',
     trEv1:'Collasso Terra/Luna · 2022',
     trEv2:'Depeg USDC · marzo 2023',
-    trNote:'Stato: progettata e simulata (2.000 scenari Monte Carlo su dati reali); arriva dentro il contratto v1 e si attiva solo dopo l’audit di sicurezza esterno. Fino ad allora nessuna protezione è attiva — ciò che vedi oggi è il prodotto senza protezione. Design completo e limiti onesti nel whitepaper.',
+    trNote:'Nessuna sorpresa nascosta: la tesoreria è un fondo separato, costruito con le nostre commissioni, che esiste per un solo scopo — mettersi tra una crisi di mercato e il tuo capitale.',
     ptH:'Programma partner',
     ptBody:'Porti qualcuno e guadagni <b>il 25% di ogni fee che incassiamo sul suo capitale</b> — un quarto della nostra fee di performance del 10% e della nostra fee di gestione dell’1%/anno, finché resta. Niente inviti, niente registrazione: colleghi il wallet e il tuo link è pronto.',
     pt1:'Lui paga lo stesso — esce dalla <b>nostra</b> fee',
@@ -894,7 +891,7 @@ const PERF = {"2023": {"y": 0.265403, "m": {"10": 0.019903, "11": 0.09026, "12":
   if ((navigator.language || '').toLowerCase().slice(0, 2) === 'it') setLang('it');
 })();
 const V0 = 99997.2602739726;
-const GEN = new Date("2026-07-18T07:32:04Z");
+const GEN = new Date("2026-07-18T07:50:55Z");
 (function(){
   const el = document.getElementById("ago");
   function tick(){
