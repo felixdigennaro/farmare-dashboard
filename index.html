@@ -1,7 +1,7 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>FARMARE — Market-neutral yield, ~26%/yr target. Backtest + live vault.</title>
-<meta name="description" content="In backtest, $100,000 became $307,982 in 33 months. A market-neutral strategy that collects the fee leveraged traders pay. Live vault on Ethereum mainnet; forward record public since 17 Jul 2026. Target ~26%/yr net of fees.">
+<meta name="description" content="In backtest, $100,000 became $307,982 in 33 months. A market-neutral strategy that collects the fee leveraged traders pay. Live vault on Ethereum mainnet; forward record public since 18 Jul 2026. Target ~26%/yr net of fees.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="FARMARE">
 <meta property="og:title" content="$100,000 → $307,982 in 33 months, in backtest. Market-neutral.">
@@ -294,8 +294,8 @@ footer{margin-top:2.2rem;padding-top:1rem;border-top:1px solid var(--rule);
   <button class="langbtn" id="lang">IT</button></nav>
 </div>
 <div class="substrip"><b data-i18n="ssLive">1008-day backtest</b> · <span
-data-i18n="ssData">real market data</span> · <span data-i18n="ssMon">live since</span> 17 Jul 2026 · <span data-i18n="ssGuard">crisis guard active</span> · 2.0x · <span
-data-i18n="ssUpd">updated</span> <span id="ago">2026-07-18 03:55 UTC</span></div>
+data-i18n="ssData">real market data</span> · <span data-i18n="ssMon">live since</span> 18 Jul 2026 · <span data-i18n="ssGuard">crisis guard active</span> · 2.0x · <span
+data-i18n="ssUpd">updated</span> <span id="ago">2026-07-18 06:07 UTC</span></div>
 
 <p class="hero-h" data-i18n="heroH">$100,000 → $307,982 <span>in
 33 months.<br>Market-neutral through ETH’s −68%.</span></p>
@@ -336,7 +336,7 @@ Hover for daily values.</p>
 
 <div class="steps">
   <span class="done" data-i18n="st1">Backtest validated — 1008 days of real data</span>
-  <span class="done" data-i18n="st2">Live monitoring — since 17 Jul 2026</span>
+  <span class="done" data-i18n="st2">Live monitoring — since 18 Jul 2026</span>
   <span class="now" data-i18n="st3">Security audit</span>
   <span class="done" data-i18n="st4">Vault live — deposits open</span>
 </div>
@@ -374,42 +374,43 @@ month. Every figure is net of the 10% performance + 1%/yr management fees.</p>
 <hr>
 
 <div class="calc">
-  <label data-i18n="calcLab">What would yours have become? — real backtest, Oct 2023 → Jul 2026</label>
+  <label data-i18n="calcLab">If you had deposited this — how much interest would you have collected by now? Real backtest, Oct 2023 → Jul 2026</label>
   <div class="modes">
-    <button type="button" class="mode on" id="m-acc" data-i18n="mAcc">Grow it</button>
-    <button type="button" class="mode" id="m-inc" data-i18n="mInc">Monthly income</button>
+    <button type="button" class="mode on" id="m-inc" data-i18n="mInc">Interest collected</button>
+    <button type="button" class="mode" id="m-acc" data-i18n="mAcc">If reinvested (DRIP)</button>
   </div>
   <div class="row">
     <span class="amt" id="c-amt">$10,000</span>
     <input type="range" id="c-in" min="0" max="1000" step="1" value="250">
   </div>
-  <div id="acc-view">
-    <div><span class="out" id="c-out">—</span><span class="gain" id="c-gain"></span></div>
-    <p class="note" data-i18n="calcNote">Net of all fees. A backtest on real
-    market data, not a promise: the forward expectation is ~+26%/yr median, and
-    negative years are possible.</p>
-  </div>
-  <div id="inc-view" hidden>
+  <div id="inc-view">
     <div><span class="out" id="inc-out">—</span><span class="gain"
-      data-i18n="perMonth">/month · illustrative</span></div>
+      data-i18n="perTot">collected in interest</span></div>
+    <p class="note" style="margin-top:.2rem" id="inc-cap">—</p>
     <div class="dist-cmp">
       <div>
-        <label data-i18n="diIncL">Monthly income — after 33 months</label>
+        <label data-i18n="diIncL">Last month</label>
         <b id="di-tot">—</b>
         <span id="di-sub">—</span>
       </div>
       <div>
-        <label data-i18n="diAccL">Grow — same period</label>
+        <label data-i18n="diAccL">Median month</label>
         <b id="di-acc">—</b>
         <span id="di-gap">—</span>
       </div>
     </div>
     <p class="note"><span id="inc-range"></span><span data-i18n="incNote">
-    Illustrative view — how much of each month's gain you could have withdrawn
-    across the backtest, applying the high-water-mark rule (a losing month
-    draws nothing; it is recovered first). You withdraw whenever you like; the
-    amounts vary with funding and are net of all fees. Figures are from the
-    backtest, not a promise of future payouts.</span></p>
+    What withdrawing each month's gain would have collected across the
+    backtest, applying the high-water-mark rule (a losing month draws nothing;
+    it is recovered first). The amounts follow the funding regime and are net
+    of all fees — history, not a promise of future payouts.</span></p>
+  </div>
+  <div id="acc-view" hidden>
+    <div><span class="out" id="c-out">—</span><span class="gain" id="c-gain"></span></div>
+    <p class="note" id="acc-cmp" style="margin-top:.2rem">—</p>
+    <p class="note" data-i18n="calcNote">Net of all fees. A backtest on real
+    market data, not a promise: the forward expectation is ~+26%/yr median, and
+    negative years are possible.</p>
   </div>
 </div>
 
@@ -455,7 +456,7 @@ month. Every figure is net of the 10% performance + 1%/yr management fees.</p>
     numbers are: the 1008-day curve is
     a <b>backtest</b> replayed on real market data, not 1008 days of live
     trading. The system that produces it started publishing forward on
-    17 Jul 2026, and from that day every run is committed to a
+    18 Jul 2026, and from that day every run is committed to a
     <a href="https://github.com/felixdigennaro/farmare-dashboard/commits/main">public
     git ledger</a> whose timestamps cannot be rewritten. You are early, and you
     can watch from day one.</p>
@@ -570,10 +571,11 @@ const PERF = {"2023": {"y": 0.265403, "m": {"10": 0.019903, "11": 0.09026, "12":
   // "monthly income" VIEW, simulated with the HWM rule: each month's gain is
   // withdrawn (not compounded), losses recovered first — illustration only,
   // the contract performs no automatic payout
-  let navD = 1, paidD = 0;
+  let navD = 1, paidD = 0, lastPay = 0;
   months.forEach(r => {
     navD *= 1 + r;
-    if (navD > 1) { paidD += navD - 1; navD = 1; }
+    lastPay = 0;
+    if (navD > 1) { paidD += navD - 1; lastPay = navD - 1; navD = 1; }
   });
   function calc(){
     const a = amountAt(parseInt(inp.value, 10));
@@ -584,20 +586,24 @@ const PERF = {"2023": {"y": 0.265403, "m": {"10": 0.019903, "11": 0.09026, "12":
     document.getElementById("v-eth").textContent = usd(a * ETH_MULT);
     document.getElementById("v-st").textContent = usd(a * ST_MULT);
     document.getElementById("v-bk").textContent = usd(a);
-    document.getElementById("inc-out").textContent = usd(a * med);
     const it = document.documentElement.lang === "it";
-    document.getElementById("inc-range").textContent = it
-      ? `Nel backtest: pagati ${paid} mesi su ${months.length} · miglior mese +${usd(a * best)}. `
-      : `In the backtest: ${paid} of ${months.length} months paid · best month +${usd(a * best)}. `;
     const cap = a * navD, cedole = a * paidD, acc = a * MULT;
-    document.getElementById("di-tot").textContent = usd(cap + cedole);
-    document.getElementById("di-sub").textContent = it
-      ? `${usd(cedole)} incassati sul wallet + capitale ${usd(cap)}`
-      : `${usd(cedole)} paid to your wallet + ${usd(cap)} capital`;
-    document.getElementById("di-acc").textContent = usd(acc);
+    document.getElementById("inc-out").textContent = usd(cedole);
+    document.getElementById("inc-cap").textContent = it
+      ? `…e il tuo capitale di ${usd(a)} è ancora lì (${usd(cap)} al netto del regime corrente).`
+      : `…and your ${usd(a)} of capital is still in place (${usd(cap)} net of the current regime).`;
+    document.getElementById("di-tot").textContent = "+" + usd(a * lastPay);
+    document.getElementById("di-sub").textContent = it ? "regime di funding attuale" : "current funding regime";
+    document.getElementById("di-acc").textContent = "+" + usd(a * med);
     document.getElementById("di-gap").textContent = it
-      ? `il reinvestimento vale +${usd(acc - cap - cedole)} in più`
-      : `compounding is worth +${usd(acc - cap - cedole)} more`;
+      ? "metà dei mesi ha pagato di più"
+      : "half the months paid more";
+    document.getElementById("inc-range").textContent = it
+      ? `Pagati ${paid} mesi su ${months.length} · miglior mese +${usd(a * best)}. `
+      : `${paid} of ${months.length} months paid · best month +${usd(a * best)}. `;
+    document.getElementById("acc-cmp").textContent = it
+      ? `Reinvestendo ogni cedola avresti ${usd(acc)} — ${usd(acc - cap - cedole)} in più che incassandole.`
+      : `Reinvesting every coupon would have left you with ${usd(acc)} — ${usd(acc - cap - cedole)} more than collecting them.`;
   }
   inp.addEventListener("input", calc); calc();
   window.addEventListener("fm-lang", calc);
@@ -699,26 +705,26 @@ const PERF = {"2023": {"y": 0.265403, "m": {"10": 0.019903, "11": 0.09026, "12":
     chip1:'<b>Auto-custodia</b>&nbsp;— sempre tua',
     chip2:'<b>Prelievo sempre aperto</b>&nbsp;— è un tuo diritto',
     chip3:'<b>Preavviso 48h on-chain</b>&nbsp;— su fee e venue',
-    calcLab:'Quanto sarebbero diventati i tuoi? — backtest reale, Oct 2023 → Jul 2026',
+    calcLab:'Se li avessi depositati — quanti interessi avresti già incassato? Backtest reale, Oct 2023 → Jul 2026',
     calcNote:'Al netto di tutte le fee. Backtest su dati reali, non una promessa: l’attesa forward è ~+26%/anno mediano, e anni negativi sono possibili.',
     dipFa:'drawdown backtest −0.6% · solo funding', labEth:'Comprare ETH', dipEth:'peggior calo −68%',
     labSt:'Stablecoin al 5%', dipSt:'nessun calo, resa bassa',
     labBk:'Fermo sul conto', dipBk:'eroso dall’inflazione',
     st1:'Backtest validato — 1008 giorni di dati reali',
-    st2:'Monitoraggio live — dal 17 Jul 2026',
+    st2:'Monitoraggio live — dal 18 Jul 2026',
     st3:'Audit di sicurezza', st4:'Vault live — depositi aperti',
     ctaMain:'Deposita ora →', ctaWp:'Leggi il whitepaper',
     ctaPrev:'Anteprima del tuo account',
     ctaNote:'Fee: 10% dei profitti sopra il tuo massimo storico + 1%/anno — solo sui guadagni oltre il tuo picco precedente. Mai sul capitale.',
     q7:'Chi lo gestisce?',
-    a7:'Felice Digennaro, operatore unico. Sia chiaro cosa sono i numeri: la curva di 1008 giorni è un <b>backtest</b> ricostruito su dati di mercato reali, non 1008 giorni di trading vissuto. Il sistema che la produce ha iniziato a pubblicare in avanti il 17 Jul 2026, e da quel giorno ogni run è committato in un <a href="https://github.com/felixdigennaro/farmare-dashboard/commits/main">registro git pubblico</a> i cui timestamp non si riscrivono. Sei in anticipo, e puoi guardare dal primo giorno.',
+    a7:'Felice Digennaro, operatore unico. Sia chiaro cosa sono i numeri: la curva di 1008 giorni è un <b>backtest</b> ricostruito su dati di mercato reali, non 1008 giorni di trading vissuto. Il sistema che la produce ha iniziato a pubblicare in avanti il 18 Jul 2026, e da quel giorno ogni run è committato in un <a href="https://github.com/felixdigennaro/farmare-dashboard/commits/main">registro git pubblico</a> i cui timestamp non si riscrivono. Sei in anticipo, e puoi guardare dal primo giorno.',
     ctamidL:'Hai visto abbastanza dati?',
     depNote:'Non-custodial: depositi direttamente nel vault dal tuo wallet e puoi prelevare in qualsiasi momento.',
-    mAcc:'Accumulo', mInc:'Reddito mensile',
-    perMonth:'/mese · illustrativo',
-    diIncL:'Reddito mensile — dopo 33 mesi',
-    diAccL:'Accumulo — stesso periodo',
-    incNote:'Vista illustrativa — quanto avresti potuto prelevare del guadagno di ogni mese nel backtest, applicando la regola dell’high-water mark (un mese in perdita non preleva nulla; viene prima recuperato). Prelevi quando vuoi; gli importi variano col funding e sono al netto di tutte le fee. Cifre dal backtest, non una promessa di pagamenti futuri.',
+    mAcc:'Se avessi reinvestito (DRIP)', mInc:'Interessi incassati',
+    perTot:'incassati in interessi',
+    diIncL:'Ultimo mese',
+    diAccL:'Mese mediano',
+    incNote:'Quanto avrebbe incassato chi prelevava il guadagno di ogni mese lungo il backtest, con la regola dell’high-water mark (un mese in perdita non preleva nulla; viene prima recuperato). Gli importi seguono il regime di funding e sono al netto di tutte le fee — storia, non una promessa di pagamenti futuri.',
     perfH:'Performance <small>— al netto di tutte le fee, periodo per periodo</small>',
     perfNote:'Clicca un anno per vederlo mese per mese. Ogni cifra è al netto del 10% di performance + 1%/anno di gestione.',
     ssLive:'backtest di 1008 giorni', ssData:'dati di mercato reali',
@@ -780,7 +786,7 @@ const PERF = {"2023": {"y": 0.265403, "m": {"10": 0.019903, "11": 0.09026, "12":
   if ((navigator.language || '').toLowerCase().slice(0, 2) === 'it') setLang('it');
 })();
 const V0 = 99997.2602739726;
-const GEN = new Date("2026-07-18T03:55:46Z");
+const GEN = new Date("2026-07-18T06:07:03Z");
 (function(){
   const el = document.getElementById("ago");
   function tick(){
