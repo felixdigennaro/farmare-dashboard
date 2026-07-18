@@ -85,9 +85,7 @@ main{max-width:1000px;margin:0 auto;padding:5rem 2.6rem 7rem}
 .chip b{color:var(--ink);font-weight:600}
 @media(max-width:640px){.chips{grid-template-columns:1fr;gap:.5rem}}
 /* ── protection-treasury module (fintech panel) ─────────────── */
-.treye{font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;
-  color:var(--green);font-weight:600;text-align:center;margin:0 0 .7rem}
-.trwrap{border:1px solid var(--rule);border-radius:22px;background:var(--band);
+.trwrap{border:1px solid var(--rule);border-radius:20px;background:var(--band);
   padding:2.6rem 2.6rem 2.1rem;margin:1.6rem 0 0}
 @media(max-width:640px){.trwrap{padding:1.7rem 1.4rem}}
 .trlead{font-size:1.08rem;line-height:1.62;color:var(--ink);max-width:62ch;
@@ -95,7 +93,7 @@ main{max-width:1000px;margin:0 auto;padding:5rem 2.6rem 7rem}
 .trlead b{color:var(--green);font-weight:600}
 .pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:1.9rem 0 0}
 @media(max-width:680px){.pillars{grid-template-columns:1fr}}
-.pillar{background:var(--bg);border:1px solid var(--rule);border-radius:15px;
+.pillar{background:var(--bg);border:1px solid var(--rule);border-radius:14px;
   padding:1.25rem 1.3rem}
 .pillar .ic{width:26px;height:26px;display:block;color:var(--green)}
 .pillar>b{display:block;font-size:.95rem;font-weight:600;color:var(--ink);
@@ -122,12 +120,10 @@ main{max-width:1000px;margin:0 auto;padding:5rem 2.6rem 7rem}
 .trnote{font-size:.76rem;line-height:1.5;color:var(--faint);text-align:center;
   max-width:66ch;margin:1.5rem auto 0}
 .calc{background:var(--green-soft);border:1px solid var(--rule);
-  border-radius:18px;padding:2rem 2.2rem;margin:2.8rem 0 0;text-align:center}
+  border-radius:20px;padding:2rem 2.2rem;margin:2.8rem 0 0;text-align:center}
 @media(max-width:640px){.calc{padding:1.4rem 1.4rem}}
 .calc label{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;
   color:var(--muted)}
-.calc .qeye{font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;
-  color:var(--green);font-weight:600;margin:0 0 .5rem}
 .calc .qh{font-family:Charter,"Iowan Old Style",Georgia,serif;font-weight:400;
   font-size:clamp(1.12rem,2.2vw,1.4rem);line-height:1.34;letter-spacing:-.01em;
   color:var(--ink);margin:0 auto;max-width:34ch}
@@ -208,7 +204,7 @@ main{max-width:1000px;margin:0 auto;padding:5rem 2.6rem 7rem}
   margin:1.2rem 0 0;max-width:38rem}
 @media(max-width:560px){.dist-cmp{grid-template-columns:1fr}}
 .dist-cmp>div{background:var(--bg);border:1px solid var(--rule);
-  border-radius:12px;padding:.9rem 1.1rem}
+  border-radius:14px;padding:.9rem 1.1rem}
 .dist-cmp label{font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;
   color:var(--muted);display:block}
 .dist-cmp b{display:block;font-family:"SF Mono",ui-monospace,Menlo,monospace;
@@ -337,7 +333,7 @@ footer{margin-top:2.2rem;padding-top:1rem;border-top:1px solid var(--rule);
 </div>
 <div class="substrip"><b data-i18n="ssLive">1008-day backtest</b> · <span
 data-i18n="ssData">real market data</span> · <span data-i18n="ssMon">live since</span> 18 Jul 2026 · <span data-i18n="ssGuard">crisis guard active</span> · 2.0x · <span
-data-i18n="ssUpd">updated</span> <span id="ago">2026-07-18 07:25 UTC</span></div>
+data-i18n="ssUpd">updated</span> <span id="ago">2026-07-18 07:32 UTC</span></div>
 
 <p class="hero-h" data-i18n="heroH">$100,000 → $307,982 <span>in
 33 months.<br>Market-neutral through ETH’s −68%.</span></p>
@@ -416,8 +412,8 @@ month. Every figure is net of the 10% performance + 1%/yr management fees.</p>
 
 <hr>
 
+<h2 data-i18n="calcEye">Interest calculator</h2>
 <div class="calc">
-  <p class="qeye" data-i18n="calcEye">Interest calculator</p>
   <p class="qh" data-i18n="calcQ">If you had deposited this — how much interest would you have collected by now?</p>
   <p class="qwin" data-i18n="calcWin">Real backtest · Oct 2023 → Jul 2026</p>
   <div class="modes">
@@ -476,7 +472,6 @@ month. Every figure is net of the 10% performance + 1%/yr management fees.</p>
 </div>
 
 <hr>
-<p class="treye" data-i18n="trEye">Capital protection</p>
 <h2 data-i18n="trH">The Protection Treasury <small data-i18n="trS">— in
 construction · live with contract v1 after the external audit</small></h2>
 <div class="trwrap">
@@ -835,7 +830,6 @@ const PERF = {"2023": {"y": 0.265403, "m": {"10": 0.019903, "11": 0.09026, "12":
     eqNote:'Gli stessi $100.000, negli stessi giorni: FARMARE contro comprare ETH (chiusure giornaliere reali), stablecoin al 5% e contante. È un backtest del carry di funding su un basket BTC/ETH/SOL — ogni asset prende il più ricco tra due venue (Binance, Hyperliquid) con una regola trailing a 30 giorni che usa solo dati passati — e non modella il rischio di prezzo, quindi il −0.6% è un drawdown sul solo funding; i rischi di coda reali (depeg, liquidazione) e il framework di rischio completo sono nel whitepaper. Policy del basket fissata il 17 lug 2026; la curva ETH-only precedente è archiviata. Non una proiezione: attesa forward ~+26%/anno mediano, anni negativi possibili. Passa il mouse per i valori giornalieri.',
     dfH:'Dati giornalieri', sgH:'Salvaguardie <small>— automatiche</small>', vgA2:'/anno (regime di carry sano)', sg1b:'se il funding si rompe, il libro si smonta completamente e parcheggia nel comparto di lending finché il regime di carry non torna', sg2b:'massimo 3x, imposto dal contratto del vault stesso — non dalla disciplina dell’operatore', sg3b:'esposizione liquid-restaking limitata al 50% del collaterale; peg monitorato in continuo con smontaggio automatico', sg4b:'ogni decisione è messa a giornale e committata su git con timestamp',
     footNote:'Portafoglio virtuale su dati di mercato reali — nessun fondo di clienti, nessuna custodia. Risultati simulati; non è consulenza d’investimento né un’offerta. Aggiornato quattro volte al giorno dalla pipeline CI; il giornale decisionale completo è disponibile su richiesta. Metodologia, limiti e framework di rischio completo: vedi i documenti linkati sopra. Il vault gira su Ethereum mainnet — <a href="https://etherscan.io/address/0x873C1b701ABDb9334018f4044FEF1d10B430265C#code">codice, fee e saldo sono pubblici su Etherscan</a>.',
-    trEye:'Protezione del capitale',
     trH:'La Tesoreria di Protezione', trS:'— in costruzione · attiva col contratto v1 dopo l’audit esterno',
     trLead:'Un fondo di sicurezza <b>separato dalla strategia</b> che si mette davanti al capitale dei depositanti. Detiene una riserva diversificata <b>fuori dal mondo cripto</b> — oro, azionario, liquidità — alimentata dalle nostre fee, mai dai tuoi depositi.',
     trP1t:'Alimentata dalle nostre fee',
@@ -900,7 +894,7 @@ const PERF = {"2023": {"y": 0.265403, "m": {"10": 0.019903, "11": 0.09026, "12":
   if ((navigator.language || '').toLowerCase().slice(0, 2) === 'it') setLang('it');
 })();
 const V0 = 99997.2602739726;
-const GEN = new Date("2026-07-18T07:25:11Z");
+const GEN = new Date("2026-07-18T07:32:04Z");
 (function(){
   const el = document.getElementById("ago");
   function tick(){
