@@ -1,10 +1,18 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
+  "redirects": [
+    { "source": "/app", "destination": "/", "permanent": false },
+    { "source": "/whitepaper", "destination": "/", "permanent": false },
+    { "source": "/app.html", "destination": "/", "permanent": false },
+    { "source": "/whitepaper.html", "destination": "/", "permanent": false },
+    { "source": "/(.*).pdf", "destination": "/", "permanent": false }
+  ],
   "headers": [
     { "source": "/(.*)", "headers": [
       { "key": "X-Content-Type-Options", "value": "nosniff" },
-      { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
+      { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+      { "key": "X-Robots-Tag", "value": "noindex, nofollow" }
     ]}
   ]
 }
