@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>FARMARE — I miei fondi</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ground:#06080f; --ground-2:#0b0e1a;
+  --panel:rgba(120,160,255,.03); --panel-2:rgba(120,160,255,.06);
+  --hair:rgba(150,180,255,.11); --hair-strong:rgba(150,180,255,.22);
+  --ink:#e8ecf5; --ink-soft:#9aa4bd; --ink-faint:#626c86;
+  --accent:#4d8dff; --accent-bright:#8fb6ff; --accent-deep:#1c46a8;
+  --cyan:#5fdfe6; --pos:#3ad0c0; --warn:#e8c15a; --neg:#f2795f;
+  --maxw:1080px; --radius:16px;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,Helvetica,Arial,sans-serif;
+  --display:"Space Grotesk",-apple-system,"Segoe UI",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--ground); color:var(--ink); font-family:var(--sans); line-height:1.6;
+  -webkit-font-smoothing:antialiased; overflow-x:hidden}
+body::before{content:''; position:fixed; inset:0; z-index:-1; pointer-events:none;
+  background:radial-gradient(1200px 700px at 70% -10%, rgba(77,141,255,.10), transparent 60%),
+             radial-gradient(900px 600px at 0% 100%, rgba(95,223,230,.05), transparent 55%)}
+.tnum{font-variant-numeric:tabular-nums}
+h1,h2,h3{margin:0; font-family:var(--display); font-weight:600; letter-spacing:-.02em}
+p{margin:0}
+a{color:inherit}
+.wrap{max-width:var(--maxw); margin:0 auto; padding:0 22px}
+.eyebrow{font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-faint); margin:0 0 8px}
+
+header{position:sticky; top:0; z-index:30; backdrop-filter:blur(16px) saturate(1.2);
+  background:linear-gradient(rgba(6,8,15,.78),rgba(6,8,15,.25)); border-bottom:1px solid var(--hair)}
+.bar{max-width:var(--maxw); margin:0 auto; padding:14px 22px; display:flex; align-items:center; gap:20px}
+.mark{font-family:var(--display); display:inline-flex; align-items:baseline; gap:.42em; font-size:1.02rem;
+  background:linear-gradient(100deg,var(--ink) 0%,var(--ink) 24%,var(--accent-bright) 46%,var(--cyan) 54%,var(--accent-bright) 62%,var(--ink) 84%);
+  background-size:250% auto; -webkit-background-clip:text; background-clip:text; color:transparent; animation:sheen 7s linear infinite}
+.mark .name{font-weight:700; letter-spacing:.07em}
+.mark .cap{font-weight:400; letter-spacing:.07em}
+nav{display:flex; gap:18px; margin-left:8px; flex:1}
+@keyframes sheen{to{background-position:-250% center}}
+nav a{font-family:var(--display); font-size:.92rem; text-decoration:none; padding:4px 2px; border-bottom:2px solid transparent; opacity:.7;
+  background:linear-gradient(100deg,var(--ink) 0%,var(--ink) 24%,var(--accent-bright) 46%,var(--cyan) 54%,var(--accent-bright) 62%,var(--ink) 84%);
+  background-size:250% auto; -webkit-background-clip:text; background-clip:text; color:transparent; animation:sheen 7s linear infinite}
+nav a.on{opacity:1; border-color:var(--accent)}
+.btn{font:inherit; font-size:.9rem; cursor:pointer; border-radius:100px; padding:9px 18px; border:1px solid var(--hair-strong);
+  background:var(--panel-2); color:var(--ink); transition:.18s; white-space:nowrap}
+.btn:hover{border-color:var(--accent); background:rgba(77,141,255,.14)}
+.btn-solid{background:linear-gradient(120deg,var(--accent),var(--cyan)); color:#05122e; border:0; font-weight:600}
+.btn-solid:hover{filter:brightness(1.08)}
+.btn:disabled{opacity:.45; cursor:not-allowed; filter:none}
+
+main{padding:34px 0 80px}
+.hd{margin:8px 0 26px}
+.hd h1{font-size:clamp(1.7rem,4vw,2.3rem)}
+.hd p{color:var(--ink-soft); margin-top:6px}
+
+.banner{border:1px solid var(--warn); background:rgba(232,193,90,.08); border-radius:14px; padding:14px 18px;
+  display:flex; gap:12px; align-items:flex-start; margin-bottom:26px; font-size:.92rem; color:#f0d68a}
+.banner b{color:#ffe9a8}
+
+.grid{display:grid; gap:18px; grid-template-columns:repeat(12,1fr)}
+.card{border:1px solid var(--hair); border-radius:var(--radius); background:var(--panel); padding:24px}
+.c-6{grid-column:span 6} .c-4{grid-column:span 4} .c-8{grid-column:span 8} .c-12{grid-column:span 12}
+@media(max-width:820px){.c-6,.c-4,.c-8{grid-column:span 12}}
+.card h3{font-size:1.02rem; margin-bottom:4px}
+.card .sub{color:var(--ink-faint); font-size:.85rem; margin-bottom:18px}
+
+.pos-val{font-size:clamp(2.4rem,6vw,3.2rem); font-weight:600; letter-spacing:-.03em; line-height:1}
+.pos-unit{font-size:1rem; color:var(--ink-soft); font-weight:400; margin-left:6px}
+.pnl{font-size:1rem; margin-top:10px}
+.pnl.up{color:var(--pos)} .pnl.down{color:var(--neg)}
+.posrow{display:flex; gap:26px; flex-wrap:wrap; margin-top:22px; padding-top:18px; border-top:1px solid var(--hair)}
+.posrow .k{color:var(--ink-faint); font-size:.8rem; letter-spacing:.04em; text-transform:uppercase}
+.posrow .v{font-size:1.15rem; font-weight:500; margin-top:3px}
+.tag{display:inline-block; font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:#f0d68a;
+  border:1px solid var(--warn); border-radius:100px; padding:2px 9px; margin-left:10px; vertical-align:middle}
+
+.field{display:flex; gap:10px; margin-top:6px}
+.field input{flex:1; font:inherit; font-size:1.1rem; background:var(--ground-2); border:1px solid var(--hair);
+  border-radius:12px; padding:12px 14px; color:var(--ink); min-width:0}
+.field input:focus{outline:none; border-color:var(--accent)}
+.hint{font-size:.82rem; color:var(--ink-faint); margin-top:8px; display:flex; justify-content:space-between}
+.hint a{color:var(--accent); text-decoration:none; cursor:pointer}
+.tabs{display:flex; gap:6px; margin-bottom:16px}
+.tab{flex:1; text-align:center; padding:9px; border-radius:10px; cursor:pointer; font-size:.92rem;
+  border:1px solid var(--hair); color:var(--ink-soft); background:transparent}
+.tab.on{background:var(--panel-2); color:var(--ink); border-color:var(--hair-strong)}
+
+.alloc-bar{display:flex; height:16px; border-radius:8px; overflow:hidden; margin:6px 0 16px; border:1px solid var(--hair)}
+.alloc-bar i{display:block; height:100%}
+.seg-floor{background:linear-gradient(90deg,#2f6bd6,#4d8dff)}
+.seg-rwa{background:linear-gradient(90deg,#4d8dff,#5fdfe6)}
+.seg-risk{background:linear-gradient(90deg,#e8c15a,#f2a65a)}
+.leg{display:flex; flex-direction:column; gap:12px}
+.leg .row{display:flex; align-items:center; gap:12px; font-size:.92rem}
+.leg .dot{width:9px; height:9px; border-radius:3px; flex:none}
+.leg .row .amt{margin-left:auto; color:var(--ink-soft); font-variant-numeric:tabular-nums}
+.venues{margin-top:16px; padding-top:14px; border-top:1px solid var(--hair); font-size:.86rem; color:var(--ink-soft)}
+.venues span{display:inline-block; border:1px solid var(--hair); border-radius:100px; padding:3px 10px; margin:0 6px 6px 0}
+
+.metrics{display:flex; gap:28px; flex-wrap:wrap}
+.metric .k{color:var(--ink-faint); font-size:.8rem; text-transform:uppercase; letter-spacing:.04em}
+.metric .v{font-size:1.5rem; font-weight:600; margin-top:2px}
+.metric .v.big{font-size:clamp(2rem,4.4vw,2.6rem); letter-spacing:-.02em}
+.fee-line{font-size:.85rem; color:var(--ink-faint); margin-top:18px}
+.fee-line b{color:var(--ink-soft); font-weight:600}
+.note{font-size:.82rem; color:var(--ink-faint); margin-top:16px; line-height:1.6}
+
+.log{display:flex; flex-direction:column}
+.log-item{display:flex; gap:14px; padding:14px 0; border-bottom:1px solid var(--hair)}
+.log-item:last-child{border-bottom:0}
+.log-ic{width:34px; height:34px; border-radius:10px; flex:none; display:grid; place-items:center; font-size:.95rem;
+  border:1px solid var(--hair); background:var(--panel-2)}
+.log-in{color:var(--pos)} .log-out{color:var(--warn)} .log-move{color:var(--accent-bright)}
+.log-b{flex:1}
+.log-b .t{font-size:.95rem} .log-b .d{font-size:.8rem; color:var(--ink-faint); margin-top:2px}
+.log-amt{font-variant-numeric:tabular-nums; font-size:.95rem; color:var(--ink-soft); white-space:nowrap}
+footer{border-top:1px solid var(--hair); padding:26px 0; color:var(--ink-faint); font-size:.8rem}
+footer .wrap{max-width:900px}
+</style>
+
+<header><div class="bar">
+  <div class="mark"><span class="name">FAR<b>M</b>ARE</span><span class="cap">CAPITAL</span></div>
+  <nav><a href="farmare-site.html">Home</a><a href="my-funds.html" class="on">I miei fondi</a><a href="whitepaper.html">Whitepaper</a></nav>
+  <button class="btn btn-solid" id="connect">Connetti wallet</button>
+</div></header>
+
+<main><div class="wrap">
+  <div class="hd">
+    <p class="eyebrow">La tua posizione</p>
+    <h1>I miei fondi</h1>
+    <p>Deposita, preleva, e vedi dove sono i tuoi soldi e come si stanno muovendo — in tempo reale, on-chain.</p>
+  </div>
+
+  <div class="banner" id="banner">
+    <span>⚠</span>
+    <span><b>Anteprima.</b> Il vault non è ancora attivo on-chain. I numeri qui sotto sono <b>dimostrativi</b>:
+    quando il fondo sarà live e collegherai il wallet, questa pagina leggerà la <b>tua posizione reale</b> dalla
+    blockchain (valore, movimenti, rendimento) e i pulsanti deposita/preleva firmeranno dal tuo wallet.</span>
+  </div>
+
+  <div class="grid">
+    <!-- POSIZIONE -->
+    <div class="card c-8">
+      <h3>Valore attuale <span class="tag" id="posTag">anteprima</span></h3>
+      <p class="sub">quanto valgono le tue quote adesso</p>
+      <div><span class="pos-val tnum" id="posVal">—</span><span class="pos-unit" id="posUnit">USDC</span></div>
+      <div class="pnl up" id="posPnl">—</div>
+      <div class="posrow">
+        <div><div class="k">Versato</div><div class="v tnum" id="posDep">—</div></div>
+        <div><div class="k">Guadagno</div><div class="v tnum" id="posGain">—</div></div>
+        <div><div class="k">Le tue quote</div><div class="v tnum" id="posShares">—</div></div>
+        <div><div class="k">Valore per quota</div><div class="v tnum" id="posNav">—</div></div>
+      </div>
+    </div>
+
+    <!-- DEPOSITA / PRELEVA -->
+    <div class="card c-4">
+      <div class="tabs"><div class="tab on" id="tabDep">Deposita</div><div class="tab" id="tabWit">Preleva</div></div>
+      <div class="field"><input id="amt" type="number" min="0" step="1" placeholder="0.00" inputmode="decimal"><span style="align-self:center;color:var(--ink-soft)">USDC</span></div>
+      <div class="hint"><span id="hintL">Saldo wallet: —</span><a id="maxBtn">max</a></div>
+      <button class="btn btn-solid" id="actBtn" style="width:100%;margin-top:16px" disabled>Connetti il wallet</button>
+      <p class="note" id="actNote">Il deposito va nella parte sicura (prestito stablecoin) e inizia a rendere subito.
+        Il prelievo è immediato dalla liquidità. Firmi tu dal tuo wallet — noi non tocchiamo mai i tuoi fondi.</p>
+    </div>
+
+    <!-- DOVE SONO I SOLDI -->
+    <div class="card c-6">
+      <h3>Dove sono i tuoi soldi</h3>
+      <p class="sub">Nucleo 80% · Slancio 20%</p>
+      <div class="alloc-bar"><i class="seg-floor" style="width:80%"></i><i class="seg-risk" style="width:20%"></i></div>
+      <div class="leg">
+        <div class="row"><span class="dot seg-floor"></span> <b style="font-weight:600">Nucleo</b>&nbsp;— al sicuro, rende e resta a vista <span class="amt">80%</span></div>
+        <div class="row"><span class="dot seg-risk"></span> <b style="font-weight:600">Slancio</b>&nbsp;— a caccia di occasioni (airdrop) <span class="amt">20%</span></div>
+      </div>
+      <p class="note">Gli interessi della parte sicura comprano piano piano oro e S&amp;P — senza mai toccare il tuo capitale.</p>
+      <div class="venues" id="venues"><b style="color:var(--ink-soft)">Dove, oggi:</b> </div>
+    </div>
+
+    <!-- RENDIMENTO -->
+    <div class="card c-6">
+      <h3>Rendimento</h3>
+      <p class="sub">base misurata su dati storici — non una promessa</p>
+      <div class="metrics">
+        <div class="metric"><div class="k">Base, oggi</div><div class="v big" style="color:var(--cyan)">~3,5%</div></div>
+        <div class="metric"><div class="k">Il tuo, finora</div><div class="v big tnum" id="mYield">—</div></div>
+      </div>
+      <p class="fee-line">Fee: <b>10%</b> del guadagno · zero se non guadagni</p>
+      <p class="note">Il valore per quota sale col rendimento del fondo; il tuo guadagno è quel valore meno quanto hai
+        versato. La base ~3,5% è solida ma <b>non garantita</b>; la finestra (oro, S&amp;P, airdrop) può aggiungere altro,
+        o niente. Nessun rendimento è promesso.</p>
+    </div>
+
+    <!-- LOG MOVIMENTI -->
+    <div class="card c-12">
+      <h3>Log dei movimenti</h3>
+      <p class="sub">ogni spostamento di denaro, registrato on-chain</p>
+      <div class="log" id="log"></div>
+      <p class="note" id="logNote">Quando il fondo sarà live, qui compaiono i tuoi depositi/prelievi e ogni mossa del
+        keeper tra le piattaforme — direttamente dagli eventi del contratto, verificabili sull'explorer.</p>
+    </div>
+  </div>
+</div></main>
+
+<footer><div class="wrap">
+  FARMARE · capitale personale, non un'offerta al pubblico · i valori qui sono on-chain quando il vault è live,
+  altrimenti dimostrativi · nessun rendimento è garantito · firmi sempre tu dal tuo wallet, i fondi non passano mai da noi.
+</div></footer>
+
+<script src="https://cdn.jsdelivr.net/npm/ethers@6.13.4/dist/ethers.umd.min.js"></script>
+<script>
+/* ---------------- config ----------------
+   Compila questi campi DOPO il deploy del vault; finché vault=='' la pagina è in
+   modalità ANTEPRIMA (dati dimostrativi, azioni disattivate). */
+const CONFIG = {
+  vault: '',                       // indirizzo FarmVaultV1  (vuoto = anteprima)
+  usdc:  '',                       // indirizzo del token (USDC)
+  decimals: 6,
+  chainIdHex: '0xa4b1',            // Arbitrum One (da confermare alla scelta chain)
+  chainName: 'Arbitrum',
+  explorer: 'https://arbiscan.io',
+};
+const ABI = [
+  'function balanceOf(address) view returns (uint256)',
+  'function convertToAssets(uint256) view returns (uint256)',
+  'function maxWithdraw(address) view returns (uint256)',
+  'function navPerShare() view returns (uint256)',
+  'function asset() view returns (address)',
+  'function deposit(uint256 assets, address receiver) returns (uint256)',
+  'function withdraw(uint256 assets, address receiver, address owner) returns (uint256)',
+];
+const ERC20 = ['function balanceOf(address) view returns (uint256)',
+  'function allowance(address,address) view returns (uint256)',
+  'function approve(address,uint256) returns (bool)'];
+
+const DEMO = !CONFIG.vault;
+const U = CONFIG.decimals;
+const fmt = (n,d=2)=>Number(n).toLocaleString('it-IT',{minimumFractionDigits:d,maximumFractionDigits:d});
+
+/* dati dimostrativi (chiaramente etichettati "anteprima") */
+const DEMO_DATA = {
+  shares: 10000, deposited: 10000, value: 10287.4,
+  walletUSDC: 4200,
+  venues: ['Variational','Ethereal','Extended','Pacifica','Lighter'],
+  log: [
+    {k:'in',  t:'Deposito',                       d:'oggi · da 0x9f…4c1',            a:'+3.000 USDC'},
+    {k:'move',t:'Verso il Nucleo (prestito)',     d:'2 min dopo · Aave-tier',        a:'2.400 USDC'},
+    {k:'move',t:'Cedola → DCA settimanale (oro)', d:'lun scorso',                    a:'18 USDC'},
+    {k:'move',t:'Verso lo Slancio (airdrop)',     d:'mar · Variational, Ethereal',   a:'600 USDC'},
+    {k:'in',  t:'Deposito',                       d:'12 giu · da 0x9f…4c1',          a:'+7.000 USDC'},
+  ],
+};
+
+let signer=null, account=null;
+
+function paintVenues(list){
+  const el=document.getElementById('venues');
+  el.innerHTML='<b style="color:var(--ink-soft)">Le piattaforme, oggi:</b> '+list.map(v=>'<span>'+v+'</span>').join('');
+}
+function paintLog(items){
+  const el=document.getElementById('log');
+  el.innerHTML=items.map(i=>{
+    const ic=i.k==='in'?'↓':i.k==='out'?'↑':'⇄'; const cls=i.k==='in'?'log-in':i.k==='out'?'log-out':'log-move';
+    return '<div class="log-item"><div class="log-ic '+cls+'">'+ic+'</div>'+
+      '<div class="log-b"><div class="t">'+i.t+'</div><div class="d">'+i.d+'</div></div>'+
+      '<div class="log-amt">'+i.a+'</div></div>';
+  }).join('');
+}
+function paintPosition(shares, deposited, value, nav){
+  const gain=value-deposited, pct=deposited?gain/deposited*100:0;
+  document.getElementById('posVal').textContent=fmt(value);
+  document.getElementById('posDep').textContent=fmt(deposited)+' USDC';
+  document.getElementById('posGain').textContent=(gain>=0?'+':'')+fmt(gain)+' USDC';
+  document.getElementById('posShares').textContent=fmt(shares,2);
+  document.getElementById('posNav').textContent=fmt(nav,4);
+  const pnl=document.getElementById('posPnl');
+  pnl.className='pnl '+(gain>=0?'up':'down');
+  pnl.textContent=(gain>=0?'▲ +':'▼ ')+fmt(Math.abs(pct),2)+'%  ('+(gain>=0?'+':'')+fmt(gain)+' USDC)';
+  document.getElementById('mYield').textContent=(gain>=0?'+':'')+fmt(pct,2)+'%';
+}
+
+function renderDemo(){
+  const d=DEMO_DATA;
+  paintPosition(d.shares, d.deposited, d.value, d.value/d.shares);
+  document.getElementById('hintL').textContent='Saldo wallet: '+fmt(d.walletUSDC)+' USDC (anteprima)';
+  paintVenues(d.venues); paintLog(d.log);
+}
+
+/* ---------- wallet + on-chain (attivo dopo il deploy) ---------- */
+async function connect(){
+  if(DEMO){ alert('Il vault non è ancora attivo on-chain. Questa è un’anteprima del design: i dati diventano reali al lancio.'); return; }
+  if(!window.ethereum){ alert('Nessun wallet trovato. Installa un wallet (es. MetaMask) per connetterti.'); return; }
+  try{
+    const provider=new ethers.BrowserProvider(window.ethereum);
+    await provider.send('eth_requestAccounts',[]);
+    signer=await provider.getSigner(); account=await signer.getAddress();
+    document.getElementById('connect').textContent=account.slice(0,6)+'…'+account.slice(-4);
+    document.getElementById('banner').style.display='none';
+    document.querySelectorAll('.tag').forEach(t=>t.style.display='none');
+    document.getElementById('actBtn').disabled=false;
+    await refresh();
+  }catch(e){ console.error(e); }
+}
+async function refresh(){
+  if(DEMO||!account) return;
+  const provider=new ethers.BrowserProvider(window.ethereum);
+  const v=new ethers.Contract(CONFIG.vault, ABI, provider);
+  const usdc=new ethers.Contract(CONFIG.usdc, ERC20, provider);
+  const sh=await v.balanceOf(account);
+  const val=await v.convertToAssets(sh);
+  const nav=await v.navPerShare();
+  const wal=await usdc.balanceOf(account);
+  const shN=Number(ethers.formatUnits(sh,U)), valN=Number(ethers.formatUnits(val,U));
+  // NB: il "versato" reale si ricostruisce dagli eventi Deposit/Withdraw del wallet (da aggiungere).
+  paintPosition(shN, valN, valN, Number(ethers.formatUnits(nav,18)));
+  document.getElementById('hintL').textContent='Saldo wallet: '+fmt(Number(ethers.formatUnits(wal,U)))+' USDC';
+}
+let mode='dep';
+async function act(){
+  if(DEMO||!signer){ connect(); return; }
+  const raw=document.getElementById('amt').value; if(!raw||Number(raw)<=0) return;
+  const amt=ethers.parseUnits(raw, U);
+  const v=new ethers.Contract(CONFIG.vault, ABI, signer);
+  try{
+    if(mode==='dep'){
+      const usdc=new ethers.Contract(CONFIG.usdc, ERC20, signer);
+      const alw=await usdc.allowance(account, CONFIG.vault);
+      if(alw<amt){ const tx=await usdc.approve(CONFIG.vault, amt); await tx.wait(); }
+      const tx=await v.deposit(amt, account); await tx.wait();
+    }else{
+      const tx=await v.withdraw(amt, account, account); await tx.wait();
+    }
+    document.getElementById('amt').value=''; await refresh();
+  }catch(e){ console.error(e); alert('Transazione annullata o fallita.'); }
+}
+
+/* tab switch */
+function setMode(m){
+  mode=m;
+  document.getElementById('tabDep').classList.toggle('on',m==='dep');
+  document.getElementById('tabWit').classList.toggle('on',m==='wit');
+  const b=document.getElementById('actBtn');
+  b.textContent = DEMO ? 'Disponibile al lancio' : (m==='dep'?'Deposita':'Preleva');
+}
+document.getElementById('tabDep').onclick=()=>setMode('dep');
+document.getElementById('tabWit').onclick=()=>setMode('wit');
+document.getElementById('connect').onclick=connect;
+document.getElementById('actBtn').onclick=act;
+document.getElementById('maxBtn').onclick=()=>{ if(!DEMO&&account) refresh(); };
+
+/* boot */
+if(DEMO){ renderDemo(); document.getElementById('actBtn').textContent='Disponibile al lancio'; }
+setMode('dep');
+</script>
