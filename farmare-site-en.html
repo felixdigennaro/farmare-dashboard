@@ -350,7 +350,7 @@ footer{border-top:1px solid var(--hair); padding:var(--s4) 0 var(--s5); margin-t
     </div>
     <div class="flow rev" id="flowbox"><canvas id="flow"></canvas></div>
     <div class="flow-legend rev">
-      <span><i class="d-safe"></i> Nucleo · ~3.5%</span>
+      <span><i class="d-safe"></i> Core · ~3.5%</span>
       <span><i class="d-out"></i> Goes out to work</span>
       <span><i class="d-back"></i> The gains coming back</span>
     </div>
@@ -802,8 +802,8 @@ document.querySelectorAll('canvas[data-fx]').forEach(cv=>{
     W=r.width;H=r.height;cv.width=W*dpr;cv.height=H*dpr;x.setTransform(dpr,0,0,dpr,0,0);
     const P=(px,py)=>({x:px*W,y:py*H});
     const you={...P(.12,.5),r:15,label:"Your money",col:'#8fb6ff'};
-    const safe={...P(.46,.24),r:24,label:"Nucleo",sub:"~3.5% a year",col:'#8fb6ff'};
-    const play={...P(.42,.78),r:13,label:"Slancio",col:'#5fdfe6'};
+    const safe={...P(.46,.24),r:24,label:"Core",sub:"~3.5% a year",col:'#8fb6ff'};
+    const play={...P(.42,.78),r:13,label:"Momentum",col:'#5fdfe6'};
     const venues=[]; const n=6;
     for(let i=0;i<n;i++){const ay=.36+(i/(n-1))*.56, ax=.74+Math.sin(i/(n-1)*Math.PI)*.13;
       venues.push({...P(ax,ay),r:6,col:'#5fdfe6',venue:true});}
