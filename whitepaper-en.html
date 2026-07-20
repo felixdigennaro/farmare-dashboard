@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<title>FARMARE CAPITAL — Whitepaper</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ground:#06080f; --ground-2:#0b0e1a;
+  --panel:rgba(120,160,255,.03); --panel-2:rgba(120,160,255,.06);
+  --hair:rgba(150,180,255,.11); --hair-strong:rgba(150,180,255,.22);
+  --ink:#e8ecf5; --ink-soft:#9aa4bd; --ink-faint:#626c86;
+  --accent:#4d8dff; --accent-bright:#8fb6ff; --cyan:#5fdfe6;
+  --pos:#3ad0c0; --warn:#e8c15a; --neg:#f2795f;
+  --maxw:1080px;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,Helvetica,Arial,sans-serif;
+  --display:"Space Grotesk",-apple-system,"Segoe UI",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+body{margin:0; background:var(--ground); color:var(--ink); font-family:var(--sans); line-height:1.72;
+  -webkit-font-smoothing:antialiased; overflow-x:hidden}
+body::before{content:''; position:fixed; inset:0; z-index:-1; pointer-events:none;
+  background:radial-gradient(1100px 640px at 78% -8%, rgba(77,141,255,.10), transparent 60%),
+             radial-gradient(820px 560px at -5% 100%, rgba(95,223,230,.045), transparent 55%)}
+a{color:var(--accent-bright); text-decoration:none} a:hover{text-decoration:underline}
+.tnum{font-variant-numeric:tabular-nums}
+@keyframes sheen{to{background-position:-250% center}}
+.gtext{background:linear-gradient(100deg,var(--ink) 0%,var(--ink) 24%,var(--accent-bright) 46%,var(--cyan) 54%,var(--accent-bright) 62%,var(--ink) 84%);
+  background-size:250% auto; -webkit-background-clip:text; background-clip:text; color:transparent; animation:sheen 7s linear infinite}
+
+header{position:sticky; top:0; z-index:30; backdrop-filter:blur(16px) saturate(1.2);
+  background:linear-gradient(rgba(6,8,15,.8),rgba(6,8,15,.3)); border-bottom:1px solid var(--hair)}
+.bar{max-width:var(--maxw); margin:0 auto; padding:14px 22px; display:flex; align-items:center; gap:22px}
+.mark{font-family:var(--display); display:inline-flex; align-items:baseline; gap:.42em; font-size:1.02rem}
+.mark .name{font-weight:700; letter-spacing:.07em} .mark .cap{font-weight:400; letter-spacing:.07em}
+nav{display:flex; gap:18px; margin-left:auto}
+nav a{font-family:var(--display); font-size:.92rem; padding:4px 2px; border-bottom:2px solid transparent; opacity:.7; text-decoration:none}
+nav a:hover{text-decoration:none; opacity:1}
+nav a.on{opacity:1; border-color:var(--accent)}
+.lang{display:inline-flex; gap:2px; margin-left:14px; font-family:var(--display); font-size:.8rem; align-items:center}
+.lang a{color:var(--ink-faint); text-decoration:none; padding:3px 7px; border-radius:6px}
+.lang a:hover{color:var(--ink-soft)}
+.lang a.on{color:var(--ink); background:var(--panel-2)}
+
+.wrap{max-width:960px; margin:0 auto; padding:0 22px}
+.cover{padding:66px 0 30px}
+.eyebrow{font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:var(--ink-faint); margin:0 0 14px}
+h1{font-family:var(--display); font-weight:600; font-size:clamp(2.1rem,5.2vw,3.3rem); letter-spacing:-.03em; line-height:1.06; margin:0}
+.cover .lead{font-size:1.18rem; color:var(--ink-soft); max-width:60ch; margin:18px 0 0}
+.meta{margin-top:20px; font-size:.85rem; color:var(--ink-faint); display:flex; gap:18px; flex-wrap:wrap}
+
+.doc{display:grid; grid-template-columns:210px 1fr; gap:48px; padding:24px 0 90px}
+@media(max-width:800px){.doc{grid-template-columns:1fr; gap:20px}}
+.toc{position:sticky; top:76px; align-self:start; font-size:.9rem}
+@media(max-width:800px){.toc{position:static; border:1px solid var(--hair); border-radius:12px; padding:16px 18px; background:var(--panel)}}
+.toc .tl{font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:10px}
+.toc ol{list-style:none; margin:0; padding:0; counter-reset:s; display:flex; flex-direction:column; gap:7px}
+.toc a{color:var(--ink-soft); text-decoration:none; counter-increment:s}
+.toc a::before{content:counter(s) ". "; color:var(--ink-faint)}
+.toc a:hover{color:var(--ink)}
+
+article{max-width:720px; min-width:0}
+article section{padding:14px 0 8px; border-top:1px solid var(--hair); margin-top:26px}
+article section:first-child{border-top:0; margin-top:0}
+h2{font-family:var(--display); font-weight:600; font-size:1.5rem; letter-spacing:-.02em; margin:0 0 4px}
+h2 .n{color:var(--ink-faint); font-weight:400; margin-right:10px}
+h3{font-family:var(--display); font-weight:600; font-size:1.08rem; margin:22px 0 6px}
+p{margin:12px 0} article ul{margin:12px 0; padding-left:22px} article li{margin:6px 0}
+strong,b{font-weight:600; color:var(--ink)}
+.callout{border-left:2px solid var(--accent); background:var(--panel); border-radius:0 10px 10px 0; padding:14px 18px; margin:18px 0; color:var(--ink-soft)}
+.warn{border-left-color:var(--warn)}
+table{width:100%; border-collapse:collapse; margin:16px 0; font-size:.92rem}
+th,td{text-align:left; padding:9px 10px; border-bottom:1px solid var(--hair)} th{color:var(--ink-soft); font-weight:500; font-size:.82rem}
+td.r,th.r{text-align:right; font-variant-numeric:tabular-nums}
+.tbl-wrap{overflow-x:auto}
+.muted{color:var(--ink-faint); font-size:.86rem}
+footer{border-top:1px solid var(--hair); padding:26px 0 60px}
+footer .wrap{max-width:900px} footer p{font-size:.8rem; color:var(--ink-faint); line-height:1.66}
+</style>
+
+<header><div class="bar">
+  <div class="mark gtext"><span class="name">FAR<b>M</b>ARE</span><span class="cap">CAPITAL</span></div>
+  <nav><a href="farmare-site-en.html">Home</a><a href="my-funds-en.html">My funds</a><a href="whitepaper-en.html" class="on">Whitepaper</a></nav>
+  <span class="lang"><a href="whitepaper.html">IT</a><a href="whitepaper-en.html" class="on">EN</a></span>
+</div></header>
+
+<div class="wrap">
+  <div class="cover">
+    <p class="eyebrow">Whitepaper · v1</p>
+    <h1><span class="gtext">FARMARE CAPITAL</span></h1>
+    <p class="lead">A reinforced on-chain money market: capital kept safe and liquid, with <b>only the yield</b> — never
+      the capital — used to build two upside engines with protected capital. Honest by construction, not by promise.</p>
+    <div class="meta"><span>Version v1 · July 2026</span><span>Personal capital — not a public offering</span><span>No return is guaranteed</span></div>
+  </div>
+</div>
+
+<div class="wrap"><div class="doc">
+  <aside class="toc">
+    <div class="tl">Contents</div>
+    <ol>
+      <li><a href="#sintesi">Summary</a></li>
+      <li><a href="#tesi">The thesis</a></li>
+      <li><a href="#struttura">Structure</a></li>
+      <li><a href="#flusso">How the money moves</a></li>
+      <li><a href="#rendimento">Return</a></li>
+      <li><a href="#rischi">Risks</a></li>
+      <li><a href="#liquidita">Liquidity</a></li>
+      <li><a href="#fee">Fees</a></li>
+      <li><a href="#contratto">On-chain security</a></li>
+      <li><a href="#governance">Governance</a></li>
+      <li><a href="#metodo">Method</a></li>
+      <li><a href="#disclaimer">Disclaimer</a></li>
+    </ol>
+  </aside>
+
+  <article>
+    <section id="sintesi">
+      <h2><span class="n">1</span>Summary</h2>
+      <p>FARMARE splits capital <b>80 / 20</b>. The 80% (<b>Nucleo</b>, the safe core) sits in liquid stablecoin
+        lending: it yields ~3.5% today, with no swings, withdrawable instantly. The 20% (<b>Slancio</b>, the upside
+        engine) opens delta-neutral positions on new exchanges to harvest their future airdrops. The Nucleo's
+        <b>interest</b> — not the capital — gradually buys tokenized gold and S&amp;P 500. The capital is never bet on
+        the price of anything.</p>
+      <div class="callout">A solid base (~3.5%, protected and liquid capital) plus two convex upside engines
+        (the RWA overlay and the airdrops) that <b>do not put the capital at risk</b>. Neither is guaranteed.</div>
+    </section>
+
+    <section id="tesi">
+      <h2><span class="n">2</span>The thesis</h2>
+      <p>Most crypto strategies bet on price direction. FARMARE does not. The thesis is that a real return can be
+        earned <b>without directional exposure</b> — from stablecoin lending and from harvesting airdrops on balanced
+        positions — and that this yield can be used to build upside without ever putting the capital at risk. It is a
+        reinforced money market with free optionality, not a speculative fund.</p>
+    </section>
+
+    <section id="struttura">
+      <h2><span class="n">3</span>Structure</h2>
+      <p>An 80 / 20 barbell, with a protected-capital overlay inside the 80%.</p>
+      <h3>Nucleo — 80%</h3>
+      <p>Stablecoin lending on blue-chip, battle-tested protocols (such as Aave). It yields ~3.3–4.0% today, drawdown
+        ~0, withdrawable instantly. No tokenized T-bills in v1: this choice guarantees 100% immediate withdrawal.</p>
+      <h3>RWA overlay — the Nucleo's interest</h3>
+      <p>The coupon generated by the Nucleo is peeled off and bought <b>at market, every week</b> (batched to save on
+        gas; "buy the dip" was tested and discarded) into gold (PAXG) and tokenized S&amp;P 500. The principal is never
+        sold: only the accumulated coupon is at risk (~20% of capital after ~3 years). A market crash hits that 20% of
+        coupons, never the foundations.</p>
+      <h3>Slancio — 20%</h3>
+      <p>Delta-neutral positions on low-gas perp DEXs. Below ~€20,000 of account (or when funding is thin): <b>airdrops
+        only</b> — funding does not cover the fixed costs at small size. Above that threshold or in a "hot" regime, the
+        <b>funding carry</b> is added. Each venue has a cap tied to its robustness (from 1% to 5%), and the Slancio
+        allocation can rise dynamically (20→40%) only when funding is fat.</p>
+    </section>
+
+    <section id="flusso">
+      <h2><span class="n">4</span>How the money moves</h2>
+      <ul>
+        <li>Deposits → capital splits 80% Nucleo / 20% Slancio.</li>
+        <li>Every day the Nucleo produces interest.</li>
+        <li>Every week that interest (never the capital) buys gold / S&amp;P.</li>
+        <li>The Slancio opens balanced positions on the new exchanges and collects their points; at the airdrop it
+          cashes in, sells to stablecoins and recycles into the next candidate.</li>
+        <li>Withdrawal → immediate, paid from liquidity (Nucleo + cash). You get back capital + interest + the value
+          of the RWA nest egg + any airdrops already cashed in.</li>
+      </ul>
+    </section>
+
+    <section id="rendimento">
+      <h2><span class="n">5</span>Return</h2>
+      <p>The numbers are kept <b>separate</b> by source — never a single number that fuses lending and alpha. Figures
+        are gross of the 10% carry, from tests on real historical data, not promises.</p>
+      <h3>Measured today</h3>
+      <div class="tbl-wrap"><table>
+        <tr><th>Component</th><th class="r">Today</th><th>Note</th></tr>
+        <tr><td>Nucleo (lending)</td><td class="r">~3.3–4.0%</td><td>measured, solid and liquid base</td></tr>
+        <tr><td>Slancio edge</td><td class="r">~0</td><td>funding compressed now; regime-dependent</td></tr>
+        <tr><td>RWA overlay</td><td class="r">0 → +1 pp</td><td>only in a benign window; not bankable</td></tr>
+        <tr><td>Airdrops</td><td class="r">lottery</td><td>convex; zero in many periods, sometimes a lot</td></tr>
+      </table></div>
+      <h3>Regime scenarios (assumed, not measured)</h3>
+      <div class="tbl-wrap"><table>
+        <tr><th>Regime</th><th class="r">Fund base</th></tr>
+        <tr><td>Conservative (today)</td><td class="r">~3.4–3.6%</td></tr>
+        <tr><td>Normal</td><td class="r">~4.3–4.8%</td></tr>
+        <tr><td>Hot market</td><td class="r">~6–7%</td></tr>
+      </table></div>
+      <p class="muted">The scenarios depend on the funding regime — they are forward-looking assumptions, not the
+        output of a backtest. Expected drawdown in the single digits; the Slancio's tail is bounded by the per-venue
+        caps.</p>
+    </section>
+
+    <section id="rischi">
+      <h2><span class="n">6</span>Risks</h2>
+      <p>Real and stated — we keep them small, we do not make them disappear.</p>
+      <ul>
+        <li><b>Failure of a venue</b> (the Slancio's biggest risk). Mitigated: a 1–5% cap per venue according to its
+          robustness, continuous monitoring, exit at the first sign of trouble. The realistic worst case is a scratch
+          of a few points, not the capital.</li>
+        <li><b>Stablecoin depeg.</b> Mitigated by choosing the most robust stablecoins and diversifying across
+          protocols. Not cheaply hedgeable with a short.</li>
+        <li><b>Smart contract.</b> An ERC-4626 vault with structural protections (section 9); an adversarial pre-deploy
+          audit with the holes closed. No code is ever free of risk.</li>
+        <li><b>Negative funding.</b> In a neutral/bear regime the short pays: the Slancio's edge can go to zero. That is
+          why the basis allocation rises <b>only</b> when funding is fat.</li>
+        <li><b>RWA swings.</b> Gold / S&amp;P can fall: they hit only the accumulated coupon, never the Nucleo's
+          capital.</li>
+        <li><b>EUR/USD exchange rate.</b> The fund operates in USD stablecoins; anyone measuring in euros carries a
+          currency risk, to be assessed separately.</li>
+      </ul>
+    </section>
+
+    <section id="liquidita">
+      <h2><span class="n">7</span>Liquidity</h2>
+      <p><b>Immediate</b> withdrawal, paid from the Nucleo's liquidity (lending withdrawable in the same block) plus
+        cash — even with the fund paused. The vault never blocks an exit covered by realizable liquidity. No slow
+        T-bills in v1, precisely to guarantee 100% exit with no waiting.</p>
+    </section>
+
+    <section id="fee">
+      <h2><span class="n">8</span>Fees</h2>
+      <p><b>10% of the gain</b>, only above the all-time high (high-water mark). <b>Zero if you do not gain.</b> No
+        fixed fee on capital. Example: €10,000 → €10,350 in a normal year = €35 to the manager, €10,315 to you.
+        If the year closes flat or down, the manager's share is zero.</p>
+    </section>
+
+    <section id="contratto">
+      <h2><span class="n">9</span>On-chain security</h2>
+      <p>The fund is an <b>ERC-4626</b> vault (FarmVaultV1). The protection is <b>structural</b>, not a promise:</p>
+      <ul>
+        <li><b>80/20 invariant enforced on-chain:</b> the "at-risk" share (Slancio) can never exceed 40% of the
+          vault, not even the keeper can concentrate it beyond that.</li>
+        <li><b>Tiered per-venue cap</b> (5% large · 3% medium · 2% small · 1% micro) — less exposure to shallow
+          venues.</li>
+        <li><b>48-hour notice</b> on every rule change (venues, fees): never by surprise.</li>
+        <li><b>Automatic loss breakers</b> (0.5% per operation, 2% per day) and an inflation guard on the first
+          depositor.</li>
+        <li><b>Deposits blocked</b> if a venue's value is temporarily unreadable (no one can mint shares at a corrupted
+          price); <b>exits always open</b>.</li>
+        <li>The <b>keeper</b> (bot) can only move funds between already-approved venues — <b>never</b> withdraw to an
+          external address.</li>
+      </ul>
+      <div class="callout warn">Before deployment, an adversarial audit found and <b>fixed</b> a HIGH-severity flaw (NAV
+        mispricing on an unreadable venue) and made the 80/20 invariant a real on-chain rule. Test suite 52/52.</div>
+    </section>
+
+    <section id="governance">
+      <h2><span class="n">10</span>Governance</h2>
+      <p>Sole operator, <b>no DAO</b>, no governance token. Decisions belong to the owner (hardware wallet) + the
+        system, always through the 48-hour notice. The depositor has one unconditional right: to exit at value, at any
+        time.</p>
+    </section>
+
+    <section id="metodo">
+      <h2><span class="n">11</span>Method</h2>
+      <p>Every number has been put to the test on real data — repeated, verified and deliberately attacked to find its
+        holes. 686 markets analyzed (delisted ones included), ~1,258 days of real rates and funding, 94 independent
+        analyses and backtests, 52 on-chain tests passed.</p>
+    </section>
+
+    <section id="disclaimer">
+      <h2><span class="n">12</span>Disclaimer</h2>
+      <p class="muted">FARMARE started as <b>personal</b> capital — it is not a public offering nor a solicitation to
+        invest. Any entry happens on a private basis and under dedicated arrangements. The numbers here come from tests
+        on real historical data, they are not promised gains: there is not yet a long track record behind them and no
+        return is guaranteed. The biggest risk — that a venue fails — is real. This document is for informational
+        purposes and does not constitute financial advice.</p>
+    </section>
+  </article>
+</div></div>
+
+<footer><div class="wrap">
+  <p>FARMARE CAPITAL · Whitepaper v1 · July 2026 · personal capital, not a public offering · values are on-chain
+    when the vault is live, otherwise from backtests · no return is guaranteed · you always sign from your own
+    wallet, the funds never pass through the manager.</p>
+</div></footer>

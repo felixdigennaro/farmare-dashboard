@@ -39,6 +39,10 @@ nav{display:flex; gap:18px; margin-left:auto}
 nav a{font-family:var(--display); font-size:.92rem; padding:4px 2px; border-bottom:2px solid transparent; opacity:.7; text-decoration:none}
 nav a:hover{text-decoration:none; opacity:1}
 nav a.on{opacity:1; border-color:var(--accent)}
+.lang{display:inline-flex; gap:2px; margin-left:14px; font-family:var(--display); font-size:.8rem; align-items:center}
+.lang a{color:var(--ink-faint); text-decoration:none; padding:3px 7px; border-radius:6px}
+.lang a:hover{color:var(--ink-soft)}
+.lang a.on{color:var(--ink); background:var(--panel-2)}
 
 .wrap{max-width:960px; margin:0 auto; padding:0 22px}
 .cover{padding:66px 0 30px}
@@ -79,6 +83,7 @@ footer .wrap{max-width:900px} footer p{font-size:.8rem; color:var(--ink-faint); 
 <header><div class="bar">
   <div class="mark gtext"><span class="name">FAR<b>M</b>ARE</span><span class="cap">CAPITAL</span></div>
   <nav><a href="farmare-site.html">Home</a><a href="my-funds.html">I miei fondi</a><a href="whitepaper.html" class="on">Whitepaper</a></nav>
+  <span class="lang"><a href="whitepaper.html" class="on">IT</a><a href="whitepaper-en.html">EN</a></span>
 </div></header>
 
 <div class="wrap">

@@ -63,6 +63,10 @@ header{position:fixed; top:0; left:0; right:0; z-index:30; backdrop-filter:blur(
   background:linear-gradient(100deg,var(--ink) 0%,var(--ink) 24%,var(--accent-bright) 46%,var(--cyan) 54%,var(--accent-bright) 62%,var(--ink) 84%);
   background-size:250% auto; -webkit-background-clip:text; background-clip:text; color:transparent; animation:sheen 7s linear infinite}
 .topnav a.on{opacity:1; border-color:var(--accent)}
+.lang{display:inline-flex; gap:2px; margin-left:14px; font-family:var(--display); font-size:.8rem; align-items:center}
+.lang a{color:var(--ink-faint); text-decoration:none; padding:3px 7px; border-radius:6px}
+.lang a:hover{color:var(--ink-soft)}
+.lang a.on{color:var(--ink); background:var(--panel-2)}
 .chip{font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-soft);
   border:1px solid var(--hair); border-radius:100px; padding:6px 12px; background:var(--panel)}
 
@@ -317,7 +321,7 @@ footer{border-top:1px solid var(--hair); padding:var(--s4) 0 var(--s5); margin-t
 <div id="spot"></div>
 <div class="grain"></div>
 
-<header><div class="bar"><div class="mark"><span class="name">FAR<b>M</b>ARE</span><span class="cap">CAPITAL</span></div><nav class="topnav"><a href="farmare-site.html" class="on">Home</a><a href="my-funds.html">I miei fondi</a><a href="whitepaper.html">Whitepaper</a></nav></div></header>
+<header><div class="bar"><div class="mark"><span class="name">FAR<b>M</b>ARE</span><span class="cap">CAPITAL</span></div><nav class="topnav"><a href="farmare-site.html" class="on">Home</a><a href="my-funds.html">I miei fondi</a><a href="whitepaper.html">Whitepaper</a></nav><span class="lang"><a href="farmare-site.html" class="on">IT</a><a href="farmare-site-en.html">EN</a></span></div></header>
 
 <div class="wrap">
 

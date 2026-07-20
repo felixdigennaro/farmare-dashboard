@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
-<title>FARMARE — I miei fondi</title>
+<title>FARMARE CAPITAL — My funds</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -128,103 +128,103 @@ footer .wrap{max-width:900px}
 
 <header><div class="bar">
   <div class="mark"><span class="name">FAR<b>M</b>ARE</span><span class="cap">CAPITAL</span></div>
-  <nav><a href="farmare-site.html">Home</a><a href="my-funds.html" class="on">I miei fondi</a><a href="whitepaper.html">Whitepaper</a></nav>
-  <span class="lang"><a href="my-funds.html" class="on">IT</a><a href="my-funds-en.html">EN</a></span>
-  <button class="btn btn-solid" id="connect">Connetti wallet</button>
+  <nav><a href="farmare-site-en.html">Home</a><a href="my-funds-en.html" class="on">My funds</a><a href="whitepaper-en.html">Whitepaper</a></nav>
+  <span class="lang"><a href="my-funds.html">IT</a><a href="my-funds-en.html" class="on">EN</a></span>
+  <button class="btn btn-solid" id="connect">Connect wallet</button>
 </div></header>
 
 <main><div class="wrap">
   <div class="hd">
-    <p class="eyebrow">La tua posizione</p>
-    <h1>I miei fondi</h1>
-    <p>Deposita, preleva, e vedi dove sono i tuoi soldi e come si stanno muovendo — in tempo reale, on-chain.</p>
+    <p class="eyebrow">Your position</p>
+    <h1>My funds</h1>
+    <p>Deposit, withdraw, and see where your money is and how it's moving — in real time, on-chain.</p>
   </div>
 
   <div class="banner" id="banner">
     <span>⚠</span>
-    <span><b>Anteprima.</b> Il vault non è ancora attivo on-chain. I numeri qui sotto sono <b>dimostrativi</b>:
-    quando il fondo sarà live e collegherai il wallet, questa pagina leggerà la <b>tua posizione reale</b> dalla
-    blockchain (valore, movimenti, rendimento) e i pulsanti deposita/preleva firmeranno dal tuo wallet.</span>
+    <span><b>Preview.</b> The vault is not yet live on-chain. The numbers below are <b>demonstrative</b>:
+    once the fund is live and you connect your wallet, this page will read <b>your real position</b> from the
+    blockchain (value, activity, return) and the deposit/withdraw buttons will sign from your wallet.</span>
   </div>
 
   <div class="grid">
-    <!-- POSIZIONE -->
+    <!-- POSITION -->
     <div class="card c-8">
-      <h3>Valore attuale <span class="tag" id="posTag">anteprima</span></h3>
-      <p class="sub">quanto valgono le tue quote adesso</p>
+      <h3>Current value <span class="tag" id="posTag">preview</span></h3>
+      <p class="sub">what your shares are worth right now</p>
       <div><span class="pos-val tnum" id="posVal">—</span><span class="pos-unit" id="posUnit">USDC</span></div>
       <div class="pnl up" id="posPnl">—</div>
       <div class="posrow">
-        <div><div class="k">Versato</div><div class="v tnum" id="posDep">—</div></div>
-        <div><div class="k">Guadagno</div><div class="v tnum" id="posGain">—</div></div>
-        <div><div class="k">Le tue quote</div><div class="v tnum" id="posShares">—</div></div>
-        <div><div class="k">Valore per quota</div><div class="v tnum" id="posNav">—</div></div>
+        <div><div class="k">Deposited</div><div class="v tnum" id="posDep">—</div></div>
+        <div><div class="k">Gain</div><div class="v tnum" id="posGain">—</div></div>
+        <div><div class="k">Your shares</div><div class="v tnum" id="posShares">—</div></div>
+        <div><div class="k">Value per share</div><div class="v tnum" id="posNav">—</div></div>
       </div>
     </div>
 
-    <!-- DEPOSITA / PRELEVA -->
+    <!-- DEPOSIT / WITHDRAW -->
     <div class="card c-4">
-      <div class="tabs"><div class="tab on" id="tabDep">Deposita</div><div class="tab" id="tabWit">Preleva</div></div>
+      <div class="tabs"><div class="tab on" id="tabDep">Deposit</div><div class="tab" id="tabWit">Withdraw</div></div>
       <div class="field"><input id="amt" type="number" min="0" step="1" placeholder="0.00" inputmode="decimal"><span style="align-self:center;color:var(--ink-soft)">USDC</span></div>
-      <div class="hint"><span id="hintL">Saldo wallet: —</span><a id="maxBtn">max</a></div>
-      <button class="btn btn-solid" id="actBtn" style="width:100%;margin-top:16px" disabled>Connetti il wallet</button>
-      <p class="note" id="actNote">Il deposito va nella parte sicura (prestito stablecoin) e inizia a rendere subito.
-        Il prelievo è immediato dalla liquidità. Firmi tu dal tuo wallet — noi non tocchiamo mai i tuoi fondi.</p>
+      <div class="hint"><span id="hintL">Wallet balance: —</span><a id="maxBtn">max</a></div>
+      <button class="btn btn-solid" id="actBtn" style="width:100%;margin-top:16px" disabled>Connect your wallet</button>
+      <p class="note" id="actNote">Your deposit goes into the safe side (stablecoin lending) and starts earning right away.
+        Withdrawals are instant from available liquidity. You sign from your own wallet — we never touch your funds.</p>
     </div>
 
-    <!-- DOVE SONO I SOLDI -->
+    <!-- WHERE YOUR MONEY IS -->
     <div class="card c-6">
-      <h3>Dove sono i tuoi soldi</h3>
+      <h3>Where your money is</h3>
       <p class="sub">Nucleo 80% · Slancio 20%</p>
       <div class="alloc-bar"><i class="seg-floor" style="width:80%"></i><i class="seg-risk" style="width:20%"></i></div>
       <div class="leg">
-        <div class="row"><span class="dot seg-floor"></span> <b style="font-weight:600">Nucleo</b>&nbsp;— al sicuro, rende e resta a vista <span class="amt">80%</span></div>
-        <div class="row"><span class="dot seg-risk"></span> <b style="font-weight:600">Slancio</b>&nbsp;— a caccia di occasioni (airdrop) <span class="amt">20%</span></div>
+        <div class="row"><span class="dot seg-floor"></span> <b style="font-weight:600">Nucleo</b>&nbsp;— the safe core: kept safe, earning, always available <span class="amt">80%</span></div>
+        <div class="row"><span class="dot seg-risk"></span> <b style="font-weight:600">Slancio</b>&nbsp;— the upside sleeve: hunting for opportunities (airdrops) <span class="amt">20%</span></div>
       </div>
-      <p class="note">Gli interessi della parte sicura comprano piano piano oro e S&amp;P — senza mai toccare il tuo capitale.</p>
-      <div class="venues" id="venues"><b style="color:var(--ink-soft)">Dove, oggi:</b> </div>
+      <p class="note">The interest from the safe side gradually buys gold and the S&amp;P — without ever touching your capital.</p>
+      <div class="venues" id="venues"><b style="color:var(--ink-soft)">Where, today:</b> </div>
     </div>
 
-    <!-- RENDIMENTO -->
+    <!-- RETURN -->
     <div class="card c-6">
-      <h3>Rendimento</h3>
-      <p class="sub">base misurata su dati storici — non una promessa</p>
+      <h3>Return</h3>
+      <p class="sub">base measured on historical data — not a promise</p>
       <div class="metrics">
-        <div class="metric"><div class="k">Base, oggi</div><div class="v big" style="color:var(--cyan)">~3,5%</div></div>
-        <div class="metric"><div class="k">Il tuo, finora</div><div class="v big tnum" id="mYield">—</div></div>
+        <div class="metric"><div class="k">Base, today</div><div class="v big" style="color:var(--cyan)">~3.5%</div></div>
+        <div class="metric"><div class="k">Yours, so far</div><div class="v big tnum" id="mYield">—</div></div>
       </div>
-      <p class="fee-line">Fee: <b>10%</b> del guadagno · zero se non guadagni</p>
-      <p class="note">Il valore per quota sale col rendimento del fondo; il tuo guadagno è quel valore meno quanto hai
-        versato. La base ~3,5% è solida ma <b>non garantita</b>; la finestra (oro, S&amp;P, airdrop) può aggiungere altro,
-        o niente. Nessun rendimento è promesso.</p>
+      <p class="fee-line">Fee: <b>10%</b> of the gain · zero if you don't gain</p>
+      <p class="note">The value per share rises with the fund's return; your gain is that value minus what you
+        deposited. The ~3.5% base is solid but <b>not guaranteed</b>; the window (gold, S&amp;P, airdrops) can add more,
+        or nothing. No return is promised.</p>
     </div>
 
-    <!-- LOG MOVIMENTI -->
+    <!-- ACTIVITY LOG -->
     <div class="card c-12">
-      <h3>Log dei movimenti</h3>
-      <p class="sub">ogni spostamento di denaro, registrato on-chain</p>
+      <h3>Activity log</h3>
+      <p class="sub">every movement of money, recorded on-chain</p>
       <div class="log" id="log"></div>
-      <p class="note" id="logNote">Quando il fondo sarà live, qui compaiono i tuoi depositi/prelievi e ogni mossa del
-        keeper tra le piattaforme — direttamente dagli eventi del contratto, verificabili sull'explorer.</p>
+      <p class="note" id="logNote">Once the fund is live, your deposits/withdrawals and every keeper move between
+        platforms will appear here — straight from the contract's events, verifiable on the explorer.</p>
     </div>
   </div>
 </div></main>
 
 <footer><div class="wrap">
-  FARMARE · capitale personale, non un'offerta al pubblico · i valori qui sono on-chain quando il vault è live,
-  altrimenti dimostrativi · nessun rendimento è garantito · firmi sempre tu dal tuo wallet, i fondi non passano mai da noi.
+  FARMARE · personal capital, not a public offering · the values here are on-chain when the vault is live,
+  otherwise demonstrative · no return is guaranteed · you always sign from your own wallet, funds never pass through us.
 </div></footer>
 
 <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.4/dist/ethers.umd.min.js"></script>
 <script>
 /* ---------------- config ----------------
-   Compila questi campi DOPO il deploy del vault; finché vault=='' la pagina è in
-   modalità ANTEPRIMA (dati dimostrativi, azioni disattivate). */
+   Fill in these fields AFTER the vault is deployed; while vault=='' the page is in
+   PREVIEW mode (demonstrative data, actions disabled). */
 const CONFIG = {
-  vault: '',                       // indirizzo FarmVaultV1  (vuoto = anteprima)
-  usdc:  '',                       // indirizzo del token (USDC)
+  vault: '',                       // FarmVaultV1 address  (empty = preview)
+  usdc:  '',                       // token address (USDC)
   decimals: 6,
-  chainIdHex: '0xa4b1',            // Arbitrum One (da confermare alla scelta chain)
+  chainIdHex: '0xa4b1',            // Arbitrum One (to confirm when chain is chosen)
   chainName: 'Arbitrum',
   explorer: 'https://arbiscan.io',
 };
@@ -243,19 +243,19 @@ const ERC20 = ['function balanceOf(address) view returns (uint256)',
 
 const DEMO = !CONFIG.vault;
 const U = CONFIG.decimals;
-const fmt = (n,d=2)=>Number(n).toLocaleString('it-IT',{minimumFractionDigits:d,maximumFractionDigits:d});
+const fmt = (n,d=2)=>Number(n).toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
 
-/* dati dimostrativi (chiaramente etichettati "anteprima") */
+/* demonstrative data (clearly labeled "preview") */
 const DEMO_DATA = {
   shares: 10000, deposited: 10000, value: 10287.4,
   walletUSDC: 4200,
   venues: ['Variational','Ethereal','Extended','Pacifica','Lighter'],
   log: [
-    {k:'in',  t:'Deposito',                       d:'oggi · da 0x9f…4c1',            a:'+3.000 USDC'},
-    {k:'move',t:'Verso il Nucleo (prestito)',     d:'2 min dopo · Aave-tier',        a:'2.400 USDC'},
-    {k:'move',t:'Cedola → DCA settimanale (oro)', d:'lun scorso',                    a:'18 USDC'},
-    {k:'move',t:'Verso lo Slancio (airdrop)',     d:'mar · Variational, Ethereal',   a:'600 USDC'},
-    {k:'in',  t:'Deposito',                       d:'12 giu · da 0x9f…4c1',          a:'+7.000 USDC'},
+    {k:'in',  t:'Deposit',                        d:'today · from 0x9f…4c1',         a:'+3,000 USDC'},
+    {k:'move',t:'To Nucleo (lending)',            d:'2 min later · Aave-tier',       a:'2,400 USDC'},
+    {k:'move',t:'Coupon → weekly DCA (gold)',     d:'last Mon',                      a:'18 USDC'},
+    {k:'move',t:'To Slancio (airdrop)',           d:'Tue · Variational, Ethereal',   a:'600 USDC'},
+    {k:'in',  t:'Deposit',                        d:'Jun 12 · from 0x9f…4c1',        a:'+7,000 USDC'},
   ],
 };
 
@@ -263,7 +263,7 @@ let signer=null, account=null;
 
 function paintVenues(list){
   const el=document.getElementById('venues');
-  el.innerHTML='<b style="color:var(--ink-soft)">Le piattaforme, oggi:</b> '+list.map(v=>'<span>'+v+'</span>').join('');
+  el.innerHTML='<b style="color:var(--ink-soft)">The platforms, today:</b> '+list.map(v=>'<span>'+v+'</span>').join('');
 }
 function paintLog(items){
   const el=document.getElementById('log');
@@ -290,14 +290,14 @@ function paintPosition(shares, deposited, value, nav){
 function renderDemo(){
   const d=DEMO_DATA;
   paintPosition(d.shares, d.deposited, d.value, d.value/d.shares);
-  document.getElementById('hintL').textContent='Saldo wallet: '+fmt(d.walletUSDC)+' USDC (anteprima)';
+  document.getElementById('hintL').textContent='Wallet balance: '+fmt(d.walletUSDC)+' USDC (preview)';
   paintVenues(d.venues); paintLog(d.log);
 }
 
-/* ---------- wallet + on-chain (attivo dopo il deploy) ---------- */
+/* ---------- wallet + on-chain (active after deploy) ---------- */
 async function connect(){
-  if(DEMO){ alert('Il vault non è ancora attivo on-chain. Questa è un’anteprima del design: i dati diventano reali al lancio.'); return; }
-  if(!window.ethereum){ alert('Nessun wallet trovato. Installa un wallet (es. MetaMask) per connetterti.'); return; }
+  if(DEMO){ alert('The vault is not yet live on-chain. This is a design preview: the data becomes real at launch.'); return; }
+  if(!window.ethereum){ alert('No wallet found. Install a wallet (e.g. MetaMask) to connect.'); return; }
   try{
     const provider=new ethers.BrowserProvider(window.ethereum);
     await provider.send('eth_requestAccounts',[]);
@@ -319,9 +319,9 @@ async function refresh(){
   const nav=await v.navPerShare();
   const wal=await usdc.balanceOf(account);
   const shN=Number(ethers.formatUnits(sh,U)), valN=Number(ethers.formatUnits(val,U));
-  // NB: il "versato" reale si ricostruisce dagli eventi Deposit/Withdraw del wallet (da aggiungere).
+  // NB: the real "deposited" figure is reconstructed from the wallet's Deposit/Withdraw events (to be added).
   paintPosition(shN, valN, valN, Number(ethers.formatUnits(nav,18)));
-  document.getElementById('hintL').textContent='Saldo wallet: '+fmt(Number(ethers.formatUnits(wal,U)))+' USDC';
+  document.getElementById('hintL').textContent='Wallet balance: '+fmt(Number(ethers.formatUnits(wal,U)))+' USDC';
 }
 let mode='dep';
 async function act(){
@@ -339,7 +339,7 @@ async function act(){
       const tx=await v.withdraw(amt, account, account); await tx.wait();
     }
     document.getElementById('amt').value=''; await refresh();
-  }catch(e){ console.error(e); alert('Transazione annullata o fallita.'); }
+  }catch(e){ console.error(e); alert('Transaction cancelled or failed.'); }
 }
 
 /* tab switch */
@@ -348,7 +348,7 @@ function setMode(m){
   document.getElementById('tabDep').classList.toggle('on',m==='dep');
   document.getElementById('tabWit').classList.toggle('on',m==='wit');
   const b=document.getElementById('actBtn');
-  b.textContent = DEMO ? 'Disponibile al lancio' : (m==='dep'?'Deposita':'Preleva');
+  b.textContent = DEMO ? 'Available at launch' : (m==='dep'?'Deposit':'Withdraw');
 }
 document.getElementById('tabDep').onclick=()=>setMode('dep');
 document.getElementById('tabWit').onclick=()=>setMode('wit');
@@ -357,6 +357,6 @@ document.getElementById('actBtn').onclick=act;
 document.getElementById('maxBtn').onclick=()=>{ if(!DEMO&&account) refresh(); };
 
 /* boot */
-if(DEMO){ renderDemo(); document.getElementById('actBtn').textContent='Disponibile al lancio'; }
+if(DEMO){ renderDemo(); document.getElementById('actBtn').textContent='Available at launch'; }
 setMode('dep');
 </script>
