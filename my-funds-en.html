@@ -142,7 +142,7 @@ footer .wrap{max-width:900px}
 
   <div class="banner" id="banner">
     <span>⚠</span>
-    <span><b>Preview.</b> The vault is not yet live on-chain. The numbers below are <b>demonstrative</b>:
+    <span><b>Preview.</b> The vault is deployed on Arbitrum but the strategy is not active yet (no venues, audit pending) — do not deposit real funds until it is operational. The numbers below are <b>demonstrative</b>:
     once the fund is live and you connect your wallet, this page will read <b>your real position</b> from the
     blockchain (value, activity, return) and the deposit/withdraw buttons will sign from your wallet.</span>
   </div>
@@ -218,15 +218,18 @@ footer .wrap{max-width:900px}
 <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.4/dist/ethers.umd.min.js"></script>
 <script>
 /* ---------------- config ----------------
-   Fill in these fields AFTER the vault is deployed; while vault=='' the page is in
-   PREVIEW mode (demonstrative data, actions disabled). */
+   Vault DEPLOYED on Arbitrum. `live` stays false until the fund is OPERATIONAL
+   (keeper set + lending venue active) and AUDITED: so the page stays in PREVIEW
+   (demonstrative data, deposits disabled) even though the vault already exists. */
 const CONFIG = {
-  vault: '',                       // FarmVaultV1 address  (empty = preview)
+  vault: '0x3B8C7D48B1cB6d9152ba1e3460B7912F2b58d118', // FarmVaultV1 on Arbitrum One
+  deployBlock: 485972855,          // creation block (for event scanning)
   usdc:  '0xaf88d065e77c8cC2239327C5EDb3A432268e5831', // native USDC on Arbitrum One
   decimals: 6,
-  chainIdHex: '0xa4b1',            // Arbitrum One (to confirm when chain is chosen)
+  chainIdHex: '0xa4b1',            // Arbitrum One (42161)
   chainName: 'Arbitrum',
   explorer: 'https://arbiscan.io',
+  live: false,                     // -> true ONLY when operational (keeper+venue) and audited
 };
 const ABI = [
   'function balanceOf(address) view returns (uint256)',
@@ -241,7 +244,7 @@ const ERC20 = ['function balanceOf(address) view returns (uint256)',
   'function allowance(address,address) view returns (uint256)',
   'function approve(address,uint256) returns (bool)'];
 
-const DEMO = !CONFIG.vault;
+const DEMO = !CONFIG.live;   // vault deployed but not operational -> stays in preview
 const U = CONFIG.decimals;
 const fmt = (n,d=2)=>Number(n).toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
 
@@ -296,7 +299,7 @@ function renderDemo(){
 
 /* ---------- wallet + on-chain (active after deploy) ---------- */
 async function connect(){
-  if(DEMO){ alert('The vault is not yet live on-chain. This is a design preview: the data becomes real at launch.'); return; }
+  if(DEMO){ alert('The vault is deployed but not yet operational (no venues, audit pending). Preview: deposits go live once it is operational.'); return; }
   if(!window.ethereum){ alert('No wallet found. Install a wallet (e.g. MetaMask) to connect.'); return; }
   try{
     const provider=new ethers.BrowserProvider(window.ethereum);
