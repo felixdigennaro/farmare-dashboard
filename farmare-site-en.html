@@ -451,6 +451,73 @@ footer{border-top:1px solid var(--hair); padding:var(--s4) 0 var(--s5); margin-t
 
   </section>
 
+  <!-- THE WINDOW — gold + S&P bought with interest only -->
+  <style>
+  .rwa-benes{display:grid; grid-template-columns:repeat(3,1fr); gap:22px; width:100%}
+  .rwa-bene{border:1px solid var(--hair); border-radius:var(--radius); background:var(--panel); padding:30px 26px;
+    display:flex; flex-direction:column; align-items:center; text-align:center; gap:14px;
+    transition:border-color .35s, background .35s, transform .35s}
+  .rwa-bene:hover{border-color:var(--hair-strong); background:var(--panel-2); transform:translateY(-3px)}
+  .rwa-bene .ic{width:50px; height:50px; border-radius:14px; display:grid; place-items:center; font-size:1.5rem;
+    color:var(--accent-bright); background:linear-gradient(160deg,var(--panel-2),var(--panel)); border:1px solid var(--hair-strong)}
+  .rwa-bene h3{font-size:1.06rem}
+  .rwa-bene p{color:var(--ink-soft); font-size:.95rem; line-height:1.55; text-wrap:balance}
+  .proj-h{text-align:center; margin:56px auto 24px; max-width:70ch}
+  .proj-h .t{font-family:var(--display); font-size:1.22rem; font-weight:600; letter-spacing:-.01em; color:var(--ink)}
+  .proj-h .s{font-size:.86rem; color:var(--ink-faint); margin-top:8px; line-height:1.6}
+  .proj-h .s b{color:var(--accent)}
+  #finestra .stat .sv.neg{color:var(--warn)}
+  #finestra .disclosure{margin-top:30px}
+  @media(max-width:720px){.rwa-benes{grid-template-columns:1fr}}
+  </style>
+  <section id="finestra">
+    <div class="sec-head rev">
+      <p class="eyebrow">The window, in detail</p>
+      <h2><span class="grad">The interest buys gold and S&amp;P. Your capital never moves.</span></h2>
+      <p class="lead">Every week the <b>coupon</b> from the safe part — never your capital — buys a sliver of
+        tokenized gold and S&amp;P&nbsp;500. The principal stays lent out and is never sold: only the interest
+        already earned is ever at risk. An upside window paid for by interest, not by your money.</p>
+    </div>
+
+    <div class="rwa-benes rev">
+      <div class="rwa-bene">
+        <div class="ic">◈</div>
+        <h3>Your capital is never exposed</h3>
+        <p>The principal stays in liquid lending. Only interest already collected buys gold and S&amp;P: worst case you lose a little accumulated yield, never your money.</p>
+      </div>
+      <div class="rwa-bene">
+        <div class="ic">↗</div>
+        <h3>An upside that builds itself</h3>
+        <p>Drop by drop the interest becomes a real position: over ~3 years of real history it grew to <b>~21%</b> of capital — free upside, paid for by yield.</p>
+      </div>
+      <div class="rwa-bene">
+        <div class="ic">⊘</div>
+        <h3>Downside is bounded by design</h3>
+        <p>In the real S&amp;P crash (−34% in 2020) a fixed 20% would have cost <b>−6.8%</b> of the fund. Buying only with the coupon, only the small position is at risk: in the test, never beyond <b>−2.2%</b>.</p>
+      </div>
+    </div>
+
+    <div class="proj-h rev">
+      <div class="t">Projections tested on real history</div>
+      <div class="s">Window <b>Oct 2023 → Jul 2026</b> · 1,020 days · real lending APY + real PAXG + S&amp;P&nbsp;500 (FRED) · coupon DCA'd 50/50 gold+S&amp;P</div>
+    </div>
+    <div class="stats rev">
+      <div class="stat"><div class="sv tnum">+7.2%<small>/yr</small></div><div class="sl">fund CAGR with the overlay over the tested window — versus +5.6% for lending alone</div></div>
+      <div class="stat"><div class="sv tnum neg">−2.2%</div><div class="sl">worst drawdown recorded — hits only the accumulated coupon, never your capital</div></div>
+      <div class="stat"><div class="sv tnum">~21%</div><div class="sl">how big the gold+S&amp;P position became after ~3 years, from interest alone</div></div>
+      <div class="stat"><div class="sv tnum">+1.6<small>pp</small></div><div class="sl">extra per year versus lending alone, on the same real window</div></div>
+    </div>
+
+    <div class="disclosure rev">
+      <p class="wl">Read this — honesty on the numbers</p>
+      <p>A <b>benign</b> window: over these 2.8 years gold returned +118% and the S&amp;P +74%, so the CAGRs are
+        flattered. Average lending rates (~5.4%) sat ~2pp above today (~3.4%): in current conditions read the
+        absolutes ~2pp lower. The S&amp;P is price-only (dividends ~1.5%/yr excluded, conservative); tokenized-asset
+        tracking/redemption risks are not modeled. <b>Not a promise</b>: the overlay may add a few points or nothing.
+        The guaranteed advantage is structural — your capital is never at risk.</p>
+    </div>
+  </section>
+
   <!-- (the fee has been moved to the final FAQ) -->
   <!-- HOW MUCH YOU REALLY RISK (explainer) -->
   <section id="rischio">

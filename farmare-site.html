@@ -451,6 +451,73 @@ footer{border-top:1px solid var(--hair); padding:var(--s4) 0 var(--s5); margin-t
 
   </section>
 
+  <!-- LA FINESTRA RWA — oro + S&P coi soli interessi -->
+  <style>
+  .rwa-benes{display:grid; grid-template-columns:repeat(3,1fr); gap:22px; width:100%}
+  .rwa-bene{border:1px solid var(--hair); border-radius:var(--radius); background:var(--panel); padding:30px 26px;
+    display:flex; flex-direction:column; align-items:center; text-align:center; gap:14px;
+    transition:border-color .35s, background .35s, transform .35s}
+  .rwa-bene:hover{border-color:var(--hair-strong); background:var(--panel-2); transform:translateY(-3px)}
+  .rwa-bene .ic{width:50px; height:50px; border-radius:14px; display:grid; place-items:center; font-size:1.5rem;
+    color:var(--accent-bright); background:linear-gradient(160deg,var(--panel-2),var(--panel)); border:1px solid var(--hair-strong)}
+  .rwa-bene h3{font-size:1.06rem}
+  .rwa-bene p{color:var(--ink-soft); font-size:.95rem; line-height:1.55; text-wrap:balance}
+  .proj-h{text-align:center; margin:56px auto 24px; max-width:70ch}
+  .proj-h .t{font-family:var(--display); font-size:1.22rem; font-weight:600; letter-spacing:-.01em; color:var(--ink)}
+  .proj-h .s{font-size:.86rem; color:var(--ink-faint); margin-top:8px; line-height:1.6}
+  .proj-h .s b{color:var(--accent)}
+  #finestra .stat .sv.neg{color:var(--warn)}
+  #finestra .disclosure{margin-top:30px}
+  @media(max-width:720px){.rwa-benes{grid-template-columns:1fr}}
+  </style>
+  <section id="finestra">
+    <div class="sec-head rev">
+      <p class="eyebrow">La finestra, in dettaglio</p>
+      <h2><span class="grad">Gli interessi comprano oro e S&amp;P. Il capitale non si muove.</span></h2>
+      <p class="lead">Ogni settimana la <b>cedola</b> della parte sicura — mai il capitale — compra un pezzetto di
+        oro e S&amp;P&nbsp;500 tokenizzati. Il principale resta in prestito e non si vende mai: a rischio va solo
+        l'interesse già accumulato. Una finestra di rialzo pagata dagli interessi, non dai tuoi soldi.</p>
+    </div>
+
+    <div class="rwa-benes rev">
+      <div class="rwa-bene">
+        <div class="ic">◈</div>
+        <h3>Il capitale non è mai esposto</h3>
+        <p>Il principale resta in prestito liquido. Solo la cedola già incassata compra oro e S&amp;P: nel peggiore dei casi perdi un po' di interessi accumulati, mai i tuoi soldi.</p>
+      </div>
+      <div class="rwa-bene">
+        <div class="ic">↗</div>
+        <h3>Un rialzo che si costruisce da solo</h3>
+        <p>Goccia dopo goccia gli interessi diventano una posizione vera: su ~3 anni di storia reale è cresciuta fino a <b>~21%</b> del capitale — upside gratis, pagato dal rendimento.</p>
+      </div>
+      <div class="rwa-bene">
+        <div class="ic">⊘</div>
+        <h3>La perdita è limitata per costruzione</h3>
+        <p>Nel crollo vero dell'S&amp;P (−34% nel 2020) un 20% fisso avrebbe perso <b>−6,8%</b> del fondo. Comprando solo con la cedola, a rischio c'è solo la piccola posizione: nel test, mai oltre <b>−2,2%</b>.</p>
+      </div>
+    </div>
+
+    <div class="proj-h rev">
+      <div class="t">Proiezioni testate su storia reale</div>
+      <div class="s">Finestra <b>ott 2023 → lug 2026</b> · 1.020 giorni · APY di lending reale + PAXG reale + S&amp;P&nbsp;500 (FRED) · cedola in DCA 50/50 oro+S&amp;P</div>
+    </div>
+    <div class="stats rev">
+      <div class="stat"><div class="sv tnum">+7,2%<small>/anno</small></div><div class="sl">CAGR del fondo con l'overlay sulla finestra testata — contro +5,6% del solo lending</div></div>
+      <div class="stat"><div class="sv tnum neg">−2,2%</div><div class="sl">perdita massima registrata — colpisce solo la cedola accumulata, mai il capitale</div></div>
+      <div class="stat"><div class="sv tnum">~21%</div><div class="sl">quanto è diventata la posizione oro+S&amp;P dopo ~3 anni, coi soli interessi</div></div>
+      <div class="stat"><div class="sv tnum">+1,6<small>pp</small></div><div class="sl">all'anno in più rispetto al solo lending, sulla stessa finestra reale</div></div>
+    </div>
+
+    <div class="disclosure rev">
+      <p class="wl">Da leggere — onestà sui numeri</p>
+      <p>Finestra <b>benigna</b>: in questi 2,8 anni l'oro ha fatto +118% e l'S&amp;P +74%, quindi i CAGR sono lusingati.
+        I tassi di lending medi (~5,4%) erano ~2pp sopra l'oggi (~3,4%): in condizioni attuali leggi gli assoluti
+        ~2pp più bassi. L'S&amp;P è a prezzo (dividendi ~1,5%/anno esclusi, prudente); i rischi di tracking/riscatto
+        degli asset tokenizzati non sono modellati. <b>Non è una promessa</b>: l'overlay può aggiungere qualche punto
+        o niente. Il vantaggio garantito è strutturale — il capitale non è mai a rischio.</p>
+    </div>
+  </section>
+
   <!-- (la commissione è stata spostata nelle FAQ finali) -->
   <!-- QUANTO RISCHI DAVVERO (explainer) -->
   <section id="rischio">
