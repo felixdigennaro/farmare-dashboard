@@ -205,6 +205,25 @@ footer .wrap{max-width:900px} footer p{font-size:.8rem; color:var(--ink-faint); 
       </table></div>
       <p class="muted">Gli scenari dipendono dal regime di funding — sono ipotesi in avanti, non l'output di un
         backtest. Drawdown atteso a una cifra; la coda dello Slancio è limitata dai tetti per piattaforma.</p>
+
+      <h3>Overlay RWA — backtest su storia reale</h3>
+      <p>Il "0 → +1 pp" qui sopra viene da un test vero: finestra <b>ott 2023 → lug 2026</b> (1.020 giorni), con
+        APY di lending reale, prezzo PAXG reale e S&amp;P 500 da FRED. La cedola del Nucleo va in DCA settimanale;
+        il capitale non si vende mai, quindi il drawdown colpisce solo la posizione accumulata.</p>
+      <div class="tbl-wrap"><table>
+        <tr><th>Variante (cedola in DCA)</th><th class="r">CAGR</th><th class="r">maxDD</th><th class="r">Pos. RWA</th></tr>
+        <tr><td>Solo lending (baseline finestra)</td><td class="r">+5,6%</td><td class="r">0%</td><td class="r">—</td></tr>
+        <tr><td><b>Cedola → 50/50 oro+S&amp;P</b> (strategia v1)</td><td class="r"><b>+7,2%</b></td><td class="r"><b>−2,2%</b></td><td class="r"><b>~21%</b></td></tr>
+        <tr><td>Cedola → solo S&amp;P</td><td class="r">+6,7%</td><td class="r">−1,4%</td><td class="r">~20%</td></tr>
+        <tr><td>Cedola → solo oro</td><td class="r">+7,5%</td><td class="r">−5,3%</td><td class="r">~22%</td></tr>
+      </table></div>
+      <p>La strategia v1 (50/50) sta a metà: uplift <b>+1,6pp</b> sul solo lending, con un drawdown di appena
+        −2,2% contro il −5,3% dell'oro puro. Per contrasto, nel crollo reale dell'S&amp;P (−34%, 2020) un
+        <b>20% statico</b> avrebbe perso ~−6,8% dell'intero fondo; la DCA della cedola rischia solo la piccola posizione.</p>
+      <div class="callout warn">Finestra <b>benigna</b>: oro +118% e S&amp;P +74% in 2,8 anni, e tassi di lending medi
+        (~5,4%) ~2pp sopra l'oggi (~3,4%) → gli assoluti vanno letti ~2pp più bassi in condizioni attuali. L'S&amp;P è
+        a prezzo (dividendi ~1,5%/anno esclusi, prudente); tracking/riscatto degli asset tokenizzati non modellati.
+        Non è una promessa; il vantaggio garantito è strutturale — il capitale non è mai esposto.</div>
     </section>
 
     <section id="rischi">

@@ -207,6 +207,25 @@ footer .wrap{max-width:900px} footer p{font-size:.8rem; color:var(--ink-faint); 
       <p class="muted">The scenarios depend on the funding regime — they are forward-looking assumptions, not the
         output of a backtest. Expected drawdown in the single digits; the Momentum's tail is bounded by the per-venue
         caps.</p>
+
+      <h3>RWA overlay — backtest on real history</h3>
+      <p>The "0 → +1 pp" above comes from a real test: window <b>Oct 2023 → Jul 2026</b> (1,020 days), with real
+        lending APY, real PAXG price and S&amp;P 500 from FRED. The Core's coupon is DCA'd weekly; the capital is never
+        sold, so the drawdown hits only the accumulated position.</p>
+      <div class="tbl-wrap"><table>
+        <tr><th>Variant (coupon DCA'd)</th><th class="r">CAGR</th><th class="r">maxDD</th><th class="r">RWA pos.</th></tr>
+        <tr><td>Lending only (window baseline)</td><td class="r">+5.6%</td><td class="r">0%</td><td class="r">—</td></tr>
+        <tr><td><b>Coupon → 50/50 gold+S&amp;P</b> (strategy v1)</td><td class="r"><b>+7.2%</b></td><td class="r"><b>−2.2%</b></td><td class="r"><b>~21%</b></td></tr>
+        <tr><td>Coupon → S&amp;P only</td><td class="r">+6.7%</td><td class="r">−1.4%</td><td class="r">~20%</td></tr>
+        <tr><td>Coupon → gold only</td><td class="r">+7.5%</td><td class="r">−5.3%</td><td class="r">~22%</td></tr>
+      </table></div>
+      <p>Strategy v1 (50/50) sits in the middle: <b>+1.6pp</b> uplift over lending only, with a drawdown of just
+        −2.2% versus −5.3% for pure gold. By contrast, in the real S&amp;P crash (−34%, 2020) a <b>static 20%</b>
+        would have cost ~−6.8% of the whole fund; DCA'ing the coupon risks only the small position.</p>
+      <div class="callout warn">A <b>benign</b> window: gold +118% and S&amp;P +74% over 2.8 years, and average lending
+        rates (~5.4%) ~2pp above today (~3.4%) → read the absolutes ~2pp lower in current conditions. The S&amp;P is
+        price-only (dividends ~1.5%/yr excluded, conservative); tokenized-asset tracking/redemption not modeled.
+        Not a promise; the guaranteed advantage is structural — the capital is never exposed.</div>
     </section>
 
     <section id="rischi">
