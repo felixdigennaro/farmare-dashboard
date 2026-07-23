@@ -119,13 +119,13 @@ time; no one, including the operator, can move your funds elsewhere.</p>
 
 <div id="notdeployed" class="note" style="display:none">
   <b>Not yet live.</b> The vault is fully tested but not yet deployed to
-  mainnet. Below you can already see the fund's per-share track record your
+  Arbitrum. Below you can already see the fund's per-share track record your
   account will mirror. Deposits open at go-live —
   <a href="./#join">join
   the launch list</a> to be notified first.
 </div>
 <div id="wrongnet" class="note" style="display:none">
-  This vault runs on <b>Ethereum mainnet</b>. <a href="#" id="addnet">Switch network</a>.
+  This vault runs on <b>Arbitrum One</b>. <a href="#" id="addnet">Switch network</a>.
 </div>
 
 <div class="pnl" id="pnl" style="display:none">
@@ -204,11 +204,11 @@ profits above high-water mark + 1%/yr. Not investment advice.</footer>
 
 <script>
 const CFG = {
-  // Ethereum mainnet (the Alpha engine's home — see contracts/DeployAlpha.s.sol)
-  vault:"0x873C1b701ABDb9334018f4044FEF1d10B430265C", usdc:"0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
-  deployBlock:25537589, chainId:"0x1", usdcDecimals:6, shareDecimals:6,
-  baseParams:{chainId:"0x1",chainName:"Ethereum",nativeCurrency:{name:"Ether",symbol:"ETH",decimals:18},
-    rpcUrls:["https://ethereum-rpc.publicnode.com"],blockExplorerUrls:["https://etherscan.io"]},
+  // Arbitrum One — FarmVaultV1 (asset = native USDC). The live fund.
+  vault:"0x3B8C7D48B1cB6d9152ba1e3460B7912F2b58d118", usdc:"0xaf88d065e77c8cC2239327C5EDb3A432268e5831",
+  deployBlock:486900906, chainId:"0xa4b1", usdcDecimals:6, shareDecimals:6,
+  baseParams:{chainId:"0xa4b1",chainName:"Arbitrum One",nativeCurrency:{name:"Ether",symbol:"ETH",decimals:18},
+    rpcUrls:["https://arb1.arbitrum.io/rpc"],blockExplorerUrls:["https://arbiscan.io"]},
 };
 const T_DEP="0xdcbc1c05240f31ff3ad067ef1ee35ce4997762752e3a095284754544f4c709d7";
 const T_WD ="0xfbde797d201c681b91056529119e0b02407c7bb96a4a2c75c01fc9667232c8db";
@@ -455,9 +455,9 @@ document.getElementById("addnet").onclick=async e=>{e.preventDefault();
 async function send(to,data){
   // Hard chain guard before any signature: on the wrong network the same
   // address can resolve to a different contract, so never let a deposit/
-  // approve/redeem be signed off mainnet.
+  // approve/redeem be signed off the vault's chain.
   const net=await rpc("eth_chainId",[]);
-  if(net!==CFG.chainId) throw new Error("Wrong network — switch to Ethereum mainnet, then try again.");
+  if(net!==CFG.chainId) throw new Error("Wrong network — switch to Arbitrum One, then try again.");
   const tx=await rpc("eth_sendTransaction",[{from:account,to,data}]);msg("Transaction sent — waiting for confirmation…");
   for(let i=0;i<80;i++){await new Promise(r=>setTimeout(r,2500));const r=await rpc("eth_getTransactionReceipt",[tx]).catch(()=>null);
     if(r){if(bn(r.status)===1n)return true;throw new Error("reverted");}}throw new Error("timeout");}
