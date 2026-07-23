@@ -147,18 +147,11 @@ footer .wrap{max-width:900px}
     <p>Deposit, withdraw, and see where your money is and how it's moving — in real time, on-chain.</p>
   </div>
 
-  <div class="banner" id="banner">
-    <span>⚠</span>
-    <span><b>Preview.</b> The vault is deployed on Arbitrum but the strategy is not active yet (no venues, audit pending) — do not deposit real funds until it is operational. The numbers below are <b>demonstrative</b>:
-    once the fund is live and you connect your wallet, this page will read <b>your real position</b> from the
-    blockchain (value, activity, return) and the deposit/withdraw buttons will sign from your wallet.</span>
-  </div>
-
   <div class="grid">
     <!-- POSITION -->
     <div class="card c-8">
-      <h3>Current value <span class="tag" id="posTag">preview</span></h3>
-      <p class="sub">what your shares are worth right now</p>
+      <h3>Current value <span class="tag" id="posTag">connect your wallet</span></h3>
+      <p class="sub">what your shares are worth right now — connect to see your real position</p>
       <div><span class="pos-val tnum" id="posVal">—</span><span class="pos-unit" id="posUnit">USDC</span></div>
       <div class="pnl up" id="posPnl">—</div>
       <div class="posrow">
@@ -211,15 +204,15 @@ footer .wrap{max-width:900px}
       <h3>Activity log</h3>
       <p class="sub">every movement of money, recorded on-chain</p>
       <div class="log" id="log"></div>
-      <p class="note" id="logNote">Once the fund is live, your deposits/withdrawals and every keeper move between
-        platforms will appear here — straight from the contract's events, verifiable on the explorer.</p>
+      <p class="note" id="logNote">Every deposit/withdrawal and every keeper move is recorded on-chain and verifiable
+        on Arbiscan (link above) — straight from the contract's events.</p>
     </div>
   </div>
 </div></main>
 
 <footer><div class="wrap">
-  FARMARE · personal capital, not a public offering · the values here are on-chain when the vault is live,
-  otherwise demonstrative · no return is guaranteed · you always sign from your own wallet, funds never pass through us.
+  FARMARE · personal capital, not a public offering · the values here are real, read on-chain ·
+  no return is guaranteed · you always sign from your own wallet, funds never pass through us.
 </div></footer>
 
 <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.4/dist/ethers.umd.min.js"></script>
@@ -230,20 +223,19 @@ footer .wrap{max-width:900px}
    (demonstrative data, deposits disabled) even though the vault already exists. */
 const CONFIG = {
   vault: '0x3B8C7D48B1cB6d9152ba1e3460B7912F2b58d118', // FarmVaultV1 on Arbitrum One
-  deployBlock: 485972855,          // creation block (for event scanning)
   usdc:  '0xaf88d065e77c8cC2239327C5EDb3A432268e5831', // native USDC on Arbitrum One
+  rpc:   'https://arb1.arbitrum.io/rpc',   // public RPC to read real fund data WITHOUT a wallet
   decimals: 6,
   chainIdHex: '0xa4b1',            // Arbitrum One (42161)
   chainName: 'Arbitrum',
   explorer: 'https://arbiscan.io',
-  live: false,                     // -> true ONLY when operational (keeper+venue) and audited
+  depositsLive: true,              // deposit/withdraw ACTIVE (opened by Felice before a third-party audit). Set false to re-close.
 };
 const ABI = [
   'function balanceOf(address) view returns (uint256)',
+  'function totalAssets() view returns (uint256)',
   'function convertToAssets(uint256) view returns (uint256)',
-  'function maxWithdraw(address) view returns (uint256)',
   'function navPerShare() view returns (uint256)',
-  'function asset() view returns (address)',
   'function deposit(uint256 assets, address receiver) returns (uint256)',
   'function withdraw(uint256 assets, address receiver, address owner) returns (uint256)',
 ];
@@ -251,39 +243,10 @@ const ERC20 = ['function balanceOf(address) view returns (uint256)',
   'function allowance(address,address) view returns (uint256)',
   'function approve(address,uint256) returns (bool)'];
 
-const DEMO = !CONFIG.live;   // vault deployed but not operational -> stays in preview
 const U = CONFIG.decimals;
 const fmt = (n,d=2)=>Number(n).toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
-
-/* demonstrative data (clearly labeled "preview") */
-const DEMO_DATA = {
-  shares: 10000, deposited: 10000, value: 10287.4,
-  walletUSDC: 4200,
-  venues: ['Extended','Pacifica','Variational','Lighter','Hibachi'],
-  log: [
-    {k:'in',  t:'Deposit',                        d:'today · from 0x9f…4c1',         a:'+3,000 USDC'},
-    {k:'move',t:'To Core (lending)',            d:'2 min later · Aave-tier',       a:'2,400 USDC'},
-    {k:'move',t:'Coupon → weekly DCA (gold)',     d:'last Mon',                      a:'18 USDC'},
-    {k:'move',t:'To Momentum (airdrop)',           d:'Tue · Variational, Extended',   a:'600 USDC'},
-    {k:'in',  t:'Deposit',                        d:'Jun 12 · from 0x9f…4c1',        a:'+7,000 USDC'},
-  ],
-};
-
+const RO = new ethers.JsonRpcProvider(CONFIG.rpc);   // public read-only provider: real data without a wallet
 let signer=null, account=null;
-
-function paintVenues(list){
-  const el=document.getElementById('venues');
-  el.innerHTML='<b style="color:var(--ink-soft)">The platforms, today:</b> '+list.map(v=>'<span>'+v+'</span>').join('');
-}
-function paintLog(items){
-  const el=document.getElementById('log');
-  el.innerHTML=items.map(i=>{
-    const ic=i.k==='in'?'↓':i.k==='out'?'↑':'⇄'; const cls=i.k==='in'?'log-in':i.k==='out'?'log-out':'log-move';
-    return '<div class="log-item"><div class="log-ic '+cls+'">'+ic+'</div>'+
-      '<div class="log-b"><div class="t">'+i.t+'</div><div class="d">'+i.d+'</div></div>'+
-      '<div class="log-amt">'+i.a+'</div></div>';
-  }).join('');
-}
 function paintPosition(shares, deposited, value, nav){
   const gain=value-deposited, pct=deposited?gain/deposited*100:0;
   document.getElementById('posVal').textContent=fmt(value);
@@ -297,45 +260,50 @@ function paintPosition(shares, deposited, value, nav){
   document.getElementById('mYield').textContent=(gain>=0?'+':'')+fmt(pct,2)+'%';
 }
 
-function renderDemo(){
-  const d=DEMO_DATA;
-  paintPosition(d.shares, d.deposited, d.value, d.value/d.shares);
-  document.getElementById('hintL').textContent='Wallet balance: '+fmt(d.walletUSDC)+' USDC (preview)';
-  paintVenues(d.venues); paintLog(d.log);
+// REAL fund-level data (no wallet): assets, NAV, where the money is today
+async function loadFund(){
+  try{
+    const v=new ethers.Contract(CONFIG.vault, ABI, RO);
+    const usdc=new ethers.Contract(CONFIG.usdc, ['function balanceOf(address) view returns (uint256)'], RO);
+    const [aum,nav,idle]=await Promise.all([v.totalAssets(),v.navPerShare(),usdc.balanceOf(CONFIG.vault)]);
+    const aumN=Number(ethers.formatUnits(aum,U)), navN=Number(ethers.formatUnits(nav,18)), idleN=Number(ethers.formatUnits(idle,U));
+    const allocN=Math.max(0,aumN-idleN);
+    document.getElementById('posNav').textContent=fmt(navN,4);
+    document.getElementById('venues').innerHTML='<b style="color:var(--ink-soft)">Today, on-chain:</b> '+
+      '<span>Assets '+fmt(aumN)+' USDC</span><span>Core · Aave '+fmt(allocN)+' USDC</span><span>Idle in vault '+fmt(idleN)+' USDC</span>';
+    document.getElementById('log').innerHTML='<a href="'+CONFIG.explorer+'/address/'+CONFIG.vault+'" target="_blank" rel="noopener" style="color:var(--cyan);font-weight:600">Full, verifiable history on Arbiscan →</a>';
+  }catch(e){ console.error('loadFund',e);
+    document.getElementById('venues').innerHTML='<b style="color:var(--ink-soft)">On-chain data unavailable right now — retry.</b>'; }
 }
 
-/* ---------- wallet + on-chain (active after deploy) ---------- */
+/* ---------- wallet: read-only connect (real position) + signing for deposit/withdraw ---------- */
 async function connect(){
-  if(DEMO){ alert('The vault is deployed but not yet operational (no venues, audit pending). Preview: deposits go live once it is operational.'); return; }
-  if(!window.ethereum){ alert('No wallet found. Install a wallet (e.g. MetaMask) to connect.'); return; }
+  if(!window.ethereum){ alert('No wallet found. Install a wallet (e.g. MetaMask) to see your position.'); return; }
   try{
     const provider=new ethers.BrowserProvider(window.ethereum);
     await provider.send('eth_requestAccounts',[]);
     signer=await provider.getSigner(); account=await signer.getAddress();
     document.getElementById('connect').textContent=account.slice(0,6)+'…'+account.slice(-4);
-    document.getElementById('banner').style.display='none';
     document.querySelectorAll('.tag').forEach(t=>t.style.display='none');
-    document.getElementById('actBtn').disabled=false;
-    await refresh();
+    if(CONFIG.depositsLive) document.getElementById('actBtn').disabled=false;
+    await refreshUser();
   }catch(e){ console.error(e); }
 }
-async function refresh(){
-  if(DEMO||!account) return;
-  const provider=new ethers.BrowserProvider(window.ethereum);
-  const v=new ethers.Contract(CONFIG.vault, ABI, provider);
-  const usdc=new ethers.Contract(CONFIG.usdc, ERC20, provider);
-  const sh=await v.balanceOf(account);
+async function refreshUser(){
+  if(!account) return;
+  const v=new ethers.Contract(CONFIG.vault, ABI, RO);
+  const usdc=new ethers.Contract(CONFIG.usdc, ERC20, RO);
+  const [sh,nav,wal]=await Promise.all([v.balanceOf(account),v.navPerShare(),usdc.balanceOf(account)]);
   const val=await v.convertToAssets(sh);
-  const nav=await v.navPerShare();
-  const wal=await usdc.balanceOf(account);
-  const shN=Number(ethers.formatUnits(sh,U)), valN=Number(ethers.formatUnits(val,U));
-  // NB: the real "deposited" figure is reconstructed from the wallet's Deposit/Withdraw events (to be added).
-  paintPosition(shN, valN, valN, Number(ethers.formatUnits(nav,18)));
+  const shN=Number(ethers.formatUnits(sh,U)), valN=Number(ethers.formatUnits(val,U)), navN=Number(ethers.formatUnits(nav,18));
+  // cost basis ~ shares valued at NAV 1.00 at entry (exact for early deposits; exact cost for entries at NAV>1 will need Deposit events).
+  paintPosition(shN, shN, valN, navN);
   document.getElementById('hintL').textContent='Wallet balance: '+fmt(Number(ethers.formatUnits(wal,U)))+' USDC';
 }
 let mode='dep';
 async function act(){
-  if(DEMO||!signer){ connect(); return; }
+  if(!CONFIG.depositsLive){ alert('Deposits and withdrawals are closed right now.'); return; }
+  if(!signer){ await connect(); if(!signer) return; }
   const raw=document.getElementById('amt').value; if(!raw||Number(raw)<=0) return;
   const amt=ethers.parseUnits(raw, U);
   const v=new ethers.Contract(CONFIG.vault, ABI, signer);
@@ -348,7 +316,7 @@ async function act(){
     }else{
       const tx=await v.withdraw(amt, account, account); await tx.wait();
     }
-    document.getElementById('amt').value=''; await refresh();
+    document.getElementById('amt').value=''; await refreshUser(); await loadFund();
   }catch(e){ console.error(e); alert('Transaction cancelled or failed.'); }
 }
 
@@ -358,15 +326,19 @@ function setMode(m){
   document.getElementById('tabDep').classList.toggle('on',m==='dep');
   document.getElementById('tabWit').classList.toggle('on',m==='wit');
   const b=document.getElementById('actBtn');
-  b.textContent = DEMO ? 'Available at launch' : (m==='dep'?'Deposit':'Withdraw');
+  b.textContent = CONFIG.depositsLive ? (m==='dep'?'Deposit':'Withdraw') : 'Deposits closed';
 }
 document.getElementById('tabDep').onclick=()=>setMode('dep');
 document.getElementById('tabWit').onclick=()=>setMode('wit');
 document.getElementById('connect').onclick=connect;
 document.getElementById('actBtn').onclick=act;
-document.getElementById('maxBtn').onclick=()=>{ if(DEMO){ document.getElementById('amt').value=DEMO_DATA.walletUSDC; } else if(account) refresh(); };
+document.getElementById('maxBtn').onclick=()=>{ if(account) refreshUser(); };
 
-/* boot */
-if(DEMO){ renderDemo(); document.getElementById('actBtn').textContent='Available at launch'; }
+/* boot: real fund data + auto-reconnect the wallet if already authorized (no popup on every refresh) */
+loadFund();
 setMode('dep');
+if(window.ethereum){
+  window.ethereum.request({method:'eth_accounts'}).then(a=>{ if(a&&a.length) connect(); }).catch(()=>{});
+  if(window.ethereum.on) window.ethereum.on('accountsChanged',()=>location.reload());
+}
 </script>

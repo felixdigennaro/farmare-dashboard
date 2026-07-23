@@ -147,11 +147,6 @@ footer .wrap{max-width:900px}
     <p>Deposita, preleva, e vedi dove sono i tuoi soldi e come si stanno muovendo — in tempo reale, on-chain.</p>
   </div>
 
-  <div class="banner" id="banner">
-    <span>⚠</span>
-    <span><b>Fondo live su Arbitrum — i numeri qui sono reali, letti on-chain.</b> Depositi e prelievi sono aperti: connetti il wallet, firmi tu dal tuo wallet, i fondi non passano mai da noi.</span>
-  </div>
-
   <div class="grid">
     <!-- POSIZIONE -->
     <div class="card c-8">
@@ -339,7 +334,11 @@ document.getElementById('connect').onclick=connect;
 document.getElementById('actBtn').onclick=act;
 document.getElementById('maxBtn').onclick=()=>{ if(account) refreshUser(); };
 
-/* boot: dati reali del fondo subito (senza wallet) */
+/* boot: dati reali subito + riconnessione automatica del wallet se già autorizzato (niente popup a ogni refresh) */
 loadFund();
 setMode('dep');
+if(window.ethereum){
+  window.ethereum.request({method:'eth_accounts'}).then(a=>{ if(a&&a.length) connect(); }).catch(()=>{});
+  if(window.ethereum.on) window.ethereum.on('accountsChanged',()=>location.reload());
+}
 </script>
