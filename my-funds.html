@@ -188,14 +188,14 @@ footer .wrap{max-width:900px}
     <!-- RENDIMENTO -->
     <div class="card c-6">
       <h3>Rendimento</h3>
-      <p class="sub">base misurata su dati storici — non una promessa</p>
+      <p class="sub">tasso attuale del lending on-chain (Aave) — variabile</p>
       <div class="metrics">
-        <div class="metric"><div class="k">Base, oggi</div><div class="v big" style="color:var(--cyan)">~3,5%</div></div>
+        <div class="metric"><div class="k">Base, oggi</div><div class="v big" id="baseYield" style="color:var(--cyan)">—</div></div>
         <div class="metric"><div class="k">Il tuo, finora</div><div class="v big tnum" id="mYield">—</div></div>
       </div>
       <p class="fee-line">Fee: <b>10%</b> del guadagno · zero se non guadagni</p>
       <p class="note">Il valore per quota sale col rendimento del fondo; il tuo guadagno è quel valore meno quanto hai
-        versato. La base ~3,5% è solida ma <b>non garantita</b>; la finestra (oro, S&amp;P, airdrop) può aggiungere altro,
+        versato. Il tasso base del lending è variabile e <b>non garantito</b>; la finestra (oro, S&amp;P, airdrop) può aggiungere altro,
         o niente. Nessun rendimento è promesso.</p>
     </div>
 
@@ -249,15 +249,16 @@ const RO = new ethers.JsonRpcProvider(CONFIG.rpc);   // provider pubblico in sol
 let signer=null, account=null;
 function paintPosition(shares, deposited, value, nav){
   const gain=value-deposited, pct=deposited?gain/deposited*100:0;
+  const flat=Math.abs(gain)<0.005;   // sotto il centesimo = piatto (arrotondamento/dead-shares), non una perdita
   document.getElementById('posVal').textContent=fmt(value);
   document.getElementById('posDep').textContent=fmt(deposited)+' USDC';
-  document.getElementById('posGain').textContent=(gain>=0?'+':'')+fmt(gain)+' USDC';
+  document.getElementById('posGain').textContent=(flat?'':(gain>=0?'+':''))+fmt(flat?0:gain)+' USDC';
   document.getElementById('posShares').textContent=fmt(shares,2);
   document.getElementById('posNav').textContent=fmt(nav,4);
   const pnl=document.getElementById('posPnl');
-  pnl.className='pnl '+(gain>=0?'up':'down');
-  pnl.textContent=(gain>=0?'▲ +':'▼ ')+fmt(Math.abs(pct),2)+'%  ('+(gain>=0?'+':'')+fmt(gain)+' USDC)';
-  document.getElementById('mYield').textContent=(gain>=0?'+':'')+fmt(pct,2)+'%';
+  if(flat){ pnl.className='pnl'; pnl.style.color='var(--ink-soft)'; pnl.textContent='0.00%  (0.00 USDC)'; }
+  else { pnl.className='pnl '+(gain>=0?'up':'down'); pnl.style.color=''; pnl.textContent=(gain>=0?'▲ +':'▼ ')+fmt(Math.abs(pct),2)+'%  ('+(gain>=0?'+':'')+fmt(gain)+' USDC)'; }
+  document.getElementById('mYield').textContent=(flat?'':(gain>=0?'+':''))+fmt(flat?0:pct,2)+'%';
 }
 
 // dati REALI a livello fondo (senza wallet): patrimonio, NAV, dove sono i soldi oggi
@@ -274,6 +275,15 @@ async function loadFund(){
     document.getElementById('log').innerHTML='<a href="'+CONFIG.explorer+'/address/'+CONFIG.vault+'" target="_blank" rel="noopener" style="color:var(--cyan);font-weight:600">Cronologia completa e verificabile su Arbiscan →</a>';
   }catch(e){ console.error('loadFund',e);
     document.getElementById('venues').innerHTML='<b style="color:var(--ink-soft)">Dati on-chain non raggiungibili ora — riprova.</b>'; }
+  // tasso base reale = supply APY di Aave USDC su Arbitrum (il fondo è 100% su Nucleo/Aave)
+  try{
+    const pool=new ethers.Contract('0x794a61358D6845594F94dc1DB02A252b5b4814aD',
+      ['function getReserveData(address) view returns (tuple(uint256 configuration,uint128 liquidityIndex,uint128 currentLiquidityRate,uint128 vbi,uint128 cvbr,uint128 csbr,uint40 lut,uint16 id,address at,address sdt,address vdt,address irs,uint128 att,uint128 ub,uint128 iso))'], RO);
+    const rd=await pool.getReserveData(CONFIG.usdc);
+    const apr=Number(rd.currentLiquidityRate)/1e27;
+    const apy=Math.pow(1+apr/31536000,31536000)-1;
+    const el=document.getElementById('baseYield'); if(el) el.textContent=(apy*100).toFixed(2).replace('.',',')+'%';
+  }catch(e){ console.error('aave apy',e); }
 }
 
 /* ---------- wallet: connessione in sola lettura (posizione reale) + firma per deposita/preleva ---------- */

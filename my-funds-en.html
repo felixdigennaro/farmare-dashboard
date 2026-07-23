@@ -188,14 +188,14 @@ footer .wrap{max-width:900px}
     <!-- RETURN -->
     <div class="card c-6">
       <h3>Return</h3>
-      <p class="sub">base measured on historical data — not a promise</p>
+      <p class="sub">current on-chain lending rate (Aave) — variable</p>
       <div class="metrics">
-        <div class="metric"><div class="k">Base, today</div><div class="v big" style="color:var(--cyan)">~3.5%</div></div>
+        <div class="metric"><div class="k">Base, today</div><div class="v big" id="baseYield" style="color:var(--cyan)">—</div></div>
         <div class="metric"><div class="k">Yours, so far</div><div class="v big tnum" id="mYield">—</div></div>
       </div>
       <p class="fee-line">Fee: <b>10%</b> of the gain · zero if you don't gain</p>
       <p class="note">The value per share rises with the fund's return; your gain is that value minus what you
-        deposited. The ~3.5% base is solid but <b>not guaranteed</b>; the window (gold, S&amp;P, airdrops) can add more,
+        deposited. The base lending rate is variable and <b>not guaranteed</b>; the window (gold, S&amp;P, airdrops) can add more,
         or nothing. No return is promised.</p>
     </div>
 
@@ -249,15 +249,16 @@ const RO = new ethers.JsonRpcProvider(CONFIG.rpc);   // public read-only provide
 let signer=null, account=null;
 function paintPosition(shares, deposited, value, nav){
   const gain=value-deposited, pct=deposited?gain/deposited*100:0;
+  const flat=Math.abs(gain)<0.005;   // sub-cent = flat (rounding/dead-shares artifact), not a loss
   document.getElementById('posVal').textContent=fmt(value);
   document.getElementById('posDep').textContent=fmt(deposited)+' USDC';
-  document.getElementById('posGain').textContent=(gain>=0?'+':'')+fmt(gain)+' USDC';
+  document.getElementById('posGain').textContent=(flat?'':(gain>=0?'+':''))+fmt(flat?0:gain)+' USDC';
   document.getElementById('posShares').textContent=fmt(shares,2);
   document.getElementById('posNav').textContent=fmt(nav,4);
   const pnl=document.getElementById('posPnl');
-  pnl.className='pnl '+(gain>=0?'up':'down');
-  pnl.textContent=(gain>=0?'▲ +':'▼ ')+fmt(Math.abs(pct),2)+'%  ('+(gain>=0?'+':'')+fmt(gain)+' USDC)';
-  document.getElementById('mYield').textContent=(gain>=0?'+':'')+fmt(pct,2)+'%';
+  if(flat){ pnl.className='pnl'; pnl.style.color='var(--ink-soft)'; pnl.textContent='0.00%  (0.00 USDC)'; }
+  else { pnl.className='pnl '+(gain>=0?'up':'down'); pnl.style.color=''; pnl.textContent=(gain>=0?'▲ +':'▼ ')+fmt(Math.abs(pct),2)+'%  ('+(gain>=0?'+':'')+fmt(gain)+' USDC)'; }
+  document.getElementById('mYield').textContent=(flat?'':(gain>=0?'+':''))+fmt(flat?0:pct,2)+'%';
 }
 
 // REAL fund-level data (no wallet): assets, NAV, where the money is today
@@ -274,6 +275,15 @@ async function loadFund(){
     document.getElementById('log').innerHTML='<a href="'+CONFIG.explorer+'/address/'+CONFIG.vault+'" target="_blank" rel="noopener" style="color:var(--cyan);font-weight:600">Full, verifiable history on Arbiscan →</a>';
   }catch(e){ console.error('loadFund',e);
     document.getElementById('venues').innerHTML='<b style="color:var(--ink-soft)">On-chain data unavailable right now — retry.</b>'; }
+  // real base rate = Aave USDC supply APY on Arbitrum (the fund is 100% in Core/Aave)
+  try{
+    const pool=new ethers.Contract('0x794a61358D6845594F94dc1DB02A252b5b4814aD',
+      ['function getReserveData(address) view returns (tuple(uint256 configuration,uint128 liquidityIndex,uint128 currentLiquidityRate,uint128 vbi,uint128 cvbr,uint128 csbr,uint40 lut,uint16 id,address at,address sdt,address vdt,address irs,uint128 att,uint128 ub,uint128 iso))'], RO);
+    const rd=await pool.getReserveData(CONFIG.usdc);
+    const apr=Number(rd.currentLiquidityRate)/1e27;
+    const apy=Math.pow(1+apr/31536000,31536000)-1;
+    const el=document.getElementById('baseYield'); if(el) el.textContent=(apy*100).toFixed(2)+'%';
+  }catch(e){ console.error('aave apy',e); }
 }
 
 /* ---------- wallet: read-only connect (real position) + signing for deposit/withdraw ---------- */
