@@ -278,7 +278,11 @@ async function loadFund(){
 
 /* ---------- wallet: read-only connect (real position) + signing for deposit/withdraw ---------- */
 async function connect(){
-  if(!window.ethereum){ alert('No wallet found. Install a wallet (e.g. MetaMask) to see your position.'); return; }
+  if(!window.ethereum){
+    // mobile: no injected wallet in a normal browser -> open the dApp INSIDE the MetaMask browser
+    if(/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)){ location.href='https://metamask.app.link/dapp/'+location.host+location.pathname; return; }
+    alert('No wallet found. Install a wallet (e.g. MetaMask) to see your position.'); return;
+  }
   try{
     const provider=new ethers.BrowserProvider(window.ethereum);
     await provider.send('eth_requestAccounts',[]);
