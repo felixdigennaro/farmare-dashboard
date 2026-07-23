@@ -149,16 +149,14 @@ footer .wrap{max-width:900px}
 
   <div class="banner" id="banner">
     <span>⚠</span>
-    <span><b>Anteprima.</b> Il vault è deployato su Arbitrum ma la strategia non è ancora attiva (nessuna venue, audit da fare) — non depositare fondi reali finché non è operativo. I numeri qui sotto sono <b>dimostrativi</b>:
-    quando il fondo sarà live e collegherai il wallet, questa pagina leggerà la <b>tua posizione reale</b> dalla
-    blockchain (valore, movimenti, rendimento) e i pulsanti deposita/preleva firmeranno dal tuo wallet.</span>
+    <span><b>Fondo live su Arbitrum — i numeri qui sono reali, letti on-chain.</b> Depositi e prelievi sono aperti: connetti il wallet, firmi tu dal tuo wallet, i fondi non passano mai da noi.</span>
   </div>
 
   <div class="grid">
     <!-- POSIZIONE -->
     <div class="card c-8">
-      <h3>Valore attuale <span class="tag" id="posTag">anteprima</span></h3>
-      <p class="sub">quanto valgono le tue quote adesso</p>
+      <h3>Valore attuale <span class="tag" id="posTag">connetti il wallet</span></h3>
+      <p class="sub">quanto valgono le tue quote adesso — connetti per vedere la tua posizione reale</p>
       <div><span class="pos-val tnum" id="posVal">—</span><span class="pos-unit" id="posUnit">USDC</span></div>
       <div class="pnl up" id="posPnl">—</div>
       <div class="posrow">
@@ -211,15 +209,15 @@ footer .wrap{max-width:900px}
       <h3>Log dei movimenti</h3>
       <p class="sub">ogni spostamento di denaro, registrato on-chain</p>
       <div class="log" id="log"></div>
-      <p class="note" id="logNote">Quando il fondo sarà live, qui compaiono i tuoi depositi/prelievi e ogni mossa del
-        keeper tra le piattaforme — direttamente dagli eventi del contratto, verificabili sull'explorer.</p>
+      <p class="note" id="logNote">Ogni deposito/prelievo e ogni mossa del keeper è registrata on-chain e verificabile
+        su Arbiscan (link sopra) — direttamente dagli eventi del contratto.</p>
     </div>
   </div>
 </div></main>
 
 <footer><div class="wrap">
-  FARMARE · capitale personale, non un'offerta al pubblico · i valori qui sono on-chain quando il vault è live,
-  altrimenti dimostrativi · nessun rendimento è garantito · firmi sempre tu dal tuo wallet, i fondi non passano mai da noi.
+  FARMARE · capitale personale, non un'offerta al pubblico · i valori qui sono reali, letti on-chain ·
+  nessun rendimento è garantito · firmi sempre tu dal tuo wallet, i fondi non passano mai da noi.
 </div></footer>
 
 <script src="https://cdn.jsdelivr.net/npm/ethers@6.13.4/dist/ethers.umd.min.js"></script>
@@ -230,20 +228,19 @@ footer .wrap{max-width:900px}
    ANTEPRIMA (dati dimostrativi, depositi disattivati) anche se il vault esiste già. */
 const CONFIG = {
   vault: '0x3B8C7D48B1cB6d9152ba1e3460B7912F2b58d118', // FarmVaultV1 su Arbitrum One
-  deployBlock: 485972855,          // blocco di creazione (per lo scan degli eventi)
   usdc:  '0xaf88d065e77c8cC2239327C5EDb3A432268e5831', // USDC nativo su Arbitrum One
+  rpc:   'https://arb1.arbitrum.io/rpc',   // RPC pubblico per leggere i dati reali del fondo SENZA wallet
   decimals: 6,
   chainIdHex: '0xa4b1',            // Arbitrum One (42161)
   chainName: 'Arbitrum',
   explorer: 'https://arbiscan.io',
-  live: false,                     // -> true SOLO quando operativo (keeper+venue) e auditato
+  depositsLive: true,              // deposita/preleva ATTIVI (aperti da Felice prima dell'audit). Rimetti false per richiudere.
 };
 const ABI = [
   'function balanceOf(address) view returns (uint256)',
+  'function totalAssets() view returns (uint256)',
   'function convertToAssets(uint256) view returns (uint256)',
-  'function maxWithdraw(address) view returns (uint256)',
   'function navPerShare() view returns (uint256)',
-  'function asset() view returns (address)',
   'function deposit(uint256 assets, address receiver) returns (uint256)',
   'function withdraw(uint256 assets, address receiver, address owner) returns (uint256)',
 ];
@@ -251,39 +248,10 @@ const ERC20 = ['function balanceOf(address) view returns (uint256)',
   'function allowance(address,address) view returns (uint256)',
   'function approve(address,uint256) returns (bool)'];
 
-const DEMO = !CONFIG.live;   // vault deployato ma non operativo -> resta in anteprima
 const U = CONFIG.decimals;
 const fmt = (n,d=2)=>Number(n).toLocaleString('it-IT',{minimumFractionDigits:d,maximumFractionDigits:d});
-
-/* dati dimostrativi (chiaramente etichettati "anteprima") */
-const DEMO_DATA = {
-  shares: 10000, deposited: 10000, value: 10287.4,
-  walletUSDC: 4200,
-  venues: ['Extended','Pacifica','Variational','Lighter','Hibachi'],
-  log: [
-    {k:'in',  t:'Deposito',                       d:'oggi · da 0x9f…4c1',            a:'+3.000 USDC'},
-    {k:'move',t:'Verso il Nucleo (prestito)',     d:'2 min dopo · Aave-tier',        a:'2.400 USDC'},
-    {k:'move',t:'Cedola → DCA settimanale (oro)', d:'lun scorso',                    a:'18 USDC'},
-    {k:'move',t:'Verso lo Slancio (airdrop)',     d:'mar · Variational, Extended',   a:'600 USDC'},
-    {k:'in',  t:'Deposito',                       d:'12 giu · da 0x9f…4c1',          a:'+7.000 USDC'},
-  ],
-};
-
+const RO = new ethers.JsonRpcProvider(CONFIG.rpc);   // provider pubblico in sola lettura: dati reali senza wallet
 let signer=null, account=null;
-
-function paintVenues(list){
-  const el=document.getElementById('venues');
-  el.innerHTML='<b style="color:var(--ink-soft)">Le piattaforme, oggi:</b> '+list.map(v=>'<span>'+v+'</span>').join('');
-}
-function paintLog(items){
-  const el=document.getElementById('log');
-  el.innerHTML=items.map(i=>{
-    const ic=i.k==='in'?'↓':i.k==='out'?'↑':'⇄'; const cls=i.k==='in'?'log-in':i.k==='out'?'log-out':'log-move';
-    return '<div class="log-item"><div class="log-ic '+cls+'">'+ic+'</div>'+
-      '<div class="log-b"><div class="t">'+i.t+'</div><div class="d">'+i.d+'</div></div>'+
-      '<div class="log-amt">'+i.a+'</div></div>';
-  }).join('');
-}
 function paintPosition(shares, deposited, value, nav){
   const gain=value-deposited, pct=deposited?gain/deposited*100:0;
   document.getElementById('posVal').textContent=fmt(value);
@@ -297,45 +265,50 @@ function paintPosition(shares, deposited, value, nav){
   document.getElementById('mYield').textContent=(gain>=0?'+':'')+fmt(pct,2)+'%';
 }
 
-function renderDemo(){
-  const d=DEMO_DATA;
-  paintPosition(d.shares, d.deposited, d.value, d.value/d.shares);
-  document.getElementById('hintL').textContent='Saldo wallet: '+fmt(d.walletUSDC)+' USDC (anteprima)';
-  paintVenues(d.venues); paintLog(d.log);
+// dati REALI a livello fondo (senza wallet): patrimonio, NAV, dove sono i soldi oggi
+async function loadFund(){
+  try{
+    const v=new ethers.Contract(CONFIG.vault, ABI, RO);
+    const usdc=new ethers.Contract(CONFIG.usdc, ['function balanceOf(address) view returns (uint256)'], RO);
+    const [aum,nav,idle]=await Promise.all([v.totalAssets(),v.navPerShare(),usdc.balanceOf(CONFIG.vault)]);
+    const aumN=Number(ethers.formatUnits(aum,U)), navN=Number(ethers.formatUnits(nav,18)), idleN=Number(ethers.formatUnits(idle,U));
+    const allocN=Math.max(0,aumN-idleN);
+    document.getElementById('posNav').textContent=fmt(navN,4);
+    document.getElementById('venues').innerHTML='<b style="color:var(--ink-soft)">Oggi, on-chain:</b> '+
+      '<span>Patrimonio '+fmt(aumN)+' USDC</span><span>Nucleo · Aave '+fmt(allocN)+' USDC</span><span>Liquido nel vault '+fmt(idleN)+' USDC</span>';
+    document.getElementById('log').innerHTML='<a href="'+CONFIG.explorer+'/address/'+CONFIG.vault+'" target="_blank" rel="noopener" style="color:var(--cyan);font-weight:600">Cronologia completa e verificabile su Arbiscan →</a>';
+  }catch(e){ console.error('loadFund',e);
+    document.getElementById('venues').innerHTML='<b style="color:var(--ink-soft)">Dati on-chain non raggiungibili ora — riprova.</b>'; }
 }
 
-/* ---------- wallet + on-chain (attivo dopo il deploy) ---------- */
+/* ---------- wallet: connessione in sola lettura (posizione reale) + firma per deposita/preleva ---------- */
 async function connect(){
-  if(DEMO){ alert('Il vault è deployato ma non ancora operativo (nessuna venue, audit da fare). Anteprima: i depositi si attivano quando è live.'); return; }
-  if(!window.ethereum){ alert('Nessun wallet trovato. Installa un wallet (es. MetaMask) per connetterti.'); return; }
+  if(!window.ethereum){ alert('Nessun wallet trovato. Installa un wallet (es. MetaMask) per vedere la tua posizione.'); return; }
   try{
     const provider=new ethers.BrowserProvider(window.ethereum);
     await provider.send('eth_requestAccounts',[]);
     signer=await provider.getSigner(); account=await signer.getAddress();
     document.getElementById('connect').textContent=account.slice(0,6)+'…'+account.slice(-4);
-    document.getElementById('banner').style.display='none';
     document.querySelectorAll('.tag').forEach(t=>t.style.display='none');
-    document.getElementById('actBtn').disabled=false;
-    await refresh();
+    if(CONFIG.depositsLive) document.getElementById('actBtn').disabled=false;
+    await refreshUser();
   }catch(e){ console.error(e); }
 }
-async function refresh(){
-  if(DEMO||!account) return;
-  const provider=new ethers.BrowserProvider(window.ethereum);
-  const v=new ethers.Contract(CONFIG.vault, ABI, provider);
-  const usdc=new ethers.Contract(CONFIG.usdc, ERC20, provider);
-  const sh=await v.balanceOf(account);
+async function refreshUser(){
+  if(!account) return;
+  const v=new ethers.Contract(CONFIG.vault, ABI, RO);
+  const usdc=new ethers.Contract(CONFIG.usdc, ERC20, RO);
+  const [sh,nav,wal]=await Promise.all([v.balanceOf(account),v.navPerShare(),usdc.balanceOf(account)]);
   const val=await v.convertToAssets(sh);
-  const nav=await v.navPerShare();
-  const wal=await usdc.balanceOf(account);
-  const shN=Number(ethers.formatUnits(sh,U)), valN=Number(ethers.formatUnits(val,U));
-  // NB: il "versato" reale si ricostruisce dagli eventi Deposit/Withdraw del wallet (da aggiungere).
-  paintPosition(shN, valN, valN, Number(ethers.formatUnits(nav,18)));
+  const shN=Number(ethers.formatUnits(sh,U)), valN=Number(ethers.formatUnits(val,U)), navN=Number(ethers.formatUnits(nav,18));
+  // costo base ~ quote a NAV 1.00 all'ingresso (esatto per i primi depositi; il costo per chi entra a NAV>1 richiederà gli eventi Deposit).
+  paintPosition(shN, shN, valN, navN);
   document.getElementById('hintL').textContent='Saldo wallet: '+fmt(Number(ethers.formatUnits(wal,U)))+' USDC';
 }
 let mode='dep';
 async function act(){
-  if(DEMO||!signer){ connect(); return; }
+  if(!CONFIG.depositsLive){ alert('Depositi e prelievi sono chiusi in questo momento.'); return; }
+  if(!signer){ await connect(); if(!signer) return; }
   const raw=document.getElementById('amt').value; if(!raw||Number(raw)<=0) return;
   const amt=ethers.parseUnits(raw, U);
   const v=new ethers.Contract(CONFIG.vault, ABI, signer);
@@ -348,7 +321,7 @@ async function act(){
     }else{
       const tx=await v.withdraw(amt, account, account); await tx.wait();
     }
-    document.getElementById('amt').value=''; await refresh();
+    document.getElementById('amt').value=''; await refreshUser(); await loadFund();
   }catch(e){ console.error(e); alert('Transazione annullata o fallita.'); }
 }
 
@@ -358,15 +331,15 @@ function setMode(m){
   document.getElementById('tabDep').classList.toggle('on',m==='dep');
   document.getElementById('tabWit').classList.toggle('on',m==='wit');
   const b=document.getElementById('actBtn');
-  b.textContent = DEMO ? 'Disponibile al lancio' : (m==='dep'?'Deposita':'Preleva');
+  b.textContent = CONFIG.depositsLive ? (m==='dep'?'Deposita':'Preleva') : 'Depositi chiusi';
 }
 document.getElementById('tabDep').onclick=()=>setMode('dep');
 document.getElementById('tabWit').onclick=()=>setMode('wit');
 document.getElementById('connect').onclick=connect;
 document.getElementById('actBtn').onclick=act;
-document.getElementById('maxBtn').onclick=()=>{ if(DEMO){ document.getElementById('amt').value=DEMO_DATA.walletUSDC; } else if(account) refresh(); };
+document.getElementById('maxBtn').onclick=()=>{ if(account) refreshUser(); };
 
-/* boot */
-if(DEMO){ renderDemo(); document.getElementById('actBtn').textContent='Disponibile al lancio'; }
+/* boot: dati reali del fondo subito (senza wallet) */
+loadFund();
 setMode('dep');
 </script>
