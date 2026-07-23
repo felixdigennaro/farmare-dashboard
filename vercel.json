@@ -7,6 +7,8 @@
     { "path": "/api/cron-fvr", "schedule": "0,5 15 * * 1-5" }
   ],
   "redirects": [
+    { "source": "/app", "destination": "/my-funds", "permanent": false },
+    { "source": "/app.html", "destination": "/my-funds", "permanent": false },
     { "source": "/(.*).pdf", "destination": "/", "permanent": false }
   ],
   "headers": [
