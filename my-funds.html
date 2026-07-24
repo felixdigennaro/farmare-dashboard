@@ -168,7 +168,7 @@ footer .wrap{max-width:900px}
       <div class="field"><input id="amt" type="number" min="0" step="1" placeholder="0.00" inputmode="decimal"><span style="align-self:center;color:var(--ink-soft)">USDC</span></div>
       <div class="hint"><span id="hintL">Saldo wallet: —</span><a id="maxBtn">max</a></div>
       <button class="btn btn-solid" id="actBtn" style="width:100%;margin-top:16px" disabled>Connetti il wallet</button>
-      <p class="note" id="actNote">Il deposito va nella parte sicura (prestito stablecoin) e inizia a rendere subito.
+      <p class="note" id="actNote">Il deposito viene messo a rendere in automatico nella parte sicura (prestito stablecoin), entro poche ore.
         Il prelievo è immediato dalla liquidità.</p>
     </div>
 
@@ -191,6 +191,7 @@ footer .wrap{max-width:900px}
       <p class="sub">tasso attuale del lending on-chain (Aave) — variabile</p>
       <div class="metrics">
         <div class="metric"><div class="k">Base, oggi</div><div class="v big" id="baseYield" style="color:var(--cyan)">—</div></div>
+        <div class="metric"><div class="k">Il tuo, finora</div><div class="v big tnum" id="mYield">—</div></div>
       </div>
       <p class="fee-line">Fee: <b>10%</b> del guadagno · zero se non guadagni</p>
       <p class="note">Il valore per quota sale col rendimento del fondo; il tuo guadagno è quel valore meno quanto hai
@@ -244,7 +245,7 @@ const ERC20 = ['function balanceOf(address) view returns (uint256)',
 const U = CONFIG.decimals;
 const fmt = (n,d=2)=>Number(n).toLocaleString('it-IT',{minimumFractionDigits:d,maximumFractionDigits:d});
 const RO = new ethers.JsonRpcProvider(CONFIG.rpc);   // provider pubblico in sola lettura: dati reali senza wallet
-let signer=null, account=null;
+let signer=null, account=null, lastWallet=0, lastValue=0;
 function paintPosition(shares, deposited, value, nav){
   const gain=value-deposited, pct=deposited?gain/deposited*100:0;
   const flat=Math.abs(gain)<0.005;   // sotto il centesimo = piatto (arrotondamento/dead-shares), non una perdita
@@ -256,6 +257,7 @@ function paintPosition(shares, deposited, value, nav){
   const pnl=document.getElementById('posPnl');
   if(flat){ pnl.className='pnl'; pnl.style.color='var(--ink-soft)'; pnl.textContent='0.00%'; }
   else { pnl.className='pnl '+(gain>=0?'up':'down'); pnl.style.color=''; pnl.textContent=(gain>=0?'▲ +':'▼ ')+fmt(Math.abs(pct),2)+'%'; }
+  document.getElementById('mYield').textContent=(flat?'':(gain>=0?'+':''))+fmt(flat?0:pct,2)+'%';
 }
 
 // dati REALI a livello fondo (senza wallet): patrimonio, NAV, dove sono i soldi oggi
@@ -307,14 +309,32 @@ async function refreshUser(){
   const [sh,nav,wal]=await Promise.all([v.balanceOf(account),v.navPerShare(),usdc.balanceOf(account)]);
   const val=await v.convertToAssets(sh);
   const shN=Number(ethers.formatUnits(sh,U)), valN=Number(ethers.formatUnits(val,U)), navN=Number(ethers.formatUnits(nav,18));
+  const walN=Number(ethers.formatUnits(wal,U));
+  lastWallet=walN; lastValue=valN;   // valori per il tasto "max"
   // costo base ~ quote a NAV 1.00 all'ingresso (esatto per i primi depositi; il costo per chi entra a NAV>1 richiederà gli eventi Deposit).
   paintPosition(shN, shN, valN, navN);
-  document.getElementById('hintL').textContent='Saldo wallet: '+fmt(Number(ethers.formatUnits(wal,U)))+' USDC';
+  document.getElementById('hintL').textContent='Saldo wallet: '+fmt(walN)+' USDC';
 }
 let mode='dep';
 async function act(){
   if(!CONFIG.depositsLive){ alert('Depositi e prelievi sono chiusi in questo momento.'); return; }
   if(!signer){ await connect(); if(!signer) return; }
+  // assicura la rete Arbitrum One: senza questo, chi è su un'altra rete vede solo "transazione fallita"
+  if(window.ethereum){
+    const cur=await window.ethereum.request({method:'eth_chainId'}).catch(()=>null);
+    if(cur!==CONFIG.chainIdHex){
+      try{
+        await window.ethereum.request({method:'wallet_switchEthereumChain', params:[{chainId:CONFIG.chainIdHex}]});
+      }catch(e){
+        if(e&&e.code===4902){
+          try{ await window.ethereum.request({method:'wallet_addEthereumChain', params:[{chainId:CONFIG.chainIdHex, chainName:CONFIG.chainName, nativeCurrency:{name:'Ether',symbol:'ETH',decimals:18}, rpcUrls:[CONFIG.rpc], blockExplorerUrls:[CONFIG.explorer]}]}); }
+          catch(_){ alert('Passa la rete del wallet ad Arbitrum One per continuare.'); return; }
+        }else{ alert('Passa la rete del wallet ad Arbitrum One per continuare.'); return; }
+      }
+      const p=new ethers.BrowserProvider(window.ethereum);   // rete cambiata: ricrea il signer sul network giusto
+      signer=await p.getSigner(); account=await signer.getAddress();
+    }
+  }
   const raw=document.getElementById('amt').value; if(!raw||Number(raw)<=0) return;
   const amt=ethers.parseUnits(raw, U);
   const v=new ethers.Contract(CONFIG.vault, ABI, signer);
@@ -343,7 +363,11 @@ document.getElementById('tabDep').onclick=()=>setMode('dep');
 document.getElementById('tabWit').onclick=()=>setMode('wit');
 document.getElementById('connect').onclick=connect;
 document.getElementById('actBtn').onclick=act;
-document.getElementById('maxBtn').onclick=()=>{ if(account) refreshUser(); };
+document.getElementById('maxBtn').onclick=async ()=>{
+  if(!account){ await connect(); if(!account) return; }
+  await refreshUser();
+  document.getElementById('amt').value = (mode==='dep' ? lastWallet : lastValue) || '';
+};
 
 /* boot: dati reali subito + riconnessione automatica del wallet se già autorizzato (niente popup a ogni refresh) */
 loadFund();
