@@ -142,26 +142,26 @@ footer .wrap{max-width:900px} footer p{font-size:.8rem; color:var(--ink-faint); 
         su exchange nuovi per raccoglierne i futuri airdrop. Gli <b>interessi</b> del Nucleo — non il capitale —
         comprano piano piano oro e S&amp;P500 tokenizzati. Il capitale non è mai scommesso sul prezzo di nulla.</p>
       <div class="callout">Base solida (~3,5%, capitale protetto e liquido) + due motori di rialzo convessi
-        (l'overlay RWA e gli airdrop) che <b>non rischiano il capitale</b>. Nessuno dei due è garantito.</div>
+        (il rendimento extra RWA e gli airdrop) che <b>non rischiano il capitale</b>. Nessuno dei due è garantito.</div>
     </section>
 
     <section id="tesi">
       <h2><span class="n">2</span>La tesi</h2>
       <p>La maggior parte delle strategie crypto scommette sulla direzione del prezzo. FARMARE no. La tesi è che si
         possa ottenere un rendimento reale <b>senza esposizione direzionale</b> — dal prestito di stablecoin e dalla
-        raccolta di airdrop su posizioni bilanciate — e usare quel rendimento per costruire upside senza mai mettere
+        raccolta di airdrop su posizioni bilanciate — e usare quel rendimento per costruire un rialzo senza mai mettere
         a rischio il capitale. È un money-market rinforzato con opzionalità gratuita, non un fondo speculativo.</p>
     </section>
 
     <section id="struttura">
       <h2><span class="n">3</span>La struttura</h2>
-      <p>Barbell 80 / 20, con un overlay a capitale protetto dentro l'80%.</p>
+      <p>Barbell 80 / 20, con un rendimento extra a capitale protetto dentro l'80%.</p>
       <h3>Nucleo — 80%</h3>
       <p>Prestito di stablecoin su protocolli blue-chip e collaudati (tipo Aave). Rende ~3,3–4,0% oggi, drawdown ~0,
         ritirabile all'istante. Nessun T-bill tokenizzato nel v1: la scelta garantisce il prelievo immediato al 100%.</p>
       <h3>Overlay RWA — gli interessi del Nucleo</h3>
       <p>La cedola generata dal Nucleo viene sfilata e comprata <b>a mercato, ogni settimana</b> (batching per il gas;
-        il "compra sui dip" è stato testato e scartato) in oro (PAXG) e S&amp;P500 tokenizzati. Il principale non si
+        il "compra sui dip" è stato testato e scartato) in oro (PAXG) e S&amp;P500 tokenizzati. Il capitale non si
         vende mai: a rischio c'è solo la cedola accumulata (~20% del capitale dopo ~3 anni). Un crollo dei mercati
         colpisce quel 20% di cedole, mai le fondamenta.</p>
       <h3>Slancio — 20%</h3>
@@ -193,7 +193,7 @@ footer .wrap{max-width:900px} footer p{font-size:.8rem; color:var(--ink-faint); 
         <tr><th>Componente</th><th class="r">Oggi</th><th>Nota</th></tr>
         <tr><td>Nucleo (prestito)</td><td class="r">~3,3–4,0%</td><td>misurato, base solida e liquida</td></tr>
         <tr><td>Edge dello Slancio</td><td class="r">~0</td><td>funding compresso ora; regime-dipendente</td></tr>
-        <tr><td>Overlay RWA</td><td class="r">0 → +1 pp</td><td>solo finestra benigna; non bankable</td></tr>
+        <tr><td>Rendimento extra RWA</td><td class="r">0 → +1 pp</td><td>solo periodo benigno; non bankable</td></tr>
         <tr><td>Airdrop</td><td class="r">lotteria</td><td>convesso; zero in molti periodi, a volte molto</td></tr>
       </table></div>
       <h3>Scenari di regime (assunti, non misurati)</h3>
@@ -207,12 +207,12 @@ footer .wrap{max-width:900px} footer p{font-size:.8rem; color:var(--ink-faint); 
         backtest. Drawdown atteso a una cifra; la coda dello Slancio è limitata dai tetti per piattaforma.</p>
 
       <h3>Overlay RWA — backtest su storia reale</h3>
-      <p>Il "0 → +1 pp" qui sopra viene da un test vero: finestra <b>ott 2023 → lug 2026</b> (1.020 giorni), con
+      <p>Il "0 → +1 pp" qui sopra viene da un test vero: periodo <b>ott 2023 → lug 2026</b> (1.020 giorni), con
         APY di lending reale, prezzo PAXG reale e S&amp;P 500 da FRED. La cedola del Nucleo va in DCA settimanale;
         il capitale non si vende mai, quindi il drawdown colpisce solo la posizione accumulata.</p>
       <div class="tbl-wrap"><table>
         <tr><th>Variante (cedola in DCA)</th><th class="r">CAGR</th><th class="r">maxDD</th><th class="r">Pos. RWA</th></tr>
-        <tr><td>Solo lending (baseline finestra)</td><td class="r">+5,6%</td><td class="r">0%</td><td class="r">—</td></tr>
+        <tr><td>Solo lending (baseline periodo)</td><td class="r">+5,6%</td><td class="r">0%</td><td class="r">—</td></tr>
         <tr><td><b>Cedola → 50/50 oro+S&amp;P</b> (strategia v1)</td><td class="r"><b>+7,2%</b></td><td class="r"><b>−2,2%</b></td><td class="r"><b>~21%</b></td></tr>
         <tr><td>Cedola → solo S&amp;P</td><td class="r">+6,7%</td><td class="r">−1,4%</td><td class="r">~20%</td></tr>
         <tr><td>Cedola → solo oro</td><td class="r">+7,5%</td><td class="r">−5,3%</td><td class="r">~22%</td></tr>
@@ -306,7 +306,7 @@ footer .wrap{max-width:900px} footer p{font-size:.8rem; color:var(--ink-faint); 
 </div></div>
 
 <div class="wrap"><div class="endcta">
-  <p class="q">Fondamenta solide, con una finestra sul cielo.</p>
+  <p class="q">Fondamenta solide, con spazio per salire.</p>
   <a class="cta-btn" href="my-funds.html">Deposita <span>→</span></a>
 </div></div>
 
