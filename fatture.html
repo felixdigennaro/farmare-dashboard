@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<title>Gestione Fatture — Regime forfettario</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%230f172a'/><path d='M9 8h11l3 3v13a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z' fill='none' stroke='%2338bdf8' stroke-width='1.6'/><path d='M11 14h9M11 17.5h9M11 21h6' stroke='%2338bdf8' stroke-width='1.4' stroke-linecap='round'/></svg>">
+<style>
+:root{
+  --bg:#0b0f1a; --bg-2:#121826; --surface:#151c2c; --surface-2:#1b2436;
+  --line:#26314a; --line-2:#33415f;
+  --ink:#e8edf7; --ink-soft:#9aa7c2; --ink-faint:#6b7a99;
+  --accent:#38bdf8; --accent-2:#0ea5e9; --accent-deep:#075985;
+  --good:#34d399; --warn:#fbbf24; --bad:#f87171; --violet:#a78bfa;
+  --r:14px; --r-sm:9px;
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0; height:100%}
+body{background:var(--bg); color:var(--ink); font-family:var(--font); line-height:1.5;
+  -webkit-font-smoothing:antialiased; font-size:15px}
+a{color:var(--accent); text-decoration:none}
+h1,h2,h3,h4{margin:0; font-weight:650; letter-spacing:-.01em}
+.tnum{font-variant-numeric:tabular-nums}
+button{font-family:inherit}
+
+/* layout */
+.app{display:grid; grid-template-columns:236px 1fr; min-height:100%}
+aside{background:var(--bg-2); border-right:1px solid var(--line); padding:20px 14px; display:flex; flex-direction:column; gap:6px; position:sticky; top:0; height:100vh}
+.brand{display:flex; align-items:center; gap:10px; padding:6px 8px 18px; font-weight:700; font-size:1.05rem; letter-spacing:-.02em}
+.brand .logo{width:30px; height:30px; border-radius:8px; background:linear-gradient(135deg,var(--accent),var(--accent-deep)); display:grid; place-items:center; color:#04121f; font-weight:800}
+.navbtn{display:flex; align-items:center; gap:11px; width:100%; text-align:left; background:transparent; border:0; color:var(--ink-soft);
+  padding:10px 12px; border-radius:var(--r-sm); cursor:pointer; font-size:.94rem; transition:.13s}
+.navbtn:hover{background:var(--surface); color:var(--ink)}
+.navbtn.on{background:var(--surface-2); color:var(--ink); box-shadow:inset 0 0 0 1px var(--line-2)}
+.navbtn .ic{width:18px; text-align:center; opacity:.85}
+aside .spacer{flex:1}
+aside .foot{font-size:.72rem; color:var(--ink-faint); padding:8px; line-height:1.4}
+
+main{padding:26px 30px 70px; max-width:1120px; width:100%}
+.head{display:flex; justify-content:space-between; align-items:flex-start; gap:16px; margin-bottom:22px; flex-wrap:wrap}
+.head h1{font-size:1.5rem}
+.head .sub{color:var(--ink-soft); font-size:.9rem; margin-top:3px}
+
+/* cards */
+.grid{display:grid; gap:16px}
+.g4{grid-template-columns:repeat(4,1fr)} .g3{grid-template-columns:repeat(3,1fr)} .g2{grid-template-columns:repeat(2,1fr)}
+@media(max-width:1000px){.g4{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:820px){.app{grid-template-columns:1fr} aside{position:static; height:auto; flex-direction:row; flex-wrap:wrap; overflow:auto}
+  .g4,.g3,.g2{grid-template-columns:1fr} aside .spacer,aside .foot{display:none} .brand{width:100%}}
+.card{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:18px 20px}
+.card h3{font-size:1rem; margin-bottom:2px}
+.card .sub{color:var(--ink-faint); font-size:.82rem; margin-bottom:14px}
+.stat .k{color:var(--ink-soft); font-size:.82rem}
+.stat .v{font-size:1.7rem; font-weight:700; letter-spacing:-.02em; margin-top:4px}
+.stat .foot{font-size:.78rem; color:var(--ink-faint); margin-top:5px}
+.v.good{color:var(--good)} .v.warn{color:var(--warn)} .v.accent{color:var(--accent)}
+
+/* buttons */
+.btn{display:inline-flex; align-items:center; gap:7px; font-size:.88rem; cursor:pointer; border-radius:100px; padding:9px 16px;
+  border:1px solid var(--line-2); background:var(--surface-2); color:var(--ink); transition:.14s}
+.btn:hover{border-color:var(--accent); background:#1f2b40}
+.btn-primary{background:linear-gradient(120deg,var(--accent),var(--accent-2)); color:#04121f; border:0; font-weight:650}
+.btn-primary:hover{filter:brightness(1.07)}
+.btn-ghost{background:transparent; border-color:transparent; color:var(--ink-soft)}
+.btn-ghost:hover{background:var(--surface-2); border-color:transparent; color:var(--ink)}
+.btn-sm{padding:6px 12px; font-size:.82rem}
+.btn-danger:hover{border-color:var(--bad); color:var(--bad); background:transparent}
+
+/* table */
+table{width:100%; border-collapse:collapse; font-size:.9rem}
+th{text-align:left; color:var(--ink-faint); font-weight:600; font-size:.76rem; text-transform:uppercase; letter-spacing:.05em; padding:0 12px 10px}
+td{padding:12px; border-top:1px solid var(--line); vertical-align:middle}
+tr.clickable{cursor:pointer} tr.clickable:hover td{background:var(--surface-2)}
+.pill{display:inline-block; padding:2px 10px; border-radius:100px; font-size:.76rem; font-weight:600}
+.pill.paid{background:rgba(52,211,153,.14); color:var(--good)}
+.pill.unpaid{background:rgba(251,191,36,.14); color:var(--warn)}
+.empty{text-align:center; color:var(--ink-faint); padding:40px 20px; font-size:.9rem}
+
+/* forms */
+label{display:block; font-size:.8rem; color:var(--ink-soft); margin:0 0 5px}
+input,select,textarea{font:inherit; font-size:.9rem; width:100%; padding:9px 11px; border-radius:var(--r-sm);
+  border:1px solid var(--line-2); background:var(--bg-2); color:var(--ink); font-variant-numeric:tabular-nums}
+input:focus,select:focus,textarea:focus{outline:none; border-color:var(--accent)}
+textarea{resize:vertical; min-height:64px}
+.frow{display:grid; gap:14px; margin-bottom:14px}
+.f2{grid-template-columns:1fr 1fr} .f3{grid-template-columns:1fr 1fr 1fr} .f4{grid-template-columns:2fr 1fr 1fr 1fr}
+@media(max-width:640px){.f2,.f3,.f4{grid-template-columns:1fr}}
+.inl{position:relative}
+.inl .u{position:absolute; right:11px; top:50%; transform:translateY(-50%); color:var(--ink-faint); font-size:.85rem; pointer-events:none}
+.inl input{padding-right:32px}
+.chk{display:flex; align-items:center; gap:9px; font-size:.88rem; color:var(--ink-soft); cursor:pointer}
+.chk input{width:auto}
+.hint{font-size:.76rem; color:var(--ink-faint); margin-top:5px}
+.seg{display:inline-flex; background:var(--bg-2); border:1px solid var(--line-2); border-radius:10px; padding:3px; gap:3px; flex-wrap:wrap}
+.seg button{font:inherit; font-size:.82rem; cursor:pointer; border:0; background:transparent; color:var(--ink-soft); padding:6px 12px; border-radius:7px}
+.seg button.on{background:var(--accent); color:#04121f; font-weight:650}
+fieldset{border:0; padding:0; margin:0}
+
+/* modal */
+.modal-bg{position:fixed; inset:0; background:rgba(4,8,16,.68); backdrop-filter:blur(3px); display:none; align-items:flex-start; justify-content:center; z-index:50; padding:34px 16px; overflow:auto}
+.modal-bg.on{display:flex}
+.modal{background:var(--surface); border:1px solid var(--line-2); border-radius:16px; width:100%; max-width:720px; padding:24px}
+.modal h2{font-size:1.2rem; margin-bottom:4px}
+.modal .msub{color:var(--ink-soft); font-size:.85rem; margin-bottom:18px}
+.modal .actions{display:flex; gap:10px; justify-content:flex-end; margin-top:20px; flex-wrap:wrap}
+.linehead{display:grid; grid-template-columns:2fr 1fr 1fr auto; gap:10px; font-size:.74rem; color:var(--ink-faint); text-transform:uppercase; letter-spacing:.05em; padding:0 2px 6px}
+.lineitem{display:grid; grid-template-columns:2fr 1fr 1fr auto; gap:10px; margin-bottom:8px; align-items:center}
+.lineitem .del{background:transparent; border:0; color:var(--ink-faint); cursor:pointer; font-size:1.1rem; padding:4px}
+.lineitem .del:hover{color:var(--bad)}
+
+.banner{border:1px solid var(--line-2); background:var(--surface-2); border-radius:12px; padding:13px 16px; font-size:.85rem; color:var(--ink-soft); display:flex; gap:10px; align-items:flex-start; margin-bottom:20px}
+.banner b{color:var(--ink)}
+.brk .row{display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid var(--line); gap:14px}
+.brk .row:last-child{border-bottom:0}
+.brk .row.tot{border-top:1px solid var(--line-2); font-weight:650}
+.brk .lbl{color:var(--ink-soft)} .brk .lbl small{display:block; color:var(--ink-faint); font-size:.75rem}
+.brk .val{font-weight:600; font-variant-numeric:tabular-nums; white-space:nowrap}
+.brk .val.tax{color:var(--warn)} .brk .val.inps{color:var(--accent)} .brk .val.net{color:var(--good)}
+.sc{display:flex; gap:14px; padding:13px 0; border-bottom:1px solid var(--line)}
+.sc:last-child{border-bottom:0}
+.sc .dt{font-weight:650; color:var(--accent); min-width:96px}
+.sc .amt{margin-left:auto; font-weight:650; font-variant-numeric:tabular-nums; white-space:nowrap}
+.toast{position:fixed; bottom:22px; left:50%; transform:translateX(-50%) translateY(20px); background:var(--surface-2);
+  border:1px solid var(--line-2); color:var(--ink); padding:11px 18px; border-radius:100px; font-size:.88rem; opacity:0; transition:.25s; z-index:80; pointer-events:none}
+.toast.on{opacity:1; transform:translateX(-50%) translateY(0)}
+
+/* print invoice */
+#printArea{display:none}
+@media print{
+  body *{visibility:hidden}
+  #printArea, #printArea *{visibility:visible}
+  #printArea{display:block; position:absolute; inset:0; padding:0; color:#111; background:#fff}
+}
+.inv-doc{max-width:800px; margin:0 auto; padding:40px; color:#111; font-size:13px; background:#fff}
+.inv-doc h2{font-size:20px}
+.inv-doc .row{display:flex; justify-content:space-between; gap:30px; flex-wrap:wrap}
+.inv-doc .box{border:1px solid #ccc; border-radius:8px; padding:12px 14px; min-width:230px; margin-top:14px}
+.inv-doc .box .t{font-size:10px; text-transform:uppercase; letter-spacing:.06em; color:#777; margin-bottom:5px}
+.inv-doc table{width:100%; margin-top:22px; font-size:12.5px}
+.inv-doc th{color:#555; border-bottom:2px solid #333; padding:6px 4px; text-transform:none; letter-spacing:0}
+.inv-doc td{border-top:1px solid #eee; padding:8px 4px; color:#111}
+.inv-doc .totbox{margin-top:16px; margin-left:auto; width:280px}
+.inv-doc .totbox .l{display:flex; justify-content:space-between; padding:5px 0}
+.inv-doc .totbox .l.g{border-top:2px solid #333; font-weight:700; font-size:15px; margin-top:4px; padding-top:8px}
+.inv-doc .legal{margin-top:28px; font-size:11px; color:#555; line-height:1.5; border-top:1px solid #eee; padding-top:14px}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside>
+    <div class="brand"><span class="logo">€</span> Fatture</div>
+    <button class="navbtn on" data-view="dashboard"><span class="ic">◱</span> Cruscotto</button>
+    <button class="navbtn" data-view="invoices"><span class="ic">▤</span> Fatture</button>
+    <button class="navbtn" data-view="clients"><span class="ic">☺</span> Clienti</button>
+    <button class="navbtn" data-view="tax"><span class="ic">◕</span> Salvadanaio</button>
+    <button class="navbtn" data-view="deadlines"><span class="ic">◷</span> Scadenze</button>
+    <button class="navbtn" data-view="settings"><span class="ic">⚙</span> Impostazioni</button>
+    <div class="spacer"></div>
+    <div class="foot">Regime forfettario · dati salvati solo in questo browser · stima non fiscale.</div>
+  </aside>
+  <main id="view"></main>
+</div>
+
+<div class="modal-bg" id="modalBg"><div class="modal" id="modal"></div></div>
+<div class="toast" id="toast"></div>
+<div id="printArea"></div>
+
+<script>
+(function(){
+"use strict";
+/* ============================== storage ============================== */
+var K = { profile:'fd_profile_v1', clients:'fd_clients_v1', invoices:'fd_invoices_v1' };
+function load(k, fb){ try{ var v=localStorage.getItem(k); return v==null?fb:JSON.parse(v); }catch(e){ return fb; } }
+function save(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+
+var DEFAULT_PROFILE = {
+  businessName:'', vatNumber:'', fiscalCode:'', address:'', cap:'', city:'', province:'', country:'IT',
+  iban:'', invoicePrefix:'', regimeStartYear: new Date().getFullYear(),
+  coeff:78, taxRate:5, inpsType:'separata', inpsPct:26.07, cassaPct:4,
+  fissi:4460, minimale:18555, eccPct:24, rid35:false,
+  chargeBollo:false
+};
+var profile = Object.assign({}, DEFAULT_PROFILE, load(K.profile, {}));
+var clients = load(K.clients, []);
+var invoices = load(K.invoices, []);
+var state = { view:'dashboard', taxYear:new Date().getFullYear() };
+
+/* ============================== helpers ============================== */
+function uid(){ return 'x'+Math.abs((Date.now()^(performance.now()*1000))|0).toString(36)+clients.length+invoices.length+Math.floor(performance.now()).toString(36); }
+function num(v){ v=parseFloat(v); return isFinite(v)?v:0; }
+function r2(v){ return Math.round(v*100)/100; }
+var fmtEur = new Intl.NumberFormat('it-IT',{style:'currency',currency:'EUR'});
+var fmtEur0 = new Intl.NumberFormat('it-IT',{style:'currency',currency:'EUR',maximumFractionDigits:0});
+function eur(v){ return fmtEur.format(v||0); }
+function eur0(v){ return fmtEur0.format(v||0); }
+function pct(v){ return (Math.round(v*10)/10).toLocaleString('it-IT')+'%'; }
+function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
+function esx(s){ return String(s==null?'':s).replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c];}); }
+function todayISO(){ var d=new Date(); return d.toISOString().slice(0,10); }
+function fmtDate(iso){ if(!iso) return '—'; var p=iso.split('-'); return p.length===3? p[2]+'/'+p[1]+'/'+p[0] : iso; }
+function yearOf(iso){ return iso? parseInt(iso.slice(0,4),10) : new Date().getFullYear(); }
+function invoiceTotal(inv){ return r2((inv.lines||[]).reduce(function(a,l){ return a+num(l.qty)*num(l.price); },0)); }
+function clientName(id){ var c=clients.find(function(x){return x.id===id;}); return c? c.name : '—'; }
+function toast(msg){ var t=document.getElementById('toast'); t.textContent=msg; t.classList.add('on'); clearTimeout(t._t); t._t=setTimeout(function(){t.classList.remove('on');},2200); }
+
+/* imposta sostitutiva 5% valida per i primi 5 anni dall'inizio attività */
+function effectiveTaxRate(year){
+  var start=num(profile.regimeStartYear)||year;
+  if (num(profile.taxRate)===5 && (year-start)>=5) return 15; // finestra startup scaduta
+  return num(profile.taxRate);
+}
+function inpsMarginalPct(){
+  if(profile.inpsType==='separata') return num(profile.inpsPct);
+  if(profile.inpsType==='cassa') return num(profile.cassaPct);
+  return num(profile.eccPct)*(profile.rid35?0.65:1);
+}
+
+/* calcolo fiscale su un anno, dagli incassi (fatture) */
+function taxCompute(year){
+  var lordo = invoices.filter(function(i){ return yearOf(i.date)===year; })
+                      .reduce(function(a,i){ return a+invoiceTotal(i); },0);
+  var coeff=num(profile.coeff)/100;
+  var imponibile=lordo*coeff;
+  var rate=effectiveTaxRate(year);
+  var imposta=imponibile*(rate/100);
+  var inps=0, inpsLbl='';
+  if(profile.inpsType==='separata'||profile.inpsType==='cassa'){
+    var al=profile.inpsType==='separata'?num(profile.inpsPct):num(profile.cassaPct);
+    inps=imponibile*(al/100);
+    inpsLbl=(profile.inpsType==='separata'?'Gestione Separata ':'Cassa ')+pct(al)+' sull’imponibile';
+  } else {
+    var rid=profile.rid35?0.65:1;
+    var fissi=num(profile.fissi)*rid;
+    var ecc=Math.max(0,imponibile-num(profile.minimale))*(num(profile.eccPct)/100)*rid;
+    inps=fissi+ecc;
+    inpsLbl='fissi '+eur0(fissi)+' + '+pct(num(profile.eccPct))+' sull’eccedenza'+(profile.rid35?' (−35%)':'');
+  }
+  var due=imposta+inps, net=lordo-due;
+  var margPct=coeff*(rate+inpsMarginalPct());
+  return {year:year, lordo:lordo, imponibile:imponibile, rate:rate, imposta:imposta, inps:inps, inpsLbl:inpsLbl, due:due, net:net, margPct:margPct};
+}
+
+/* ============================== router ============================== */
+function go(v){ state.view=v; document.querySelectorAll('.navbtn').forEach(function(b){ b.classList.toggle('on', b.dataset.view===v); }); render(); window.scrollTo(0,0); }
+document.querySelectorAll('.navbtn').forEach(function(b){ b.addEventListener('click', function(){ go(b.dataset.view); }); });
+
+function render(){
+  var el=document.getElementById('view');
+  if(state.view==='dashboard') el.innerHTML=viewDashboard();
+  else if(state.view==='invoices') el.innerHTML=viewInvoices();
+  else if(state.view==='clients') el.innerHTML=viewClients();
+  else if(state.view==='tax') el.innerHTML=viewTax();
+  else if(state.view==='deadlines') el.innerHTML=viewDeadlines();
+  else if(state.view==='settings') el.innerHTML=viewSettings();
+  wire();
+}
+
+/* ============================== views ============================== */
+function needProfileBanner(){
+  if(profile.businessName && profile.vatNumber) return '';
+  return '<div class="banner"><span>👋</span><span>Benvenuto. Inizia da <b>Impostazioni</b>: inserisci i tuoi dati (P.IVA, ATECO, cassa) — servono per le fatture e per il calcolo delle tasse.</span></div>';
+}
+
+function viewDashboard(){
+  var y=new Date().getFullYear();
+  var t=taxCompute(y);
+  var yInv=invoices.filter(function(i){return yearOf(i.date)===y;});
+  var unpaid=invoices.filter(function(i){return !i.paid;});
+  var unpaidTot=unpaid.reduce(function(a,i){return a+invoiceTotal(i);},0);
+  var next=nextDeadline();
+  var recent=invoices.slice().sort(function(a,b){return (b.date||'').localeCompare(a.date||'');}).slice(0,6);
+  return needProfileBanner()+
+  '<div class="head"><div><h1>Cruscotto</h1><div class="sub">Anno '+y+' · '+yInv.length+' fatture emesse</div></div>'
+   +'<button class="btn btn-primary" data-act="newInvoice">+ Nuova fattura</button></div>'
+  +'<div class="grid g4" style="margin-bottom:16px">'
+    +stat('Incassato '+y, eur0(t.lordo), yInv.length+' fatture','accent')
+    +stat('Da accantonare', eur0(t.due), pct(t.margPct)+' di ogni fattura','warn')
+    +stat('Netto stimato', eur0(t.net), 'dopo tasse e contributi','good')
+    +stat('Da incassare', eur0(unpaidTot), unpaid.length+' fatture non pagate','')
+  +'</div>'
+  +'<div class="grid g2">'
+    +'<div class="card"><h3>Prossima scadenza</h3><div class="sub">quando servono i soldi del salvadanaio</div>'
+      +(next? '<div style="display:flex;align-items:baseline;gap:12px"><div style="font-size:1.5rem;font-weight:700;color:var(--accent)">'+next.dt+'</div></div><p style="color:var(--ink-soft);font-size:.9rem;margin-top:8px">'+next.ds+'</p>' : '<p class="empty">Nessuna scadenza imminente.</p>')
+      +'<button class="btn btn-sm btn-ghost" data-view-link="deadlines" style="margin-top:12px">Vedi scadenzario →</button></div>'
+    +'<div class="card"><h3>Salvadanaio '+y+'</h3><div class="sub">metti da parte man mano che incassi</div>'
+      +'<div class="brk">'
+        +brow('Imposta sostitutiva', eur(t.imposta),'aliquota '+pct(t.rate),'tax')
+        +brow('Contributi INPS', eur(t.inps), t.inpsLbl,'inps')
+        +'<div class="row tot"><div class="lbl">Totale da mettere via</div><div class="val">'+eur(t.due)+'</div></div>'
+      +'</div>'
+      +'<button class="btn btn-sm btn-ghost" data-view-link="tax" style="margin-top:12px">Dettaglio salvadanaio →</button></div>'
+  +'</div>'
+  +'<div class="card" style="margin-top:16px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><h3>Ultime fatture</h3>'
+    +'<button class="btn btn-sm btn-ghost" data-view-link="invoices">Tutte →</button></div>'
+    +(recent.length? invoiceTable(recent) : '<p class="empty">Nessuna fattura. Crea la prima con “Nuova fattura”.</p>')
+  +'</div>';
+}
+function stat(k,v,foot,cls){ return '<div class="card stat"><div class="k">'+esc(k)+'</div><div class="v '+(cls||'')+' tnum">'+v+'</div><div class="foot">'+esc(foot)+'</div></div>'; }
+function brow(l,v,sub,cls){ return '<div class="row"><div class="lbl">'+esc(l)+(sub?'<small>'+esc(sub)+'</small>':'')+'</div><div class="val '+(cls||'')+'">'+v+'</div></div>'; }
+
+function invoiceTable(list){
+  return '<table><thead><tr><th>Numero</th><th>Data</th><th>Cliente</th><th>Importo</th><th>Stato</th><th></th></tr></thead><tbody>'
+   +list.map(function(i){
+     return '<tr class="clickable" data-open="'+i.id+'"><td><b>'+esc(i.number)+'</b></td><td>'+fmtDate(i.date)+'</td><td>'+esc(clientName(i.clientId))+'</td>'
+       +'<td class="tnum">'+eur(invoiceTotal(i))+'</td><td><span class="pill '+(i.paid?'paid':'unpaid')+'">'+(i.paid?'Pagata':'Da incassare')+'</span></td>'
+       +'<td style="text-align:right"><button class="btn btn-sm btn-ghost" data-open="'+i.id+'">Apri</button></td></tr>';
+   }).join('')+'</tbody></table>';
+}
+
+function viewInvoices(){
+  var years=Array.from(new Set(invoices.map(function(i){return yearOf(i.date);}))).sort(function(a,b){return b-a;});
+  var list=invoices.slice().sort(function(a,b){return (b.date||'').localeCompare(a.date||'')||(b.number||'').localeCompare(a.number||'');});
+  return '<div class="head"><div><h1>Fatture</h1><div class="sub">'+invoices.length+' fatture totali'+(years.length?' · '+years.join(', '):'')+'</div></div>'
+    +'<button class="btn btn-primary" data-act="newInvoice">+ Nuova fattura</button></div>'
+    +'<div class="card">'+(list.length? invoiceTable(list) : '<p class="empty">Ancora nessuna fattura.<br>Crea la prima con “Nuova fattura”.</p>')+'</div>';
+}
+
+function viewClients(){
+  return '<div class="head"><div><h1>Clienti</h1><div class="sub">'+clients.length+' clienti salvati</div></div>'
+    +'<button class="btn btn-primary" data-act="newClient">+ Nuovo cliente</button></div>'
+    +'<div class="card">'+(clients.length?
+      '<table><thead><tr><th>Nome / Ragione sociale</th><th>P.IVA / CF</th><th>Città</th><th></th></tr></thead><tbody>'
+      +clients.map(function(c){ return '<tr><td><b>'+esc(c.name)+'</b>'+(c.pec?'<div style="color:var(--ink-faint);font-size:.8rem">'+esc(c.pec)+'</div>':'')+'</td>'
+        +'<td>'+esc(c.vat||c.fiscalCode||'—')+'</td><td>'+esc(c.city||'—')+'</td>'
+        +'<td style="text-align:right"><button class="btn btn-sm btn-ghost" data-editclient="'+c.id+'">Modifica</button> '
+        +'<button class="btn btn-sm btn-ghost btn-danger" data-delclient="'+c.id+'">Elimina</button></td></tr>'; }).join('')
+      +'</tbody></table>'
+      : '<p class="empty">Nessun cliente. Aggiungi chi fatturi di solito così compili le fatture più in fretta.</p>')+'</div>';
+}
+
+function viewTax(){
+  var years=Array.from(new Set(invoices.map(function(i){return yearOf(i.date);}).concat([new Date().getFullYear()]))).sort(function(a,b){return b-a;});
+  if(years.indexOf(state.taxYear)<0) state.taxYear=years[0];
+  var t=taxCompute(state.taxYear);
+  return '<div class="head"><div><h1>Salvadanaio fiscale</h1><div class="sub">quanto mettere da parte, calcolato dalle fatture incassate</div></div>'
+    +'<div class="seg" id="taxYearSeg">'+years.map(function(y){return '<button data-ty="'+y+'"'+(y===state.taxYear?' class="on"':'')+'>'+y+'</button>';}).join('')+'</div></div>'
+    +'<div class="banner"><span>ℹ️</span><span><b>Metti da parte '+pct(t.margPct)+' di ogni fattura</b> su un conto separato: a fine anno i soldi per tasse e contributi ci sono già. Le aliquote si impostano in <b>Impostazioni</b>.</span></div>'
+    +'<div class="grid g2">'
+      +'<div class="card"><h3>Da accantonare '+state.taxYear+'</h3><div class="sub">sull’incassato dell’anno</div>'
+        +'<div style="font-size:2.4rem;font-weight:750;letter-spacing:-.03em;color:var(--warn)" class="tnum">'+eur0(t.due)+'</div>'
+        +'<p style="color:var(--ink-soft);font-size:.9rem;margin-top:4px">su '+eur0(t.lordo)+' incassati</p></div>'
+      +'<div class="card"><h3>Come si scompone</h3><div class="sub">anno '+state.taxYear+'</div><div class="brk">'
+        +brow('Incassato lordo', eur(t.lordo),'','')
+        +brow('Reddito imponibile', eur(t.imponibile),'lordo × '+pct(num(profile.coeff))+' (coeff.)','')
+        +brow('Imposta sostitutiva', eur(t.imposta),'aliquota '+pct(t.rate),'tax')
+        +brow('Contributi INPS', eur(t.inps), t.inpsLbl,'inps')
+        +'<div class="row tot"><div class="lbl">Totale da accantonare</div><div class="val">'+eur(t.due)+'</div></div>'
+        +brow('Ti resta in tasca', eur(t.net),'netto stimato','net')
+      +'</div></div>'
+    +'</div>'
+    +(effectiveTaxRate(state.taxYear)===15 && num(profile.taxRate)===5 ? '<div class="banner" style="margin-top:16px"><span>⚠️</span><span>Per l’anno '+state.taxYear+' l’aliquota agevolata del 5% risulta <b>scaduta</b> (oltre i 5 anni dall’inizio attività nel '+esc(profile.regimeStartYear)+'): applicato il 15%.</span></div>':'');
+}
+
+function nextDeadline(){
+  var now=new Date(), y=now.getFullYear();
+  var list=[
+    {d:new Date(y,5,30), dt:'30 giu '+y, ds:'Saldo imposta '+(y-1)+' + 1° acconto '+y, key:'giu'},
+    {d:new Date(y,10,30), dt:'30 nov '+y, ds:'2° acconto imposta '+y, key:'nov'},
+    {d:new Date(y+1,5,30), dt:'30 giu '+(y+1), ds:'Saldo imposta '+y+' + 1° acconto '+(y+1), key:'giu'}
+  ];
+  for(var i=0;i<list.length;i++){ if(list[i].d>=new Date(now.getFullYear(),now.getMonth(),now.getDate())) return list[i]; }
+  return list[list.length-1];
+}
+function viewDeadlines(){
+  var y=new Date().getFullYear();
+  var t=taxCompute(y);
+  var items=[
+    {dt:'30 giu '+(y+1), ds:'<b>Saldo</b> imposta sostitutiva '+y+' + <b>1° acconto</b> '+(y+1)+' e saldo/acconto contributi INPS. La rata più pesante.', amt:eur0(t.due)},
+    {dt:'30 nov '+(y+1), ds:'<b>2° acconto</b> imposta sostitutiva '+(y+1)+' (metodo storico).', amt:''}
+  ];
+  if(profile.inpsType==='artigiani'){
+    items.push({dt:'rate fisse', ds:'Contributi <b>fissi</b> artigiani/commercianti in 4 rate (16 mag · 20 ago · 16 nov · 16 feb), dovuti a prescindere dagli incassi.', amt:''});
+  }
+  return '<div class="head"><div><h1>Scadenze</h1><div class="sub">quando versare con modello F24</div></div></div>'
+    +'<div class="card"><div class="sub">Regime forfettario · in forfettario <b>non si versa IVA</b> e non ci sono liquidazioni periodiche.</div>'
+    +items.map(function(it){ return '<div class="sc"><div class="dt">'+it.dt+'</div><div style="color:var(--ink-soft);font-size:.9rem;flex:1">'+it.ds+'</div>'+(it.amt?'<div class="amt">'+it.amt+'</div>':'')+'</div>'; }).join('')
+    +'</div>'
+    +'<div class="banner" style="margin-top:16px"><span>💡</span><span><b>Il primo giugno è pesante</b>: paghi il saldo dell’anno prima <b>più</b> il primo acconto dell’anno in corso. Puoi rateizzare da giugno a novembre. Gli acconti poi si compensano di anno in anno.</span></div>';
+}
+
+function viewSettings(){
+  var p=profile;
+  return '<div class="head"><div><h1>Impostazioni</h1><div class="sub">i tuoi dati e i parametri fiscali — usati in fatture e calcoli</div></div>'
+    +'<button class="btn btn-primary" data-act="saveProfile">Salva</button></div>'
+    +'<div class="card" style="margin-bottom:16px"><h3>Dati anagrafici (cedente)</h3><div class="sub">compaiono in fattura e nell’XML</div>'
+      +'<div class="frow f2"><div><label>Nome / Ragione sociale</label><input id="p_businessName" value="'+esc(p.businessName)+'"></div>'
+        +'<div><label>Partita IVA</label><input id="p_vatNumber" value="'+esc(p.vatNumber)+'" placeholder="IT01234567890 / 01234567890"></div></div>'
+      +'<div class="frow f2"><div><label>Codice fiscale</label><input id="p_fiscalCode" value="'+esc(p.fiscalCode)+'"></div>'
+        +'<div><label>IBAN (facoltativo)</label><input id="p_iban" value="'+esc(p.iban)+'"></div></div>'
+      +'<div class="frow f4"><div><label>Indirizzo</label><input id="p_address" value="'+esc(p.address)+'"></div>'
+        +'<div><label>CAP</label><input id="p_cap" value="'+esc(p.cap)+'"></div>'
+        +'<div><label>Comune</label><input id="p_city" value="'+esc(p.city)+'"></div>'
+        +'<div><label>Prov.</label><input id="p_province" value="'+esc(p.province)+'" maxlength="2"></div></div>'
+      +'<div class="frow f2"><div><label>Prefisso numerazione (facoltativo)</label><input id="p_invoicePrefix" value="'+esc(p.invoicePrefix)+'" placeholder="es. 2026/"></div>'
+        +'<div><label class="chk"><input type="checkbox" id="p_chargeBollo" '+(p.chargeBollo?'checked':'')+'> Addebita la marca da bollo (€2) al cliente</label><div class="hint">Il bollo da €2 è obbligatorio sulle fatture forfettarie sopra €77,47.</div></div></div>'
+    +'</div>'
+    +'<div class="card"><h3>Parametri fiscali</h3><div class="sub">verifica i valori aggiornati per il tuo ATECO e per l’anno</div>'
+      +'<div class="frow f3"><div><label>Coefficiente di redditività</label><div class="inl"><input id="p_coeff" type="number" step="1" value="'+esc(p.coeff)+'"><span class="u">%</span></div><div class="hint">Servizi 78% · commercio 40% · intermediari 62% · altre 67%</div></div>'
+        +'<div><label>Anno inizio attività</label><input id="p_regimeStartYear" type="number" value="'+esc(p.regimeStartYear)+'"><div class="hint">Il 5% vale per i primi 5 anni.</div></div>'
+        +'<div><label>Imposta sostitutiva</label><div class="seg" id="taxRateSeg"><button data-tr="5"'+(num(p.taxRate)===5?' class="on"':'')+'>5%</button><button data-tr="15"'+(num(p.taxRate)===15?' class="on"':'')+'>15%</button></div></div></div>'
+      +'<div class="frow"><div><label>Cassa previdenziale</label><div class="seg" id="inpsSeg">'
+        +'<button data-inps="separata"'+(p.inpsType==='separata'?' class="on"':'')+'>Gestione Separata</button>'
+        +'<button data-inps="artigiani"'+(p.inpsType==='artigiani'?' class="on"':'')+'>Artigiani / Commercianti</button>'
+        +'<button data-inps="cassa"'+(p.inpsType==='cassa'?' class="on"':'')+'>Cassa professionale</button></div></div></div>'
+      +'<div id="inpsPctBox" class="frow f2"'+((p.inpsType==='artigiani')?' hidden':'')+'><div><label id="inpsPctLbl">Aliquota contributiva</label><div class="inl"><input id="p_inpsPct" type="number" step="0.01" value="'+esc(p.inpsType==='cassa'?p.cassaPct:p.inpsPct)+'"><span class="u">%</span></div></div></div>'
+      +'<div id="inpsFixedBox" class="frow f3"'+((p.inpsType!=='artigiani')?' hidden':'')+'><div><label>Contributi fissi / anno</label><div class="inl"><input id="p_fissi" type="number" step="1" value="'+esc(p.fissi)+'"><span class="u">€</span></div></div>'
+        +'<div><label>Minimale reddito</label><div class="inl"><input id="p_minimale" type="number" step="1" value="'+esc(p.minimale)+'"><span class="u">€</span></div></div>'
+        +'<div><label>Aliquota eccedenza</label><div class="inl"><input id="p_eccPct" type="number" step="0.01" value="'+esc(p.eccPct)+'"><span class="u">%</span></div></div></div>'
+      +'<div id="rid35Box"'+((p.inpsType!=='artigiani')?' hidden':'')+'><label class="chk"><input type="checkbox" id="p_rid35" '+(p.rid35?'checked':'')+'> Riduzione contributiva 35% (forfettari)</label></div>'
+    +'</div>'
+    +'<div class="card" style="margin-top:16px"><h3>Dati</h3><div class="sub">tutto è salvato solo in questo browser</div>'
+      +'<div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn" data-act="exportData">⭳ Esporta backup (JSON)</button>'
+      +'<button class="btn" data-act="importData">⭱ Importa backup</button>'
+      +'<button class="btn btn-danger" data-act="wipe">Cancella tutto</button></div>'
+      +'<input type="file" id="importFile" accept="application/json" hidden></div>';
+}
+
+/* ============================== modals ============================== */
+function openModal(html){ document.getElementById('modal').innerHTML=html; document.getElementById('modalBg').classList.add('on'); }
+function closeModal(){ document.getElementById('modalBg').classList.remove('on'); }
+document.getElementById('modalBg').addEventListener('click', function(e){ if(e.target===this) closeModal(); });
+
+function clientForm(c){
+  c=c||{};
+  return '<h2>'+(c.id?'Modifica cliente':'Nuovo cliente')+'</h2><div class="msub">i dati finiscono in fattura e nell’XML</div>'
+    +'<div class="frow f2"><div><label>Nome / Ragione sociale *</label><input id="c_name" value="'+esc(c.name||'')+'"></div>'
+      +'<div><label>PEC / email (facolt.)</label><input id="c_pec" value="'+esc(c.pec||'')+'"></div></div>'
+    +'<div class="frow f2"><div><label>Partita IVA</label><input id="c_vat" value="'+esc(c.vat||'')+'"></div>'
+      +'<div><label>Codice fiscale</label><input id="c_fiscalCode" value="'+esc(c.fiscalCode||'')+'"></div></div>'
+    +'<div class="frow f2"><div><label>Codice destinatario SDI</label><input id="c_sdiCode" value="'+esc(c.sdiCode||'')+'" maxlength="7" placeholder="0000000"></div>'
+      +'<div><label>Indirizzo</label><input id="c_address" value="'+esc(c.address||'')+'"></div></div>'
+    +'<div class="frow f3"><div><label>CAP</label><input id="c_cap" value="'+esc(c.cap||'')+'"></div>'
+      +'<div><label>Comune</label><input id="c_city" value="'+esc(c.city||'')+'"></div>'
+      +'<div><label>Prov.</label><input id="c_province" value="'+esc(c.province||'')+'" maxlength="2"></div></div>'
+    +'<div class="actions"><button class="btn btn-ghost" data-close>Annulla</button><button class="btn btn-primary" data-saveclient="'+(c.id||'')+'">Salva cliente</button></div>';
+}
+function saveClientFromForm(id){
+  var name=document.getElementById('c_name').value.trim();
+  if(!name){ toast('Serve almeno il nome'); return; }
+  var data={ name:name, pec:val('c_pec'), vat:val('c_vat'), fiscalCode:val('c_fiscalCode'), sdiCode:val('c_sdiCode'),
+    address:val('c_address'), cap:val('c_cap'), city:val('c_city'), province:val('c_province') };
+  if(id){ var c=clients.find(function(x){return x.id===id;}); Object.assign(c,data); }
+  else { data.id=uid(); clients.push(data); }
+  save(K.clients, clients); closeModal(); toast('Cliente salvato'); render();
+}
+function val(id){ var e=document.getElementById(id); return e?e.value.trim():''; }
+
+function nextInvoiceNumber(){
+  var y=new Date().getFullYear();
+  var n=invoices.filter(function(i){return yearOf(i.date)===y;}).length+1;
+  return (profile.invoicePrefix||'')+String(n);
+}
+function invoiceForm(inv){
+  inv=inv||{ number:nextInvoiceNumber(), date:todayISO(), clientId:(clients[0]&&clients[0].id)||'', lines:[{desc:'',qty:1,price:0}], notes:'', paid:false };
+  var opts=clients.map(function(c){return '<option value="'+c.id+'"'+(c.id===inv.clientId?' selected':'')+'>'+esc(c.name)+'</option>';}).join('');
+  if(!clients.length) opts='<option value="">— aggiungi prima un cliente —</option>';
+  var lines=(inv.lines||[]).map(function(l,i){ return lineRow(l,i); }).join('');
+  return '<h2>'+(inv.id?'Modifica fattura':'Nuova fattura')+'</h2><div class="msub">forfettario · nessuna IVA · '+esc(clients.length?'':'crea prima un cliente in “Clienti”')+'</div>'
+    +'<div class="frow f3"><div><label>Numero *</label><input id="i_number" value="'+esc(inv.number)+'"></div>'
+      +'<div><label>Data *</label><input id="i_date" type="date" value="'+esc(inv.date)+'"></div>'
+      +'<div><label>Cliente *</label><select id="i_client">'+opts+'</select></div></div>'
+    +'<label>Righe</label><div class="linehead"><span>Descrizione</span><span>Q.tà</span><span>Prezzo €</span><span></span></div>'
+    +'<div id="i_lines">'+lines+'</div>'
+    +'<button class="btn btn-sm btn-ghost" data-addline style="margin-top:2px">+ Aggiungi riga</button>'
+    +'<div class="frow" style="margin-top:14px"><div><label>Note (facolt.)</label><textarea id="i_notes">'+esc(inv.notes||'')+'</textarea></div></div>'
+    +'<label class="chk"><input type="checkbox" id="i_paid" '+(inv.paid?'checked':'')+'> Già incassata</label>'
+    +'<div id="i_total" style="text-align:right;font-size:1.15rem;font-weight:700;margin-top:14px"></div>'
+    +'<div class="actions">'+(inv.id?'<button class="btn btn-ghost btn-danger" data-delinvoice="'+inv.id+'">Elimina</button>':'')
+      +'<button class="btn btn-ghost" data-close>Annulla</button><button class="btn btn-primary" data-saveinvoice="'+(inv.id||'')+'">Salva fattura</button></div>';
+}
+function lineRow(l,i){
+  return '<div class="lineitem" data-line><input class="l_desc" value="'+esc(l.desc||'')+'" placeholder="Prestazione / consulenza…">'
+    +'<input class="l_qty" type="number" step="0.01" value="'+esc(l.qty!=null?l.qty:1)+'">'
+    +'<input class="l_price" type="number" step="0.01" value="'+esc(l.price!=null?l.price:0)+'">'
+    +'<button class="del" data-delline title="Rimuovi">✕</button></div>';
+}
+function readLines(){
+  return Array.prototype.map.call(document.querySelectorAll('#i_lines [data-line]'), function(row){
+    return { desc:row.querySelector('.l_desc').value.trim(), qty:num(row.querySelector('.l_qty').value), price:num(row.querySelector('.l_price').value) };
+  }).filter(function(l){ return l.desc || l.price; });
+}
+function refreshInvoiceTotal(){
+  var lines=readLines(); var tot=lines.reduce(function(a,l){return a+l.qty*l.price;},0);
+  var bollo=(tot>77.47 && profile.chargeBollo)?2:0;
+  var el=document.getElementById('i_total');
+  if(el) el.innerHTML='Totale: '+eur(tot+bollo)+(tot>77.47?'<div style="font-size:.75rem;color:var(--ink-faint);font-weight:400">bollo €2,00 '+(profile.chargeBollo?'addebitato':'a tuo carico')+'</div>':'');
+}
+function saveInvoiceFromForm(id){
+  if(!clients.length){ toast('Crea prima un cliente'); return; }
+  var lines=readLines();
+  if(!lines.length){ toast('Aggiungi almeno una riga'); return; }
+  var data={ number:val('i_number'), date:val('i_date')||todayISO(), clientId:document.getElementById('i_client').value,
+    lines:lines, notes:val('i_notes'), paid:document.getElementById('i_paid').checked };
+  if(!data.number){ toast('Serve il numero fattura'); return; }
+  if(id){ var inv=invoices.find(function(x){return x.id===id;}); Object.assign(inv,data); }
+  else { data.id=uid(); data.created=todayISO(); invoices.push(data); }
+  save(K.invoices, invoices); closeModal(); toast('Fattura salvata'); render();
+}
+
+function invoiceDetail(inv){
+  var c=clients.find(function(x){return x.id===inv.clientId;})||{};
+  var tot=invoiceTotal(inv);
+  var bollo=(tot>77.47)?2:0;
+  var grand=tot+((profile.chargeBollo)?bollo:0);
+  return '<h2>Fattura '+esc(inv.number)+'</h2><div class="msub">'+fmtDate(inv.date)+' · '+esc(c.name||'—')+'</div>'
+    +'<div class="brk">'
+      +brow('Imponibile', eur(tot),'operazione esente IVA (forfettario)','')
+      +(bollo?brow('Marca da bollo', eur(bollo), profile.chargeBollo?'addebitata al cliente':'a tuo carico (obbligo > €77,47)',''):'')
+      +'<div class="row tot"><div class="lbl">Totale documento</div><div class="val">'+eur(grand)+'</div></div>'
+    +'</div>'
+    +'<div class="actions" style="justify-content:space-between"><div style="display:flex;gap:8px;flex-wrap:wrap">'
+      +'<button class="btn btn-sm" data-togglepaid="'+inv.id+'">'+(inv.paid?'Segna da incassare':'Segna incassata')+'</button>'
+      +'<button class="btn btn-sm btn-ghost" data-editinvoice="'+inv.id+'">Modifica</button></div>'
+      +'<div style="display:flex;gap:8px;flex-wrap:wrap">'
+      +'<button class="btn btn-sm" data-print="'+inv.id+'">🖨 Stampa / PDF</button>'
+      +'<button class="btn btn-sm btn-primary" data-xml="'+inv.id+'">⭳ XML SDI</button></div></div>';
+}
+
+/* ============================== print & XML ============================== */
+function printInvoice(inv){
+  var c=clients.find(function(x){return x.id===inv.clientId;})||{};
+  var tot=invoiceTotal(inv), bollo=(tot>77.47)?2:0, grand=tot+(profile.chargeBollo?bollo:0);
+  var rows=(inv.lines||[]).map(function(l){ return '<tr><td>'+esc(l.desc)+'</td><td style="text-align:right">'+num(l.qty).toLocaleString('it-IT')+'</td>'
+    +'<td style="text-align:right">'+eur(num(l.price))+'</td><td style="text-align:right">'+eur(num(l.qty)*num(l.price))+'</td></tr>'; }).join('');
+  document.getElementById('printArea').innerHTML=
+    '<div class="inv-doc"><div class="row"><div><h2>'+esc(profile.businessName||'—')+'</h2>'
+     +'<div style="color:#555;margin-top:4px">'+esc(profile.address)+(profile.cap?' · '+esc(profile.cap):'')+' '+esc(profile.city)+(profile.province?' ('+esc(profile.province)+')':'')+'<br>'
+     +'P.IVA '+esc(profile.vatNumber||'—')+(profile.fiscalCode?' · CF '+esc(profile.fiscalCode):'')+'</div></div>'
+     +'<div style="text-align:right"><div style="font-size:22px;font-weight:700">FATTURA</div><div style="color:#555;margin-top:4px">N. '+esc(inv.number)+'<br>del '+fmtDate(inv.date)+'</div></div></div>'
+    +'<div class="box"><div class="t">Destinatario</div><b>'+esc(c.name||'—')+'</b><br>'
+     +esc(c.address||'')+(c.cap?' · '+esc(c.cap):'')+' '+esc(c.city||'')+(c.province?' ('+esc(c.province)+')':'')+'<br>'
+     +(c.vat?'P.IVA '+esc(c.vat):'')+(c.fiscalCode?(c.vat?' · ':'')+'CF '+esc(c.fiscalCode):'')+'</div>'
+    +'<table><thead><tr><th>Descrizione</th><th style="text-align:right">Q.tà</th><th style="text-align:right">Prezzo</th><th style="text-align:right">Importo</th></tr></thead><tbody>'+rows+'</tbody></table>'
+    +'<div class="totbox"><div class="l"><span>Imponibile</span><span>'+eur(tot)+'</span></div>'
+     +'<div class="l"><span>IVA</span><span>esente</span></div>'
+     +(bollo?'<div class="l"><span>Marca da bollo</span><span>'+eur(bollo)+(profile.chargeBollo?'':' *')+'</span></div>':'')
+     +'<div class="l g"><span>Totale</span><span>'+eur(grand)+'</span></div></div>'
+    +(inv.notes?'<div style="margin-top:18px;color:#333"><b>Note:</b> '+esc(inv.notes)+'</div>':'')
+    +'<div class="legal">Operazione effettuata ai sensi dell’art. 1, commi da 54 a 89, della Legge n. 190/2014 e successive modifiche — regime forfettario. Non soggetta a IVA. '
+     +'Non soggetta a ritenuta d’acconto ai sensi dell’art. 1, comma 67, della Legge n. 190/2014.'
+     +(bollo?'<br>Imposta di bollo da €2,00 assolta '+(profile.chargeBollo?'e addebitata in fattura':'sull’originale')+' (art. 6 Tabella B DPR 642/1972 — importo > €77,47).':'')
+     +(profile.iban?'<br>Pagamento: IBAN '+esc(profile.iban):'')+'</div></div>';
+  setTimeout(function(){ window.print(); }, 60);
+}
+
+function xmlSDINumber(n){ n=(n||1); var s='00000'+(n).toString(36).toUpperCase(); return s.slice(-5); }
+function decForXml(v){ return (Math.round(v*100)/100).toFixed(2); }
+function generateXML(inv){
+  var c=clients.find(function(x){return x.id===inv.clientId;})||{};
+  var tot=invoiceTotal(inv), bollo=(tot>77.47)?2:0;
+  var grand=tot+(profile.chargeBollo?bollo:0);
+  var piva=(profile.vatNumber||'').replace(/^IT/i,'').replace(/\s/g,'');
+  var prog=xmlSDINumber(invoices.indexOf(inv)+1);
+  var sdi=(c.sdiCode&&c.sdiCode.length===7)?c.sdiCode:'0000000';
+  var lines=(inv.lines||[]).map(function(l,i){
+    return '      <DettaglioLinee>\n'
+      +'        <NumeroLinea>'+(i+1)+'</NumeroLinea>\n'
+      +'        <Descrizione>'+esx(l.desc||'-')+'</Descrizione>\n'
+      +'        <Quantita>'+decForXml(num(l.qty))+'</Quantita>\n'
+      +'        <PrezzoUnitario>'+decForXml(num(l.price))+'</PrezzoUnitario>\n'
+      +'        <PrezzoTotale>'+decForXml(num(l.qty)*num(l.price))+'</PrezzoTotale>\n'
+      +'        <AliquotaIVA>0.00</AliquotaIVA>\n        <Natura>N2.2</Natura>\n'
+      +'      </DettaglioLinee>';
+  }).join('\n');
+  var clientAnag = c.vat
+    ? '        <IdFiscaleIVA><IdPaese>IT</IdPaese><IdCodice>'+esx(c.vat.replace(/^IT/i,''))+'</IdCodice></IdFiscaleIVA>\n'
+    : (c.fiscalCode?'        <CodiceFiscale>'+esx(c.fiscalCode)+'</CodiceFiscale>\n':'');
+  var xml='<?xml version="1.0" encoding="UTF-8"?>\n'
+   +'<p:FatturaElettronica versione="FPR12" xmlns:p="http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">\n'
+   +'  <FatturaElettronicaHeader>\n'
+   +'    <DatiTrasmissione>\n'
+   +'      <IdTrasmittente><IdPaese>IT</IdPaese><IdCodice>'+esx(piva||'0000000000')+'</IdCodice></IdTrasmittente>\n'
+   +'      <ProgressivoInvio>'+prog+'</ProgressivoInvio>\n'
+   +'      <FormatoTrasmissione>FPR12</FormatoTrasmissione>\n'
+   +'      <CodiceDestinatario>'+esx(sdi)+'</CodiceDestinatario>\n'
+   +(sdi==='0000000'&&c.pec?'      <PECDestinatario>'+esx(c.pec)+'</PECDestinatario>\n':'')
+   +'    </DatiTrasmissione>\n'
+   +'    <CedentePrestatore>\n      <DatiAnagrafici>\n'
+   +'        <IdFiscaleIVA><IdPaese>IT</IdPaese><IdCodice>'+esx(piva||'0000000000')+'</IdCodice></IdFiscaleIVA>\n'
+   +(profile.fiscalCode?'        <CodiceFiscale>'+esx(profile.fiscalCode)+'</CodiceFiscale>\n':'')
+   +'        <Anagrafica><Denominazione>'+esx(profile.businessName||'-')+'</Denominazione></Anagrafica>\n'
+   +'        <RegimeFiscale>RF19</RegimeFiscale>\n      </DatiAnagrafici>\n'
+   +'      <Sede><Indirizzo>'+esx(profile.address||'-')+'</Indirizzo><CAP>'+esx(profile.cap||'00000')+'</CAP><Comune>'+esx(profile.city||'-')+'</Comune>'+(profile.province?'<Provincia>'+esx(profile.province)+'</Provincia>':'')+'<Nazione>IT</Nazione></Sede>\n'
+   +'    </CedentePrestatore>\n'
+   +'    <CessionarioCommittente>\n      <DatiAnagrafici>\n'+clientAnag
+   +'        <Anagrafica><Denominazione>'+esx(c.name||'-')+'</Denominazione></Anagrafica>\n      </DatiAnagrafici>\n'
+   +'      <Sede><Indirizzo>'+esx(c.address||'-')+'</Indirizzo><CAP>'+esx(c.cap||'00000')+'</CAP><Comune>'+esx(c.city||'-')+'</Comune>'+(c.province?'<Provincia>'+esx(c.province)+'</Provincia>':'')+'<Nazione>IT</Nazione></Sede>\n'
+   +'    </CessionarioCommittente>\n'
+   +'  </FatturaElettronicaHeader>\n'
+   +'  <FatturaElettronicaBody>\n    <DatiGenerali>\n      <DatiGeneraliDocumento>\n'
+   +'        <TipoDocumento>TD01</TipoDocumento>\n        <Divisa>EUR</Divisa>\n        <Data>'+esx(inv.date)+'</Data>\n        <Numero>'+esx(inv.number)+'</Numero>\n'
+   +(bollo?'        <DatiBollo><BolloVirtuale>SI</BolloVirtuale><ImportoBollo>2.00</ImportoBollo></DatiBollo>\n':'')
+   +'        <ImportoTotaleDocumento>'+decForXml(grand)+'</ImportoTotaleDocumento>\n      </DatiGeneraliDocumento>\n    </DatiGenerali>\n'
+   +'    <DatiBeniServizi>\n'+lines+'\n'
+   +'      <DatiRiepilogo>\n        <AliquotaIVA>0.00</AliquotaIVA>\n        <Natura>N2.2</Natura>\n        <ImponibileImporto>'+decForXml(tot)+'</ImponibileImporto>\n        <Imposta>0.00</Imposta>\n'
+   +'        <RiferimentoNormativo>Operazione non soggetta a IVA - regime forfettario art.1 c.54-89 L.190/2014</RiferimentoNormativo>\n      </DatiRiepilogo>\n'
+   +'    </DatiBeniServizi>\n  </FatturaElettronicaBody>\n</p:FatturaElettronica>\n';
+  var fname='IT'+(piva||'0000000000')+'_'+prog+'.xml';
+  download(fname, xml, 'application/xml');
+  toast('XML generato — validalo sul portale AdE prima di inviarlo');
+}
+function download(name, content, type){
+  var blob=new Blob([content],{type:type||'text/plain'});
+  var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; document.body.appendChild(a); a.click();
+  setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 100);
+}
+
+/* ============================== settings persistence ============================== */
+function saveProfileFromForm(){
+  ['businessName','vatNumber','fiscalCode','iban','address','cap','city','province','invoicePrefix'].forEach(function(f){ profile[f]=val('p_'+f); });
+  profile.coeff=num(val('p_coeff')); profile.regimeStartYear=num(val('p_regimeStartYear'))||new Date().getFullYear();
+  profile.chargeBollo=document.getElementById('p_chargeBollo').checked;
+  if(profile.inpsType==='cassa') profile.cassaPct=num(val('p_inpsPct')); else if(profile.inpsType!=='artigiani') profile.inpsPct=num(val('p_inpsPct'));
+  if(profile.inpsType==='artigiani'){ profile.fissi=num(val('p_fissi')); profile.minimale=num(val('p_minimale')); profile.eccPct=num(val('p_eccPct')); profile.rid35=document.getElementById('p_rid35').checked; }
+  save(K.profile, profile); toast('Impostazioni salvate'); render();
+}
+
+/* ============================== wiring ============================== */
+function wire(){
+  var el=document.getElementById('view');
+  el.querySelectorAll('[data-view-link]').forEach(function(b){ b.addEventListener('click', function(){ go(b.dataset.viewLink); }); });
+  el.querySelectorAll('[data-open]').forEach(function(b){ b.addEventListener('click', function(e){ e.stopPropagation(); var inv=invoices.find(function(x){return x.id===b.dataset.open;}); if(inv) openModal(invoiceDetail(inv)); }); });
+  var seg=document.getElementById('taxYearSeg'); if(seg) seg.querySelectorAll('button').forEach(function(b){ b.addEventListener('click', function(){ state.taxYear=num(b.dataset.ty); render(); }); });
+
+  el.querySelectorAll('[data-act]').forEach(function(b){ b.addEventListener('click', function(){ act(b.dataset.act); }); });
+
+  // settings live segments
+  var trSeg=document.getElementById('taxRateSeg'); if(trSeg) trSeg.querySelectorAll('button').forEach(function(b){ b.addEventListener('click', function(){ profile.taxRate=num(b.dataset.tr); trSeg.querySelectorAll('button').forEach(function(x){x.classList.toggle('on',x===b);}); }); });
+  var inpsSeg=document.getElementById('inpsSeg'); if(inpsSeg) inpsSeg.querySelectorAll('button').forEach(function(b){ b.addEventListener('click', function(){ profile.inpsType=b.dataset.inps; render(); }); });
+  el.querySelectorAll('[data-editclient]').forEach(function(b){ b.addEventListener('click', function(){ openModal(clientForm(clients.find(function(x){return x.id===b.dataset.editclient;}))); }); });
+  el.querySelectorAll('[data-delclient]').forEach(function(b){ b.addEventListener('click', function(){ if(confirm('Eliminare il cliente?')){ clients=clients.filter(function(x){return x.id!==b.dataset.delclient;}); save(K.clients,clients); render(); } }); });
+  var imp=document.getElementById('importFile'); if(imp) imp.addEventListener('change', doImport);
+}
+document.getElementById('modal').addEventListener('click', modalClicks);
+function modalClicks(e){
+  var t=e.target.closest('[data-close],[data-saveclient],[data-saveinvoice],[data-addline],[data-delline],[data-delinvoice],[data-editinvoice],[data-togglepaid],[data-print],[data-xml]');
+  if(!t) return;
+  if(t.hasAttribute('data-close')) return closeModal();
+  if(t.hasAttribute('data-saveclient')) return saveClientFromForm(t.dataset.saveclient);
+  if(t.hasAttribute('data-saveinvoice')) return saveInvoiceFromForm(t.dataset.saveinvoice);
+  if(t.hasAttribute('data-addline')){ document.getElementById('i_lines').insertAdjacentHTML('beforeend', lineRow({desc:'',qty:1,price:0})); refreshInvoiceTotal(); return; }
+  if(t.hasAttribute('data-delline')){ t.closest('[data-line]').remove(); refreshInvoiceTotal(); return; }
+  if(t.hasAttribute('data-delinvoice')){ if(confirm('Eliminare la fattura?')){ invoices=invoices.filter(function(x){return x.id!==t.dataset.delinvoice;}); save(K.invoices,invoices); closeModal(); render(); } return; }
+  if(t.hasAttribute('data-editinvoice')){ var inv=invoices.find(function(x){return x.id===t.dataset.editinvoice;}); openModal(invoiceForm(inv)); bindInvoiceForm(); return; }
+  if(t.hasAttribute('data-togglepaid')){ var iv=invoices.find(function(x){return x.id===t.dataset.togglepaid;}); iv.paid=!iv.paid; save(K.invoices,invoices); openModal(invoiceDetail(iv)); render(); return; }
+  if(t.hasAttribute('data-print')){ printInvoice(invoices.find(function(x){return x.id===t.dataset.print;})); return; }
+  if(t.hasAttribute('data-xml')){ generateXML(invoices.find(function(x){return x.id===t.dataset.xml;})); return; }
+}
+document.getElementById('modal').addEventListener('input', function(e){ if(e.target.closest('#i_lines')) refreshInvoiceTotal(); });
+
+function bindInvoiceForm(){ refreshInvoiceTotal(); }
+
+function act(a){
+  if(a==='newInvoice'){ if(!clients.length){ toast('Crea prima un cliente'); go('clients'); return; } openModal(invoiceForm()); bindInvoiceForm(); }
+  else if(a==='newClient'){ openModal(clientForm()); }
+  else if(a==='saveProfile'){ saveProfileFromForm(); }
+  else if(a==='exportData'){ download('fatture-backup-'+todayISO()+'.json', JSON.stringify({profile:profile,clients:clients,invoices:invoices},null,2), 'application/json'); }
+  else if(a==='importData'){ document.getElementById('importFile').click(); }
+  else if(a==='wipe'){ if(confirm('Cancellare TUTTI i dati (profilo, clienti, fatture)? Operazione irreversibile.')){ localStorage.removeItem(K.profile); localStorage.removeItem(K.clients); localStorage.removeItem(K.invoices); profile=Object.assign({},DEFAULT_PROFILE); clients=[]; invoices=[]; render(); toast('Dati cancellati'); } }
+}
+function doImport(e){
+  var f=e.target.files[0]; if(!f) return;
+  var rd=new FileReader();
+  rd.onload=function(){ try{ var d=JSON.parse(rd.result);
+      if(d.profile) profile=Object.assign({},DEFAULT_PROFILE,d.profile);
+      if(Array.isArray(d.clients)) clients=d.clients;
+      if(Array.isArray(d.invoices)) invoices=d.invoices;
+      save(K.profile,profile); save(K.clients,clients); save(K.invoices,invoices); render(); toast('Backup importato');
+    }catch(err){ toast('File non valido'); } };
+  rd.readAsText(f);
+}
+
+/* re-bind invoice form total when opening new invoice (input event covers edits) */
+var _openModal=openModal;
+openModal=function(html){ _openModal(html); if(document.getElementById('i_lines')) refreshInvoiceTotal(); };
+
+render();
+})();
+</script>
+</body>
+</html>
