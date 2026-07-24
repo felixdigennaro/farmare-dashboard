@@ -250,6 +250,7 @@ tbody tr:hover{background:var(--panel-2)}
 .ct i{display:block; height:100%; width:0; border-radius:100px;
   background:linear-gradient(90deg,var(--accent-deep),var(--accent)); transition:width 1.2s cubic-bezier(.2,.75,.2,1)}
 .cv{font-weight:600; text-align:right; color:var(--ink-soft)}
+.cvsub{display:block; font-size:.66em; font-weight:500; opacity:.75}
 .cbar.hi .ci{border-color:var(--accent); color:var(--accent-bright); box-shadow:0 0 14px rgba(77,141,255,.25)}
 .cbar.hi .cl{color:var(--ink); font-weight:500}
 .cbar.hi .ct i{background:linear-gradient(90deg,var(--accent),var(--cyan))}
@@ -394,19 +395,19 @@ footer{border-top:1px solid var(--hair); padding:var(--s4) 0 var(--s5); margin-t
   <section id="confronto">
     <div class="sec-head rev">
       <p class="eyebrow">The comparison, unfiltered</p>
-      <h2><span class="grad">The solidity of government bonds — plus a window.</span></h2>
-      <p class="lead">FARMARE's Core earns as much as the most solid instruments where liquidity
-        is parked. Real, current rates. The advantage is elsewhere: in the overlay built on
-        top, without ever exposing the capital.</p>
+      <h2><span class="grad">The solidity of government bonds — plus an extra return.</span></h2>
+      <p class="lead">The Core has the solidity and liquidity of the safe havens where money is
+        parked; the base return tracks today's real rates. The real advantage is elsewhere:
+        the extra return built on top, without ever exposing the capital.</p>
     </div>
     <div class="cbars rev">
-      <div class="cbar hi"><span class="ci">◆</span><span class="cl">FARMARE · Core</span><span class="ct"><i data-w="60"></i></span><span class="cv">~3.5% + window</span></div>
+      <div class="cbar hi"><span class="ci">◆</span><span class="cl">FARMARE · Core</span><span class="ct"><i data-w="60"></i></span><span class="cv"><span data-baserate>~2.7%</span><small class="cvsub">+ extra</small></span></div>
       <div class="cbar"><span class="ci">▤</span><span class="cl">Government bonds</span><span class="ct"><i data-w="58"></i></span><span class="cv">3.5%</span></div>
       <div class="cbar"><span class="ci">↺</span><span class="cl">Savings apps</span><span class="ct"><i data-w="55"></i></span><span class="cv">3.3%</span></div>
       <div class="cbar"><span class="ci">≡</span><span class="cl">Checking account</span><span class="ct"><i data-w="8"></i></span><span class="cv">0.4%</span></div>
     </div>
     <p class="lead rev" style="margin-top:36px; font-size:1rem">From backtests on real historical data, not projections. The
-      advantage is the window — gold, S&amp;P and airdrops financed by the interest — that can
+      advantage is the extra return — gold, S&amp;P and airdrops financed by the interest — that can
       add return. Or nothing: that is not guaranteed.</p>
   </section>
 
@@ -448,7 +449,7 @@ footer{border-top:1px solid var(--hair); padding:var(--s4) 0 var(--s5); margin-t
       </svg>
     </div>
     <p class="ex-note rev" style="margin:-14px 0 30px">€10,000 initial. The gap widens every year: it's capital
-      productively allocated. The shaded band is the <b>window</b> — potential upside, not guaranteed.
+      productively allocated. The shaded band is the <b>extra return</b> — potential, not guaranteed.
       Curve at the representative backtest rate (~3.5%); today the Core earns <span data-baserate>~2.7%</span> live (top of page).</p>
 
   </section>
@@ -474,18 +475,18 @@ footer{border-top:1px solid var(--hair); padding:var(--s4) 0 var(--s5); margin-t
   </style>
   <section id="finestra">
     <div class="sec-head rev">
-      <p class="eyebrow">The window, in detail</p>
+      <p class="eyebrow">The extra return, in detail</p>
       <h2><span class="grad">The interest buys gold and S&amp;P. The capital is never touched.</span></h2>
       <p class="lead">Every week the <b>coupon</b> from the Core — never the capital — buys a share of
-        tokenized gold and S&amp;P&nbsp;500. The principal stays lent out and is never liquidated: only the interest
-        already earned is at risk. An upside window financed by interest, not by capital.</p>
+        tokenized gold and S&amp;P&nbsp;500. The capital stays lent out and is never liquidated: only the interest
+        already earned is at risk. Extra return financed by interest, not by capital.</p>
     </div>
 
     <div class="rwa-benes rev">
       <div class="rwa-bene">
         <div class="ic">◈</div>
         <h3>The capital is never exposed</h3>
-        <p>The principal stays in liquid lending. Only interest already collected buys gold and S&amp;P: in the worst case, part of the accrued interest is eroded, never the capital.</p>
+        <p>The capital stays in liquid lending. Only interest already collected buys gold and S&amp;P: in the worst case, part of the accrued interest is eroded, never the capital itself.</p>
       </div>
       <div class="rwa-bene">
         <div class="ic">↗</div>
@@ -504,18 +505,18 @@ footer{border-top:1px solid var(--hair); padding:var(--s4) 0 var(--s5); margin-t
       <div class="s">Window <b>Oct 2023 → Jul 2026</b> · 1,020 days · real lending APY + real PAXG + S&amp;P&nbsp;500 (FRED) · coupon DCA'd 50/50 gold+S&amp;P</div>
     </div>
     <div class="stats rev">
-      <div class="stat"><div class="sv tnum">+7.2%<small>/yr</small></div><div class="sl">fund CAGR with the overlay over the tested window — versus +5.6% for lending alone</div></div>
+      <div class="stat"><div class="sv tnum">+7.2%<small>/yr</small></div><div class="sl">fund CAGR with the extra return over the tested period — versus +5.6% for lending alone</div></div>
       <div class="stat"><div class="sv tnum neg">−2.2%</div><div class="sl">worst drawdown recorded — hits only the accumulated coupon, never the capital</div></div>
       <div class="stat"><div class="sv tnum">~21%</div><div class="sl">value of the gold+S&amp;P position after ~3 years, from interest alone</div></div>
-      <div class="stat"><div class="sv tnum">+1.6<small>pp</small></div><div class="sl">extra per year versus lending alone, on the same real window</div></div>
+      <div class="stat"><div class="sv tnum">+1.6<small>pp</small></div><div class="sl">extra per year versus lending alone, over the same real period</div></div>
     </div>
 
     <div class="disclosure rev">
       <p class="wl">Read this — transparency on the numbers</p>
-      <p>A <b>favorable</b> window: over these 2.8 years gold returned +118% and the S&amp;P +74%, so the CAGRs are
+      <p>A <b>favorable</b> period: over these 2.8 years gold returned +118% and the S&amp;P +74%, so the CAGRs are
         overstated. Average lending rates (~5.4%) sat ~2pp above current (~3.4%): under today's conditions, read the
         absolutes ~2pp lower. The S&amp;P is price-only (dividends ~1.5%/yr excluded, for prudence); tokenized-asset
-        tracking and redemption risks are not modeled. <b>Not a promise</b>: the overlay may add a few points or nothing.
+        tracking and redemption risks are not modeled. <b>Not a promise</b>: the extra return may add a few points or nothing.
         The only guaranteed advantage is structural — the capital is never at risk.</p>
     </div>
   </section>
@@ -631,10 +632,10 @@ footer{border-top:1px solid var(--hair); padding:var(--s4) 0 var(--s5); margin-t
         and no fixed fee on the capital. Example: €10,000 that in an ordinary year becomes €10,350 →
         €35 in fees, €10,315 to the investor. If the year closes flat or down, the fee is nil.</p></details>
       <details class="faq-item"><summary>Is capital always redeemable?</summary>
-        <p>Yes. The principal tranche is in liquid lending, redeemable immediately — no lock-ups, no freezes.</p></details>
+        <p>Yes. The bulk is in liquid lending, redeemable immediately — no lock-ups, no freezes.</p></details>
       <details class="faq-item"><summary>Is it guaranteed?</summary>
         <p>No. No return is guaranteed. The base return is solid (~3.5% from backtests on real historical data), but it's not
-        a promise; the window (gold, S&amp;P, airdrops) can add return. Or nothing.</p></details>
+        a promise; the extra return (gold, S&amp;P, airdrops) can add. Or nothing.</p></details>
       <details class="faq-item"><summary>What's the biggest risk?</summary>
         <p>The insolvency of a protocol in the active tranche. It's a contained risk — from 1% to 5% per protocol,
         with an exit at the first sign — not eliminated.</p></details>
@@ -936,9 +937,9 @@ document.querySelectorAll('canvas[data-fx]').forEach(cv=>{
     svg.appendChild(mk('line',{x1:x0,x2:x1,y1:y,y2:y,class:'g-grid'}));
     svg.appendChild(mk('text',{x:x0-12,y:y+4,class:'g-ylbl'},'€'+(v/1000)+'k'));}
   ['today','1','2','3','4','5 years'].forEach((l,i)=>svg.appendChild(mk('text',{x:X(i),y:y1+26,class:'g-xlbl'},l)));
-  // window band (between base and bull)
+  // extra-return band (between base and bull)
   svg.appendChild(mk('polygon',{class:'g-band',points:P(base)+' '+base.map((_,i)=>X(YRS-i)+','+Y(bull[YRS-i])).join(' ')}));
-  svg.appendChild(mk('text',{x:X(YRS)-6,y:Y(bull[YRS])+16,class:'g-band-lbl g-end','text-anchor':'end'},'the window ↑ (not guaranteed)'));
+  svg.appendChild(mk('text',{x:X(YRS)-6,y:Y(bull[YRS])+16,class:'g-band-lbl g-end','text-anchor':'end'},'the extra return ↑ (not guaranteed)'));
   // lines
   const lF=mk('polyline',{class:'g-fermo',points:P(fermo)});
   const lB=mk('polyline',{class:'g-banca',points:P(banca)});
