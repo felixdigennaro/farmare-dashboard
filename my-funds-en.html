@@ -169,13 +169,13 @@ footer .wrap{max-width:900px}
       <div class="hint"><span id="hintL">Wallet balance: —</span><a id="maxBtn">max</a></div>
       <button class="btn btn-solid" id="actBtn" style="width:100%;margin-top:16px" disabled>Connect your wallet</button>
       <p class="note" id="actNote">Your deposit goes into the safe side (stablecoin lending) and starts earning right away.
-        Withdrawals are instant from available liquidity. You sign from your own wallet — we never touch your funds.</p>
+        Withdrawals are instant from available liquidity.</p>
     </div>
 
     <!-- WHERE YOUR MONEY IS -->
     <div class="card c-6">
       <h3>Where your money is</h3>
-      <p class="sub">Core 80% · Momentum 20%</p>
+      <p class="sub">how your money is split</p>
       <div class="alloc-bar"><i class="seg-floor" style="width:80%"></i><i class="seg-risk" style="width:20%"></i></div>
       <div class="leg">
         <div class="row"><span class="dot seg-floor"></span> <b style="font-weight:600">Core</b>&nbsp;— the safe base: earning, always available <span class="amt">80%</span></div>
@@ -191,12 +191,10 @@ footer .wrap{max-width:900px}
       <p class="sub">current on-chain lending rate (Aave) — variable</p>
       <div class="metrics">
         <div class="metric"><div class="k">Base, today</div><div class="v big" id="baseYield" style="color:var(--cyan)">—</div></div>
-        <div class="metric"><div class="k">Yours, so far</div><div class="v big tnum" id="mYield">—</div></div>
       </div>
       <p class="fee-line">Fee: <b>10%</b> of the gain · zero if you don't gain</p>
       <p class="note">The value per share rises with the fund's return; your gain is that value minus what you
-        deposited. The base lending rate is variable and <b>not guaranteed</b>; the window (gold, S&amp;P, airdrops) can add more,
-        or nothing. No return is promised.</p>
+        deposited. The base lending rate is variable and <b>not guaranteed</b>; the window can add more, or nothing.</p>
     </div>
 
     <!-- ACTIVITY LOG -->
@@ -256,9 +254,8 @@ function paintPosition(shares, deposited, value, nav){
   document.getElementById('posShares').textContent=fmt(shares,2);
   document.getElementById('posNav').textContent=fmt(nav,4);
   const pnl=document.getElementById('posPnl');
-  if(flat){ pnl.className='pnl'; pnl.style.color='var(--ink-soft)'; pnl.textContent='0.00%  (0.00 USDC)'; }
-  else { pnl.className='pnl '+(gain>=0?'up':'down'); pnl.style.color=''; pnl.textContent=(gain>=0?'▲ +':'▼ ')+fmt(Math.abs(pct),2)+'%  ('+(gain>=0?'+':'')+fmt(gain)+' USDC)'; }
-  document.getElementById('mYield').textContent=(flat?'':(gain>=0?'+':''))+fmt(flat?0:pct,2)+'%';
+  if(flat){ pnl.className='pnl'; pnl.style.color='var(--ink-soft)'; pnl.textContent='0.00%'; }
+  else { pnl.className='pnl '+(gain>=0?'up':'down'); pnl.style.color=''; pnl.textContent=(gain>=0?'▲ +':'▼ ')+fmt(Math.abs(pct),2)+'%'; }
 }
 
 // REAL fund-level data (no wallet): assets, NAV, where the money is today
