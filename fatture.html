@@ -242,6 +242,35 @@ function taxCompute(year){
   return {year:year, lordo:lordo, imponibile:imponibile, rate:rate, imposta:imposta, inps:inps, inpsLbl:inpsLbl, due:due, net:net, margPct:margPct};
 }
 
+/* incassato per mese di un anno (12 valori) */
+function monthlyTotals(year){
+  var arr=new Array(12).fill(0);
+  invoices.forEach(function(i){ if(yearOf(i.date)===year){ var m=parseInt((i.date||'').slice(5,7),10)-1; if(m>=0&&m<12) arr[m]+=invoiceTotal(i); } });
+  return arr;
+}
+var MO=['G','F','M','A','M','G','L','A','S','O','N','D'];
+function barChart(year){
+  var data=monthlyTotals(year), max=Math.max.apply(null,data.concat([1]));
+  var W=600,H=156,pad=6,base=H-22,top=22, slot=(W-pad*2)/12, bw=slot*0.56;
+  var bars=data.map(function(v,i){
+    var h=v>0?Math.max(3,(v/max)*(base-top)):0, x=pad+i*slot+(slot-bw)/2, y=base-h;
+    var lbl=v>0?'<text x="'+(x+bw/2)+'" y="'+(y-5)+'" fill="var(--ink-soft)" font-size="10" text-anchor="middle" font-family="var(--font)">'+eur0(v).replace(/\s?€/,'')+'</text>':'';
+    return '<rect x="'+x.toFixed(1)+'" y="'+y.toFixed(1)+'" width="'+bw.toFixed(1)+'" height="'+h.toFixed(1)+'" rx="3" fill="'+(v>0?'url(#bg)':'var(--line)')+'"/>'+lbl
+      +'<text x="'+(x+bw/2).toFixed(1)+'" y="'+(H-6)+'" fill="var(--ink-faint)" font-size="10" text-anchor="middle" font-family="var(--font)">'+MO[i]+'</text>';
+  }).join('');
+  return '<svg viewBox="0 0 '+W+' '+H+'" width="100%" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Incassato mensile '+year+'">'
+    +'<defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--accent)"/><stop offset="1" stop-color="var(--accent-deep)"/></linearGradient></defs>'
+    +'<line x1="'+pad+'" y1="'+base+'" x2="'+(W-pad)+'" y2="'+base+'" stroke="var(--line)" stroke-width="1"/>'+bars+'</svg>';
+}
+
+/* acconti metodo storico: acconto anno successivo = 100% imposta dell'anno */
+function accontiCompute(imposta){
+  var tot=imposta;
+  if(tot<=51.65) return {tot:0, mode:'none', rata1:0, rata2:0};
+  if(tot<=257.52) return {tot:r2(tot), mode:'single', rata1:0, rata2:r2(tot)};
+  return {tot:r2(tot), mode:'two', rata1:r2(tot*0.4), rata2:r2(tot*0.6)};
+}
+
 /* ============================== router ============================== */
 function go(v){ state.view=v; document.querySelectorAll('.navbtn').forEach(function(b){ b.classList.toggle('on', b.dataset.view===v); }); render(); window.scrollTo(0,0); }
 document.querySelectorAll('.navbtn').forEach(function(b){ b.addEventListener('click', function(){ go(b.dataset.view); }); });
@@ -280,6 +309,10 @@ function viewDashboard(){
     +stat('Netto stimato', eur0(t.net), 'dopo tasse e contributi','good')
     +stat('Da incassare', eur0(unpaidTot), unpaid.length+' fatture non pagate','')
   +'</div>'
+  +'<div class="card" style="margin-bottom:16px"><div style="display:flex;justify-content:space-between;align-items:baseline"><h3>Andamento incassi '+y+'</h3>'
+    +'<span style="color:var(--ink-faint);font-size:.82rem">totale '+eur0(t.lordo)+'</span></div>'
+    +'<div class="sub">incassato per mese, dalle fatture emesse</div>'
+    +(t.lordo>0? barChart(y) : '<p class="empty">Nessuna fattura quest’anno: il grafico si riempie man mano che emetti.</p>')+'</div>'
   +'<div class="grid g2">'
     +'<div class="card"><h3>Prossima scadenza</h3><div class="sub">quando servono i soldi del salvadanaio</div>'
       +(next? '<div style="display:flex;align-items:baseline;gap:12px"><div style="font-size:1.5rem;font-weight:700;color:var(--accent)">'+next.dt+'</div></div><p style="color:var(--ink-soft);font-size:.9rem;margin-top:8px">'+next.ds+'</p>' : '<p class="empty">Nessuna scadenza imminente.</p>')
@@ -350,7 +383,24 @@ function viewTax(){
         +brow('Ti resta in tasca', eur(t.net),'netto stimato','net')
       +'</div></div>'
     +'</div>'
+    +accontiCard(t)
     +(effectiveTaxRate(state.taxYear)===15 && num(profile.taxRate)===5 ? '<div class="banner" style="margin-top:16px"><span>⚠️</span><span>Per l’anno '+state.taxYear+' l’aliquota agevolata del 5% risulta <b>scaduta</b> (oltre i 5 anni dall’inizio attività nel '+esc(profile.regimeStartYear)+'): applicato il 15%.</span></div>':'');
+}
+function accontiCard(t){
+  var ny=state.taxYear+1, acc=accontiCompute(t.imposta);
+  var body;
+  if(acc.mode==='none') body='<p style="color:var(--ink-soft);margin:0">Imposta '+state.taxYear+' sotto €51,65: <b>nessun acconto</b> dovuto per il '+ny+'.</p>';
+  else if(acc.mode==='single') body='<div class="brk">'+brow('Unica rata — 30 nov '+ny, eur(acc.rata2),'imposta tra €51,65 e €257,52','')+'</div>';
+  else body='<div class="brk">'
+      +brow('1ª rata — 30 giu '+ny, eur(acc.rata1),'40% dell’acconto','')
+      +brow('2ª rata — 30 nov '+ny, eur(acc.rata2),'60% dell’acconto','')
+      +'<div class="row tot"><div class="lbl">Totale acconti '+ny+'</div><div class="val">'+eur(acc.tot)+'</div></div></div>';
+  var giu = acc.mode==='two'? r2(t.imposta+acc.rata1) : t.imposta;
+  return '<div class="card" style="margin-top:16px"><h3>Acconti imposta '+ny+'</h3>'
+    +'<div class="sub">metodo storico · 100% dell’imposta sostitutiva '+state.taxYear+' ('+eur(t.imposta)+')</div>'
+    +body
+    +(acc.mode!=='none'?'<div class="banner" style="margin-top:14px;margin-bottom:0"><span>💡</span><span>A <b>giugno '+ny+'</b> pagherai insieme <b>saldo '+state.taxYear+'</b> ('+eur(t.imposta)+')'+(acc.mode==='two'?' <b>+ 1ª rata acconto</b> ('+eur(acc.rata1)+') = '+eur(giu)+' di sola imposta':'')+', oltre ai contributi INPS. Tienine conto nel salvadanaio.</span></div>':'')
+    +'</div>';
 }
 
 function nextDeadline(){
