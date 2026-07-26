@@ -165,7 +165,7 @@ footer .wrap{max-width:900px}
     <!-- DEPOSITA / PRELEVA -->
     <div class="card c-4">
       <div class="tabs"><div class="tab on" id="tabDep">Deposita</div><div class="tab" id="tabWit">Preleva</div></div>
-      <div class="field"><input id="amt" type="number" min="0" step="1" placeholder="0.00" inputmode="decimal"><span style="align-self:center;color:var(--ink-soft)">USDC</span></div>
+      <div class="field"><input id="amt" type="number" min="0" step="0.01" placeholder="0.00" inputmode="decimal"><span style="align-self:center;color:var(--ink-soft)">USDC</span></div>
       <div class="hint"><span id="hintL">Saldo wallet: —</span><a id="maxBtn">max</a></div>
       <button class="btn btn-solid" id="actBtn" style="width:100%;margin-top:16px" disabled>Connetti il wallet</button>
       <p class="note" id="actNote">Il deposito viene messo a rendere in automatico nella parte sicura (prestito stablecoin), entro poche ore.
@@ -229,6 +229,7 @@ const CONFIG = {
   chainName: 'Arbitrum',
   explorer: 'https://arbiscan.io',
   depositsLive: true,              // deposita/preleva ATTIVI (aperti da Felice prima dell'audit). Rimetti false per richiudere.
+  deployBlock: 486909000,          // poco prima del primo Deposit (486909040): evita di scansionare i log da zero
 };
 const ABI = [
   'function balanceOf(address) view returns (uint256)',
@@ -237,6 +238,8 @@ const ABI = [
   'function navPerShare() view returns (uint256)',
   'function deposit(uint256 assets, address receiver) returns (uint256)',
   'function withdraw(uint256 assets, address receiver, address owner) returns (uint256)',
+  'event Deposit(address indexed sender, address indexed owner, uint256 assets, uint256 shares)',
+  'event Withdraw(address indexed sender, address indexed receiver, address indexed owner, uint256 assets, uint256 shares)',
 ];
 const ERC20 = ['function balanceOf(address) view returns (uint256)',
   'function allowance(address,address) view returns (uint256)',
@@ -246,18 +249,43 @@ const U = CONFIG.decimals;
 const fmt = (n,d=2)=>Number(n).toLocaleString('it-IT',{minimumFractionDigits:d,maximumFractionDigits:d});
 const RO = new ethers.JsonRpcProvider(CONFIG.rpc);   // provider pubblico in sola lettura: dati reali senza wallet
 let signer=null, account=null, lastWallet=0, lastValue=0;
+/* Costo base REALE, ricostruito dagli eventi on-chain del vault.
+   NON si può approssimare col numero di quote: chi entra a NAV>1 riceve MENO quote
+   degli USDC versati, quindi "quote" sottostima il capitale e il guadagno mostrato
+   diventa quote×(NAV−1) — che sale a ogni nuovo deposito anche se quel denaro non
+   ha ancora prodotto nulla. Su un prelievo si scala il costo in proporzione alle
+   quote bruciate (costo medio), che è l'unico metodo coerente senza lotti FIFO. */
+async function costBasis(v, who){
+  const [dep, wit] = await Promise.all([
+    v.queryFilter(v.filters.Deposit(null, who), CONFIG.deployBlock, 'latest'),
+    v.queryFilter(v.filters.Withdraw(null, null, who), CONFIG.deployBlock, 'latest'),
+  ]);
+  const evs = [...dep, ...wit].sort((a,b)=>
+    (a.blockNumber-b.blockNumber) || ((a.index??a.logIndex)-(b.index??b.logIndex)));
+  let basis=0n, sh=0n;
+  for(const e of evs){
+    const isDep = (e.eventName || e.fragment?.name) === 'Deposit';
+    const assets=e.args.assets, shares=e.args.shares;
+    if(isDep){ basis+=assets; sh+=shares; }
+    else { if(sh>0n) basis-=basis*shares/sh; sh-=shares; if(sh<0n) sh=0n; if(basis<0n) basis=0n; }
+  }
+  return basis;
+}
+
 function paintPosition(shares, deposited, value, nav){
-  const gain=value-deposited, pct=deposited?gain/deposited*100:0;
+  const known = deposited!==null && deposited!==undefined;   // costo base illeggibile -> non inventiamo un numero
+  const gain=known?value-deposited:0, pct=(known&&deposited)?gain/deposited*100:0;
   const flat=Math.abs(gain)<0.005;   // sotto il centesimo = piatto (arrotondamento/dead-shares), non una perdita
   document.getElementById('posVal').textContent=fmt(value);
-  document.getElementById('posDep').textContent=fmt(deposited)+' USDC';
-  document.getElementById('posGain').textContent=(flat?'':(gain>=0?'+':''))+fmt(flat?0:gain)+' USDC';
+  document.getElementById('posDep').textContent=known?fmt(deposited)+' USDC':'—';
+  document.getElementById('posGain').textContent=known?((flat?'':(gain>=0?'+':''))+fmt(flat?0:gain)+' USDC'):'—';
   document.getElementById('posShares').textContent=fmt(shares,2);
   document.getElementById('posNav').textContent=fmt(nav,4);
   const pnl=document.getElementById('posPnl');
-  if(flat){ pnl.className='pnl'; pnl.style.color='var(--ink-soft)'; pnl.textContent='0.00%'; }
+  if(!known){ pnl.className='pnl'; pnl.style.color='var(--ink-soft)'; pnl.textContent='—'; }
+  else if(flat){ pnl.className='pnl'; pnl.style.color='var(--ink-soft)'; pnl.textContent='0.00%'; }
   else { pnl.className='pnl '+(gain>=0?'up':'down'); pnl.style.color=''; pnl.textContent=(gain>=0?'▲ +':'▼ ')+fmt(Math.abs(pct),2)+'%'; }
-  document.getElementById('mYield').textContent=(flat?'':(gain>=0?'+':''))+fmt(flat?0:pct,2)+'%';
+  document.getElementById('mYield').textContent=known?((flat?'':(gain>=0?'+':''))+fmt(flat?0:pct,2)+'%'):'—';
 }
 
 // dati REALI a livello fondo (senza wallet): patrimonio, NAV, dove sono i soldi oggi
@@ -311,8 +339,11 @@ async function refreshUser(){
   const shN=Number(ethers.formatUnits(sh,U)), valN=Number(ethers.formatUnits(val,U)), navN=Number(ethers.formatUnits(nav,18));
   const walN=Number(ethers.formatUnits(wal,U));
   lastWallet=walN; lastValue=valN;   // valori per il tasto "max"
-  // costo base ~ quote a NAV 1.00 all'ingresso (esatto per i primi depositi; il costo per chi entra a NAV>1 richiederà gli eventi Deposit).
-  paintPosition(shN, shN, valN, navN);
+  // costo base ESATTO dagli eventi on-chain. Se i log non sono leggibili mostriamo "—": meglio nessun numero che uno sbagliato.
+  let depN=null;
+  try { depN=Number(ethers.formatUnits(await costBasis(v, account), U)); }
+  catch(e){ console.warn('costo base non leggibile dai log:', e); }
+  paintPosition(shN, depN, valN, navN);
   document.getElementById('hintL').textContent='Saldo wallet: '+fmt(walN)+' USDC';
 }
 let mode='dep';
@@ -363,10 +394,21 @@ document.getElementById('tabDep').onclick=()=>setMode('dep');
 document.getElementById('tabWit').onclick=()=>setMode('wit');
 document.getElementById('connect').onclick=connect;
 document.getElementById('actBtn').onclick=act;
+/* Il campo importo lavora SEMPRE a 2 decimali.
+   Si tronca per DIFETTO, mai si arrotonda: arrotondando per eccesso l'importo
+   supererebbe il saldo disponibile e la transazione fallirebbe in wallet. */
+const floor2 = x => Math.floor((Number(x)||0)*100)/100;
+
+document.getElementById('amt').addEventListener('input', (e)=>{
+  const v=e.target.value;
+  if(v && /\.\d{3,}/.test(v)) e.target.value = v.slice(0, v.indexOf('.')+3);
+});
+
 document.getElementById('maxBtn').onclick=async ()=>{
   if(!account){ await connect(); if(!account) return; }
   await refreshUser();
-  document.getElementById('amt').value = (mode==='dep' ? lastWallet : lastValue) || '';
+  const max = floor2(mode==='dep' ? lastWallet : lastValue);
+  document.getElementById('amt').value = max>0 ? max.toFixed(2) : '';
 };
 
 /* boot: dati reali subito + riconnessione automatica del wallet se già autorizzato (niente popup a ogni refresh) */
