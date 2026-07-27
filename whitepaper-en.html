@@ -138,12 +138,22 @@ footer .wrap{max-width:900px} footer p{font-size:.8rem; color:var(--ink-faint); 
     <section id="sintesi">
       <h2><span class="n">1</span>Summary</h2>
       <p>FARMARE splits capital <b>80 / 20</b>. The 80% (<b>Core</b>, the safe base) sits in liquid stablecoin
-        lending: it yields ~3.5% today, with no swings, withdrawable instantly. The 20% (<b>Momentum</b>, the extra-return
+        lending: it yields <span data-baserate>~2.7%</span> today, with no swings, withdrawable instantly. The 20% (<b>Momentum</b>, the extra-return
         engine) opens delta-neutral positions on new exchanges to harvest their future airdrops. The Core's
         <b>interest</b> — not the capital — gradually buys tokenized gold and S&amp;P 500. The capital is never bet on
         the price of anything.</p>
-      <div class="callout">A solid base (~3.5%, protected and liquid capital) plus two convex return engines
+      <div class="callout">A solid base (<span data-baserate>~2.7%</span>, protected and liquid capital) plus two convex return engines
         (the RWA extra return and the airdrops) that <b>do not put the capital at risk</b>. Neither is guaranteed.</div>
+
+      <div class="callout" style="border-color:var(--warn); background:rgba(232,193,90,.06); color:#f0d68a">
+        <b>Operating status, 27 July 2026.</b> This document describes the fund's structure. What is
+        <b>actually running today</b> is the Core alone: the vault has a single approved venue (USDC lending
+        on Aave, Arbitrum) and holds 100% of the capital there. Neither return engine is switched on yet.
+        Momentum is not, by the design's own rule — below ~€20,000 its fixed costs exceed what it would earn.
+        The RWA extra return is not, because of a market constraint: on Arbitrum <b>PAXG has no market</b>
+        (zero pools) and tokenized S&amp;P liquidity is negligible, so the coupon has nowhere to be invested
+        today. While they stay off, the fund's return is the base rate alone.
+      </div>
     </section>
 
     <section id="tesi">
@@ -223,7 +233,7 @@ footer .wrap{max-width:900px} footer p{font-size:.8rem; color:var(--ink-faint); 
         −2.2% versus −5.3% for pure gold. By contrast, in the real S&amp;P crash (−34%, 2020) a <b>static 20%</b>
         would have cost ~−6.8% of the whole fund; DCA'ing the coupon risks only the small position.</p>
       <div class="callout warn">A <b>benign</b> period: gold +118% and S&amp;P +74% over 2.8 years, and average lending
-        rates (~5.4%) ~2pp above today (~3.4%) → read the absolutes ~2pp lower in current conditions. The S&amp;P is
+        rates (~5.4%) ~2pp above today (<span data-baserate>~2.7%</span>) → read the absolutes ~2pp lower in current conditions. The S&amp;P is
         price-only (dividends ~1.5%/yr excluded, conservative); tokenized-asset tracking/redemption not modeled.
         Not a promise; the guaranteed advantage is structural — the capital is never exposed.</div>
     </section>
