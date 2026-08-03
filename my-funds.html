@@ -231,6 +231,12 @@ const CONFIG = {
   depositsLive: true,              // deposita/preleva ATTIVI (aperti da Felice prima dell'audit). Rimetti false per richiudere.
   deployBlock: 486909000,          // poco prima del primo Deposit (486909040): evita di scansionare i log da zero
 };
+// Gli adapter del vault. L'elenco e' qui, ma i PESI no: quelli si leggono da
+// totalAssets() di ognuno, cosi' il 50/50 con Fluid entra da solo quando parte.
+const VENUES = [
+  {adapter:'0x21C2405d7A40842432a140360068776A8dF63158', label:'Aave',  rate:'aave'},
+  {adapter:'0xB37daEa08A1BB2a6c66fDCAf0CBBB227134DD7FA', label:'Fluid', rate:'fluid'},
+];
 const ABI = [
   'function balanceOf(address) view returns (uint256)',
   'function totalAssets() view returns (uint256)',
@@ -297,19 +303,44 @@ async function loadFund(){
     const aumN=Number(ethers.formatUnits(aum,U)), navN=Number(ethers.formatUnits(nav,18)), idleN=Number(ethers.formatUnits(idle,U));
     const allocN=Math.max(0,aumN-idleN);
     document.getElementById('posNav').textContent=fmt(navN,4);
+    // Le venue NON si scrivono a mano: si legge totalAssets() di ogni adapter. Prima questa
+    // riga diceva "Nucleo · Aave <tutto l'allocato>", quindi dal 5 agosto avrebbe mostrato
+    // su Aave anche i soldi che stanno su Fluid. Un adapter che non risponde si dichiara:
+    // sparire dall'elenco lo renderebbe indistinguibile da una posizione a zero.
+    const vSpans=[];
+    for(const v of VENUES){
+      try{
+        const p=Number(ethers.formatUnits(await new ethers.Contract(v.adapter,
+          ['function totalAssets() view returns (uint256)'],RO).totalAssets(),U));
+        if(p>0.005) vSpans.push('<span>Nucleo · '+v.label+' '+fmt(p)+' USDC</span>');
+      }catch(e){ console.error('venue',v.label,e); vSpans.push('<span>Nucleo · '+v.label+' non leggibile</span>'); }
+    }
     document.getElementById('venues').innerHTML='<b style="color:var(--ink-soft)">Oggi, on-chain:</b> '+
-      '<span>Patrimonio '+fmt(aumN)+' USDC</span><span>Nucleo · Aave '+fmt(allocN)+' USDC</span><span>Liquido nel vault '+fmt(idleN)+' USDC</span>';
+      '<span>Patrimonio '+fmt(aumN)+' USDC</span>'+vSpans.join('')+'<span>Liquido nel vault '+fmt(idleN)+' USDC</span>';
     document.getElementById('log').innerHTML='<a href="'+CONFIG.explorer+'/address/'+CONFIG.vault+'" target="_blank" rel="noopener" style="color:var(--cyan);font-weight:600">Cronologia completa e verificabile su Arbiscan →</a>';
   }catch(e){ console.error('loadFund',e);
     document.getElementById('venues').innerHTML='<b style="color:var(--ink-soft)">Dati on-chain non raggiungibili ora — riprova.</b>'; }
-  // tasso base reale = supply APY di Aave USDC su Arbitrum (il fondo è 100% su Nucleo/Aave)
+  // Tasso base reale = media PESATA sulle posizioni EFFETTIVE del vault, lette on-chain.
+  // Prima era il tasso della sola Aave, col commento "il fondo è 100% su Nucleo/Aave": vero
+  // fino al 5 agosto 2026 e falso dopo. I pesi si leggono, non si scrivono.
+  // Se manca un pezzo NON scrive nulla: un numero parziale sarebbe indistinguibile da uno
+  // completo, ed è il peggiore dei due guasti.
   try{
     const pool=new ethers.Contract('0x794a61358D6845594F94dc1DB02A252b5b4814aD',
       ['function getReserveData(address) view returns (tuple(uint256 configuration,uint128 liquidityIndex,uint128 currentLiquidityRate,uint128 vbi,uint128 cvbr,uint128 csbr,uint40 lut,uint16 id,address at,address sdt,address vdt,address irs,uint128 att,uint128 ub,uint128 iso))'], RO);
     const rd=await pool.getReserveData(CONFIG.usdc);
     const apr=Number(rd.currentLiquidityRate)/1e27;
-    const apy=Math.pow(1+apr/31536000,31536000)-1;
-    const el=document.getElementById('baseYield'); if(el) el.textContent=(apy*100).toFixed(2).replace('.',',')+'%';
+    const RATE={ aave: Math.pow(1+apr/31536000,31536000)-1,
+      fluid: await (async()=>{ const j=await (await fetch('https://api.fluid.instadapp.io/v2/lending/42161/tokens')).json();
+        const ts=(j&&j.data)||j; const t=(ts||[]).find(x=>String(x.address||'').toLowerCase()==='0x1a996cb54bb95462040408c06122d45d6cdb6096');
+        if(!t||t.supplyRate==null) throw new Error('fluid rate'); return Number(t.supplyRate)/10000; })() };
+    let tot=0, acc=0;
+    for(const v of VENUES){
+      const p=Number(await new ethers.Contract(v.adapter,['function totalAssets() view returns (uint256)'],RO).totalAssets());
+      if(p>0){ tot+=p; acc+=p*RATE[v.rate]; }
+    }
+    if(tot>0){ const el=document.getElementById('baseYield');
+      if(el) el.textContent=((acc/tot)*100).toFixed(2).replace('.',',')+'%'; }
   }catch(e){ console.error('aave apy',e); }
 }
 
