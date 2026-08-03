@@ -138,16 +138,18 @@ footer .wrap{max-width:900px} footer p{font-size:.8rem; color:var(--ink-faint); 
     <section id="sintesi">
       <h2><span class="n">1</span>In sintesi</h2>
       <p>FARMARE divide il capitale <b>80 / 20</b>. L'80% (<b>Nucleo</b>) sta in prestito stablecoin liquido: rende
-        <span data-baserate>~2,7%</span> oggi, senza oscillazioni, ritirabile all'istante. Il 20% (<b>Slancio</b>) apre posizioni delta-neutral
+        <span data-baserate>~2,6%</span> oggi, senza oscillazioni, ritirabile all'istante. Il 20% (<b>Slancio</b>) apre posizioni delta-neutral
         su exchange nuovi per raccoglierne i futuri airdrop. Gli <b>interessi</b> del Nucleo — non il capitale —
         comprano piano piano oro e S&amp;P500 tokenizzati. Il capitale non è mai scommesso sul prezzo di nulla.</p>
-      <div class="callout">Base solida (<span data-baserate>~2,7%</span>, capitale protetto e liquido) + due motori di rialzo convessi
+      <div class="callout">Base solida (<span data-baserate>~2,6%</span>, capitale protetto e liquido) + due motori di rialzo convessi
         (il rendimento extra RWA e gli airdrop) che <b>non rischiano il capitale</b>. Nessuno dei due è garantito.</div>
 
       <div class="callout" style="border-color:var(--warn); background:rgba(232,193,90,.06); color:#f0d68a">
         <b>Stato operativo al 27 luglio 2026.</b> Questo documento descrive la struttura del fondo. Ciò che
-        <b>oggi è in funzione</b> è solo il Nucleo: il vault ha una singola venue approvata (prestito USDC su
-        Aave, Arbitrum) e vi sta il 100% del capitale. I due motori di rialzo <b>non sono ancora attivi</b>.
+        <b>oggi è in funzione</b> è solo il Nucleo: il vault presta USDC sui money-market di Arbitrum. Aave è la venue
+        storica; Fluid è stata proposta il 3 agosto 2026 ed entra in funzione dopo il timelock di
+        48 ore, con un tetto del 50% per ciascuna. La ripartizione effettiva è sempre leggibile
+        on-chain. I due motori di rialzo <b>non sono ancora attivi</b>.
         Lo Slancio non lo è per la regola del progetto stesso — sotto ~€20.000 i costi fissi superano quello
         che produrrebbe. Il rendimento extra RWA non lo è per un vincolo di mercato: su Arbitrum <b>PAXG non
         ha mercato</b> (zero pool) e l'S&amp;P tokenizzato ha liquidità trascurabile, quindi la cedola non ha
@@ -167,7 +169,7 @@ footer .wrap{max-width:900px} footer p{font-size:.8rem; color:var(--ink-faint); 
       <h2><span class="n">3</span>La struttura</h2>
       <p>Barbell 80 / 20, con un rendimento extra a capitale protetto dentro l'80%.</p>
       <h3>Nucleo — 80%</h3>
-      <p>Prestito di stablecoin su protocolli blue-chip e collaudati (tipo Aave). Rende ~3,3–4,0% oggi, drawdown ~0,
+      <p>Prestito di stablecoin su protocolli blue-chip e collaudati (tipo Aave). Rende <span data-baserate>~2,6%</span> oggi, drawdown ~0,
         ritirabile all'istante. Nessun T-bill tokenizzato nel v1: la scelta garantisce il prelievo immediato al 100%.</p>
       <h3>Rendimento extra RWA — gli interessi del Nucleo</h3>
       <p>La cedola generata dal Nucleo viene sfilata e comprata <b>a mercato, ogni settimana</b> (batching per il gas;
@@ -201,7 +203,7 @@ footer .wrap{max-width:900px} footer p{font-size:.8rem; color:var(--ink-faint); 
       <h3>Misurato oggi</h3>
       <div class="tbl-wrap"><table>
         <tr><th>Componente</th><th class="r">Oggi</th><th>Nota</th></tr>
-        <tr><td>Nucleo (prestito)</td><td class="r">~3,3–4,0%</td><td>misurato, base solida e liquida</td></tr>
+        <tr><td>Nucleo (prestito)</td><td class="r"><span data-baserate>~2,6%</span></td><td>misurato, base solida e liquida</td></tr>
         <tr><td>Edge dello Slancio</td><td class="r">~0</td><td>funding compresso ora; regime-dipendente</td></tr>
         <tr><td>Rendimento extra RWA</td><td class="r">0 → +1 pp</td><td>solo periodo benigno; non bankable</td></tr>
         <tr><td>Airdrop</td><td class="r">lotteria</td><td>convesso; zero in molti periodi, a volte molto</td></tr>
@@ -231,7 +233,7 @@ footer .wrap{max-width:900px} footer p{font-size:.8rem; color:var(--ink-faint); 
         −2,2% contro il −5,3% dell'oro puro. Per contrasto, nel crollo reale dell'S&amp;P (−34%, 2020) un
         <b>20% statico</b> avrebbe perso ~−6,8% dell'intero fondo; la DCA della cedola rischia solo la piccola posizione.</p>
       <div class="callout warn">Periodo <b>benigno</b>: oro +118% e S&amp;P +74% in 2,8 anni, e tassi di lending medi
-        (~5,4%) ~2pp sopra l'oggi (<span data-baserate>~2,7%</span>) → gli assoluti vanno letti ~2pp più bassi in condizioni attuali. L'S&amp;P è
+        (~5,4%) ~2pp sopra l'oggi (<span data-baserate>~2,6%</span>) → gli assoluti vanno letti ~2pp più bassi in condizioni attuali. L'S&amp;P è
         a prezzo (dividendi ~1,5%/anno esclusi, prudente); tracking/riscatto degli asset tokenizzati non modellati.
         Non è una promessa; il vantaggio garantito è strutturale — il capitale non è mai esposto.</div>
     </section>
@@ -327,21 +329,49 @@ footer .wrap{max-width:900px} footer p{font-size:.8rem; color:var(--ink-faint); 
 </div></footer>
 
 <script>
-/* Legge il tasso di deposito USDC di Aave v3 direttamente da Arbitrum e riempie ogni
-   [data-baserate]. Cosi' il whitepaper non puo' restare indietro rispetto al mercato:
-   il 27 lug 2026 il numero scritto a mano diceva 3,5% mentre il tasso reale era 2,674%. */
+/* Tasso base REALE, live. Media PESATA sulle posizioni EFFETTIVE del vault: i pesi non
+   sono scritti qui, si leggono da totalAssets() di ogni adapter on-chain. Cosi' il numero
+   resta giusto quando l'allocazione cambia, senza toccare questo file.
+   Se manca anche un solo pezzo NON scrive nulla: un numero parziale sarebbe
+   indistinguibile da uno completo, ed e' il guasto peggiore dei due. */
 (function(){
+  var RPC='https://arb1.arbitrum.io/rpc';
+  var AAVE_POOL='0x794a61358D6845594F94dc1DB02A252b5b4814aD';
   var USDC='0xaf88d065e77c8cC2239327C5EDb3A432268e5831';
-  var data='0x35ea6a75'+USDC.slice(2).toLowerCase().padStart(64,'0');
-  fetch('https://arb1.arbitrum.io/rpc',{method:'POST',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({jsonrpc:'2.0',id:1,method:'eth_call',
-      params:[{to:'0x794a61358D6845594F94dc1DB02A252b5b4814aD',data:data},'latest']})})
-  .then(function(r){return r.json()}).then(function(j){
-    if(!j.result) return;
-    var rate=BigInt('0x'+j.result.slice(2).slice(128,192));
-    var apy=Math.pow(1+Number(rate)/1e27/31536000,31536000)-1;
-    var txt='~'+(apy*100).toLocaleString('it-IT',{minimumFractionDigits:1,maximumFractionDigits:1})+'%';
-    document.querySelectorAll('[data-baserate]').forEach(function(e){e.textContent=txt});
-  }).catch(function(){});   /* se il nodo non risponde resta il valore scritto, mai un numero finto */
+  var FUSDC='0x1A996cb54bb95462040408C06122D45D6Cdb6096';
+  var VENUES=[{ad:'0x21C2405d7A40842432a140360068776A8dF63158',src:'aave'},
+              {ad:'0xB37daEa08A1BB2a6c66fDCAf0CBBB227134DD7FA',src:'fluid'}];
+  function call(to,data){
+    return fetch(RPC,{method:'POST',headers:{'content-type':'application/json'},
+      body:JSON.stringify({jsonrpc:'2.0',id:1,method:'eth_call',params:[{to:to,data:data},'latest']})})
+      .then(function(r){return r.json();}).then(function(j){
+        if(!j||!j.result||j.result==='0x') throw 0; return j.result;});
+  }
+  var RATE={
+    aave:function(){ return call(AAVE_POOL,'0x35ea6a75'+USDC.slice(2).toLowerCase().padStart(64,'0'))
+      .then(function(h){ var apr=Number(BigInt('0x'+h.slice(2).slice(128,192)))/1e27;
+        return Math.pow(1+apr/31536000,31536000)-1; }); },
+    fluid:function(){ return fetch('https://api.fluid.instadapp.io/v2/lending/42161/tokens')
+      .then(function(r){return r.json();}).then(function(j){
+        var ts=(j&&j.data)||j, t=null;
+        (ts||[]).forEach(function(x){ if(String(x.address||'').toLowerCase()===FUSDC.toLowerCase()) t=x; });
+        if(!t||t.supplyRate==null) throw 0;
+        return Number(t.supplyRate)/10000; }); }
+  };
+  Promise.all(VENUES.map(function(v){return call(v.ad,'0x01e1d114')
+    .then(function(h){return Number(BigInt(h));});}))
+  .then(function(pos){
+    var live=VENUES.map(function(v,i){return {v:v,p:pos[i]};}).filter(function(x){return x.p>0;});
+    if(!live.length) throw 0;
+    return Promise.all(live.map(function(x){return RATE[x.v.src]().then(function(r){return x.p*r;});}))
+      .then(function(w){ var tot=0,acc=0;
+        live.forEach(function(x,i){tot+=x.p; acc+=w[i];});
+        return acc/tot; });
+  }).then(function(apy){
+    var num=(apy*100).toFixed(1).replace('.',',');
+    document.querySelectorAll('[data-baserate]').forEach(function(el){
+      el.textContent=(el.getAttribute('data-baserate')==='plain'?'':'~')+num+'%';
+    });
+  }).catch(function(){});
 })();
 </script>

@@ -335,9 +335,9 @@ footer{border-top:1px solid var(--hair); padding:var(--s4) 0 var(--s5); margin-t
   <!-- HERO -->
   <section class="hero" style="border-top:0">
     <div class="stagger">
-      <p class="eyebrow"><span class="dot">●</span>&nbsp; Rendimento di base ~<span data-baserate="plain">2,7%</span> l'anno · capitale non vincolato</p>
+      <p class="eyebrow"><span class="dot">●</span>&nbsp; Rendimento di base ~<span data-baserate="plain">2,6%</span> l'anno · capitale non vincolato</p>
       <h1><span class="grad">Il capitale al sicuro, che cresce ogni giorno.</span></h1>
-      <p class="lead">Un sistema automatico lavora in continuo: l'80% del capitale produce un rendimento di base (<span data-baserate>~2,7%</span> l'anno),
+      <p class="lead">Un sistema automatico lavora in continuo: l'80% del capitale produce un rendimento di base (<span data-baserate>~2,6%</span> l'anno),
         il restante 20% è destinato a rendimento incrementale, distribuito su più protocolli con un tetto
         dell'1-5% su ciascuno. Un solo deposito; il capitale resta disponibile e riscattabile — a rischio solo
         la quota attiva, <b>mai il capitale</b>. <b>Oggi il fondo è interamente sul rendimento di base:</b> la
@@ -361,7 +361,7 @@ footer{border-top:1px solid var(--hair); padding:var(--s4) 0 var(--s5); margin-t
     </div>
     <div class="flow rev" id="flowbox"><canvas id="flow"></canvas></div>
     <div class="flow-legend rev">
-      <span><i class="d-safe"></i> Nucleo · <span data-baserate>~2,7%</span></span>
+      <span><i class="d-safe"></i> Nucleo · <span data-baserate>~2,6%</span></span>
       <span><i class="d-out"></i> Capitale allocato</span>
       <span><i class="d-back"></i> Proventi reinvestiti</span>
     </div>
@@ -377,9 +377,9 @@ footer{border-top:1px solid var(--hair); padding:var(--s4) 0 var(--s5); margin-t
     </div>
     <div class="features">
       <div class="fcard rev">
-        <div class="fgfx"><canvas data-fx="gauge"></canvas><span class="gnum" data-baserate>~2,7%</span><span class="glbl">circa, l'anno</span></div>
+        <div class="fgfx"><canvas data-fx="gauge"></canvas><span class="gnum" data-baserate>~2,6%</span><span class="glbl">circa, l'anno</span></div>
         <h3>Rendimento di base, e il suo metro</h3>
-        <p>Il Nucleo genera <span data-baserate>~2,7%</span> l'anno e resta sempre liquido e riscattabile.
+        <p>Il Nucleo genera <span data-baserate>~2,6%</span> l'anno e resta sempre liquido e riscattabile.
         Il confronto che conta non è il conto corrente: è il titolo di stato a breve, oggi più in alto.
         Il Nucleo non nasce per batterlo, ma per restare liquido e servire da base ai motori sopra.</p>
       </div>
@@ -407,7 +407,7 @@ footer{border-top:1px solid var(--hair); padding:var(--s4) 0 var(--s5); margin-t
         Nucleo, senza mai esporre il capitale; <b>non sono ancora attivi</b>.</p>
     </div>
     <div class="cbars rev">
-      <div class="cbar hi"><span class="ci">◆</span><span class="cl">FARMARE · Nucleo</span><span class="ct"><i data-w="45"></i></span><span class="cv"><span data-baserate>~2,7%</span><small class="cvsub">oggi</small></span></div>
+      <div class="cbar hi"><span class="ci">◆</span><span class="cl">FARMARE · Nucleo</span><span class="ct"><i data-w="45"></i></span><span class="cv"><span data-baserate>~2,6%</span><small class="cvsub">oggi</small></span></div>
       <div class="cbar"><span class="ci">▤</span><span class="cl">Titoli di stato</span><span class="ct"><i data-w="58"></i></span><span class="cv">3,5%</span></div>
       <div class="cbar"><span class="ci">↺</span><span class="cl">App di risparmio</span><span class="ct"><i data-w="55"></i></span><span class="cv">3,3%</span></div>
       <div class="cbar"><span class="ci">≡</span><span class="cl">Conto corrente</span><span class="ct"><i data-w="7"></i></span><span class="cv">0,4%</span></div>
@@ -458,7 +458,7 @@ footer{border-top:1px solid var(--hair); padding:var(--s4) 0 var(--s5); margin-t
     </div>
     <p class="ex-note rev" style="margin:-14px 0 30px">€10.000 iniziali. Il divario si amplia ogni anno: è il capitale
       allocato in modo produttivo. La fascia sfumata è il <b>rendimento extra</b> — possibile rialzo, non garantito.
-      Curva al tasso rappresentativo del backtest (~3,5%); oggi il Nucleo rende <span data-baserate>~2,7%</span> reale (live, in cima).</p>
+      Curva al tasso rappresentativo del backtest (~3,5%); oggi il Nucleo rende <span data-baserate>~2,6%</span> reale (live, in cima).</p>
 
   </section>
 
@@ -973,19 +973,45 @@ document.querySelectorAll('canvas[data-fx]').forEach(cv=>{
 </script>
 
 <script>
-/* Tasso base REALE, live: supply APY di Aave USDC su Arbitrum (il Nucleo è 100% qui).
-   Sostituisce i segnaposto [data-baserate] col tasso attuale — stessa fonte di /my-funds. */
+/* Tasso base REALE, live. Media PESATA sulle posizioni EFFETTIVE del vault: i pesi non
+   sono scritti qui, si leggono da totalAssets() di ogni adapter on-chain. Cosi' il numero
+   resta giusto quando l'allocazione cambia, senza toccare questo file.
+   Se manca anche un solo pezzo NON scrive nulla: un numero parziale sarebbe
+   indistinguibile da uno completo, ed e' il guasto peggiore dei due. */
 (function(){
-  var POOL='0x794a61358D6845594F94dc1DB02A252b5b4814aD';
+  var RPC='https://arb1.arbitrum.io/rpc';
+  var AAVE_POOL='0x794a61358D6845594F94dc1DB02A252b5b4814aD';
   var USDC='0xaf88d065e77c8cC2239327C5EDb3A432268e5831';
-  var data='0x35ea6a75'+USDC.slice(2).toLowerCase().padStart(64,'0');
-  fetch('https://arb1.arbitrum.io/rpc',{method:'POST',headers:{'content-type':'application/json'},
-    body:JSON.stringify({jsonrpc:'2.0',id:1,method:'eth_call',params:[{to:POOL,data:data},'latest']})})
-  .then(function(r){return r.json();}).then(function(j){
-    if(!j||!j.result||j.result.length<194) return;
-    var rate=BigInt('0x'+j.result.slice(2).slice(128,192));   // currentLiquidityRate (ray 1e27)
-    var apr=Number(rate)/1e27;
-    var apy=Math.pow(1+apr/31536000,31536000)-1;
+  var FUSDC='0x1A996cb54bb95462040408C06122D45D6Cdb6096';
+  var VENUES=[{ad:'0x21C2405d7A40842432a140360068776A8dF63158',src:'aave'},
+              {ad:'0xB37daEa08A1BB2a6c66fDCAf0CBBB227134DD7FA',src:'fluid'}];
+  function call(to,data){
+    return fetch(RPC,{method:'POST',headers:{'content-type':'application/json'},
+      body:JSON.stringify({jsonrpc:'2.0',id:1,method:'eth_call',params:[{to:to,data:data},'latest']})})
+      .then(function(r){return r.json();}).then(function(j){
+        if(!j||!j.result||j.result==='0x') throw 0; return j.result;});
+  }
+  var RATE={
+    aave:function(){ return call(AAVE_POOL,'0x35ea6a75'+USDC.slice(2).toLowerCase().padStart(64,'0'))
+      .then(function(h){ var apr=Number(BigInt('0x'+h.slice(2).slice(128,192)))/1e27;
+        return Math.pow(1+apr/31536000,31536000)-1; }); },
+    fluid:function(){ return fetch('https://api.fluid.instadapp.io/v2/lending/42161/tokens')
+      .then(function(r){return r.json();}).then(function(j){
+        var ts=(j&&j.data)||j, t=null;
+        (ts||[]).forEach(function(x){ if(String(x.address||'').toLowerCase()===FUSDC.toLowerCase()) t=x; });
+        if(!t||t.supplyRate==null) throw 0;
+        return Number(t.supplyRate)/10000; }); }
+  };
+  Promise.all(VENUES.map(function(v){return call(v.ad,'0x01e1d114')
+    .then(function(h){return Number(BigInt(h));});}))
+  .then(function(pos){
+    var live=VENUES.map(function(v,i){return {v:v,p:pos[i]};}).filter(function(x){return x.p>0;});
+    if(!live.length) throw 0;
+    return Promise.all(live.map(function(x){return RATE[x.v.src]().then(function(r){return x.p*r;});}))
+      .then(function(w){ var tot=0,acc=0;
+        live.forEach(function(x,i){tot+=x.p; acc+=w[i];});
+        return acc/tot; });
+  }).then(function(apy){
     var num=(apy*100).toFixed(1).replace('.',',');
     document.querySelectorAll('[data-baserate]').forEach(function(el){
       el.textContent=(el.getAttribute('data-baserate')==='plain'?'':'~')+num+'%';

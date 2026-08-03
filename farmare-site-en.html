@@ -335,9 +335,9 @@ footer{border-top:1px solid var(--hair); padding:var(--s4) 0 var(--s5); margin-t
   <!-- HERO -->
   <section class="hero" style="border-top:0">
     <div class="stagger">
-      <p class="eyebrow"><span class="dot">●</span>&nbsp; Base return ~<span data-baserate="plain">2.7%</span> a year · capital never locked up</p>
+      <p class="eyebrow"><span class="dot">●</span>&nbsp; Base return ~<span data-baserate="plain">2.6%</span> a year · capital never locked up</p>
       <h1><span class="grad">Capital, safe — and growing every day.</span></h1>
-      <p class="lead">An automated system runs continuously: 80% of capital produces a base return (<span data-baserate>~2.7%</span> a year),
+      <p class="lead">An automated system runs continuously: 80% of capital produces a base return (<span data-baserate>~2.6%</span> a year),
         the other 20% is earmarked for incremental return, spread across several protocols with a 1–5% cap on each.
         <b>Today the fund sits entirely in the base return:</b> the incremental sleeve switches on when size makes it worthwhile.
         A single deposit; capital stays available and redeemable — only the active tranche is at risk, <b>never the capital</b>.</p>
@@ -360,7 +360,7 @@ footer{border-top:1px solid var(--hair); padding:var(--s4) 0 var(--s5); margin-t
     </div>
     <div class="flow rev" id="flowbox"><canvas id="flow"></canvas></div>
     <div class="flow-legend rev">
-      <span><i class="d-safe"></i> Core · <span data-baserate>~2.7%</span></span>
+      <span><i class="d-safe"></i> Core · <span data-baserate>~2.6%</span></span>
       <span><i class="d-out"></i> Capital allocated</span>
       <span><i class="d-back"></i> Proceeds reinvested</span>
     </div>
@@ -376,9 +376,9 @@ footer{border-top:1px solid var(--hair); padding:var(--s4) 0 var(--s5); margin-t
     </div>
     <div class="features">
       <div class="fcard rev">
-        <div class="fgfx"><canvas data-fx="gauge"></canvas><span class="gnum" data-baserate>~2.7%</span><span class="glbl">about, a year</span></div>
+        <div class="fgfx"><canvas data-fx="gauge"></canvas><span class="gnum" data-baserate>~2.6%</span><span class="glbl">about, a year</span></div>
         <h3>The base return, and its yardstick</h3>
-        <p>The Core generates <span data-baserate>~2.7%</span> a year and stays liquid and redeemable at all times.
+        <p>The Core generates <span data-baserate>~2.6%</span> a year and stays liquid and redeemable at all times.
         The comparison that matters is not a checking account: it is the short-dated government bill, today higher.
         The Core is not built to beat it, but to stay liquid and to fund the engines above it.</p>
       </div>
@@ -406,7 +406,7 @@ footer{border-top:1px solid var(--hair); padding:var(--s4) 0 var(--s5); margin-t
         capital; <b>they are not switched on yet</b>.</p>
     </div>
     <div class="cbars rev">
-      <div class="cbar hi"><span class="ci">◆</span><span class="cl">FARMARE · Core</span><span class="ct"><i data-w="45"></i></span><span class="cv"><span data-baserate>~2.7%</span><small class="cvsub">today</small></span></div>
+      <div class="cbar hi"><span class="ci">◆</span><span class="cl">FARMARE · Core</span><span class="ct"><i data-w="45"></i></span><span class="cv"><span data-baserate>~2.6%</span><small class="cvsub">today</small></span></div>
       <div class="cbar"><span class="ci">▤</span><span class="cl">Government bonds</span><span class="ct"><i data-w="58"></i></span><span class="cv">3.5%</span></div>
       <div class="cbar"><span class="ci">↺</span><span class="cl">Savings apps</span><span class="ct"><i data-w="55"></i></span><span class="cv">3.3%</span></div>
       <div class="cbar"><span class="ci">≡</span><span class="cl">Checking account</span><span class="ct"><i data-w="7"></i></span><span class="cv">0.4%</span></div>
@@ -456,7 +456,7 @@ footer{border-top:1px solid var(--hair); padding:var(--s4) 0 var(--s5); margin-t
     </div>
     <p class="ex-note rev" style="margin:-14px 0 30px">€10,000 initial. The gap widens every year: it's capital
       productively allocated. The shaded band is the <b>extra return</b> — potential, not guaranteed.
-      Curve at the representative backtest rate (~3.5%); today the Core earns <span data-baserate>~2.7%</span> live (top of page).</p>
+      Curve at the representative backtest rate (~3.5%); today the Core earns <span data-baserate>~2.6%</span> live (top of page).</p>
 
   </section>
 
@@ -971,20 +971,46 @@ document.querySelectorAll('canvas[data-fx]').forEach(cv=>{
 </script>
 
 <script>
-/* Live base rate: Aave USDC supply APY on Arbitrum (the Core is 100% here).
-   Replaces the [data-baserate] placeholders with the current rate — same source as /my-funds. */
+/* REAL base rate, live. WEIGHTED by the vault's ACTUAL positions: the weights are not
+   written here, they are read from each adapter's on-chain totalAssets(). The number stays
+   correct when the allocation changes, with no edit to this file.
+   If any single piece is missing it writes NOTHING: a partial number would be
+   indistinguishable from a complete one, and that is the worse of the two failures. */
 (function(){
-  var POOL='0x794a61358D6845594F94dc1DB02A252b5b4814aD';
+  var RPC='https://arb1.arbitrum.io/rpc';
+  var AAVE_POOL='0x794a61358D6845594F94dc1DB02A252b5b4814aD';
   var USDC='0xaf88d065e77c8cC2239327C5EDb3A432268e5831';
-  var data='0x35ea6a75'+USDC.slice(2).toLowerCase().padStart(64,'0');
-  fetch('https://arb1.arbitrum.io/rpc',{method:'POST',headers:{'content-type':'application/json'},
-    body:JSON.stringify({jsonrpc:'2.0',id:1,method:'eth_call',params:[{to:POOL,data:data},'latest']})})
-  .then(function(r){return r.json();}).then(function(j){
-    if(!j||!j.result||j.result.length<194) return;
-    var rate=BigInt('0x'+j.result.slice(2).slice(128,192));   // currentLiquidityRate (ray 1e27)
-    var apr=Number(rate)/1e27;
-    var apy=Math.pow(1+apr/31536000,31536000)-1;
-    var num=(apy*100).toFixed(1);
+  var FUSDC='0x1A996cb54bb95462040408C06122D45D6Cdb6096';
+  var VENUES=[{ad:'0x21C2405d7A40842432a140360068776A8dF63158',src:'aave'},
+              {ad:'0xB37daEa08A1BB2a6c66fDCAf0CBBB227134DD7FA',src:'fluid'}];
+  function call(to,data){
+    return fetch(RPC,{method:'POST',headers:{'content-type':'application/json'},
+      body:JSON.stringify({jsonrpc:'2.0',id:1,method:'eth_call',params:[{to:to,data:data},'latest']})})
+      .then(function(r){return r.json();}).then(function(j){
+        if(!j||!j.result||j.result==='0x') throw 0; return j.result;});
+  }
+  var RATE={
+    aave:function(){ return call(AAVE_POOL,'0x35ea6a75'+USDC.slice(2).toLowerCase().padStart(64,'0'))
+      .then(function(h){ var apr=Number(BigInt('0x'+h.slice(2).slice(128,192)))/1e27;
+        return Math.pow(1+apr/31536000,31536000)-1; }); },
+    fluid:function(){ return fetch('https://api.fluid.instadapp.io/v2/lending/42161/tokens')
+      .then(function(r){return r.json();}).then(function(j){
+        var ts=(j&&j.data)||j, t=null;
+        (ts||[]).forEach(function(x){ if(String(x.address||'').toLowerCase()===FUSDC.toLowerCase()) t=x; });
+        if(!t||t.supplyRate==null) throw 0;
+        return Number(t.supplyRate)/10000; }); }
+  };
+  Promise.all(VENUES.map(function(v){return call(v.ad,'0x01e1d114')
+    .then(function(h){return Number(BigInt(h));});}))
+  .then(function(pos){
+    var live=VENUES.map(function(v,i){return {v:v,p:pos[i]};}).filter(function(x){return x.p>0;});
+    if(!live.length) throw 0;
+    return Promise.all(live.map(function(x){return RATE[x.v.src]().then(function(r){return x.p*r;});}))
+      .then(function(w){ var tot=0,acc=0;
+        live.forEach(function(x,i){tot+=x.p; acc+=w[i];});
+        return acc/tot; });
+  }).then(function(apy){
+    var num=(apy*100).toFixed(1);   // pagina EN: separatore decimale col punto
     document.querySelectorAll('[data-baserate]').forEach(function(el){
       el.textContent=(el.getAttribute('data-baserate')==='plain'?'':'~')+num+'%';
     });
