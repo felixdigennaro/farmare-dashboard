@@ -113,6 +113,13 @@ main{padding:34px 0 80px}
 .venues span{display:inline-block; border:1px solid var(--hair); border-radius:100px; padding:3px 10px; margin:0 6px 6px 0}
 
 .metrics{display:flex; gap:28px; flex-wrap:wrap}
+/* La proiezione ha TRE numeri: in mezza scheda si impilavano uno sotto l'altro e la
+   card diventava una colonna alta e vuota di lato. A larghezza piena stanno in riga,
+   e ogni metrica prende una frazione uguale invece della sua larghezza naturale. */
+.proj .metrics{flex-wrap:nowrap; gap:24px}
+.proj .metrics .metric{flex:1 1 0; min-width:0}
+.proj .note{margin-top:18px}
+@media (max-width:720px){ .proj .metrics{flex-wrap:wrap} .proj .metrics .metric{flex:1 1 45%} }
 .metric .k{color:var(--ink-faint); font-size:.8rem; text-transform:uppercase; letter-spacing:.04em}
 .metric .v{font-size:1.5rem; font-weight:600; margin-top:2px}
 .metric .v.big{font-size:clamp(2rem,4.4vw,2.6rem); letter-spacing:-.02em}
@@ -199,7 +206,7 @@ footer .wrap{max-width:900px}
     </div>
 
     <!-- QUANTO RENDE, AI TASSI DI OGGI -->
-    <div class="card c-6">
+    <div class="card c-12 proj">
       <h3>Quanto rende, ai tassi di oggi</h3>
       <p class="sub">sulla tua posizione · al lordo della commissione del 10% sui guadagni</p>
       <div class="metrics">
