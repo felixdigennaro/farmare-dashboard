@@ -176,10 +176,10 @@ footer .wrap{max-width:900px}
     <div class="card c-6">
       <h3>Where your money is</h3>
       <p class="sub">how your money is split</p>
-      <div class="alloc-bar"><i class="seg-floor" style="width:80%"></i><i class="seg-risk" style="width:20%"></i></div>
+      <div class="alloc-bar"><i class="seg-floor" id="segFloor" style="width:100%"></i><i class="seg-risk" id="segRisk" style="width:0%"></i></div>
       <div class="leg">
-        <div class="row"><span class="dot seg-floor"></span> <b style="font-weight:600">Core</b>&nbsp;— the safe base: earning, always available <span class="amt">80%</span></div>
-        <div class="row"><span class="dot seg-risk"></span> <b style="font-weight:600">Momentum</b>&nbsp;— harvests airdrops and incentives <span class="amt">20%</span></div>
+        <div class="row"><span class="dot seg-floor"></span> <b style="font-weight:600">Core</b>&nbsp;— the safe base: earning, always available <span class="amt" id="pctFloor">100%</span></div>
+        <div class="row"><span class="dot seg-risk"></span> <b style="font-weight:600">Momentum</b>&nbsp;— harvests airdrops and incentives <span class="amt" id="pctRisk">0%</span></div>
       </div>
       <p class="note">The interest from the safe side gradually buys gold and the S&amp;P — without ever touching your capital.</p>
       <div class="venues" id="venues"><b style="color:var(--ink-soft)">Where, today:</b> </div>
@@ -314,6 +314,27 @@ async function loadFund(){
           ['function totalAssets() view returns (uint256)'],RO).totalAssets(),U));
         if(p>0.005) vSpans.push('<span>Core · '+vn.label+' '+fmt(p)+' USDC</span>');
       }catch(e){ console.error('venue',vn.label,e); vSpans.push('<span>Core · '+vn.label+' unreadable</span>'); }
+    }
+    // The Core/Momentum bar is DERIVED from the positions, not written. It was hard-wired
+    // to 80/20 while reality is 100/0: the Momentum sleeve has never been switched on, and
+    // the deposit page was showing a risk share that does not exist.
+    let safe=idleN, risk=0;
+    for(const vv of VENUES){
+      try{
+        const p=Number(ethers.formatUnits(await new ethers.Contract(vv.adapter,
+          ['function totalAssets() view returns (uint256)'],RO).totalAssets(),U));
+        const [,isSafe]=await v.venues(vv.adapter);
+        if(isSafe) safe+=p; else risk+=p;
+      }catch(e){ console.error('split',vv.label,e); }
+    }
+    if(safe+risk>0){
+      const pf=safe/(safe+risk)*100;
+      const sf=document.getElementById('segFloor'), sr=document.getElementById('segRisk');
+      if(sf) sf.style.width=pf.toFixed(1)+'%';
+      if(sr) sr.style.width=(100-pf).toFixed(1)+'%';
+      const lf=document.getElementById('pctFloor'), lr=document.getElementById('pctRisk');
+      if(lf) lf.textContent=Math.round(pf)+'%';
+      if(lr) lr.textContent=Math.round(100-pf)+'%';
     }
     document.getElementById('venues').innerHTML='<b style="color:var(--ink-soft)">Today, on-chain:</b> '+
       '<span>Assets '+fmt(aumN)+' USDC</span>'+vSpans.join('')+'<span>Idle in vault '+fmt(idleN)+' USDC</span>';

@@ -380,7 +380,8 @@ footer{border-top:1px solid var(--hair); padding:var(--s4) 0 var(--s5); margin-t
         <div class="fgfx"><canvas data-fx="gauge"></canvas><span class="gnum" data-baserate>~3,8%</span><span class="glbl">circa, l'anno</span></div>
         <h3>Rendimento di base, e il suo metro</h3>
         <p>Il Nucleo genera <span data-baserate>~3,8%</span> l'anno e resta sempre liquido e riscattabile.
-        Il confronto che conta non è il conto corrente: è il titolo di stato a breve, oggi più in alto.
+        Il confronto che conta non è il conto corrente: è il titolo di stato a breve, oggi
+        <span data-vstbill="3.74" data-vsform="pred">allo stesso livello</span>.
         Il Nucleo non nasce per batterlo, ma per restare liquido e servire da base ai motori sopra.</p>
       </div>
       <div class="fcard rev">
@@ -403,17 +404,18 @@ footer{border-top:1px solid var(--hair); padding:var(--s4) 0 var(--s5); margin-t
       <h2><span class="grad">Dove si colloca il Nucleo, oggi.</span></h2>
       <p class="lead">Il Nucleo ha la solidità e la liquidità dei porti sicuri dove si parcheggia il
         denaro, e il rendimento di base segue i tassi reali di oggi — che in questo momento lo tengono
-        sotto il titolo di stato a breve. Il progetto prevede motori di rendimento costruiti sopra il
+        <span data-vstbill="3.74" data-vsform="prep">allo stesso livello del</span> titolo di stato a breve. Il progetto prevede motori di rendimento costruiti sopra il
         Nucleo, senza mai esporre il capitale; <b>non sono ancora attivi</b>.</p>
     </div>
     <div class="cbars rev">
       <div class="cbar hi"><span class="ci">◆</span><span class="cl">FARMARE · Nucleo</span><span class="ct"><i data-w="45"></i></span><span class="cv"><span data-baserate>~3,8%</span><small class="cvsub">oggi</small></span></div>
-      <div class="cbar"><span class="ci">▤</span><span class="cl">Titoli di stato</span><span class="ct"><i data-w="58"></i></span><span class="cv">3,5%</span></div>
+      <div class="cbar"><span class="ci">▤</span><span class="cl">Titoli di stato</span><span class="ct"><i data-w="58"></i></span><span class="cv"><span data-tbill>3,7%</span></span></div>
       <div class="cbar"><span class="ci">↺</span><span class="cl">App di risparmio</span><span class="ct"><i data-w="55"></i></span><span class="cv">3,3%</span></div>
       <div class="cbar"><span class="ci">≡</span><span class="cl">Conto corrente</span><span class="ct"><i data-w="7"></i></span><span class="cv">0,4%</span></div>
     </div>
-    <p class="lead rev" style="margin-top:36px; font-size:1rem">Le percentuali sono i tassi correnti, lette dai
-      protocolli, non proiezioni. Il rendimento extra previsto dal progetto — oro, S&amp;P e airdrop finanziati
+    <p class="lead rev" style="margin-top:36px; font-size:1rem">Le percentuali sono i tassi correnti: quella di FARMARE è letta dalle
+      posizioni on-chain, il titolo di stato dal dato ufficiale (FRED, buono del Tesoro USA a 3 mesi).
+      Le altre due sono riferimenti indicativi. Nessuna è una proiezione. Il rendimento extra previsto dal progetto — oro, S&amp;P e airdrop finanziati
       dagli interessi e mai dal capitale — <b>oggi non è in funzione</b>: sotto una certa dimensione i costi
       fissi superano quello che produrrebbe. Quando sarà attivo potrà aggiungere rendimento, o nulla: non è
       garantito.</p>
@@ -579,28 +581,11 @@ footer{border-top:1px solid var(--hair); padding:var(--s4) 0 var(--s5); margin-t
   </section>
 
   <!-- (sezione «metodo» rimossa) -->
-  <!-- TRACKER -->
-  <section id="tracker">
-    <div class="sec-head rev">
-      <p class="eyebrow">Il monitoraggio, oggi</p>
-      <h2><span class="grad">I protocolli, in tempo reale.</span></h2>
-      <p class="lead">Solo protocolli su cui si opera senza esposizione al prezzo, e che non hanno
-        ancora distribuito il proprio incentivo. In cima quelli con la distribuzione ancora attesa.</p>
-    </div>
-    <div class="tmeta rev">
-      <span>Dati aggiornati ogni giorno · fonte pubblica</span>
-      <span>Candidati veri&nbsp; <b>6</b> · 3 non verificabili, esclusi</span>
-      <span>Il punteggio è priorità, <b>non</b> un rendimento</span>
-    </div>
-    <div class="exwrap rev">
-      <div class="ex-scroll">
-        <table>
-          <thead><tr><th>Protocollo</th><th>Stato</th><th class="r">Priorità</th></tr></thead>
-          <tbody id="tbody"></tbody>
-        </table>
-      </div>
-    </div>
-  </section>
+  <!-- (sezione «tracker» rimossa il 2026-08-07: mostrava 14 protocolli da un array
+       scritto a mano e fermo al 20 luglio, sotto un titolo che prometteva «in tempo reale»
+       e «aggiornati ogni giorno». Descriveva lo Slancio, che non e' attivo. Torna quando
+       c'e' qualcosa di vivo da mostrare, con la data derivata dal dato e non scritta.) -->
+
 
   <!-- REGOLE -->
   <section id="regole">
@@ -613,7 +598,7 @@ footer{border-top:1px solid var(--hair); padding:var(--s4) 0 var(--s5); margin-t
     <div class="rules">
       <div class="rule rev"><span class="rn">1</span><div><h3>Il tetto dipende dalla solidità</h3><p>Dall'1% al 5% per protocollo, in base a dimensione e maturità. Il default di uno incide su una frazione, mai su una quota rilevante.</p></div></div>
       <div class="rule rev"><span class="rn">2</span><div><h3>Più spazio alle più solide</h3><p>I protocolli maggiori raramente falliscono; ai minori si applica un tetto più stretto. L'esposizione segue la solidità.</p></div></div>
-      <div class="rule rev"><span class="rn">3</span><div><h3>Il capitale è sempre produttivo</h3><p>Anche in attesa di un'allocazione, il capitale rende quanto il Nucleo. Non resta mai fermo né esposto inutilmente.</p></div></div>
+      <div class="rule rev"><span class="rn">3</span><div><h3>Il capitale è sempre produttivo</h3><p>Il capitale appena depositato resta in cassa finché il keeper non lo alloca — al massimo un paio d'ore, e in quelle ore non rende. Non resta mai esposto, ma nemmeno produttivo: è il prezzo di tenere il deposito e l'investimento separati.</p></div></div>
       <div class="rule rev"><span class="rn">4</span><div><h3>Al primo segnale, si esce</h3><p>Al primo segnale di attrito sui prelievi, quella posizione viene chiusa per prima.</p></div></div>
     </div>
   </section>
@@ -663,7 +648,7 @@ footer{border-top:1px solid var(--hair); padding:var(--s4) 0 var(--s5); margin-t
     esteso e nessun rendimento è garantito. Il rischio principale, l'insolvenza di un protocollo, è reale: viene
     contenuto, non eliminato.</p>
   <div class="foot">
-    <span>FARMARE · capitale personale · aggiornato luglio 2026</span>
+    <span>FARMARE · capitale personale · aggiornato agosto 2026</span>
     <span>Da test su dati reali, non promesso · nessuna garanzia</span>
   </div>
 </div></footer>
@@ -767,19 +752,6 @@ const touch = matchMedia('(hover:none)').matches;
     b.addEventListener('pointerleave',()=>{b.style.transform='';});
   });
 })();
-const DATA = [{"name":"Extended","status":"pre-token","tvl":134.0,"g7":2.6,"tier":"medio","score":62},{"name":"Pacifica","status":"pre-token","tvl":27.8,"g7":2.4,"tier":"piccolo","score":57},{"name":"Ostium","status":"pre-token","tvl":37.8,"g7":-41.9,"tier":"piccolo","score":46},{"name":"Variational","status":"pre-token","tvl":0.0,"g7":0.0,"tier":"micro","score":45},{"name":"Hibachi","status":"pre-token","tvl":0.0,"g7":0.0,"tier":"micro","score":45},{"name":"Lighter","status":"reserved","tvl":520.2,"g7":-0.1,"tier":"medio","score":54},{"name":"Backpack","status":"points","tvl":409.6,"g7":-4.4,"tier":"medio","score":39},{"name":"Hyperliquid","status":"spent","tvl":6167.0,"g7":-0.8,"tier":"grande","score":33},{"name":"Paradex","status":"points","tvl":22.0,"g7":-1.3,"tier":"piccolo","score":29},{"name":"Aster","status":"spent","tvl":607.3,"g7":0.9,"tier":"medio","score":25},{"name":"Orderly","status":"spent","tvl":24.2,"g7":7.1,"tier":"piccolo","score":20},{"name":"edgeX","status":"spent","tvl":94.6,"g7":-0.9,"tier":"piccolo","score":19},{"name":"Bluefin","status":"spent","tvl":22.0,"g7":-7.6,"tier":"piccolo","score":14},{"name":"Drift","status":"avoid","tvl":213.5,"g7":0.3,"tier":"medio","score":0}];
-
-/* ---------- tracker ---------- */
-const STATUS={'pre-token':'senza premio','reserved':'premio riservato','points':'stagione in corso','spent':'premio già dato','avoid':'da evitare'};
-const tb=document.getElementById('tbody');
-DATA.forEach(d=>{
-  const tr=document.createElement('tr');
-  tr.innerHTML='<td style="font-weight:500">'+d.name+'</td>'+
-    '<td><span class="st st-'+d.status+'">'+(STATUS[d.status]||d.status)+'</span></td>'+
-    '<td class="r"><span class="score-cell"><span class="score-bar"><i data-w="'+d.score+'"></i></span>'+
-      '<span class="score-n tnum" data-count="'+d.score+'">0</span></span></td>';
-  tb.appendChild(tr);
-});
 
 /* ---------- explainer tiles ---------- */
 const N=10;
@@ -1025,6 +997,17 @@ document.querySelectorAll('canvas[data-fx]').forEach(cv=>{
     document.querySelectorAll('[data-basegap]').forEach(function(el){
       var b=parseFloat(el.getAttribute('data-basegap'));
       if(isFinite(b)) el.textContent='~'+(b-apy*100).toFixed(1).replace('.',',')+'pp';
+    });
+    // Il verdetto del confronto col titolo di stato si DERIVA dai due numeri. Scritto a
+    // mano diceva "sotto" mentre il Nucleo era gia' passato SOPRA — di cinque centesimi.
+    // E cinque centesimi non meritano ne' "sopra" ne' "sotto": entro 0,15 punti la
+    // risposta onesta e' che stanno allo stesso livello, perche' domani si ribalta.
+    document.querySelectorAll('[data-vstbill]').forEach(function(el){
+      var tb=parseFloat(el.getAttribute('data-vstbill'));
+      if(!isFinite(tb)) return;
+      var d=apy*100-tb, f=el.getAttribute('data-vsform')==='prep';
+      el.textContent = Math.abs(d)<0.15 ? (f?'allo stesso livello del':'allo stesso livello')
+                     : d>0 ? (f?'sopra il':'piu\' in alto') : (f?'sotto il':'piu\' in basso');
     });
   }).catch(function(){});
 })();

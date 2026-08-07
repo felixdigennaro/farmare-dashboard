@@ -176,10 +176,10 @@ footer .wrap{max-width:900px}
     <div class="card c-6">
       <h3>Dove sono i tuoi soldi</h3>
       <p class="sub">come sono divisi i tuoi soldi</p>
-      <div class="alloc-bar"><i class="seg-floor" style="width:80%"></i><i class="seg-risk" style="width:20%"></i></div>
+      <div class="alloc-bar"><i class="seg-floor" id="segFloor" style="width:100%"></i><i class="seg-risk" id="segRisk" style="width:0%"></i></div>
       <div class="leg">
-        <div class="row"><span class="dot seg-floor"></span> <b style="font-weight:600">Nucleo</b>&nbsp;— al sicuro, rende e resta a vista <span class="amt">80%</span></div>
-        <div class="row"><span class="dot seg-risk"></span> <b style="font-weight:600">Slancio</b>&nbsp;— raccoglie airdrop e incentivi <span class="amt">20%</span></div>
+        <div class="row"><span class="dot seg-floor"></span> <b style="font-weight:600">Nucleo</b>&nbsp;— al sicuro, rende e resta a vista <span class="amt" id="pctFloor">100%</span></div>
+        <div class="row"><span class="dot seg-risk"></span> <b style="font-weight:600">Slancio</b>&nbsp;— raccoglie airdrop e incentivi <span class="amt" id="pctRisk">0%</span></div>
       </div>
       <p class="note">Gli interessi della parte sicura comprano piano piano oro e S&amp;P — senza mai toccare il tuo capitale.</p>
       <div class="venues" id="venues"><b style="color:var(--ink-soft)">Dove, oggi:</b> </div>
@@ -314,6 +314,27 @@ async function loadFund(){
           ['function totalAssets() view returns (uint256)'],RO).totalAssets(),U));
         if(p>0.005) vSpans.push('<span>Nucleo · '+v.label+' '+fmt(p)+' USDC</span>');
       }catch(e){ console.error('venue',v.label,e); vSpans.push('<span>Nucleo · '+v.label+' non leggibile</span>'); }
+    }
+    // La barra Nucleo/Slancio si DERIVA dalle posizioni, non si scrive. Era cablata a
+    // 80/20 mentre la realta' e' 100/0: lo Slancio non e' mai stato acceso, e la pagina
+    // dei depositi mostrava una quota a rischio che non esiste.
+    let safe=idleN, risk=0;
+    for(const vv of VENUES){
+      try{
+        const p=Number(ethers.formatUnits(await new ethers.Contract(vv.adapter,
+          ['function totalAssets() view returns (uint256)'],RO).totalAssets(),U));
+        const [,isSafe]=await v.venues(vv.adapter);
+        if(isSafe) safe+=p; else risk+=p;
+      }catch(e){ console.error('split',vv.label,e); }
+    }
+    if(safe+risk>0){
+      const pf=safe/(safe+risk)*100;
+      const sf=document.getElementById('segFloor'), sr=document.getElementById('segRisk');
+      if(sf) sf.style.width=pf.toFixed(1)+'%';
+      if(sr) sr.style.width=(100-pf).toFixed(1)+'%';
+      const lf=document.getElementById('pctFloor'), lr=document.getElementById('pctRisk');
+      if(lf) lf.textContent=Math.round(pf)+'%';
+      if(lr) lr.textContent=Math.round(100-pf)+'%';
     }
     document.getElementById('venues').innerHTML='<b style="color:var(--ink-soft)">Oggi, on-chain:</b> '+
       '<span>Patrimonio '+fmt(aumN)+' USDC</span>'+vSpans.join('')+'<span>Liquido nel vault '+fmt(idleN)+' USDC</span>';

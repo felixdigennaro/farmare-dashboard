@@ -111,7 +111,7 @@ footer .wrap{max-width:900px} footer p{font-size:.8rem; color:var(--ink-faint); 
     <h1><span class="gtext">FARMARE CAPITAL</span></h1>
     <p class="lead">Un money-market on-chain rinforzato: capitale al sicuro e liquido, e <b>solo il rendimento</b> — mai
       il capitale — usato per costruire due motori di rialzo a capitale protetto. Onesto per costruzione, non per promessa.</p>
-    <div class="meta"><span>Versione v1 · luglio 2026</span><span>Capitale personale — non un'offerta al pubblico</span><span>Nessun rendimento garantito</span></div>
+    <div class="meta"><span>Versione v1 · agosto 2026</span><span>Capitale personale — non un'offerta al pubblico</span><span>Nessun rendimento garantito</span></div>
   </div>
 </div>
 
@@ -145,11 +145,10 @@ footer .wrap{max-width:900px} footer p{font-size:.8rem; color:var(--ink-faint); 
         (il rendimento extra RWA e gli airdrop) che <b>non rischiano il capitale</b>. Nessuno dei due è garantito.</div>
 
       <div class="callout" style="border-color:var(--warn); background:rgba(232,193,90,.06); color:#f0d68a">
-        <b>Stato operativo al 27 luglio 2026.</b> Questo documento descrive la struttura del fondo. Ciò che
-        <b>oggi è in funzione</b> è solo il Nucleo: il vault presta USDC sui money-market di Arbitrum. Aave è la venue
-        storica; Fluid è stata proposta il 3 agosto 2026 ed entra in funzione dopo il timelock di
-        48 ore, con un tetto del 50% per ciascuna. La ripartizione effettiva è sempre leggibile
-        on-chain. I due motori di rialzo <b>non sono ancora attivi</b>.
+        <b>Stato operativo al 7 agosto 2026.</b> Questo documento descrive la struttura del fondo. Ciò che
+        <b>oggi è in funzione</b> è solo il Nucleo: il vault presta USDC su <b>due</b> money-market di Arbitrum,
+        Aave e Fluid, con un tetto del 50% per ciascuna imposto on-chain — nessuna delle due può superarlo,
+        e il tentativo fallisce. La ripartizione effettiva è sempre leggibile on-chain. I due motori di rialzo <b>non sono ancora attivi</b>.
         Lo Slancio non lo è per la regola del progetto stesso — sotto ~€20.000 i costi fissi superano quello
         che produrrebbe. Il rendimento extra RWA non lo è per un vincolo di mercato: su Arbitrum <b>PAXG non
         ha mercato</b> (zero pool) e l'S&amp;P tokenizzato ha liquidità trascurabile, quindi la cedola non ha
@@ -169,7 +168,11 @@ footer .wrap{max-width:900px} footer p{font-size:.8rem; color:var(--ink-faint); 
       <h2><span class="n">3</span>La struttura</h2>
       <p>Barbell 80 / 20, con un rendimento extra a capitale protetto dentro l'80%.</p>
       <h3>Nucleo — 80%</h3>
-      <p>Prestito di stablecoin su protocolli blue-chip e collaudati (tipo Aave). Rende <span data-baserate>~3,8%</span> oggi, drawdown ~0,
+      <p>Prestito di stablecoin su due money-market di Arbitrum, metà ciascuno: <b>Aave</b> e <b>Fluid</b>.
+        Aave è il più provato. Fluid paga di più <i>perché</i> lo è meno: l'audit del suo modulo di lending si
+        chiude a dicembre 2023, mentre il deployment su Arbitrum è di ottobre 2024 — dieci mesi dopo. Il
+        rendimento in più è il prezzo di quella minore prova, ed è il motivo per cui è metà e non tutto.
+        Insieme rendono <span data-baserate>~3,8%</span> oggi, drawdown ~0,
         ritirabile all'istante. Nessun T-bill tokenizzato nel v1: la scelta garantisce il prelievo immediato al 100%.</p>
       <h3>Rendimento extra RWA — gli interessi del Nucleo</h3>
       <p>La cedola generata dal Nucleo viene sfilata e comprata <b>a mercato, ogni settimana</b> (batching per il gas;
@@ -211,11 +214,12 @@ footer .wrap{max-width:900px} footer p{font-size:.8rem; color:var(--ink-faint); 
       <h3>Scenari di regime (assunti, non misurati)</h3>
       <div class="tbl-wrap"><table>
         <tr><th>Regime</th><th class="r">Base fondo</th></tr>
-        <tr><td>Conservativo (oggi)</td><td class="r">~3,4–3,6%</td></tr>
+        <tr><td>Conservativo</td><td class="r">~3,4–3,6%</td></tr>
         <tr><td>Normale</td><td class="r">~4,3–4,8%</td></tr>
         <tr><td>Mercato caldo</td><td class="r">~6–7%</td></tr>
       </table></div>
-      <p class="muted">Gli scenari dipendono dal regime di funding — sono ipotesi in avanti, non l'output di un
+      <p class="muted">Oggi il fondo rende <span data-baserate>~3,8%</span> misurato, cioè sopra la
+        banda "conservativo": gli scenari sono ipotesi in avanti, non descrivono l'oggi. Gli scenari dipendono dal regime di funding — sono ipotesi in avanti, non l'output di un
         backtest. Drawdown atteso a una cifra; la coda dello Slancio è limitata dai tetti per piattaforma.</p>
 
       <h3>Rendimento extra RWA — backtest su storia reale</h3>
@@ -289,7 +293,7 @@ footer .wrap{max-width:900px} footer p{font-size:.8rem; color:var(--ink-faint); 
           un indirizzo esterno.</li>
       </ul>
       <div class="callout warn">Prima del deploy, un audit ostile ha trovato e <b>corretto</b> una falla HIGH (mispricing
-        del NAV su una piattaforma illeggibile) e reso l'invariante 80/20 una regola on-chain reale. Suite di test 52/52.</div>
+        del NAV su una piattaforma illeggibile) e reso l'invariante 80/20 una regola on-chain reale. Suite di test on-chain: 86 superati (più uno che richiede un nodo di fork e non gira in automatico).</div>
     </section>
 
     <section id="governance">
@@ -323,7 +327,7 @@ footer .wrap{max-width:900px} footer p{font-size:.8rem; color:var(--ink-faint); 
 </div></div>
 
 <footer><div class="wrap">
-  <p>FARMARE CAPITAL · Whitepaper v1 · luglio 2026 · capitale personale, non un'offerta al pubblico · i valori sono
+  <p>FARMARE CAPITAL · Whitepaper v1 · agosto 2026 · capitale personale, non un'offerta al pubblico · i valori sono
     on-chain quando il vault è live, altrimenti da backtest · nessun rendimento è garantito · firmi sempre tu dal tuo
     wallet, i fondi non passano mai dal gestore.</p>
 </div></footer>

@@ -379,7 +379,8 @@ footer{border-top:1px solid var(--hair); padding:var(--s4) 0 var(--s5); margin-t
         <div class="fgfx"><canvas data-fx="gauge"></canvas><span class="gnum" data-baserate>~3.8%</span><span class="glbl">about, a year</span></div>
         <h3>The base return, and its yardstick</h3>
         <p>The Core generates <span data-baserate>~3.8%</span> a year and stays liquid and redeemable at all times.
-        The comparison that matters is not a checking account: it is the short-dated government bill, today higher.
+        The comparison that matters is not a checking account: it is the short-dated government bill, today
+        <span data-vstbill="3.74" data-vsform="pred">level with it</span>.
         The Core is not built to beat it, but to stay liquid and to fund the engines above it.</p>
       </div>
       <div class="fcard rev">
@@ -401,18 +402,19 @@ footer{border-top:1px solid var(--hair); padding:var(--s4) 0 var(--s5); margin-t
       <p class="eyebrow">The comparison, unfiltered</p>
       <h2><span class="grad">Where the Core sits today.</span></h2>
       <p class="lead">The Core has the solidity and liquidity of the safe havens where money is parked,
-        and the base return tracks today's real rates — which right now leave it below the short-dated
-        government bill. The design calls for return engines built on top of the Core, never exposing the
+        and the base return tracks today's real rates — which right now leave it
+        <span data-vstbill="3.74" data-vsform="prep">level with the</span> short-dated government bill. The design calls for return engines built on top of the Core, never exposing the
         capital; <b>they are not switched on yet</b>.</p>
     </div>
     <div class="cbars rev">
       <div class="cbar hi"><span class="ci">◆</span><span class="cl">FARMARE · Core</span><span class="ct"><i data-w="45"></i></span><span class="cv"><span data-baserate>~3.8%</span><small class="cvsub">today</small></span></div>
-      <div class="cbar"><span class="ci">▤</span><span class="cl">Government bonds</span><span class="ct"><i data-w="58"></i></span><span class="cv">3.5%</span></div>
+      <div class="cbar"><span class="ci">▤</span><span class="cl">Government bonds</span><span class="ct"><i data-w="58"></i></span><span class="cv"><span data-tbill>3.7%</span></span></div>
       <div class="cbar"><span class="ci">↺</span><span class="cl">Savings apps</span><span class="ct"><i data-w="55"></i></span><span class="cv">3.3%</span></div>
       <div class="cbar"><span class="ci">≡</span><span class="cl">Checking account</span><span class="ct"><i data-w="7"></i></span><span class="cv">0.4%</span></div>
     </div>
-    <p class="lead rev" style="margin-top:36px; font-size:1rem">The percentages are current rates, read from the
-      protocols, not projections. The extra return the design calls for — gold, S&amp;P and airdrops financed by
+    <p class="lead rev" style="margin-top:36px; font-size:1rem">The percentages are current rates: FARMARE's is read from the on-chain
+      positions, the government bill from the official series (FRED, 3-month US Treasury bill). The other
+      two are indicative references. None is a projection. The extra return the design calls for — gold, S&amp;P and airdrops financed by
       the interest and never by the capital — <b>is not running today</b>: below a certain size its fixed costs
       exceed what it would earn. Once active it may add return, or nothing: it is not guaranteed.</p>
   </section>
@@ -577,28 +579,11 @@ footer{border-top:1px solid var(--hair); padding:var(--s4) 0 var(--s5); margin-t
   </section>
 
   <!-- («method» section removed) -->
-  <!-- TRACKER -->
-  <section id="tracker">
-    <div class="sec-head rev">
-      <p class="eyebrow">Under watch, today</p>
-      <h2><span class="grad">The protocols, in real time.</span></h2>
-      <p class="lead">Only protocols we can operate on without price exposure, and that haven't
-        yet distributed their incentive. At the top, those with distribution still pending.</p>
-    </div>
-    <div class="tmeta rev">
-      <span>Data updated every day · public source</span>
-      <span>Real candidates&nbsp; <b>6</b> · 3 unverifiable, excluded</span>
-      <span>The score is priority, <b>not</b> a yield</span>
-    </div>
-    <div class="exwrap rev">
-      <div class="ex-scroll">
-        <table>
-          <thead><tr><th>Protocol</th><th>Status</th><th class="r">Priority</th></tr></thead>
-          <tbody id="tbody"></tbody>
-        </table>
-      </div>
-    </div>
-  </section>
+  <!-- (sezione «tracker» rimossa il 2026-08-07: mostrava 14 protocolli da un array
+       scritto a mano e fermo al 20 luglio, sotto un titolo che prometteva «in tempo reale»
+       e «aggiornati ogni giorno». Descriveva lo Slancio, che non e' attivo. Torna quando
+       c'e' qualcosa di vivo da mostrare, con la data derivata dal dato e non scritta.) -->
+
 
   <!-- RULES -->
   <section id="regole">
@@ -611,7 +596,7 @@ footer{border-top:1px solid var(--hair); padding:var(--s4) 0 var(--s5); margin-t
     <div class="rules">
       <div class="rule rev"><span class="rn">1</span><div><h3>The cap depends on solidity</h3><p>From 1% to 5% per protocol, based on size and maturity. A default of one hits a fraction, never a significant share.</p></div></div>
       <div class="rule rev"><span class="rn">2</span><div><h3>More room for the most solid</h3><p>Larger protocols rarely fail; smaller ones get a tighter cap. Exposure follows solidity.</p></div></div>
-      <div class="rule rev"><span class="rn">3</span><div><h3>Capital is always productive</h3><p>Even while awaiting an allocation, capital earns as much as the Core. It never sits idle or needlessly exposed.</p></div></div>
+      <div class="rule rev"><span class="rn">3</span><div><h3>Deposit and investment stay separate</h3><p>Freshly deposited capital sits in cash until the keeper allocates it — a couple of hours at most, and in those hours it earns nothing. It is never exposed, but it is not productive either: that is the price of keeping custody and investment apart.</p></div></div>
       <div class="rule rev"><span class="rn">4</span><div><h3>At the first sign, we exit</h3><p>At the first sign of friction on withdrawals, that position is closed first.</p></div></div>
     </div>
   </section>
@@ -661,7 +646,7 @@ footer{border-top:1px solid var(--hair); padding:var(--s4) 0 var(--s5); margin-t
     extended track record and no return is guaranteed. The main risk, a protocol's insolvency, is real: it is
     contained, not eliminated.</p>
   <div class="foot">
-    <span>FARMARE · personal capital · updated July 2026</span>
+    <span>FARMARE · personal capital · updated August 2026</span>
     <span>From tests on real data, not promised · no guarantee</span>
   </div>
 </div></footer>
@@ -765,19 +750,6 @@ const touch = matchMedia('(hover:none)').matches;
     b.addEventListener('pointerleave',()=>{b.style.transform='';});
   });
 })();
-const DATA = [{"name":"Extended","status":"pre-token","tvl":134.0,"g7":2.6,"tier":"medio","score":62},{"name":"Pacifica","status":"pre-token","tvl":27.8,"g7":2.4,"tier":"piccolo","score":57},{"name":"Ostium","status":"pre-token","tvl":37.8,"g7":-41.9,"tier":"piccolo","score":46},{"name":"Variational","status":"pre-token","tvl":0.0,"g7":0.0,"tier":"micro","score":45},{"name":"Hibachi","status":"pre-token","tvl":0.0,"g7":0.0,"tier":"micro","score":45},{"name":"Lighter","status":"reserved","tvl":520.2,"g7":-0.1,"tier":"medio","score":54},{"name":"Backpack","status":"points","tvl":409.6,"g7":-4.4,"tier":"medio","score":39},{"name":"Hyperliquid","status":"spent","tvl":6167.0,"g7":-0.8,"tier":"grande","score":33},{"name":"Paradex","status":"points","tvl":22.0,"g7":-1.3,"tier":"piccolo","score":29},{"name":"Aster","status":"spent","tvl":607.3,"g7":0.9,"tier":"medio","score":25},{"name":"Orderly","status":"spent","tvl":24.2,"g7":7.1,"tier":"piccolo","score":20},{"name":"edgeX","status":"spent","tvl":94.6,"g7":-0.9,"tier":"piccolo","score":19},{"name":"Bluefin","status":"spent","tvl":22.0,"g7":-7.6,"tier":"piccolo","score":14},{"name":"Drift","status":"avoid","tvl":213.5,"g7":0.3,"tier":"medio","score":0}];
-
-/* ---------- tracker ---------- */
-const STATUS={'pre-token':'no reward yet','reserved':'reward reserved','points':'season underway','spent':'reward already given','avoid':'to avoid'};
-const tb=document.getElementById('tbody');
-DATA.forEach(d=>{
-  const tr=document.createElement('tr');
-  tr.innerHTML='<td style="font-weight:500">'+d.name+'</td>'+
-    '<td><span class="st st-'+d.status+'">'+(STATUS[d.status]||d.status)+'</span></td>'+
-    '<td class="r"><span class="score-cell"><span class="score-bar"><i data-w="'+d.score+'"></i></span>'+
-      '<span class="score-n tnum" data-count="'+d.score+'">0</span></span></td>';
-  tb.appendChild(tr);
-});
 
 /* ---------- explainer tiles ---------- */
 const N=10;
@@ -1023,6 +995,17 @@ document.querySelectorAll('canvas[data-fx]').forEach(cv=>{
     document.querySelectorAll('[data-basegap]').forEach(function(el){
       var b=parseFloat(el.getAttribute('data-basegap'));
       if(isFinite(b)) el.textContent='~'+(b-apy*100).toFixed(1)+'pp';
+    });
+    // The verdict of the T-bill comparison is DERIVED from the two numbers. Hand-written
+    // it said "below" while the Core had already moved ABOVE — by five hundredths. And
+    // five hundredths deserve neither "above" nor "below": within 0.15 points the honest
+    // answer is that they are level, because tomorrow it flips.
+    document.querySelectorAll('[data-vstbill]').forEach(function(el){
+      var tb=parseFloat(el.getAttribute('data-vstbill'));
+      if(!isFinite(tb)) return;
+      var d=apy*100-tb, f=el.getAttribute('data-vsform')==='prep';
+      el.textContent = Math.abs(d)<0.15 ? (f?'level with the':'level with it')
+                     : d>0 ? (f?'above the':'higher') : (f?'below the':'lower');
     });
   }).catch(function(){});
 })();
