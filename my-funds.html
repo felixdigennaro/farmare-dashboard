@@ -198,6 +198,21 @@ footer .wrap{max-width:900px}
         versato. Il tasso base del lending è variabile e <b>non garantito</b>; il rendimento extra può aggiungere altro, o niente.</p>
     </div>
 
+    <!-- QUANTO RENDE, AI TASSI DI OGGI -->
+    <div class="card c-6">
+      <h3>Quanto rende, ai tassi di oggi</h3>
+      <p class="sub">sulla tua posizione · al netto della commissione del 10%</p>
+      <div class="metrics">
+        <div class="metric"><div class="k">Al giorno</div><div class="v big tnum" id="projDay">—</div></div>
+        <div class="metric"><div class="k">Al mese</div><div class="v big tnum" id="projMonth">—</div></div>
+        <div class="metric"><div class="k">All&#39;anno</div><div class="v big tnum" id="projYear">—</div></div>
+      </div>
+      <p class="note" id="projNote"><b>Non è una previsione.</b> È il tasso di oggi applicato alla tua cifra
+        di oggi: se il tasso cambia — e cambia di continuo, perché dipende da quanto viene chiesto in prestito
+        sui protocolli — questi numeri cambiano con lui. Se scrivi un importo nel campo del deposito qui sopra,
+        la proiezione lo include, così vedi quanto renderebbe prima di firmare.</p>
+    </div>
+
     <!-- LOG MOVIMENTI -->
     <div class="card c-12">
       <h3>Log dei movimenti</h3>
@@ -253,6 +268,34 @@ const ERC20 = ['function balanceOf(address) view returns (uint256)',
 
 const U = CONFIG.decimals;
 const fmt = (n,d=2)=>Number(n).toLocaleString('it-IT',{minimumFractionDigits:d,maximumFractionDigits:d});
+
+/* ---------- quanto rende, ai tassi di oggi ----------
+   Tre numeri DERIVATI: il tasso pesato letto on-chain, applicato alla posizione letta
+   on-chain. Nessuno dei due e' scritto qui. Al netto del 10% sui guadagni, perche' e'
+   quello che resta a chi ha depositato — mostrare il lordo sarebbe il numero del gestore,
+   non il suo. Se manca uno dei due ingredienti si scrive '—', non zero: uno zero
+   sarebbe indistinguibile da 'non rende niente'. */
+let __apy=null, __pos=null;
+const NETTO = 0.90;                       // 10% del guadagno, sopra il massimo storico
+function paintProjection(){
+  const g=id=>document.getElementById(id);
+  const extra = Math.max(0, Number((g('amt')||{}).value)||0);
+  const base = (__pos||0) + extra;
+  if(__apy===null || !(base>0)){
+    ['projDay','projMonth','projYear'].forEach(i=>{ if(g(i)) g(i).textContent='—'; });
+    return;
+  }
+  const q = v => (v>=1?fmt(v,2):fmt(v,4)) + ' USDC';
+  if(g('projDay'))   g('projDay').textContent   = q(base*(Math.pow(1+__apy,1/365)-1)*NETTO);
+  if(g('projMonth')) g('projMonth').textContent = q(base*(Math.pow(1+__apy,1/12)-1)*NETTO);
+  if(g('projYear'))  g('projYear').textContent  = q(base*__apy*NETTO);
+  const n=g('projNote');
+  if(n && extra>0 && !n.dataset.extra){ n.dataset.extra='1'; }
+}
+document.addEventListener('DOMContentLoaded',()=>{
+  const a=document.getElementById('amt');
+  if(a) a.addEventListener('input', paintProjection);
+});
 const RO = new ethers.JsonRpcProvider(CONFIG.rpc);   // provider pubblico in sola lettura: dati reali senza wallet
 let signer=null, account=null, lastWallet=0, lastValue=0;
 /* Costo base REALE, ricostruito dagli eventi on-chain del vault.
@@ -282,6 +325,7 @@ function paintPosition(shares, deposited, value, nav){
   const known = deposited!==null && deposited!==undefined;   // costo base illeggibile -> non inventiamo un numero
   const gain=known?value-deposited:0, pct=(known&&deposited)?gain/deposited*100:0;
   const flat=Math.abs(gain)<0.005;   // sotto il centesimo = piatto (arrotondamento/dead-shares), non una perdita
+  __pos=value; paintProjection();
   document.getElementById('posVal').textContent=fmt(value);
   document.getElementById('posDep').textContent=known?fmt(deposited)+' USDC':'—';
   document.getElementById('posGain').textContent=known?((flat?'':(gain>=0?'+':''))+fmt(flat?0:gain)+' USDC'):'—';
@@ -361,6 +405,7 @@ async function loadFund(){
       if(p>0){ tot+=p; acc+=p*RATE[v.rate]; }
     }
     if(tot>0){ const el=document.getElementById('baseYield');
+      __apy=acc/tot; paintProjection();
       if(el) el.textContent=((acc/tot)*100).toFixed(2).replace('.',',')+'%'; }
   }catch(e){ console.error('aave apy',e); }
 }

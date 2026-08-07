@@ -199,6 +199,21 @@ footer .wrap{max-width:900px}
     </div>
 
     <!-- ACTIVITY LOG -->
+    <!-- WHAT IT EARNS, AT TODAY'S RATES -->
+    <div class="card c-6">
+      <h3>What it earns, at today&#39;s rates</h3>
+      <p class="sub">on your position · net of the 10% fee</p>
+      <div class="metrics">
+        <div class="metric"><div class="k">Per day</div><div class="v big tnum" id="projDay">—</div></div>
+        <div class="metric"><div class="k">Per month</div><div class="v big tnum" id="projMonth">—</div></div>
+        <div class="metric"><div class="k">Per year</div><div class="v big tnum" id="projYear">—</div></div>
+      </div>
+      <p class="note" id="projNote"><b>This is not a forecast.</b> It is today&#39;s rate applied to today&#39;s
+        amount: if the rate moves — and it moves constantly, because it depends on how much is being borrowed
+        on the protocols — these numbers move with it. Type an amount in the deposit field above and the
+        projection includes it, so you can see what it would earn before you sign.</p>
+    </div>
+
     <div class="card c-12">
       <h3>Activity log</h3>
       <p class="sub">every movement of money, recorded on-chain</p>
@@ -253,6 +268,32 @@ const ERC20 = ['function balanceOf(address) view returns (uint256)',
 
 const U = CONFIG.decimals;
 const fmt = (n,d=2)=>Number(n).toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
+
+/* ---------- what it earns, at today's rates ----------
+   Three DERIVED numbers: the weighted on-chain rate applied to the on-chain position.
+   Neither is written here. Net of the 10% performance fee, because that is what the
+   depositor keeps — showing gross would be the manager's number, not theirs. If either
+   ingredient is missing it writes '—', not zero: a zero would be indistinguishable from
+   'it earns nothing'. */
+let __apy=null, __pos=null;
+const NETTO = 0.90;                       // 10% of the gain, above the high-water mark
+function paintProjection(){
+  const g=id=>document.getElementById(id);
+  const extra = Math.max(0, Number((g('amt')||{}).value)||0);
+  const base = (__pos||0) + extra;
+  if(__apy===null || !(base>0)){
+    ['projDay','projMonth','projYear'].forEach(i=>{ if(g(i)) g(i).textContent='—'; });
+    return;
+  }
+  const q = v => (v>=1?fmt(v,2):fmt(v,4)) + ' USDC';
+  if(g('projDay'))   g('projDay').textContent   = q(base*(Math.pow(1+__apy,1/365)-1)*NETTO);
+  if(g('projMonth')) g('projMonth').textContent = q(base*(Math.pow(1+__apy,1/12)-1)*NETTO);
+  if(g('projYear'))  g('projYear').textContent  = q(base*__apy*NETTO);
+}
+document.addEventListener('DOMContentLoaded',()=>{
+  const a=document.getElementById('amt');
+  if(a) a.addEventListener('input', paintProjection);
+});
 const RO = new ethers.JsonRpcProvider(CONFIG.rpc);   // public read-only provider: real data without a wallet
 let signer=null, account=null, lastWallet=0, lastValue=0;
 /* REAL cost basis, reconstructed from the vault's on-chain events.
@@ -282,6 +323,7 @@ function paintPosition(shares, deposited, value, nav){
   const known = deposited!==null && deposited!==undefined;   // basis unreadable -> never invent a number
   const gain=known?value-deposited:0, pct=(known&&deposited)?gain/deposited*100:0;
   const flat=Math.abs(gain)<0.005;   // sub-cent = flat (rounding/dead-shares artifact), not a loss
+  __pos=value; paintProjection();
   document.getElementById('posVal').textContent=fmt(value);
   document.getElementById('posDep').textContent=known?fmt(deposited)+' USDC':'—';
   document.getElementById('posGain').textContent=known?((flat?'':(gain>=0?'+':''))+fmt(flat?0:gain)+' USDC'):'—';
@@ -360,6 +402,7 @@ async function loadFund(){
       if(p>0){ tot+=p; acc+=p*RATE[vn.rate]; }
     }
     if(tot>0){ const el=document.getElementById('baseYield');
+      __apy=acc/tot; paintProjection();
       if(el) el.textContent=((acc/tot)*100).toFixed(2)+'%'; }
   }catch(e){ console.error('aave apy',e); }
 }
