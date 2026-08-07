@@ -201,7 +201,7 @@ footer .wrap{max-width:900px}
     <!-- QUANTO RENDE, AI TASSI DI OGGI -->
     <div class="card c-6">
       <h3>Quanto rende, ai tassi di oggi</h3>
-      <p class="sub">sulla tua posizione · al netto della commissione del 10%</p>
+      <p class="sub">sulla tua posizione · al lordo della commissione del 10% sui guadagni</p>
       <div class="metrics">
         <div class="metric"><div class="k">Al giorno</div><div class="v big tnum" id="projDay">—</div></div>
         <div class="metric"><div class="k">Al mese</div><div class="v big tnum" id="projMonth">—</div></div>
@@ -210,7 +210,7 @@ footer .wrap{max-width:900px}
       <p class="note" id="projNote"><b>Non è una previsione.</b> È il tasso di oggi applicato alla tua cifra
         di oggi: se il tasso cambia — e cambia di continuo, perché dipende da quanto viene chiesto in prestito
         sui protocolli — questi numeri cambiano con lui. Se scrivi un importo nel campo del deposito qui sopra,
-        la proiezione lo include, così vedi quanto renderebbe prima di firmare.</p>
+        la proiezione lo include, così vedi quanto renderebbe prima di firmare. Sui guadagni si applica poi la commissione del 10%, e solo sopra il massimo storico.</p>
     </div>
 
     <!-- LOG MOVIMENTI -->
@@ -271,12 +271,12 @@ const fmt = (n,d=2)=>Number(n).toLocaleString('it-IT',{minimumFractionDigits:d,m
 
 /* ---------- quanto rende, ai tassi di oggi ----------
    Tre numeri DERIVATI: il tasso pesato letto on-chain, applicato alla posizione letta
-   on-chain. Nessuno dei due e' scritto qui. Al netto del 10% sui guadagni, perche' e'
-   quello che resta a chi ha depositato — mostrare il lordo sarebbe il numero del gestore,
-   non il suo. Se manca uno dei due ingredienti si scrive '—', non zero: uno zero
-   sarebbe indistinguibile da 'non rende niente'. */
+   on-chain. Nessuno dei due e' scritto qui. Numeri al LORDO: e' il rendimento che il
+   fondo produce davvero, e la commissione sta scritta accanto invece che nascosta dentro
+   il numero. Toglierla qui sarebbe stato anche approssimativo, perche' il 10% scatta solo
+   sopra il massimo storico e uno sconto piatto non lo sa. Se manca uno dei due ingredienti
+   si scrive '—', non zero: uno zero sarebbe indistinguibile da 'non rende niente'. */
 let __apy=null, __pos=null;
-const NETTO = 0.90;                       // 10% del guadagno, sopra il massimo storico
 function paintProjection(){
   const g=id=>document.getElementById(id);
   const extra = Math.max(0, Number((g('amt')||{}).value)||0);
@@ -286,9 +286,9 @@ function paintProjection(){
     return;
   }
   const q = v => (v>=1?fmt(v,2):fmt(v,4)) + ' USDC';
-  if(g('projDay'))   g('projDay').textContent   = q(base*(Math.pow(1+__apy,1/365)-1)*NETTO);
-  if(g('projMonth')) g('projMonth').textContent = q(base*(Math.pow(1+__apy,1/12)-1)*NETTO);
-  if(g('projYear'))  g('projYear').textContent  = q(base*__apy*NETTO);
+  if(g('projDay'))   g('projDay').textContent   = q(base*(Math.pow(1+__apy,1/365)-1));
+  if(g('projMonth')) g('projMonth').textContent = q(base*(Math.pow(1+__apy,1/12)-1));
+  if(g('projYear'))  g('projYear').textContent  = q(base*__apy);
   const n=g('projNote');
   if(n && extra>0 && !n.dataset.extra){ n.dataset.extra='1'; }
 }

@@ -202,7 +202,7 @@ footer .wrap{max-width:900px}
     <!-- WHAT IT EARNS, AT TODAY'S RATES -->
     <div class="card c-6">
       <h3>What it earns, at today&#39;s rates</h3>
-      <p class="sub">on your position · net of the 10% fee</p>
+      <p class="sub">on your position · before the 10% performance fee</p>
       <div class="metrics">
         <div class="metric"><div class="k">Per day</div><div class="v big tnum" id="projDay">—</div></div>
         <div class="metric"><div class="k">Per month</div><div class="v big tnum" id="projMonth">—</div></div>
@@ -211,7 +211,7 @@ footer .wrap{max-width:900px}
       <p class="note" id="projNote"><b>This is not a forecast.</b> It is today&#39;s rate applied to today&#39;s
         amount: if the rate moves — and it moves constantly, because it depends on how much is being borrowed
         on the protocols — these numbers move with it. Type an amount in the deposit field above and the
-        projection includes it, so you can see what it would earn before you sign.</p>
+        projection includes it, so you can see what it would earn before you sign. The 10% fee then applies to the gain, and only above the high-water mark.</p>
     </div>
 
     <div class="card c-12">
@@ -271,12 +271,12 @@ const fmt = (n,d=2)=>Number(n).toLocaleString('en-US',{minimumFractionDigits:d,m
 
 /* ---------- what it earns, at today's rates ----------
    Three DERIVED numbers: the weighted on-chain rate applied to the on-chain position.
-   Neither is written here. Net of the 10% performance fee, because that is what the
-   depositor keeps — showing gross would be the manager's number, not theirs. If either
-   ingredient is missing it writes '—', not zero: a zero would be indistinguishable from
-   'it earns nothing'. */
+   Neither is written here. GROSS figures: this is the return the fund actually produces,
+   with the fee stated beside the number instead of hidden inside it. Netting it here would
+   also have been approximate, because the 10% only applies above the high-water mark and a
+   flat discount does not know that. If either ingredient is missing it writes '—', not
+   zero: a zero would be indistinguishable from 'it earns nothing'. */
 let __apy=null, __pos=null;
-const NETTO = 0.90;                       // 10% of the gain, above the high-water mark
 function paintProjection(){
   const g=id=>document.getElementById(id);
   const extra = Math.max(0, Number((g('amt')||{}).value)||0);
@@ -286,9 +286,9 @@ function paintProjection(){
     return;
   }
   const q = v => (v>=1?fmt(v,2):fmt(v,4)) + ' USDC';
-  if(g('projDay'))   g('projDay').textContent   = q(base*(Math.pow(1+__apy,1/365)-1)*NETTO);
-  if(g('projMonth')) g('projMonth').textContent = q(base*(Math.pow(1+__apy,1/12)-1)*NETTO);
-  if(g('projYear'))  g('projYear').textContent  = q(base*__apy*NETTO);
+  if(g('projDay'))   g('projDay').textContent   = q(base*(Math.pow(1+__apy,1/365)-1));
+  if(g('projMonth')) g('projMonth').textContent = q(base*(Math.pow(1+__apy,1/12)-1));
+  if(g('projYear'))  g('projYear').textContent  = q(base*__apy);
 }
 document.addEventListener('DOMContentLoaded',()=>{
   const a=document.getElementById('amt');
